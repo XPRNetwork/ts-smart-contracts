@@ -1,8 +1,6 @@
 {
   "name": "contracts",
   "version": "0.0.1",
-  "main": "js/index.js",
-  "types": "assembly/index.ts",
   "license": "MIT",
   "scripts": {
     "build": "npx eosio-asc ./eosio.token/eosio.token.contract.ts"
