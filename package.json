@@ -7,7 +7,7 @@
   "keywords": ["wasm", "webassembly", "assemblyscript"],
   "scripts": {
     "build": "npx eosio-asc ./eosio.token/eosio.token.contract.ts",
-    "build:eosio.token": "ts-node-transpile-only ./node_modules/.bin/eosio-asc ./eosio.token/eosio.token.contract.ts"
+    "build:eosio.token": "npx ts-node-transpile-only ./node_modules/.bin/eosio-asc ./eosio.token/eosio.token.contract.ts"
   },
   "dependencies": {
     "@jafri/eosio-asc": "^0.1.116",
