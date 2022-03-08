@@ -4,39 +4,14 @@
   "main": "js/index.js",
   "types": "assembly/index.ts",
   "license": "MIT",
-  "keywords": ["wasm", "webassembly", "assemblyscript"],
   "scripts": {
     "build": "npx eosio-asc ./eosio.token/eosio.token.contract.ts"
   },
   "dependencies": {
-    "eosio-asc": "^0.2.1",
-    "as-bignum": "^0.2.18",
-    "as-chain": "0.0.1",
-    "ts-node": "^10.7.0"
+    "eosio-asc": "^0.2.2"
   },
   "devDependencies": {
-    "@as-pect/assembly": "^6.0.0",
-    "@as-pect/cli": "^6.0.0",
-    "@as-pect/core": "^6.0.0",
-    "@assemblyscript/loader": "^0.18",
-    "@types/jest": "26.0.21",
-    "@types/node": "^14.14.35",
-    "@typescript-eslint/eslint-plugin": "^4.16",
-    "@typescript-eslint/parser": "^4.16",
-    "assemblyscript": "0.18",
-    "eslint": "^7.21.0",
-    "jest": "^26.6.3",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^2.1.1",
-    "ts-jest": "^26.3.0",
-    "typescript": "4.0"
-  },
-  "files": [
-    "assembly/",
-    "build/",
-    "README.md",
-    "LICENSE",
-    "package.json",
-    "yarn.lock"
-  ]
+    "typescript": "^4.6.2",
+    "ts-node": "^10.7.0"
+  }
 }
