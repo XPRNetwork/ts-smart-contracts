@@ -6,12 +6,14 @@
   "license": "MIT",
   "keywords": ["wasm", "webassembly", "assemblyscript"],
   "scripts": {
+    "build": "npx eosio-asc ./eosio.token/eosio.token.contract.ts",
     "build:eosio.token": "ts-node --transpile-only ./node_modules/.bin/eosio-asc ./eosio.token/eosio.token.contract.ts"
   },
   "dependencies": {
     "@jafri/eosio-asc": "^0.1.116",
     "as-bignum": "^0.2.18",
-    "as-chain": "0.0.1"
+    "as-chain": "0.0.1",
+    "ts-node": "^10.7.0"
   },
   "devDependencies": {
     "@as-pect/assembly": "^6.0.0",
@@ -28,7 +30,6 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.1.1",
     "ts-jest": "^26.3.0",
-    "ts-node": "^10.7.0",
     "typescript": "4.0"
   },
   "files": [
