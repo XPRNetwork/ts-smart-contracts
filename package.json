@@ -4,12 +4,16 @@
   "main": "js/index.js",
   "types": "assembly/index.ts",
   "license": "MIT",
-  "keywords": ["wasm", "webassembly", "assemblyscript"],
+  "keywords": [
+    "wasm",
+    "webassembly",
+    "assemblyscript"
+  ],
   "scripts": {
     "build:eosio.token": "npx eosio-asc ./eosio.token/eosio.token.contract.ts"
   },
   "dependencies": {
-    "@jafri/eosio-transform": "^0.0.21",
+    "@jafri/eosio-asc": "^0.1.112",
     "as-bignum": "^0.2.18",
     "as-chain": "0.0.1"
   },
