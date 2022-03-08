@@ -9,7 +9,7 @@
     "build": "npx eosio-asc ./eosio.token/eosio.token.contract.ts"
   },
   "dependencies": {
-    "@jafri/eosio-asc": "^0.1.117",
+    "eosio-asc": "^0.2.1",
     "as-bignum": "^0.2.18",
     "as-chain": "0.0.1",
     "ts-node": "^10.7.0"
