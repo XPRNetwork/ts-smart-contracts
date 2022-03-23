@@ -3,11 +3,10 @@ import { expect } from "chai";
 import { Name, NameType } from "@greymass/eosio";
 import { Blockchain } from "@jafri/vert"
 
-/**
- * Initialize
- */
+/* Create Blockchain */
 const blockchain = new Blockchain()
 
+/* Create Contracts and accounts */
 const createContract = (name: NameType, folder: string, sendsInline = false) => blockchain.createAccount({
   name: Name.from(name),
   wasm: fs.readFileSync(`${folder}.wasm`),
@@ -15,8 +14,7 @@ const createContract = (name: NameType, folder: string, sendsInline = false) => 
   sendsInline
 });
 
-const balanceContractName = Name.from('balance')
-const balanceContract = createContract(balanceContractName, 'contracts/balance/target/balance.contract', true)
+const balanceContract = createContract('balance', 'contracts/balance/target/balance.contract', true)
 const xtokensContract = createContract('xtokens', 'external/xtokens/xtokens')
 const eosioTokenContract = createContract('eosio.token', 'contracts/eosio.token/target/eosio.token.contract')
 const atomicassetsContract = createContract('atomicassets', 'external/atomicassets/atomicassets', true)
@@ -24,7 +22,7 @@ const collector = blockchain.createAccount('collector')
 const trader = blockchain.createAccount('trader')
 blockchain.createAccount('artist')
 
-// Runs before each test
+/* Runs before each test */
 beforeEach(async () => {
   blockchain.resetStore()
 
@@ -97,14 +95,10 @@ beforeEach(async () => {
   }
 })
 
-/**
- * Helpers
- */
+/* Helpers */
 const getBalanceRows = () => balanceContract.tables.accounts().getTableRows()
 
-/**
- * Tests
- */
+/* Tests */
 describe('Balance', () => {
   describe('Add Balance', () => {
     it('1 token from 1 contract with 1 owner', async () => { 
