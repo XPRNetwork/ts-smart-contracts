@@ -12,5 +12,10 @@ npm i
 
 ## Build TS Smart Contract to WASM+ABI
 ```
-npm run build
+npm run build:eosio.token
+```
+
+## Run tests
+```
+npm run test:eosio.token
 ```
