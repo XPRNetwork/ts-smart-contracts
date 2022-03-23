@@ -14,13 +14,13 @@
   "dependencies": {
     "eosio-asc": "0.2.7"
   },
-  "engines" : { 
-    "npm" : ">=7.0.0",
-    "node" : ">=16.0.0"
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=16.0.0"
   },
   "engineStrict": true,
   "devDependencies": {
-    "@jafri/vert": "^0.1.7",
+    "@jafri/vert": "^0.1.11",
     "@types/chai": "^4.3.0",
     "@types/mocha": "^9.1.0",
     "@types/node": "^17.0.22",

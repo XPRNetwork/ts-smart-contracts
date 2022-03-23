@@ -84,12 +84,14 @@ export class BalanceContract extends Contract {
 
     /**
      * Withdraw all tokens and NFTs from the contract and transfer them to the actor.
+     * Note:
+     *  - Does not reduce balance
+     *  - Assumes caller has already reduced balance using modifyAccount
      * @param {Name} actor - Name
      * @param {ExtendedAsset[]} tokens - The list of tokens to transfer.
      * @param {u64[]} nfts - u64[]
      * @param {string} memo - string
      */
-    @action(withdrawadmn)
     withdrawadmin(
         actor: Name,
         tokens: ExtendedAsset[],
@@ -114,11 +116,11 @@ export class BalanceContract extends Contract {
      */
     modifyAccount(actor: Name, tokens: ExtendedAsset[], nfts: u64[], op: OPERATION, ramPayer: Name = actor): void {
         // Find actor
-        const accountItr = this.accountsTable.find(actor.N);
+        let accountItr = this.accountsTable.find(actor.N);
 
         // Store empty actor if not found
         if (!accountItr.isOk()) {
-            this.accountsTable.store(new Account(actor), ramPayer);
+            accountItr = this.accountsTable.store(new Account(actor), ramPayer);
         }
         
         // Get actor
