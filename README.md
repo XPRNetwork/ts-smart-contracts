@@ -2,7 +2,7 @@
 
 Repl.it: https://replit.com/@jafri1/ascdk-minimal#contracts/eosio.token/eosio.token.contract.ts
 
-GitPod: https://gitpod.io/#https://github.com/ProtonProtocol/ascdk-minimal
+GitPod: https://gitpod.io/#https://github.com/ProtonProtocol/typescript-smart-contracts
 
 **Must use Node 16**
 
