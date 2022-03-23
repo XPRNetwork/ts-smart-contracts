@@ -8,7 +8,6 @@ export const accounts = Name.fromString("accounts")
 
 // Actions
 export const withdraw = new ActionWrapper(Name.fromString("withdraw"))
-export const withdrawadmn = new ActionWrapper(Name.fromString("withdrawadmn"))
 export const transfer = new ActionWrapper(Name.fromString("transfer"))
 
 // External

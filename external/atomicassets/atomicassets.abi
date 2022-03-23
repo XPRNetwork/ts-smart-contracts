@@ -1,0 +1,1276 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.1",
+    "types": [
+        {
+            "new_type_name": "ATOMIC_ATTRIBUTE",
+            "type": "variant_int8_int16_int32_int64_uint8_uint16_uint32_uint64_float32_float64_string_INT8_VEC_INT16_VEC_INT32_VEC_INT64_VEC_UINT8_VEC_UINT16_VEC_UINT32_VEC_UINT64_VEC_FLOAT_VEC_DOUBLE_VEC_STRING_VEC"
+        },
+        {
+            "new_type_name": "ATTRIBUTE_MAP",
+            "type": "pair_string_ATOMIC_ATTRIBUTE[]"
+        },
+        {
+            "new_type_name": "DOUBLE_VEC",
+            "type": "float64[]"
+        },
+        {
+            "new_type_name": "FLOAT_VEC",
+            "type": "float32[]"
+        },
+        {
+            "new_type_name": "INT16_VEC",
+            "type": "int16[]"
+        },
+        {
+            "new_type_name": "INT32_VEC",
+            "type": "int32[]"
+        },
+        {
+            "new_type_name": "INT64_VEC",
+            "type": "int64[]"
+        },
+        {
+            "new_type_name": "INT8_VEC",
+            "type": "bytes"
+        },
+        {
+            "new_type_name": "STRING_VEC",
+            "type": "string[]"
+        },
+        {
+            "new_type_name": "UINT16_VEC",
+            "type": "uint16[]"
+        },
+        {
+            "new_type_name": "UINT32_VEC",
+            "type": "uint32[]"
+        },
+        {
+            "new_type_name": "UINT64_VEC",
+            "type": "uint64[]"
+        },
+        {
+            "new_type_name": "UINT8_VEC",
+            "type": "bytes"
+        }
+    ],
+    "structs": [
+        {
+            "name": "FORMAT",
+            "base": "",
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "type",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "acceptoffer",
+            "base": "",
+            "fields": [
+                {
+                    "name": "offer_id",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "addcolauth",
+            "base": "",
+            "fields": [
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "account_to_add",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "addconftoken",
+            "base": "",
+            "fields": [
+                {
+                    "name": "token_contract",
+                    "type": "name"
+                },
+                {
+                    "name": "token_symbol",
+                    "type": "symbol"
+                }
+            ]
+        },
+        {
+            "name": "addnotifyacc",
+            "base": "",
+            "fields": [
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "account_to_add",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "admincoledit",
+            "base": "",
+            "fields": [
+                {
+                    "name": "collection_format_extension",
+                    "type": "FORMAT[]"
+                }
+            ]
+        },
+        {
+            "name": "announcedepo",
+            "base": "",
+            "fields": [
+                {
+                    "name": "owner",
+                    "type": "name"
+                },
+                {
+                    "name": "symbol_to_announce",
+                    "type": "symbol"
+                }
+            ]
+        },
+        {
+            "name": "assets_s",
+            "base": "",
+            "fields": [
+                {
+                    "name": "asset_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "schema_name",
+                    "type": "name"
+                },
+                {
+                    "name": "template_id",
+                    "type": "int32"
+                },
+                {
+                    "name": "ram_payer",
+                    "type": "name"
+                },
+                {
+                    "name": "backed_tokens",
+                    "type": "asset[]"
+                },
+                {
+                    "name": "immutable_serialized_data",
+                    "type": "bytes"
+                },
+                {
+                    "name": "mutable_serialized_data",
+                    "type": "bytes"
+                }
+            ]
+        },
+        {
+            "name": "backasset",
+            "base": "",
+            "fields": [
+                {
+                    "name": "payer",
+                    "type": "name"
+                },
+                {
+                    "name": "asset_owner",
+                    "type": "name"
+                },
+                {
+                    "name": "asset_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "token_to_back",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "balances_s",
+            "base": "",
+            "fields": [
+                {
+                    "name": "owner",
+                    "type": "name"
+                },
+                {
+                    "name": "quantities",
+                    "type": "asset[]"
+                }
+            ]
+        },
+        {
+            "name": "burnasset",
+            "base": "",
+            "fields": [
+                {
+                    "name": "asset_owner",
+                    "type": "name"
+                },
+                {
+                    "name": "asset_id",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "canceloffer",
+            "base": "",
+            "fields": [
+                {
+                    "name": "offer_id",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "collections_s",
+            "base": "",
+            "fields": [
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "author",
+                    "type": "name"
+                },
+                {
+                    "name": "allow_notify",
+                    "type": "bool"
+                },
+                {
+                    "name": "authorized_accounts",
+                    "type": "name[]"
+                },
+                {
+                    "name": "notify_accounts",
+                    "type": "name[]"
+                },
+                {
+                    "name": "market_fee",
+                    "type": "float64"
+                },
+                {
+                    "name": "serialized_data",
+                    "type": "bytes"
+                }
+            ]
+        },
+        {
+            "name": "config_s",
+            "base": "",
+            "fields": [
+                {
+                    "name": "asset_counter",
+                    "type": "uint64"
+                },
+                {
+                    "name": "template_counter",
+                    "type": "int32"
+                },
+                {
+                    "name": "offer_counter",
+                    "type": "uint64"
+                },
+                {
+                    "name": "collection_format",
+                    "type": "FORMAT[]"
+                },
+                {
+                    "name": "supported_tokens",
+                    "type": "extended_symbol[]"
+                }
+            ]
+        },
+        {
+            "name": "createcol",
+            "base": "",
+            "fields": [
+                {
+                    "name": "author",
+                    "type": "name"
+                },
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "allow_notify",
+                    "type": "bool"
+                },
+                {
+                    "name": "authorized_accounts",
+                    "type": "name[]"
+                },
+                {
+                    "name": "notify_accounts",
+                    "type": "name[]"
+                },
+                {
+                    "name": "market_fee",
+                    "type": "float64"
+                },
+                {
+                    "name": "data",
+                    "type": "ATTRIBUTE_MAP"
+                }
+            ]
+        },
+        {
+            "name": "createoffer",
+            "base": "",
+            "fields": [
+                {
+                    "name": "sender",
+                    "type": "name"
+                },
+                {
+                    "name": "recipient",
+                    "type": "name"
+                },
+                {
+                    "name": "sender_asset_ids",
+                    "type": "uint64[]"
+                },
+                {
+                    "name": "recipient_asset_ids",
+                    "type": "uint64[]"
+                },
+                {
+                    "name": "memo",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "createschema",
+            "base": "",
+            "fields": [
+                {
+                    "name": "authorized_creator",
+                    "type": "name"
+                },
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "schema_name",
+                    "type": "name"
+                },
+                {
+                    "name": "schema_format",
+                    "type": "FORMAT[]"
+                }
+            ]
+        },
+        {
+            "name": "createtempl",
+            "base": "",
+            "fields": [
+                {
+                    "name": "authorized_creator",
+                    "type": "name"
+                },
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "schema_name",
+                    "type": "name"
+                },
+                {
+                    "name": "transferable",
+                    "type": "bool"
+                },
+                {
+                    "name": "burnable",
+                    "type": "bool"
+                },
+                {
+                    "name": "max_supply",
+                    "type": "uint32"
+                },
+                {
+                    "name": "immutable_data",
+                    "type": "ATTRIBUTE_MAP"
+                }
+            ]
+        },
+        {
+            "name": "declineoffer",
+            "base": "",
+            "fields": [
+                {
+                    "name": "offer_id",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "extended_symbol",
+            "base": "",
+            "fields": [
+                {
+                    "name": "sym",
+                    "type": "symbol"
+                },
+                {
+                    "name": "contract",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "extendschema",
+            "base": "",
+            "fields": [
+                {
+                    "name": "authorized_editor",
+                    "type": "name"
+                },
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "schema_name",
+                    "type": "name"
+                },
+                {
+                    "name": "schema_format_extension",
+                    "type": "FORMAT[]"
+                }
+            ]
+        },
+        {
+            "name": "forbidnotify",
+            "base": "",
+            "fields": [
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "init",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "locktemplate",
+            "base": "",
+            "fields": [
+                {
+                    "name": "authorized_editor",
+                    "type": "name"
+                },
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "template_id",
+                    "type": "int32"
+                }
+            ]
+        },
+        {
+            "name": "logbackasset",
+            "base": "",
+            "fields": [
+                {
+                    "name": "asset_owner",
+                    "type": "name"
+                },
+                {
+                    "name": "asset_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "backed_token",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "logburnasset",
+            "base": "",
+            "fields": [
+                {
+                    "name": "asset_owner",
+                    "type": "name"
+                },
+                {
+                    "name": "asset_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "schema_name",
+                    "type": "name"
+                },
+                {
+                    "name": "template_id",
+                    "type": "int32"
+                },
+                {
+                    "name": "backed_tokens",
+                    "type": "asset[]"
+                },
+                {
+                    "name": "old_immutable_data",
+                    "type": "ATTRIBUTE_MAP"
+                },
+                {
+                    "name": "old_mutable_data",
+                    "type": "ATTRIBUTE_MAP"
+                },
+                {
+                    "name": "asset_ram_payer",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "logmint",
+            "base": "",
+            "fields": [
+                {
+                    "name": "asset_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "authorized_minter",
+                    "type": "name"
+                },
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "schema_name",
+                    "type": "name"
+                },
+                {
+                    "name": "template_id",
+                    "type": "int32"
+                },
+                {
+                    "name": "new_asset_owner",
+                    "type": "name"
+                },
+                {
+                    "name": "immutable_data",
+                    "type": "ATTRIBUTE_MAP"
+                },
+                {
+                    "name": "mutable_data",
+                    "type": "ATTRIBUTE_MAP"
+                },
+                {
+                    "name": "backed_tokens",
+                    "type": "asset[]"
+                },
+                {
+                    "name": "immutable_template_data",
+                    "type": "ATTRIBUTE_MAP"
+                }
+            ]
+        },
+        {
+            "name": "lognewoffer",
+            "base": "",
+            "fields": [
+                {
+                    "name": "offer_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "sender",
+                    "type": "name"
+                },
+                {
+                    "name": "recipient",
+                    "type": "name"
+                },
+                {
+                    "name": "sender_asset_ids",
+                    "type": "uint64[]"
+                },
+                {
+                    "name": "recipient_asset_ids",
+                    "type": "uint64[]"
+                },
+                {
+                    "name": "memo",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "lognewtempl",
+            "base": "",
+            "fields": [
+                {
+                    "name": "template_id",
+                    "type": "int32"
+                },
+                {
+                    "name": "authorized_creator",
+                    "type": "name"
+                },
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "schema_name",
+                    "type": "name"
+                },
+                {
+                    "name": "transferable",
+                    "type": "bool"
+                },
+                {
+                    "name": "burnable",
+                    "type": "bool"
+                },
+                {
+                    "name": "max_supply",
+                    "type": "uint32"
+                },
+                {
+                    "name": "immutable_data",
+                    "type": "ATTRIBUTE_MAP"
+                }
+            ]
+        },
+        {
+            "name": "logsetdata",
+            "base": "",
+            "fields": [
+                {
+                    "name": "asset_owner",
+                    "type": "name"
+                },
+                {
+                    "name": "asset_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "old_data",
+                    "type": "ATTRIBUTE_MAP"
+                },
+                {
+                    "name": "new_data",
+                    "type": "ATTRIBUTE_MAP"
+                }
+            ]
+        },
+        {
+            "name": "logtransfer",
+            "base": "",
+            "fields": [
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "from",
+                    "type": "name"
+                },
+                {
+                    "name": "to",
+                    "type": "name"
+                },
+                {
+                    "name": "asset_ids",
+                    "type": "uint64[]"
+                },
+                {
+                    "name": "memo",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "mintasset",
+            "base": "",
+            "fields": [
+                {
+                    "name": "authorized_minter",
+                    "type": "name"
+                },
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "schema_name",
+                    "type": "name"
+                },
+                {
+                    "name": "template_id",
+                    "type": "int32"
+                },
+                {
+                    "name": "new_asset_owner",
+                    "type": "name"
+                },
+                {
+                    "name": "immutable_data",
+                    "type": "ATTRIBUTE_MAP"
+                },
+                {
+                    "name": "mutable_data",
+                    "type": "ATTRIBUTE_MAP"
+                },
+                {
+                    "name": "tokens_to_back",
+                    "type": "asset[]"
+                }
+            ]
+        },
+        {
+            "name": "offers_s",
+            "base": "",
+            "fields": [
+                {
+                    "name": "offer_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "sender",
+                    "type": "name"
+                },
+                {
+                    "name": "recipient",
+                    "type": "name"
+                },
+                {
+                    "name": "sender_asset_ids",
+                    "type": "uint64[]"
+                },
+                {
+                    "name": "recipient_asset_ids",
+                    "type": "uint64[]"
+                },
+                {
+                    "name": "memo",
+                    "type": "string"
+                },
+                {
+                    "name": "ram_payer",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "pair_string_ATOMIC_ATTRIBUTE",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "string"
+                },
+                {
+                    "name": "value",
+                    "type": "ATOMIC_ATTRIBUTE"
+                }
+            ]
+        },
+        {
+            "name": "payofferram",
+            "base": "",
+            "fields": [
+                {
+                    "name": "payer",
+                    "type": "name"
+                },
+                {
+                    "name": "offer_id",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "remcolauth",
+            "base": "",
+            "fields": [
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "account_to_remove",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "remnotifyacc",
+            "base": "",
+            "fields": [
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "account_to_remove",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "schemas_s",
+            "base": "",
+            "fields": [
+                {
+                    "name": "schema_name",
+                    "type": "name"
+                },
+                {
+                    "name": "format",
+                    "type": "FORMAT[]"
+                }
+            ]
+        },
+        {
+            "name": "setassetdata",
+            "base": "",
+            "fields": [
+                {
+                    "name": "authorized_editor",
+                    "type": "name"
+                },
+                {
+                    "name": "asset_owner",
+                    "type": "name"
+                },
+                {
+                    "name": "asset_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "new_mutable_data",
+                    "type": "ATTRIBUTE_MAP"
+                }
+            ]
+        },
+        {
+            "name": "setcoldata",
+            "base": "",
+            "fields": [
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "data",
+                    "type": "ATTRIBUTE_MAP"
+                }
+            ]
+        },
+        {
+            "name": "setmarketfee",
+            "base": "",
+            "fields": [
+                {
+                    "name": "collection_name",
+                    "type": "name"
+                },
+                {
+                    "name": "market_fee",
+                    "type": "float64"
+                }
+            ]
+        },
+        {
+            "name": "setversion",
+            "base": "",
+            "fields": [
+                {
+                    "name": "new_version",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "templates_s",
+            "base": "",
+            "fields": [
+                {
+                    "name": "template_id",
+                    "type": "int32"
+                },
+                {
+                    "name": "schema_name",
+                    "type": "name"
+                },
+                {
+                    "name": "transferable",
+                    "type": "bool"
+                },
+                {
+                    "name": "burnable",
+                    "type": "bool"
+                },
+                {
+                    "name": "max_supply",
+                    "type": "uint32"
+                },
+                {
+                    "name": "issued_supply",
+                    "type": "uint32"
+                },
+                {
+                    "name": "immutable_serialized_data",
+                    "type": "bytes"
+                }
+            ]
+        },
+        {
+            "name": "tokenconfigs_s",
+            "base": "",
+            "fields": [
+                {
+                    "name": "standard",
+                    "type": "name"
+                },
+                {
+                    "name": "version",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "transfer",
+            "base": "",
+            "fields": [
+                {
+                    "name": "from",
+                    "type": "name"
+                },
+                {
+                    "name": "to",
+                    "type": "name"
+                },
+                {
+                    "name": "asset_ids",
+                    "type": "uint64[]"
+                },
+                {
+                    "name": "memo",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "withdraw",
+            "base": "",
+            "fields": [
+                {
+                    "name": "owner",
+                    "type": "name"
+                },
+                {
+                    "name": "token_to_withdraw",
+                    "type": "asset"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "acceptoffer",
+            "type": "acceptoffer",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "addcolauth",
+            "type": "addcolauth",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "addconftoken",
+            "type": "addconftoken",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "addnotifyacc",
+            "type": "addnotifyacc",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "admincoledit",
+            "type": "admincoledit",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "announcedepo",
+            "type": "announcedepo",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "backasset",
+            "type": "backasset",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "burnasset",
+            "type": "burnasset",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "canceloffer",
+            "type": "canceloffer",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "createcol",
+            "type": "createcol",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "createoffer",
+            "type": "createoffer",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "createschema",
+            "type": "createschema",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "createtempl",
+            "type": "createtempl",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "declineoffer",
+            "type": "declineoffer",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "extendschema",
+            "type": "extendschema",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "forbidnotify",
+            "type": "forbidnotify",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "init",
+            "type": "init",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "locktemplate",
+            "type": "locktemplate",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "logbackasset",
+            "type": "logbackasset",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "logburnasset",
+            "type": "logburnasset",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "logmint",
+            "type": "logmint",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "lognewoffer",
+            "type": "lognewoffer",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "lognewtempl",
+            "type": "lognewtempl",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "logsetdata",
+            "type": "logsetdata",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "logtransfer",
+            "type": "logtransfer",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "mintasset",
+            "type": "mintasset",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "payofferram",
+            "type": "payofferram",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "remcolauth",
+            "type": "remcolauth",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "remnotifyacc",
+            "type": "remnotifyacc",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setassetdata",
+            "type": "setassetdata",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setcoldata",
+            "type": "setcoldata",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setmarketfee",
+            "type": "setmarketfee",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setversion",
+            "type": "setversion",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "transfer",
+            "type": "transfer",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "withdraw",
+            "type": "withdraw",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "assets",
+            "type": "assets_s",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "balances",
+            "type": "balances_s",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "collections",
+            "type": "collections_s",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "config",
+            "type": "config_s",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "offers",
+            "type": "offers_s",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "schemas",
+            "type": "schemas_s",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "templates",
+            "type": "templates_s",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "tokenconfigs",
+            "type": "tokenconfigs_s",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "variants": [
+        {
+            "name": "variant_int8_int16_int32_int64_uint8_uint16_uint32_uint64_float32_float64_string_INT8_VEC_INT16_VEC_INT32_VEC_INT64_VEC_UINT8_VEC_UINT16_VEC_UINT32_VEC_UINT64_VEC_FLOAT_VEC_DOUBLE_VEC_STRING_VEC",
+            "types": [
+                "int8",
+                "int16",
+                "int32",
+                "int64",
+                "uint8",
+                "uint16",
+                "uint32",
+                "uint64",
+                "float32",
+                "float64",
+                "string",
+                "INT8_VEC",
+                "INT16_VEC",
+                "INT32_VEC",
+                "INT64_VEC",
+                "UINT8_VEC",
+                "UINT16_VEC",
+                "UINT32_VEC",
+                "UINT64_VEC",
+                "FLOAT_VEC",
+                "DOUBLE_VEC",
+                "STRING_VEC"
+            ]
+        }
+    ]
+}
