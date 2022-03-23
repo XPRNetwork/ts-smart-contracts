@@ -1,8 +1,7 @@
 # Boilerplate for Typescript Smart Contract
 
-Uses SDK: https://github.com/uuosio/ascdk
-
-Codesandbox: https://codesandbox.io/s/ascdk-minimal-g0mpb6?file=/eosio.token/eosio.token.contract.ts
+Repl.it: https://replit.com/@jafri1/ascdk-minimal#contracts/eosio.token/eosio.token.contract.ts
+GitPod: https://gitpod.io/#https://github.com/jafri/ascdk-minimal
 
 **Must use Node 16**
 
@@ -21,3 +20,6 @@ npm run build:eosio.token
 ```
 npm run test:eosio.token
 ```
+
+## Built using
+Uses SDK: https://github.com/uuosio/ascdk
