@@ -4,6 +4,8 @@ Uses SDK: https://github.com/uuosio/ascdk
 
 Codesandbox: https://codesandbox.io/s/ascdk-minimal-g0mpb6?file=/eosio.token/eosio.token.contract.ts
 
+**Must use Node 16**
+
 ## Install
 ```
 npm i
