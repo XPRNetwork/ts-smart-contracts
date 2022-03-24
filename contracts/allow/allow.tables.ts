@@ -1,11 +1,11 @@
-import { Name, table, primary, Table, MultiIndex, singleton, Singleton, secondary, ExtendedAsset, U128, ExtendedSymbol, Decoder, check, IDXDB, IDX128 } from "as-chain";
+import { Name, table, primary, Table, MultiIndex, singleton, Singleton, secondary, U128, ExtendedSymbol, Decoder, check, IDXDB, IDX128 } from "as-chain";
 import { allowedactor, allowedtoken, paused } from "./allow.constants";
 
 // scope: contract
 @table(paused, singleton)
 export class PausedSingleton extends Table {
     constructor (
-        public isPaused: boolean = true,
+        public isPaused: boolean = false,
         public isAllowedActorStrict: boolean = false,
         public isAllowedTokenStrict: boolean = false,
     ) {
