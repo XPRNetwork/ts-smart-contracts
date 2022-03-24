@@ -24,7 +24,7 @@ blockchain.createAccount('artist')
 
 /* Runs before each test */
 beforeEach(async () => {
-  blockchain.resetStore()
+  blockchain.resetTables()
 
   await xtokensContract.actions.create([xtokensContract.name, '1000000.000000 XUSDC']).send()
   await xtokensContract.actions.issue([xtokensContract.name, '1000000.000000 XUSDC', '']).send()
