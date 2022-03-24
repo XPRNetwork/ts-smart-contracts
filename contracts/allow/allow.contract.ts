@@ -1,6 +1,7 @@
 import { Name, Singleton, action, Contract, contract, check, requireAuth, MultiIndex, SAME_PAYER, IDX128, ExtendedSymbol } from 'as-chain'
 import { allow, allowactor, allowtoken, blockactor, blocktoken, setpaused } from './allow.constants';
-import { AllowedActor, AllowedToken, extendedSymbolToU128, Paused } from './allow.tables';
+import { AllowedActor, AllowedToken, Paused } from './allow.tables';
+import { extendedSymbolToU128 } from './allow.utils';
 
 enum UpdateFields {
     IS_ALLOWED = 0,
