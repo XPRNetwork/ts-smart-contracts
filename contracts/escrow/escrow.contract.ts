@@ -5,7 +5,7 @@ import { sendLogEscrow } from './escrow.inline';
 import { Global, Escrow, escrow } from './escrow.tables';
 
 @contract(escrow)
-class EscrowContract extends BalanceContract {
+export class EscrowContract extends BalanceContract {
     escrowsTable: MultiIndex<Escrow> = Escrow.getTable(this.receiver)
 
     /**
@@ -31,13 +31,16 @@ class EscrowContract extends BalanceContract {
         // Authenticate
         requireAuth(from);
 
+        // Pre-conditions
+        this.checkContractIsNotPaused()
+
         // Validation
         check(to == new Name() || isAccount(to), "to must be empty or a valid account");
         check(expiry > currentTimePoint().secSinceEpoch(), "expiry must be in future");
         check(fromTokens.length || fromNfts.length || toTokens.length || toNfts.length, "all tokens and NFTs must not be empty");
 
         // Substract balances
-        this.modifyAccount(from, fromTokens, fromNfts, OPERATION.SUB, SAME_PAYER)
+        this.modifyBalance(from, fromTokens, fromNfts, OPERATION.SUB, SAME_PAYER)
       
         // Get config
         const configSingleton = Global.getSingleton(this.contract)
@@ -78,7 +81,10 @@ class EscrowContract extends BalanceContract {
     ): void {
         // Authenticate
         requireAuth(fulfiller);
-  
+
+        // Pre-conditions
+        this.checkContractIsNotPaused()
+        
         // Get Escrow
         const escrowItr = this.escrowsTable.requireFind(id, "no escrow with ID found.");
         const escrow = this.escrowsTable.get(escrowItr);
@@ -92,7 +98,7 @@ class EscrowContract extends BalanceContract {
         check(escrow.to == fulfiller, "incorrect to account");
 
         // Substract balances
-        this.modifyAccount(escrow.to, escrow.toTokens, escrow.toNfts, OPERATION.SUB, SAME_PAYER)
+        this.modifyBalance(escrow.to, escrow.toTokens, escrow.toNfts, OPERATION.SUB, SAME_PAYER)
 
         // Erase
         this.escrowsTable.remove(escrowItr);
@@ -117,6 +123,9 @@ class EscrowContract extends BalanceContract {
     ): void {
         // Authenticate
         requireAuth(actor);
+
+        // Pre-conditions
+        this.checkContractIsNotPaused()
 
         // Get Escrow
         const escrowItr = this.escrowsTable.requireFind(id, `no escrow with ID ${id} found.`);

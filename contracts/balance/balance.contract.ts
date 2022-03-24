@@ -1,13 +1,12 @@
-import { ExtendedAsset, unpackActionData, Name, check, action, Contract, notify, contract, requireAuth, MultiIndex, SAME_PAYER } from 'as-chain'
-import { transfer, atomicassets, withdraw, balance, withdrawadmn } from './balance.constants';
+import { ExtendedAsset, unpackActionData, Name, check, action, notify, contract, requireAuth, MultiIndex, SAME_PAYER } from 'as-chain'
+import { AllowContract } from '../allow';
+import { transfer, atomicassets, withdraw, balance } from './balance.constants';
 import { sendTransferTokens, sendTransferNfts, NftTransfer, TokenTransfer } from './balance.inline';
 import { Account } from './balance.tables';
 import { addNfts, addTokens, OPERATION, substractNfts, substractTokens } from './balance.utils';
 
 @contract(balance)
-export class BalanceContract extends Contract {
-    contract: Name = this.receiver
-    parentContract: Name = this.firstReceiver
+export class BalanceContract extends AllowContract {
     accountsTable: MultiIndex<Account> = Account.getTable(this.receiver)
 
     /**
@@ -18,6 +17,9 @@ export class BalanceContract extends Contract {
      */
     @action(transfer, notify)
     transfer(): void {
+        // Pre-conditions
+        this.checkContractIsNotPaused()
+
         if (this.parentContract == atomicassets) {
             // Unpack nft transfer
             let t = unpackActionData<NftTransfer>()
@@ -31,7 +33,7 @@ export class BalanceContract extends Contract {
             check(t.to == this.contract, "Invalid Deposit");
         
             // Add nfts
-            this.modifyAccount(t.from, [], t.asset_ids, OPERATION.ADD, this.contract)
+            this.modifyBalance(t.from, [], t.asset_ids, OPERATION.ADD, this.contract)
         } else {
             // Unpack token transfer
             let t = unpackActionData<TokenTransfer>()
@@ -55,7 +57,7 @@ export class BalanceContract extends Contract {
 
             // Add balance
             const tokens = [new ExtendedAsset(t.quantity, this.parentContract)]
-            this.modifyAccount(t.from, tokens, [], OPERATION.ADD, this.contract)
+            this.modifyBalance(t.from, tokens, [], OPERATION.ADD, this.contract)
         }
     }
 
@@ -71,11 +73,14 @@ export class BalanceContract extends Contract {
         tokens: ExtendedAsset[],
         nfts: u64[]
     ): void {
-        // Authenticate actor
+        // Authorization
         requireAuth(actor)
 
+        // Pre-conditions
+        this.checkContractIsNotPaused()
+
         // Substract Tokens and NFTs from actor balance
-        this.modifyAccount(actor, tokens, nfts, OPERATION.SUB, SAME_PAYER)
+        this.modifyBalance(actor, tokens, nfts, OPERATION.SUB, SAME_PAYER)
 
         // Inline transfer Tokens and NFTs from contract to actor
         sendTransferTokens(this.contract, actor, tokens, "withdraw")
@@ -86,7 +91,7 @@ export class BalanceContract extends Contract {
      * Withdraw all tokens and NFTs from the contract and transfer them to the actor.
      * Note:
      *  - Does not reduce balance
-     *  - Assumes caller has already reduced balance using modifyAccount
+     *  - Assumes caller has already reduced balance using modifyBalance
      * @param {Name} actor - Name
      * @param {ExtendedAsset[]} tokens - The list of tokens to transfer.
      * @param {u64[]} nfts - u64[]
@@ -98,7 +103,7 @@ export class BalanceContract extends Contract {
         nfts: u64[],
         memo: string
     ): void {
-        // Authenticate
+        // Authorization
         requireAuth(this.contract)
 
         // Inline transfer Tokens and NFTs from contract to actor
@@ -114,7 +119,7 @@ export class BalanceContract extends Contract {
      * @param {OPERATION} op - OPERATION = add or sub
      * @param {Name} ramPayer - Account that pays for RAM 
      */
-    modifyAccount(actor: Name, tokens: ExtendedAsset[], nfts: u64[], op: OPERATION, ramPayer: Name = actor): void {
+    modifyBalance(actor: Name, tokens: ExtendedAsset[], nfts: u64[], op: OPERATION, ramPayer: Name = actor): void {
         // Find actor
         let accountItr = this.accountsTable.find(actor.N);
 

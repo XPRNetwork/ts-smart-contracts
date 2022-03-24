@@ -3,7 +3,7 @@ import { token, create, issue, retire, transfer, open, close } from './eosio.tok
 import { Account, Stat } from './eosio.token.tables';
 
 @contract(token)
-class TokenContract extends Contract {
+export class TokenContract extends Contract {
     @action(create)
     create(issuer: Name, maximum_supply: Asset): void {
         requireAuth(this.receiver);
