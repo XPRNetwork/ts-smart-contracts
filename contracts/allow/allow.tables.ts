@@ -1,5 +1,6 @@
-import { Name, table, primary, Table, MultiIndex, singleton, Singleton, secondary, U128, ExtendedSymbol, Decoder, check, IDXDB, IDX128 } from "as-chain";
+import { Name, table, primary, Table, MultiIndex, singleton, Singleton, secondary, U128, ExtendedSymbol, IDXDB, IDX128 } from "as-chain";
 import { allowedactor, allowedtoken, paused } from "./allow.constants";
+import { extendedSymbolToU128, U128ToExtSym } from "./allow.utils";
 
 // scope: contract
 @table(paused, singleton)
@@ -18,20 +19,6 @@ export class PausedSingleton extends Table {
 }
 
 export class Paused extends PausedSingleton {}
-
-export const extendedSymbolToU128 = (extSym: ExtendedSymbol): U128 => {
-    return new U128(extSym.contract.N, extSym.sym.value)
-}
-
-export const U128ToExtSym = (value: U128): ExtendedSymbol => {
-    const data: u8[] = value.toBytes()
-    const extSym = new ExtendedSymbol()
-    let dec = new Decoder(data);
-    dec.unpack(extSym.contract);
-    dec.unpack(extSym.sym);
-    check(extSym.sym.isValid(), "invalid extended symbol");
-    return extSym;
-}
 
 // scope: contract
 @table(allowedactor)
