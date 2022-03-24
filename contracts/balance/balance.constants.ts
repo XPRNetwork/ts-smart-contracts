@@ -5,6 +5,7 @@ export const balance = Name.fromString("balance")
 
 // Tables
 export const accounts = Name.fromString("accounts")
+export const global = Name.fromString("global")
 
 // Actions
 export const withdraw = new ActionWrapper(Name.fromString("withdraw"))
