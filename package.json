@@ -8,9 +8,9 @@
     "build:escrow": "npx eosio-asc ./contracts/escrow/escrow.contract.ts",
     "build:allow": "npx eosio-asc ./contracts/allow/allow.contract.ts",
     "build": "run-p build:*",
-    "test:eosio.token": "mocha --timeout 10000 contracts/eosio.token/*.spec.ts -r ts-node/register",
+    "test:eosio.token": "mocha contracts/eosio.token/*.spec.ts -r ts-node/register",
     "test:balance": "mocha contracts/balance/*.spec.ts -r ts-node/register",
-    "test:allow": "mocha --timeout 10000 contracts/allow/*.spec.ts -r ts-node/register",
+    "test:allow": "mocha contracts/allow/*.spec.ts -r ts-node/register",
     "test": "run-p test:*"
   },
   "dependencies": {
