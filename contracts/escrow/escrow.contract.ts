@@ -1,4 +1,4 @@
-import { currentTimePoint, ExtendedAsset, Name, check, contract, action, requireAuth, isAccount, SAME_PAYER, MultiIndex } from 'as-chain'
+import { currentTimePoint, ExtendedAsset, Name, check, contract, action, requireAuth, isAccount, SAME_PAYER, MultiIndex, ExtendedSymbol } from 'as-chain'
 import { BalanceContract, OPERATION } from '../balance';
 import { startescrow, fillescrow, cancelescrow, logescrow, ESCROW_STATUS } from './escrow.constants';
 import { sendLogEscrow } from './escrow.inline';

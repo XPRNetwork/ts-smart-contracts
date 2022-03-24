@@ -16,4 +16,4 @@ export const atomicassets = Name.fromString("atomicassets");
 
 // Include
 @packer
-class constants extends Table { constructor() { super(); } }
+class balance_constants extends Table { constructor() { super(); } }

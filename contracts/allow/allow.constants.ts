@@ -17,4 +17,4 @@ export const blocktoken = new ActionWrapper(Name.fromString("blocktoken"))
 
 // Include
 @packer
-class constants extends Table { constructor() { super(); } }
+class allow_constants extends Table { constructor() { super(); } }
