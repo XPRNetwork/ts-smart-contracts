@@ -22,7 +22,7 @@ const getAllowedTokens = () => allowedContract.tables.allowedtoken().getTableRow
 
 /* Runs before each test */
 beforeEach(async () => {
-  blockchain.resetStore()
+  blockchain.resetTables()
 })
 
 /* Tests */

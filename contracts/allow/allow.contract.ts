@@ -34,6 +34,11 @@ export class AllowContract extends Contract {
         this.pausedSingleton.set(pausedObj, this.contract);
     }
 
+    /**
+     * It updates the isAllowed field of the token.
+     * @param {ExtendedSymbol} token - The token to be updated.
+     * @param {boolean} isBlocked - boolean
+     */
     @action(allowtoken)
     allowtoken(
         token: ExtendedSymbol,
@@ -43,6 +48,11 @@ export class AllowContract extends Contract {
         this.updateAllowedToken(token, UpdateFields.IS_ALLOWED, isAllowed)
     }
 
+    /**
+     * It updates the isBlocked field of the token.
+     * @param {ExtendedSymbol} token - The token to be updated.
+     * @param {boolean} isBlocked - boolean
+     */
     @action(blocktoken)
     blocktoken(
         token: ExtendedSymbol,
