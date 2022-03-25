@@ -100,6 +100,19 @@ const getBalanceRows = () => balanceContract.tables.accounts().getTableRows()
 
 /* Tests */
 describe('Balance', () => {
+  describe('Check Authorizations', () => {
+    it('withdraw: Only actor can call', async () => { 
+      await xtokensContract.actions.transfer(['trader', 'balance', '1000.000000 XUSDC', 'deposit']).send('trader@active')
+      await balanceContract.actions.withdraw(['trader', [{ quantity: '100.000000 XUSDC', contract: 'xtokens' }], []]).send('trader@active')
+
+      try {
+        await balanceContract.actions.withdraw(['trader', [{ quantity: '100.000000 XUSDC', contract: 'xtokens' }], []]).send()
+      } catch (e) {
+        expect(e.message).to.be.deep.eq('missing required authority trader')
+      }
+    });
+  })
+
   describe('Add Balance', () => {
     it('1 token from 1 contract with 1 owner', async () => { 
       await xtokensContract.actions.transfer(['trader', 'balance', '1000.000000 XUSDC', 'deposit']).send('trader@active')

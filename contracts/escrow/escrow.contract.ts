@@ -3,7 +3,6 @@ import { BalanceContract, OPERATION } from '../balance';
 import { startescrow, fillescrow, cancelescrow, logescrow, ESCROW_STATUS } from './escrow.constants';
 import { sendLogEscrow } from './escrow.inline';
 import { Global, Escrow, escrow } from './escrow.tables';
-
 @contract(escrow)
 export class EscrowContract extends BalanceContract {
     escrowsTable: MultiIndex<Escrow> = Escrow.getTable(this.receiver)
@@ -63,7 +62,7 @@ export class EscrowContract extends BalanceContract {
         configSingleton.set(config, this.contract);
 
         // Save escrow
-        this.escrowsTable.store(escrow, from);
+        this.escrowsTable.store(escrow, this.contract);
 
         // Log
         sendLogEscrow(this.contract, escrow, ESCROW_STATUS.START);
