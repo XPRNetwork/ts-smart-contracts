@@ -49,7 +49,7 @@ export class KvContract extends Contract {
         // Authorization
         requireAuth(actor)
 
-        // Validation
+        // Find account
         const kvItr = this.kvsTable.requireFind(actor.N, `no kv found with name ${actor}`)
         const kv = this.kvsTable.get(kvItr)
 
