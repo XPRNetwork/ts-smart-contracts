@@ -30,10 +30,10 @@
     hash.js "^1.0.0"
     tslib "^2.0.3"
 
-"@jafri/vert@^0.1.13":
-  version "0.1.13"
-  resolved "https://registry.yarnpkg.com/@jafri/vert/-/vert-0.1.13.tgz#eada059f0404ba0b6b035150ec5651503c794e99"
-  integrity sha512-sGj8CoGb0Nq4DCATbtCR0XSwaV5lNU7lGcR83wNtyM0/blvd92YNX0yoWgPgJAcS05erVweQM5KZkVvHo1BQWw==
+"@jafri/vert@^0.1.15":
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/@jafri/vert/-/vert-0.1.15.tgz#c6245db2807080f71bff6cdd34226191cc7f8f31"
+  integrity sha512-X+WpNjk6xyRRi0poOMzIlhGTe9nVvITwWD/mO7jT05nzjwhE029aFbNG5swlhXIamzr4Ohak4PL8wI5xmxcK4A==
   dependencies:
     "@greymass/eosio" "^0.5.4"
     bn.js "^5.2.0"
@@ -141,10 +141,10 @@ as-bignum@^0.2.18:
   resolved "https://registry.npmjs.org/as-bignum/-/as-bignum-0.2.18.tgz"
   integrity sha512-5LODrOr7wvS643oh7PHfyRtbBO9vCcU69vNNvrqh5yovrApM9nRHDeT5XcqnaSI8TqK9ZhN12qhZnq4rdIGcwQ==
 
-as-chain@0.0.8, as-chain@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.npmjs.org/as-chain/-/as-chain-0.0.8.tgz"
-  integrity sha512-rCw6cMDMUY+9cf+MwpjdLYEFMZdDKamjswvsljVQrluCMrzYC4+awskrtYtZg7XohyD8fUKkxRAC3+1iBEURtQ==
+as-chain@0.0.10, as-chain@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/as-chain/-/as-chain-0.0.10.tgz#3dc76ae48a2d2a824b7feb7a32670a0968bb3656"
+  integrity sha512-iLNQ2O46s8Peu3ErSZvWFtdZgyhbdOATZwVC4F6SIl3tOVDjVWoTLM0Ab2fDVr5XEa1DnzdGdYi5Pjmg28If7g==
   dependencies:
     "@assemblyscript/loader" "^0.19.22"
     as-bignum "^0.2.18"
@@ -383,12 +383,12 @@ emoji-regex@^8.0.0:
   resolved "https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz"
   integrity sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==
 
-eosio-asc@^0.2.11:
-  version "0.2.11"
-  resolved "https://registry.npmjs.org/eosio-asc/-/eosio-asc-0.2.11.tgz"
-  integrity sha512-VNRjCAuRLU8tC4Nga0kkWP0yzdZdNmsCV8bLspguFH8S3hrcT1BEeQWZXpob6l3nn7Bun8UCrsyCpcrW49Wv3A==
+eosio-asc@^0.2.14:
+  version "0.2.14"
+  resolved "https://registry.yarnpkg.com/eosio-asc/-/eosio-asc-0.2.14.tgz#420ff3801dfa3edbdf3c648eff9579692c402459"
+  integrity sha512-BN66mqwszXBH8cKHjXb0u1LJoSW0AWoBma9Q4AvvFQOHxuFcUT9HuKriJMhI9MVMNEcYc9kZ5fQ/vtssBAHfDA==
   dependencies:
-    as-chain "0.0.8"
+    as-chain "0.0.10"
     assemblyscript "0.18"
     handlebars "4.7.7"
     ts-dedent "^2.2.0"

@@ -1,7 +1,7 @@
 import fs from "fs";
 import { expect } from "chai";
 import { Name } from "@greymass/eosio";
-import { Blockchain } from "@jafri/vert"
+import { Blockchain, eosio_assert } from "@jafri/vert"
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
@@ -16,7 +16,7 @@ const researcher = blockchain.createAccount('researcher')
 const malicious = blockchain.createAccount('malicious')
 
 /* Helpers */
-const getPaused = () => allowedContract.tables.paused().getTableRows()
+const getAllowGlobals = () => allowedContract.tables.allowglobals().getTableRows()
 const getAllowedActors = () => allowedContract.tables.allowedactor().getTableRows()
 const getAllowedTokens = () => allowedContract.tables.allowedtoken().getTableRows()
 
@@ -25,54 +25,66 @@ beforeEach(async () => {
   blockchain.resetTables()
 })
 
+const makeGlobals = (isPaused: boolean, isActorStrict: boolean, isTokenStrict: boolean) => ({ isPaused, isActorStrict, isTokenStrict })
+
 /* Tests */
 describe('Allowed', () => {
   describe('Check Authorizations', () => {
-    it('setpaused: Only owner can call', async () => { 
-      await allowedContract.actions.setpaused([true]).send('allowed@active')
+    it('setGlobals: Only owner can call', async () => { 
+      await allowedContract.actions.setglobals(makeGlobals(true, false, false)).send('allowed@active')
 
       try {
-        await allowedContract.actions.setpaused([true]).send('malicious@active')
+        await allowedContract.actions.setglobals(makeGlobals(true, false, false)).send('malicious@active')
+      } catch (e) {
+        expect(e.message).to.be.deep.eq('missing required authority allowed')
+      }
+
+      await allowedContract.actions.setglobals(makeGlobals(false, true, false)).send('allowed@active')
+
+      try {
+        await allowedContract.actions.setglobals(makeGlobals(false, true, false)).send('malicious@active')
+      } catch (e) {
+        expect(e.message).to.be.deep.eq('missing required authority allowed')
+      }
+
+      await allowedContract.actions.setglobals(makeGlobals(false, false, true)).send('allowed@active')
+
+      try {
+        await allowedContract.actions.setglobals(makeGlobals(false, false, true)).send('malicious@active')
       } catch (e) {
         expect(e.message).to.be.deep.eq('missing required authority allowed')
       }
     });
 
-    it('allowactor: Only owner can call', async () => { 
-      await allowedContract.actions.allowactor([researcher.name, true]).send('allowed@active')
+    it('setactor: Only owner can call', async () => { 
+      await allowedContract.actions.setactor([researcher.name, true, false]).send('allowed@active')
 
       try {
-        await allowedContract.actions.allowactor([researcher.name, true]).send('malicious@active')
+        await allowedContract.actions.setactor([researcher.name, true, false]).send('malicious@active')
+      } catch (e) {
+        expect(e.message).to.be.deep.eq('missing required authority allowed')
+      }
+
+      await allowedContract.actions.setactor([researcher.name, false, true]).send('allowed@active')
+
+      try {
+        await allowedContract.actions.setactor([researcher.name, false, true]).send('malicious@active')
       } catch (e) {
         expect(e.message).to.be.deep.eq('missing required authority allowed')
       }
     });
 
-    it('blockactor: Only owner can call', async () => { 
-      await allowedContract.actions.blockactor([malicious.name, true]).send('allowed@active')
-
+    it('settoken: Only owner can call', async () => { 
+      await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true, false]).send('allowed@active')
       try {
-        await allowedContract.actions.blockactor([malicious.name, true]).send('malicious@active')
+        await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true, false]).send('malicious@active')
       } catch (e) {
         expect(e.message).to.be.deep.eq('missing required authority allowed')
       }
-    });
 
-    it('allowtoken: Only owner can call', async () => { 
-      await allowedContract.actions.allowtoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true]).send('allowed@active')
-
+      await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, false, true]).send('allowed@active')
       try {
-        await allowedContract.actions.allowtoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true]).send('malicious@active')
-      } catch (e) {
-        expect(e.message).to.be.deep.eq('missing required authority allowed')
-      }
-    });
-
-    it('blocktoken: Only owner can call', async () => { 
-      await allowedContract.actions.blocktoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true]).send('allowed@active')
-
-      try {
-        await allowedContract.actions.blocktoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true]).send('malicious@active')
+        await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, false, true]).send('malicious@active')
       } catch (e) {
         expect(e.message).to.be.deep.eq('missing required authority allowed')
       }
@@ -80,83 +92,139 @@ describe('Allowed', () => {
   })
 
   describe('Check Setting and Unsetting', () => {
-    it('setpaused: Set and unset', async () => { 
-      expect(getPaused()).to.be.deep.eq([])
-      await allowedContract.actions.setpaused([true]).send('allowed@active')
-      expect(getPaused()).to.be.deep.eq([{
-        isAllowedActorStrict: false,
-        isAllowedTokenStrict: false,
+    it('setglobals: Set and unset', async () => { 
+      expect(getAllowGlobals()).to.be.deep.eq([])
+      await allowedContract.actions.setglobals(makeGlobals(true, true, true)).send('allowed@active')
+      expect(getAllowGlobals()).to.be.deep.eq([{
+        isActorStrict: true,
+        isTokenStrict: true,
         isPaused: true,
       }])
-      await allowedContract.actions.setpaused([false]).send('allowed@active')
-      expect(getPaused()).to.be.deep.eq([{
-        isAllowedActorStrict: false,
-        isAllowedTokenStrict: false,
+      await allowedContract.actions.setglobals(makeGlobals(false, false, false)).send('allowed@active')
+      expect(getAllowGlobals()).to.be.deep.eq([{
+        isActorStrict: false,
+        isTokenStrict: false,
         isPaused: false,
       }])
     });
 
-    it('allowtoken: Set and unset', async () => { 
+    it('settoken: Fail if set both to true', async () => { 
+      try {
+        await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true, true]).send('allowed@active')
+      } catch (e) {
+        expect(e.message).to.be.eq(eosio_assert('a token cannot be both allowed and blocked at the same time'))
+      }
+    });
+
+    it('settoken: Single set and unset', async () => { 
+      // isAllowed
       expect(getAllowedTokens()).to.be.deep.eq([])
-      await allowedContract.actions.allowtoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true]).send('allowed@active')
-      console.log(allowedContract.bc.console)
+      await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true, false]).send('allowed@active')
       expect(getAllowedTokens()).to.be.deep.eq([{
         index: 0,
         token: { contract: 'xtokens', sym: '6,XUSDC' },
         isAllowed: true,
         isBlocked: false
       }])
-      await allowedContract.actions.allowtoken([{ contract: 'xtokens', sym: '6,XUSDC' }, false]).send('allowed@active')
+      await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, false, false]).send('allowed@active')
       expect(getAllowedTokens()).to.be.deep.eq([])
-    });
 
-    it('blocktoken: Set and unset', async () => { 
+      // isBlocked
       expect(getAllowedTokens()).to.be.deep.eq([])
-      await allowedContract.actions.blocktoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true]).send('allowed@active')
+      await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, false, true]).send('allowed@active')
       expect(getAllowedTokens()).to.be.deep.eq([{
         index: 0,
         token: { contract: 'xtokens', sym: '6,XUSDC' },
         isAllowed: false,
         isBlocked: true
       }])
-      await allowedContract.actions.blocktoken([{ contract: 'xtokens', sym: '6,XUSDC' }, false]).send('allowed@active')
+      await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, false, false]).send('allowed@active')
       expect(getAllowedTokens()).to.be.deep.eq([])
     });
 
-    it('allowactor: Set and unset', async () => { 
+    it('settoken: Try setting both to empty', async () => { 
+      await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, false, false]).send('allowed@active')
+      expect(getAllowedTokens()).to.be.deep.eq([])
+    });
+
+    it('settoken: Multiple set and unset', async () => { 
+      expect(getAllowedTokens()).to.be.deep.eq([])
+
+      await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true, false]).send('allowed@active')
+      await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '4,XPR' }, true, false]).send('allowed@active')
+      await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDT' }, false, true]).send('allowed@active')
+      await allowedContract.actions.settoken([{ contract: 'eosio.token', sym: '4,EOS' }, false, false]).send('allowed@active')
+      expect(getAllowedTokens()).to.be.deep.eq([{
+        index: 0,
+        token: { contract: 'xtokens', sym: '6,XUSDC' },
+        isAllowed: true,
+        isBlocked: false
+      }, {
+        index: 1,
+        token: { contract: 'xtokens', sym: '4,XPR' },
+        isAllowed: true,
+        isBlocked: false
+      }, {
+        index: 2,
+        token: { contract: 'xtokens', sym: '6,XUSDT' },
+        isAllowed: false,
+        isBlocked: true
+      }])
+
+      await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDT' }, true, false]).send('allowed@active')
+      await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '4,XPR' }, false, false]).send('allowed@active')
+      expect(getAllowedTokens()).to.be.deep.eq([{
+        index: 0,
+        token: { contract: 'xtokens', sym: '6,XUSDC' },
+        isAllowed: true,
+        isBlocked: false
+      }, {
+        index: 2,
+        token: { contract: 'xtokens', sym: '6,XUSDT' },
+        isAllowed: true,
+        isBlocked: false
+      }])
+    });
+
+    it('setactor: Fail if set both to true', async () => { 
+      try {
+        await allowedContract.actions.setactor([researcher.name, true, true]).send('allowed@active')
+      } catch (e) {
+        expect(e.message).to.be.eq(eosio_assert('an actor cannot be both allowed and blocked at the same time'))
+      }
+    });
+
+    it('setactor: Set and unset', async () => { 
+      // isAllowed
       expect(getAllowedActors()).to.be.deep.eq([])
-      await allowedContract.actions.allowactor([researcher.name, true]).send('allowed@active')
+      await allowedContract.actions.setactor([researcher.name, true, false]).send('allowed@active')
       expect(getAllowedActors()).to.be.deep.eq([{ actor: researcher.name.toString(), isAllowed: true, isBlocked: false }])
-      await allowedContract.actions.allowactor([researcher.name, false]).send('allowed@active')
+      await allowedContract.actions.setactor([researcher.name, false, false]).send('allowed@active')
       expect(getAllowedActors()).to.be.deep.eq([])
-    });
 
-    it('blockactor: Set and unset', async () => { 
+      // isBlocked
       expect(getAllowedActors()).to.be.deep.eq([])
-      await allowedContract.actions.blockactor([malicious.name, true]).send('allowed@active')
+      await allowedContract.actions.setactor([malicious.name, false, true]).send('allowed@active')
       expect(getAllowedActors()).to.be.deep.eq([{ actor: malicious.name.toString(), isAllowed: false, isBlocked: true }])
-      await allowedContract.actions.blockactor([malicious.name, false]).send('allowed@active')
+      await allowedContract.actions.setactor([malicious.name, false, false]).send('allowed@active')
       expect(getAllowedActors()).to.be.deep.eq([])
     });
 
-    it('blockactor + allowactor: Set and unset', async () => { 
+    it('setactor: Set and unset multiple', async () => { 
       expect(getAllowedActors()).to.be.deep.eq([])
 
-      await allowedContract.actions.allowactor([researcher.name, true]).send('allowed@active')
-      await allowedContract.actions.blockactor([malicious.name, true]).send('allowed@active')
-
-      expect(getAllowedActors()).to.be.deep.eq([
-        { actor: malicious.name.toString(), isAllowed: false, isBlocked: true },
-        { actor: researcher.name.toString(), isAllowed: true, isBlocked: false }
-      ])
-
-      await allowedContract.actions.allowactor([malicious.name, true]).send('allowed@active')
-      await allowedContract.actions.blockactor([researcher.name, true]).send('allowed@active')
+      await allowedContract.actions.setactor([malicious.name, true, false]).send('allowed@active')
+      await allowedContract.actions.setactor([researcher.name, false, true]).send('allowed@active')
 
       expect(getAllowedActors()).to.be.deep.eq([
         { actor: malicious.name.toString(), isAllowed: true, isBlocked: false },
         { actor: researcher.name.toString(), isAllowed: false, isBlocked: true },
       ])
+
+      await allowedContract.actions.setactor([malicious.name, false, false]).send('allowed@active')
+      await allowedContract.actions.setactor([researcher.name, false, false]).send('allowed@active')
+
+      expect(getAllowedActors()).to.be.deep.eq([])
     });
   })
 });

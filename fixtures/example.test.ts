@@ -39,10 +39,10 @@ export const allowFixtures: Fixtures = {
                 }]
             },
             {
-                title: "allowactor: Only owner can call",
+                title: "setactor: Only owner can call",
                 actions: [{
                     contract: "allowed",
-                    action: "allowactor",
+                    action: "setactor",
                     data: {
                         actor: 'researcher',
                         isAllowed: true
@@ -50,7 +50,7 @@ export const allowFixtures: Fixtures = {
                     authorization: "allowed@active"
                 }, {
                     contract: "allowed",
-                    action: "allowactor",
+                    action: "setactor",
                     data: {
                         actor: 'researcher',
                         isAllowed: true
@@ -60,10 +60,10 @@ export const allowFixtures: Fixtures = {
                 }]
             },
             {
-                title: "blockactor: Only owner can call",
+                title: "setactor: Only owner can call",
                 actions: [{
                     contract: "allowed",
-                    action: "blockactor",
+                    action: "setactor",
                     data: {
                         actor: 'malicious',
                         isBlocked: true
@@ -71,7 +71,7 @@ export const allowFixtures: Fixtures = {
                     authorization: "allowed@active"
                 }, {
                     contract: "allowed",
-                    action: "blockactor",
+                    action: "setactor",
                     data: {
                         actor: 'malicious',
                         isBlocked: true
@@ -81,10 +81,10 @@ export const allowFixtures: Fixtures = {
                 }]
             },
             {
-                title: "allowtoken: Only owner can call",
+                title: "settoken: Only owner can call",
                 actions: [{
                     contract: "allowed",
-                    action: "allowtoken",
+                    action: "settoken",
                     data: {
                         token: { contract: 'xtokens', sym: '6,XUSDC' },
                         isAllowed: true
@@ -92,7 +92,7 @@ export const allowFixtures: Fixtures = {
                     authorization: "allowed@active"
                 }, {
                     contract: "allowed",
-                    action: "allowtoken",
+                    action: "settoken",
                     data: {
                         token: { contract: 'xtokens', sym: '6,XUSDC' },
                         isAllowed: true
@@ -102,10 +102,10 @@ export const allowFixtures: Fixtures = {
                 }]
             },
             {
-                title: "blocktoken: Only owner can call",
+                title: "settoken: Only owner can call",
                 actions: [{
                     contract: "allowed",
-                    action: "blocktoken",
+                    action: "settoken",
                     data: {
                         token: { contract: 'xtokens', sym: '6,XUSDC' },
                         isBlocked: true
@@ -113,7 +113,7 @@ export const allowFixtures: Fixtures = {
                     authorization: "allowed@active"
                 }, {
                     contract: "allowed",
-                    action: "blocktoken",
+                    action: "settoken",
                     data: {
                         token: { contract: 'xtokens', sym: '6,XUSDC' },
                         isBlocked: true

@@ -1,24 +1,24 @@
-import { Name, table, primary, Table, MultiIndex, singleton, Singleton, secondary, U128, ExtendedSymbol, IDXDB, IDX128 } from "as-chain";
-import { allowedactor, allowedtoken, paused } from "./allow.constants";
+import { Name, table, primary, Table, MultiIndex, singleton, Singleton, secondary, U128, ExtendedSymbol, IDXDB, IDX128, print } from "as-chain";
+import { allowedactor, allowedtoken, allowglobals } from "./allow.constants";
 import { extendedSymbolToU128, U128ToExtSym } from "./allow.utils";
 
 // scope: contract
-@table(paused, singleton)
-export class PausedSingleton extends Table {
+@table(allowglobals, singleton)
+export class AllowGlobalsSingleton extends Table {
     constructor (
         public isPaused: boolean = false,
-        public isAllowedActorStrict: boolean = false,
-        public isAllowedTokenStrict: boolean = false,
+        public isActorStrict: boolean = false,
+        public isTokenStrict: boolean = false,
     ) {
         super();
     }
 
-    static getSingleton(code: Name): Singleton<Paused> {
-        return new Singleton<Paused>(code, code, paused);
+    static getSingleton(code: Name): Singleton<AllowGlobals> {
+        return new Singleton<AllowGlobals>(code, code, allowglobals);
     }
 }
 
-export class Paused extends PausedSingleton {}
+export class AllowGlobals extends AllowGlobalsSingleton {}
 
 // scope: contract
 @table(allowedactor)

@@ -4,16 +4,14 @@ import { ActionWrapper, Name, packer, Table } from "as-chain"
 export const allow = Name.fromString("allow")
 
 // Tables
-export const paused = Name.fromString("paused")
+export const allowglobals = Name.fromString("allowglobals")
 export const allowedactor = Name.fromString("allowedactor")
 export const allowedtoken = Name.fromString("allowedtoken")
 
 // Actions
-export const setpaused = new ActionWrapper(Name.fromString("setpaused"))
-export const allowactor = new ActionWrapper(Name.fromString("allowactor"))
-export const blockactor = new ActionWrapper(Name.fromString("blockactor"))
-export const allowtoken = new ActionWrapper(Name.fromString("allowtoken"))
-export const blocktoken = new ActionWrapper(Name.fromString("blocktoken"))
+export const setglobals = new ActionWrapper(Name.fromString("setglobals"))
+export const setactor = new ActionWrapper(Name.fromString("setactor"))
+export const settoken = new ActionWrapper(Name.fromString("settoken"))
 
 // Include
 @packer
