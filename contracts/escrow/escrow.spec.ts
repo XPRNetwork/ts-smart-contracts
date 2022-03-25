@@ -1,23 +1,15 @@
-import fs from "fs";
 import { expect } from "chai";
-import { Name, NameType } from "@greymass/eosio";
 import { Blockchain } from "@jafri/vert"
+import { createContract } from "../../utils/createContract";
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
 
 /* Create Contracts and accounts */
-const createContract = (name: NameType, folder: string, sendsInline = false) => blockchain.createAccount({
-  name: Name.from(name),
-  wasm: fs.readFileSync(`${folder}.wasm`),
-  abi: fs.readFileSync(`${folder}.abi`, 'utf8'),
-  sendsInline
-});
-
-const escrowContract = createContract('escrow', 'contracts/escrow/target/escrow.contract', true)
-const xtokensContract = createContract('xtokens', 'external/xtokens/xtokens')
-const eosioTokenContract = createContract('eosio.token', 'contracts/eosio.token/target/eosio.token.contract')
-const atomicassetsContract = createContract('atomicassets', 'external/atomicassets/atomicassets', true)
+const escrowContract = createContract(blockchain, 'escrow', 'contracts/escrow/target/escrow.contract', true)
+const xtokensContract = createContract(blockchain, 'xtokens', 'external/xtokens/xtokens')
+const eosioTokenContract = createContract(blockchain, 'eosio.token', 'contracts/eosio.token/target/eosio.token.contract')
+const atomicassetsContract = createContract(blockchain, 'atomicassets', 'external/atomicassets/atomicassets', true)
 const collector = blockchain.createAccount('collector')
 const trader = blockchain.createAccount('trader')
 blockchain.createAccount('artist')
@@ -96,11 +88,34 @@ beforeEach(async () => {
 })
 
 /* Helpers */
-// const getBalanceRows = () => balanceContract.tables.accounts().getTableRows()
+const getEscrowRows = () => escrowContract.tables.escrows().getTableRows()
 
 /* Tests */
 describe('Escrow', () => {
-  describe('Create Escrow', () => {
-    
+  describe('Start Escrow', () => {
+    it('Start 1 escrow', async () => { 
+      const collectorNfts = atomicassetsContract.tables.assets(collector.toBigInt()).getTableRows()
+      const traderNfts = atomicassetsContract.tables.assets(trader.toBigInt()).getTableRows()
+
+      await atomicassetsContract.actions.transfer(['collector', 'escrow', [collectorNfts[0].asset_id], 'deposit']).send('collector@active')
+      await xtokensContract.actions.transfer(['collector', 'escrow', '100.000000 XUSDC', 'deposit']).send('collector@active')
+      
+      const escrow = {
+        from: 'collector',
+        to: 'trader',
+        fromTokens: [{ quantity: '100.000000 XUSDC', contract: 'xtokens' }],
+        fromNfts: [collectorNfts[0].asset_id],
+        toTokens: [{ quantity: '10.0000 XPR', contract: 'eosio.token' }],
+        toNfts: [traderNfts[0].asset_id],
+        expiry: 3600
+      }
+      
+      await escrowContract.actions.startescrow(escrow).send('collector@active')
+
+      expect(getEscrowRows()).to.be.deep.equal([{
+        id: 0,
+        ...escrow
+      }])
+    });
   })
 });

@@ -1,23 +1,15 @@
-import fs from "fs";
 import { expect } from "chai";
-import { Name, NameType } from "@greymass/eosio";
 import { Blockchain } from "@jafri/vert"
+import { createContract } from "../../utils/createContract";
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
 
 /* Create Contracts and accounts */
-const createContract = (name: NameType, folder: string, sendsInline = false) => blockchain.createAccount({
-  name: Name.from(name),
-  wasm: fs.readFileSync(`${folder}.wasm`),
-  abi: fs.readFileSync(`${folder}.abi`, 'utf8'),
-  sendsInline
-});
-
-const balanceContract = createContract('balance', 'contracts/balance/target/balance.contract', true)
-const xtokensContract = createContract('xtokens', 'external/xtokens/xtokens')
-const eosioTokenContract = createContract('eosio.token', 'contracts/eosio.token/target/eosio.token.contract')
-const atomicassetsContract = createContract('atomicassets', 'external/atomicassets/atomicassets', true)
+const balanceContract = createContract(blockchain, 'balance', 'contracts/balance/target/balance.contract', true)
+const xtokensContract = createContract(blockchain, 'xtokens', 'external/xtokens/xtokens')
+const eosioTokenContract = createContract(blockchain, 'eosio.token', 'contracts/eosio.token/target/eosio.token.contract')
+const atomicassetsContract = createContract(blockchain, 'atomicassets', 'external/atomicassets/atomicassets', true)
 const collector = blockchain.createAccount('collector')
 const trader = blockchain.createAccount('trader')
 blockchain.createAccount('artist')
