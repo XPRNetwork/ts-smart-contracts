@@ -2,16 +2,17 @@ import fs from "fs";
 import { expect } from "chai";
 import { Asset, Name } from "@greymass/eosio";
 import { Blockchain, nameToBigInt, symbolCodeToBigInt, eosio_assert } from "@jafri/vert"
+import { createContract } from "../../utils/createContract";
 
 /**
  * Initialize
  */
 const blockchain = new Blockchain()
-const eosioToken = blockchain.createAccount({
-  name: Name.from('eosio.token'),
-  wasm: fs.readFileSync('contracts/eosio.token/target/eosio.token.contract.wasm'),
-  abi: fs.readFileSync('contracts/eosio.token/target/eosio.token.contract.abi', 'utf8'),
-});
+const eosioToken = createContract(
+  blockchain,
+  Name.from('eosio.token'),
+  'contracts/eosio.token/target/eosio.token.contract'
+);
 blockchain.createAccount('alice')
 blockchain.createAccount('bob')
 

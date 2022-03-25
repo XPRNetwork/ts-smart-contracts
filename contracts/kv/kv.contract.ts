@@ -1,0 +1,72 @@
+import { Name, check, action, contract, requireAuth, MultiIndex, Contract, print } from 'as-chain'
+import { kv, updatevalues, removekeys } from './kv.constants';
+import { KV, AccountKV } from './kv.tables';
+
+@contract(kv)
+export class KvContract extends Contract {
+    kvsTable: MultiIndex<AccountKV> = AccountKV.getTable(this.receiver)
+
+    @action(updatevalues)
+    updatevalues(
+        actor: Name,
+        values: KV[],
+    ): void {
+        // Authorization
+        requireAuth(actor)
+
+        // Validation
+        check(values.length > 0, "must provide atleast one value")
+        for (let i = 0; i < values.length; i++) {
+            check(values[i].key.length < 255, "max key length is 255")
+            check(values[i].value.length < 255, "max value length is 255")
+        }
+
+        // Find account
+        let kv = this.kvsTable.getByKey(actor.N)
+        if (kv == null) {
+            kv = new AccountKV(actor, values)
+        } else {
+            const existingKeys = kv.values.map<string>(value => value.key)
+            for (let i = 0; i < values.length; i++) {
+                const keyMatchIndex = existingKeys.indexOf(values[i].key)
+                if (keyMatchIndex == -1) {
+                    kv.values.push(values[i])
+                } else {
+                    kv.values[keyMatchIndex].value = values[i].value
+                }
+            }
+        }
+
+        // Save
+        this.kvsTable.set(kv, actor)
+    }
+
+    @action(removekeys)
+    removekeys(
+        actor: Name,
+        keys: string[],
+    ): void {
+        // Authorization
+        requireAuth(actor)
+
+        // Validation
+        const kvItr = this.kvsTable.requireFind(actor.N, `no kv found with name ${actor}`)
+        const kv = this.kvsTable.get(kvItr)
+
+        // Update
+        let filteredValues: KV[] = []
+        for (let i = 0; i < kv.values.length; i++) {
+            if (keys.indexOf(kv.values[i].key) == -1) {
+                filteredValues.push(kv.values[i])
+            }
+        }
+        kv.values = filteredValues
+
+        // Save
+        if (kv.values.length > 0) {
+            this.kvsTable.update(kvItr, kv, actor)
+        } else {
+            this.kvsTable.remove(kvItr)
+        }
+    }
+}
