@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { Blockchain, eosio_assert } from "@jafri/vert"
-import { createContract, expectToThrow, createAccounts, createDummyNfts} from "../../utils";
+import { createContract, expectToThrow, createAccounts, createDummyNfts, mintTokens } from "../../utils";
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
@@ -16,20 +16,9 @@ const [collector, trader, artist] = createAccounts(blockchain, 'collector', 'tra
 beforeEach(async () => {
   blockchain.resetTables()
 
-  await xtokensContract.actions.create([xtokensContract.name, '1000000.000000 XUSDC']).send()
-  await xtokensContract.actions.issue([xtokensContract.name, '1000000.000000 XUSDC', '']).send()
-  await xtokensContract.actions.transfer([xtokensContract.name, 'trader', '100000.000000 XUSDC', '']).send()
-  await xtokensContract.actions.transfer([xtokensContract.name, 'collector', '100000.000000 XUSDC', '']).send()
-
-  await xtokensContract.actions.create([xtokensContract.name, '1000000.00000000 XETH']).send()
-  await xtokensContract.actions.issue([xtokensContract.name, '1000000.00000000 XETH', '']).send()
-  await xtokensContract.actions.transfer([xtokensContract.name, 'trader', '100000.00000000 XETH', '']).send()
-  await xtokensContract.actions.transfer([xtokensContract.name, 'collector', '100000.00000000 XETH', '']).send()
-
-  await eosioTokenContract.actions.create([eosioTokenContract.name, '1000000.0000 XPR']).send()
-  await eosioTokenContract.actions.issue([eosioTokenContract.name, '1000000.0000 XPR', '']).send()
-  await eosioTokenContract.actions.transfer([eosioTokenContract.name, 'trader', '100000.0000 XPR', '']).send()
-  await eosioTokenContract.actions.transfer([eosioTokenContract.name, 'collector', '100000.0000 XPR', '']).send()
+  await mintTokens(xtokensContract, 'XUSDC', 6, 1000000, 100000, [trader, collector])
+  await mintTokens(xtokensContract, 'XETH', 8, 1000000, 100000, [trader, collector])
+  await mintTokens(eosioTokenContract, 'XPR', 4, 1000000, 100000, [trader, collector])
 
   await createDummyNfts(atomicassetsContract, artist, 3, [trader, collector])
 })
