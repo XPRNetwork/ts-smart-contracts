@@ -141,10 +141,10 @@ as-bignum@^0.2.18:
   resolved "https://registry.npmjs.org/as-bignum/-/as-bignum-0.2.18.tgz"
   integrity sha512-5LODrOr7wvS643oh7PHfyRtbBO9vCcU69vNNvrqh5yovrApM9nRHDeT5XcqnaSI8TqK9ZhN12qhZnq4rdIGcwQ==
 
-as-chain@0.0.11, as-chain@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/as-chain/-/as-chain-0.0.11.tgz#53b75d40e5f0b1b57997f3ccbf12621f41943c04"
-  integrity sha512-hQ4Nx8TNOSp3u52ZpTpFcZdqRzwq8FiiXhC8uWXpZvJCsPCpbFLaaA7XiZeYhKZSz48+RR7unnSGRTqPfHJVMA==
+as-chain@0.0.12, as-chain@^0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/as-chain/-/as-chain-0.0.12.tgz#21601e20e1ba0045f0a6728116261dc540000703"
+  integrity sha512-gdWsfoWXyeFLayfVZ3CoFBYFwpLm2yFw550WIet++c2wbQd9UcLStWwNatzjm7CPGK398CabrIdy+uaWLNb13A==
   dependencies:
     "@assemblyscript/loader" "^0.19.22"
     as-bignum "^0.2.18"
@@ -383,12 +383,12 @@ emoji-regex@^8.0.0:
   resolved "https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz"
   integrity sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==
 
-eosio-asc@^0.2.16:
-  version "0.2.16"
-  resolved "https://registry.yarnpkg.com/eosio-asc/-/eosio-asc-0.2.16.tgz#823d2638f9706e7a613ca79dff2903c170618676"
-  integrity sha512-cCm5sAHKGjFPV9y3ivb0qbmFinP0P4s89cW+81VVNpe3r3QcS7PgRZjve6jfcJKSzivj9WL/6b9s/gLV0Q2PiA==
+eosio-asc@^0.2.17:
+  version "0.2.17"
+  resolved "https://registry.yarnpkg.com/eosio-asc/-/eosio-asc-0.2.17.tgz#eaf249400c0bdb3a4de24f3ea747df5f2e070ffb"
+  integrity sha512-VCbb+lIBvO07XyRT6mG6gssV0NwZTIlYp8ypytABAEGxsTmQF770rjeAOFRxMr5OMbiUxfZc0A9dQO8mcF/8vw==
   dependencies:
-    as-chain "0.0.11"
+    as-chain "0.0.12"
     assemblyscript "0.18"
     handlebars "4.7.7"
     ts-dedent "^2.2.0"
