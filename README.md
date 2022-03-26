@@ -1,12 +1,12 @@
 # Boilerplate for Typescript Smart Contract
 
-Repl.it: https://replit.com/@jafri1/ascdk-minimal#contracts/eosio.token/eosio.token.contract.ts
+Online IDE: [Open](https://gitpod.io/#https://github.com/ProtonProtocol/typescript-smart-contracts)
 
-GitPod: https://gitpod.io/#https://github.com/ProtonProtocol/typescript-smart-contracts
+Repl.it: [Open](https://replit.com/@jafri1/ascdk-minimal#contracts/eosio.token/eosio.token.contract.ts)
 
+## Local Install
 **Must use Node 16**
 
-## Install
 ```
 npm i
 ```
