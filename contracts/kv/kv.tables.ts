@@ -2,13 +2,11 @@ import { Name, table, primary, Table, MultiIndex, packer } from "as-chain";
 import { kvs } from "./kv.constants";
 
 @packer
-export class KV extends Table {
+export class KV {
     constructor (
         public key: string = "",
         public value: string = "",
-    ) {
-        super();
-    }
+    ) {}
 }
 
 @table(kvs)
