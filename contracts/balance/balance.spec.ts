@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import { Blockchain } from "@jafri/vert"
-import { createContract } from "../../utils/createContract";
+import { Blockchain, eosio_assert } from "@jafri/vert"
+import { createContract, expectToThrow, createAccounts, createDummyNfts} from "../../utils";
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
@@ -10,9 +10,7 @@ const balanceContract = createContract(blockchain, 'balance', 'contracts/balance
 const xtokensContract = createContract(blockchain, 'xtokens', 'contracts/external/xtokens/xtokens')
 const eosioTokenContract = createContract(blockchain, 'eosio.token', 'contracts/eosio.token/target/eosio.token.contract')
 const atomicassetsContract = createContract(blockchain, 'atomicassets', 'contracts/external/atomicassets/atomicassets', true)
-const collector = blockchain.createAccount('collector')
-const trader = blockchain.createAccount('trader')
-blockchain.createAccount('artist')
+const [collector, trader, artist] = createAccounts(blockchain, 'collector', 'trader', 'artist')
 
 /* Runs before each test */
 beforeEach(async () => {
@@ -33,58 +31,7 @@ beforeEach(async () => {
   await eosioTokenContract.actions.transfer([eosioTokenContract.name, 'trader', '100000.0000 XPR', '']).send()
   await eosioTokenContract.actions.transfer([eosioTokenContract.name, 'collector', '100000.0000 XPR', '']).send()
 
-  await atomicassetsContract.actions.init().send()
-  await atomicassetsContract.actions.admincoledit([
-    [
-      { "name": "name", "type": "string" },
-      { "name": "img", "type": "ipfs" },
-      { "name": "description", "type": "string" },
-      { "name": "url", "type": "string" }
-    ]
-  ]).send()
-  await atomicassetsContract.actions.createcol({
-    author: 'artist',
-    collection_name: 'artist',
-    allow_notify: true,
-    authorized_accounts: ['artist'],
-    notify_accounts: [],
-    market_fee: 0.01,
-    data: []
-  }).send('artist@active')
-  await atomicassetsContract.actions.createschema({
-    authorized_creator: 'artist',
-    collection_name: 'artist',
-    schema_name: 'artist',
-    schema_format: [
-      { name: 'image', type: 'string' },
-      { name: 'name', type: 'string' },
-    ]
-  }).send('artist@active')
-  await atomicassetsContract.actions.createtempl({
-    authorized_creator: 'artist',
-    collection_name: 'artist',
-    schema_name: 'artist',
-    transferable: true,
-    burnable: true,
-    max_supply: 100,
-    immutable_data: [
-      { key: 'image', value: ['string', 'abc.png'] },
-      { key: 'name', value: ['string', 'BULL'] },
-    ]
-  }).send('artist@active')
-
-  for (let i = 0; i < 6; i++) {
-    await atomicassetsContract.actions.mintasset({
-      authorized_minter: 'artist',
-      collection_name: 'artist',
-      schema_name: 'artist',
-      template_id: 1,
-      new_asset_owner: i % 2 === 0 ? 'trader' : 'collector',
-      immutable_data: [],
-      mutable_data: [],
-      tokens_to_back: []
-    }).send('artist@active')
-  }
+  await createDummyNfts(atomicassetsContract, artist, 3, [trader, collector])
 })
 
 /* Helpers */
@@ -97,11 +44,37 @@ describe('Balance', () => {
       await xtokensContract.actions.transfer(['trader', 'balance', '1000.000000 XUSDC', 'deposit']).send('trader@active')
       await balanceContract.actions.withdraw(['trader', [{ quantity: '100.000000 XUSDC', contract: 'xtokens' }], []]).send('trader@active')
 
-      try {
-        await balanceContract.actions.withdraw(['trader', [{ quantity: '100.000000 XUSDC', contract: 'xtokens' }], []]).send()
-      } catch (e) {
-        expect(e.message).to.be.deep.eq('missing required authority trader')
-      }
+      await expectToThrow(
+        balanceContract.actions.withdraw(['trader', [{ quantity: '100.000000 XUSDC', contract: 'xtokens' }], []]).send(),
+        'missing required authority trader'
+      )
+    });
+  })
+
+  describe('Paused', () => {
+    it('isPaused: Incoming token deposits do not work (transfer)', async () => {
+      await balanceContract.actions.setglobals([true, false, false]).send()
+      await expectToThrow(
+        xtokensContract.actions.transfer(['trader', 'balance', '1000.000000 XUSDC', 'deposit']).send('trader@active'),
+        eosio_assert('Contract balance is paused')
+      )
+    });
+
+    it('isPaused: Incoming NFT deposits do not work (transfer)', async () => {
+      await balanceContract.actions.setglobals([true, false, false]).send()
+      const assets = atomicassetsContract.tables.assets(collector.toBigInt()).getTableRows()
+      await expectToThrow(
+        atomicassetsContract.actions.transfer(['collector', 'balance', [assets[0].asset_id], 'deposit']).send('collector@active'),
+        eosio_assert('Contract balance is paused')
+      )
+    });
+
+    it('isPaused: Withdrawals do not work (withdraw)', async () => {
+      await balanceContract.actions.setglobals([true, false, false]).send()
+      await expectToThrow(
+        balanceContract.actions.withdraw(['trader', [{ quantity: '1000.000000 XUSDC', contract: 'xtokens' }], []]).send('trader@active'),
+        eosio_assert('Contract balance is paused')
+      )
     });
   })
 

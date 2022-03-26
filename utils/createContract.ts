@@ -9,3 +9,11 @@ export const createContract = (bc: Blockchain, name: NameType, folder: string, s
     sendsInline
 });
   
+export const createAccounts = (bc: Blockchain, ...accounts: string[]) => {
+    const createdAccounts = []
+    for (const account of accounts) {
+        createdAccounts.push(bc.createAccount(account))
+    }
+    return createdAccounts
+};
+  

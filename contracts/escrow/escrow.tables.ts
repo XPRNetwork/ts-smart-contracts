@@ -1,18 +1,19 @@
 import { ExtendedAsset, Name, table, primary, Table, singleton, secondary, MultiIndex, Singleton } from "as-chain";
-import { globall, escrows } from "./escrow.constants";
+import { escrowglobal, escrows } from "./escrow.constants";
 
-@table(globall, singleton)
-export class global extends Table {
+@table(escrowglobal, singleton)
+export class escrowGlobal extends Table {
     constructor (
-       public escrow_id: u64 = 0,
+       public escrowId: u64 = 0,
     ) {
         super();
     }
 
-    static getSingleton(code: Name): Singleton<Global> {
-        return new Singleton<Global>(code, code, globall);
+    static getSingleton(code: Name): Singleton<EscrowGlobal> {
+        return new Singleton<EscrowGlobal>(code, code, escrowglobal);
     }
 }
+export class EscrowGlobal extends escrowGlobal {}
 
 @table(escrows)
 export class escrow extends Table {
@@ -56,6 +57,4 @@ export class escrow extends Table {
         return new MultiIndex<Escrow>(code, code, escrows);
     }
 }
-
-export class Global extends global {}
 export class Escrow extends escrow {}
