@@ -1,8 +1,7 @@
-import fs from "fs";
 import { expect } from "chai";
 import { Asset, Name } from "@greymass/eosio";
 import { Blockchain, nameToBigInt, symbolCodeToBigInt, eosio_assert } from "@jafri/vert"
-import { createContract } from "../../utils/createContract";
+import { createContract, expectToThrow } from "../../utils";
 
 /**
  * Initialize
@@ -59,11 +58,10 @@ describe('eos-vm', () => {
     });
 
     it('create: negative_max_supply', async () => {
-      try {
-        await eosioToken.actions.create(['alice', '-1000.000 TKN']).send();
-      } catch (e) {
-        expect(e.message).to.equal(eosio_assert('max-supply must be positive'));
-      }
+      await expectToThrow(
+        eosioToken.actions.create(['alice', '-1000.000 TKN']).send(),
+        eosio_assert('max-supply must be positive')
+      )
     });
 
     it('create: symbol_already_exists', async () => {
@@ -71,11 +69,10 @@ describe('eos-vm', () => {
       
       await action.send();
 
-      try {
-        await action.send();
-      } catch (e) {
-        expect(e.message).to.equal(eosio_assert('token with symbol already exists'));
-      }
+      await expectToThrow(
+        action.send(),
+        eosio_assert('token with symbol already exists')
+      )
     });
 
     it('create: max_supply', async () => {
@@ -84,11 +81,10 @@ describe('eos-vm', () => {
       await eosioToken.actions.create(['alice', `4611686018427387903 ${symcode}`]).send();
       expect(getStat(symcode)).to.be.deep.equal(currency_stats('0 TKN', '4611686018427387903 TKN', 'alice'))
 
-      try {
-        await eosioToken.actions.create(['alice', '4611686018427387904 NKT']).send();
-      } catch (e) {
-        expect(e.message).to.equal(eosio_assert('invalid asset'));
-      }
+      await expectToThrow(
+        eosioToken.actions.create(['alice', '4611686018427387904 NKT']).send(),
+        eosio_assert('invalid asset')
+      )
     });
 
     it('create: max_decimals', async () => {
@@ -99,9 +95,9 @@ describe('eos-vm', () => {
       expect(getStat(symcode)).to.be.deep.equal(currency_stats('0.000000000000000000 TKN', '1.000000000000000000 TKN', 'alice'))
 
       try {
-        await eosioToken.actions.create(['alice', '1.0000000000000000000 NKT']).send();
+        await eosioToken.actions.create(['alice', '1.0000000000000000000 NKT']).send()
       } catch (e) {
-        expect(e.message).to.equal('Encoding error at root<create>.maximum_supply<asset>: Invalid asset symbol, precision too large');
+        expect(e.message).to.be.deep.eq('Encoding error at root<create>.maximum_supply<asset>: Invalid asset symbol, precision too large')
       }
     });
 
@@ -114,17 +110,15 @@ describe('eos-vm', () => {
       expect(getStat(symcode)).to.be.deep.equal(currency_stats('500.000 TKN', '1000.000 TKN', 'alice'))
       expect(getAccount('alice', symcode)).to.be.deep.equal(account('500.000 TKN'))
 
-      try {
-        await eosioToken.actions.issue(['alice', '500.001 TKN', 'hola']).send('alice@active');
-      } catch (e) {
-        expect(e.message).to.equal('eosio_assert: quantity exceeds available supply');
-      }
+      await expectToThrow(
+        eosioToken.actions.issue(['alice', '500.001 TKN', 'hola']).send('alice@active'),
+        eosio_assert('quantity exceeds available supply')
+      )
 
-      try {
-        await eosioToken.actions.issue(['alice', '-1.000 TKN', 'hola']).send('alice@active');
-      } catch (e) {
-        expect(e.message).to.equal(eosio_assert('must issue positive quantity'));
-      }
+      await expectToThrow(
+        eosioToken.actions.issue(['alice', '-1.000 TKN', 'hola']).send('alice@active'),
+        eosio_assert('must issue positive quantity')
+      )
 
       // Check whether action succeeds without exceptions
       await eosioToken.actions.issue(['alice', '1.000 TKN', 'hola']).send('alice@active');
@@ -142,17 +136,15 @@ describe('eos-vm', () => {
       expect(getAccount('alice', symcode)).to.be.deep.equal(account('700 CERO'))
       expect(getAccount('bob', symcode)).to.be.deep.equal(account('300 CERO'))
 
-      try {
-        await eosioToken.actions.transfer(['alice', 'bob', '701 CERO', 'hola']).send('alice@active');
-      } catch (e) {
-        expect(e.message).to.equal('eosio_assert: overdrawn balance');
-      }
+      await expectToThrow(
+        eosioToken.actions.transfer(['alice', 'bob', '701 CERO', 'hola']).send('alice@active'),
+        eosio_assert('overdrawn balance')
+      )
 
-      try {
-        await eosioToken.actions.transfer(['alice', 'bob', '-1000 CERO', 'hola']).send('alice@active');
-      } catch (e) {
-        expect(e.message).to.equal('eosio_assert: must transfer positive quantity');
-      }
+      await expectToThrow(
+        eosioToken.actions.transfer(['alice', 'bob', '-1000 CERO', 'hola']).send('alice@active'),
+        eosio_assert('must transfer positive quantity')
+      )
     });
   });
 });

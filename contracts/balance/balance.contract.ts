@@ -104,7 +104,7 @@ export class BalanceContract extends AllowContract {
         memo: string
     ): void {
         // Authorization
-        requireAuth(this.contract)
+        // Not a public action, so only contract can call
 
         // Inline transfer Tokens and NFTs from contract to actor
         sendTransferTokens(this.contract, actor, tokens, memo)

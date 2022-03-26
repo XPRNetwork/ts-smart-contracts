@@ -2,7 +2,7 @@ import { currentTimePoint, ExtendedAsset, Name, check, contract, action, require
 import { BalanceContract, OPERATION } from '../balance';
 import { startescrow, fillescrow, cancelescrow, logescrow, ESCROW_STATUS } from './escrow.constants';
 import { sendLogEscrow } from './escrow.inline';
-import { Global, Escrow, escrow } from './escrow.tables';
+import { EscrowGlobal, Escrow, escrow } from './escrow.tables';
 @contract(escrow)
 export class EscrowContract extends BalanceContract {
     escrowsTable: MultiIndex<Escrow> = Escrow.getTable(this.receiver)
@@ -36,18 +36,19 @@ export class EscrowContract extends BalanceContract {
         // Validation
         check(to == new Name() || isAccount(to), "to must be empty or a valid account");
         check(expiry > currentTimePoint().secSinceEpoch(), "expiry must be in future");
-        check(fromTokens.length || fromNfts.length || toTokens.length || toNfts.length, "all tokens and NFTs must not be empty");
+        check(fromTokens.length || fromNfts.length, "must escrow atleast one token or NFT on from side");
+        check(toTokens.length || toNfts.length, "must escrow atleast one token or NFT on to side");
 
         // Substract balances
-        this.modifyBalance(from, fromTokens, fromNfts, OPERATION.SUB, SAME_PAYER)
+        this.modifyBalance(from, fromTokens, fromNfts, OPERATION.SUB, this.contract)
       
         // Get config
-        const configSingleton = Global.getSingleton(this.contract)
-        const config = configSingleton.get()
+        const escrowGlobalSingleton = EscrowGlobal.getSingleton(this.contract)
+        const escrowGlobal = escrowGlobalSingleton.get()
 
         // Create escrow object
         const escrow = new Escrow(
-            config.escrow_id,
+            escrowGlobal.escrowId,
             from,
             to,
             fromTokens,
@@ -58,8 +59,8 @@ export class EscrowContract extends BalanceContract {
         )
 
         // Update config
-        config.escrow_id++;
-        configSingleton.set(config, this.contract);
+        escrowGlobal.escrowId++;
+        escrowGlobalSingleton.set(escrowGlobal, this.contract);
 
         // Save escrow
         this.escrowsTable.store(escrow, this.contract);
@@ -70,16 +71,16 @@ export class EscrowContract extends BalanceContract {
 
     /**
      * It fills an escrow.
-     * @param {Name} fulfiller - Name,
+     * @param {Name} actor - Name,
      * @param {u64} id - u64
      */
     @action(fillescrow)
     fillescrow(
-        fulfiller: Name,
+        actor: Name,
         id: u64
     ): void {
         // Authenticate
-        requireAuth(fulfiller);
+        requireAuth(actor);
 
         // Pre-conditions
         this.checkContractIsNotPaused()
@@ -88,13 +89,13 @@ export class EscrowContract extends BalanceContract {
         const escrowItr = this.escrowsTable.requireFind(id, "no escrow with ID found.");
         const escrow = this.escrowsTable.get(escrowItr);
     
-        // If empty, set to as fulfiller
+        // If empty, set to as actor
         if (escrow.to == new Name()) {
-            escrow.to = fulfiller;
+            escrow.to = actor;
         }
 
         // Validation
-        check(escrow.to == fulfiller, "incorrect to account");
+        check(escrow.to == actor, "incorrect to account");
 
         // Substract balances
         this.modifyBalance(escrow.to, escrow.toTokens, escrow.toNfts, OPERATION.SUB, SAME_PAYER)

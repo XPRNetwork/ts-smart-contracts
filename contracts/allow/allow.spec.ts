@@ -2,6 +2,7 @@ import fs from "fs";
 import { expect } from "chai";
 import { Name } from "@greymass/eosio";
 import { Blockchain, eosio_assert } from "@jafri/vert"
+import { expectToThrow } from "../../utils/expectToThrow";
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
@@ -19,13 +20,12 @@ const malicious = blockchain.createAccount('malicious')
 const getAllowGlobals = () => allowedContract.tables.allowglobals().getTableRows()
 const getAllowedActors = () => allowedContract.tables.allowedactor().getTableRows()
 const getAllowedTokens = () => allowedContract.tables.allowedtoken().getTableRows()
+const makeGlobals = (isPaused: boolean, isActorStrict: boolean, isTokenStrict: boolean) => ({ isPaused, isActorStrict, isTokenStrict })
 
 /* Runs before each test */
 beforeEach(async () => {
   blockchain.resetTables()
 })
-
-const makeGlobals = (isPaused: boolean, isActorStrict: boolean, isTokenStrict: boolean) => ({ isPaused, isActorStrict, isTokenStrict })
 
 /* Tests */
 describe('Allowed', () => {
@@ -33,61 +33,54 @@ describe('Allowed', () => {
     it('setGlobals: Only owner can call', async () => { 
       await allowedContract.actions.setglobals(makeGlobals(true, false, false)).send('allowed@active')
 
-      try {
-        await allowedContract.actions.setglobals(makeGlobals(true, false, false)).send('malicious@active')
-      } catch (e) {
-        expect(e.message).to.be.deep.eq('missing required authority allowed')
-      }
+      await expectToThrow(
+        allowedContract.actions.setglobals(makeGlobals(true, false, false)).send('malicious@active'),
+        'missing required authority allowed'
+      )
 
       await allowedContract.actions.setglobals(makeGlobals(false, true, false)).send('allowed@active')
 
-      try {
-        await allowedContract.actions.setglobals(makeGlobals(false, true, false)).send('malicious@active')
-      } catch (e) {
-        expect(e.message).to.be.deep.eq('missing required authority allowed')
-      }
+      await expectToThrow(
+        allowedContract.actions.setglobals(makeGlobals(false, true, false)).send('malicious@active'),
+        'missing required authority allowed'
+      )
 
       await allowedContract.actions.setglobals(makeGlobals(false, false, true)).send('allowed@active')
 
-      try {
-        await allowedContract.actions.setglobals(makeGlobals(false, false, true)).send('malicious@active')
-      } catch (e) {
-        expect(e.message).to.be.deep.eq('missing required authority allowed')
-      }
+      await expectToThrow(
+        allowedContract.actions.setglobals(makeGlobals(false, false, true)).send('malicious@active'),
+        'missing required authority allowed'
+      )
     });
 
     it('setactor: Only owner can call', async () => { 
       await allowedContract.actions.setactor([researcher.name, true, false]).send('allowed@active')
 
-      try {
-        await allowedContract.actions.setactor([researcher.name, true, false]).send('malicious@active')
-      } catch (e) {
-        expect(e.message).to.be.deep.eq('missing required authority allowed')
-      }
+      await expectToThrow(
+        allowedContract.actions.setactor([researcher.name, true, false]).send('malicious@active'),
+        'missing required authority allowed'
+      )
 
       await allowedContract.actions.setactor([researcher.name, false, true]).send('allowed@active')
 
-      try {
-        await allowedContract.actions.setactor([researcher.name, false, true]).send('malicious@active')
-      } catch (e) {
-        expect(e.message).to.be.deep.eq('missing required authority allowed')
-      }
+      await expectToThrow(
+        allowedContract.actions.setactor([researcher.name, false, true]).send('malicious@active'),
+        'missing required authority allowed'
+      )
     });
 
     it('settoken: Only owner can call', async () => { 
       await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true, false]).send('allowed@active')
-      try {
-        await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true, false]).send('malicious@active')
-      } catch (e) {
-        expect(e.message).to.be.deep.eq('missing required authority allowed')
-      }
+      await expectToThrow(
+        allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true, false]).send('malicious@active'),
+        'missing required authority allowed'
+      )
 
       await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, false, true]).send('allowed@active')
-      try {
-        await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, false, true]).send('malicious@active')
-      } catch (e) {
-        expect(e.message).to.be.deep.eq('missing required authority allowed')
-      }
+      await expectToThrow(
+        allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, false, true]).send('malicious@active'),
+        'missing required authority allowed'
+      )
     });
   })
 
@@ -109,11 +102,10 @@ describe('Allowed', () => {
     });
 
     it('settoken: Fail if set both to true', async () => { 
-      try {
-        await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true, true]).send('allowed@active')
-      } catch (e) {
-        expect(e.message).to.be.eq(eosio_assert('a token cannot be both allowed and blocked at the same time'))
-      }
+      await expectToThrow(
+        allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true, true]).send('allowed@active'),
+        eosio_assert('a token cannot be both allowed and blocked at the same time')
+      )
     });
 
     it('settoken: Single set and unset', async () => { 
@@ -187,11 +179,10 @@ describe('Allowed', () => {
     });
 
     it('setactor: Fail if set both to true', async () => { 
-      try {
-        await allowedContract.actions.setactor([researcher.name, true, true]).send('allowed@active')
-      } catch (e) {
-        expect(e.message).to.be.eq(eosio_assert('an actor cannot be both allowed and blocked at the same time'))
-      }
+      await expectToThrow(
+        allowedContract.actions.setactor([researcher.name, true, true]).send('allowed@active'),
+        eosio_assert('an actor cannot be both allowed and blocked at the same time')
+      )
     });
 
     it('setactor: Set and unset', async () => { 

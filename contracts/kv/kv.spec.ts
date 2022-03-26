@@ -1,16 +1,13 @@
 import { expect } from "chai";
 import { Blockchain } from "@jafri/vert"
-import { createContract } from "../../utils/createContract";
+import { createContract, createAccounts, expectToThrow } from "../../utils";
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
 
 /* Create Contracts and accounts */
 const kvContract = createContract(blockchain, 'kv', 'contracts/kv/target/kv.contract', true)
-blockchain.createAccount('account1')
-blockchain.createAccount('account2')
-blockchain.createAccount('account3')
-
+createAccounts(blockchain, 'account1', 'account2', 'account3')
 
 /* Runs before each test */
 beforeEach(async () => {
@@ -27,24 +24,19 @@ describe('Balance', () => {
     it('updatevalues: Only actor can call', async () => { 
       await kvContract.actions.updatevalues(['account1', objectToKv({ telegram: '@proton' })]).send('account1@active')
 
-      try {
-        await kvContract.actions.updatevalues(['account1', objectToKv({ telegram: '@proton' })]).send('kv@active')
-      } catch (e) {
-        expect(e.message).to.be.deep.eq('missing required authority account1')
-      }
+      await expectToThrow(
+        kvContract.actions.updatevalues(['account1', objectToKv({ telegram: '@proton' })]).send('kv@active'),
+        'missing required authority account1'
+      )
     });
 
     it('removekeys: Only actor can call', async () => { 
       await kvContract.actions.updatevalues(['account1', objectToKv({ telegram: '@proton' })]).send('account1@active')
-      await kvContract.actions.removekeys(['account1', objectToKv({ telegram: '@proton' })]).send('account1@active')
 
-      try {
-        await kvContract.actions.updatevalues(['account1', objectToKv({ telegram: '@proton' })]).send('kv@active')
-        await kvContract.actions.removekeys(['account1', objectToKv({ telegram: '@proton' })]).send('kv@active')
-  
-      } catch (e) {
-        expect(e.message).to.be.deep.eq('missing required authority account1')
-      }
+      await expectToThrow(
+        kvContract.actions.removekeys(['account1', objectToKv({ telegram: '@proton' })]).send('kv@active'),
+        'missing required authority account1'
+      )
     });
   })
 
