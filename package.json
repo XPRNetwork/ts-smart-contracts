@@ -17,8 +17,8 @@
     "test": "run-p test:*"
   },
   "dependencies": {
-    "as-chain": "^0.0.11",
-    "eosio-asc": "^0.2.16"
+    "as-chain": "^0.0.12",
+    "eosio-asc": "^0.2.17"
   },
   "engines": {
     "npm": ">=7.0.0",
