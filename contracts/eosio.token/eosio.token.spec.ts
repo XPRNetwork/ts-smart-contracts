@@ -1,18 +1,13 @@
 import { expect } from "chai";
 import { Asset, Name } from "@greymass/eosio";
-import { Blockchain, nameToBigInt, symbolCodeToBigInt, eosio_assert, createContract, expectToThrow } from "@jafri/vert"
+import { Blockchain, nameToBigInt, symbolCodeToBigInt, eosio_assert, expectToThrow } from "@jafri/vert"
 
 /**
  * Initialize
  */
 const blockchain = new Blockchain()
-const eosioToken = createContract(
-  blockchain,
-  Name.from('eosio.token'),
-  'contracts/eosio.token/target/eosio.token.contract'
-);
-blockchain.createAccount('alice')
-blockchain.createAccount('bob')
+const eosioToken = blockchain.createContract('eosio.token', 'contracts/eosio.token/target/eosio.token.contract');
+blockchain.createAccounts('alice', 'bob')
 
 beforeEach(() => {
   blockchain.resetTables()

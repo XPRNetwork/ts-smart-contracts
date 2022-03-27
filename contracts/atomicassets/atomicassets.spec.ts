@@ -1,12 +1,12 @@
 import { expect } from "chai";
-import { Blockchain, eosio_assert, expectToThrow, createContract, createAccounts } from "@jafri/vert"
+import { Blockchain, eosio_assert, expectToThrow } from "@jafri/vert"
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
 
 /* Create Contracts and accounts */
-const atomicassetsContract = createContract(blockchain, 'atomicassets', 'contracts/atomicassets/target/atomicassets.contract')
-const [artist] = createAccounts(blockchain, 'artist')
+const atomicassetsContract = blockchain.createContract('atomicassets', 'contracts/atomicassets/target/atomicassets.contract')
+const [artist] = blockchain.createAccounts('artist')
 
 /* Helpers */
 const getCollections = () => atomicassetsContract.tables.collections().getTableRows()

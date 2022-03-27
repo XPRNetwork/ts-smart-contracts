@@ -1,16 +1,16 @@
 import { expect } from "chai";
-import { Account, Blockchain, eosio_assert, createAccounts, createContract, expectToThrow, createDummyNfts, mintTokens } from "@jafri/vert"
+import { Account, Blockchain, eosio_assert,  expectToThrow, createDummyNfts, mintTokens } from "@jafri/vert"
 import { TimePointSec } from "@greymass/eosio";
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
 
 /* Create Contracts and accounts */
-const escrowContract = createContract(blockchain, 'escrow', 'contracts/escrow/target/escrow.contract', true)
-const xtokensContract = createContract(blockchain, 'xtokens', 'contracts/external/xtokens/xtokens')
-const eosioTokenContract = createContract(blockchain, 'eosio.token', 'contracts/eosio.token/target/eosio.token.contract')
-const atomicassetsContract = createContract(blockchain, 'atomicassets', 'contracts/external/atomicassets/atomicassets', true)
-const [collector, trader, artist] = createAccounts(blockchain, 'collector', 'trader', 'artist')
+const escrowContract = blockchain.createContract('escrow', 'contracts/escrow/target/escrow.contract', true)
+const xtokensContract = blockchain.createContract('xtokens', 'contracts/external/xtokens/xtokens')
+const eosioTokenContract = blockchain.createContract('eosio.token', 'contracts/eosio.token/target/eosio.token.contract')
+const atomicassetsContract = blockchain.createContract('atomicassets', 'contracts/external/atomicassets/atomicassets', true)
+const [collector, trader, artist] = blockchain.createAccounts('collector', 'trader', 'artist')
 
 /* Runs before each test */
 beforeEach(async () => {
