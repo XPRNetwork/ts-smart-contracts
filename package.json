@@ -6,7 +6,7 @@
     "build:eosio.token": "npx eosio-asc ./contracts/eosio.token/eosio.token.contract.ts",
     "build:balance": "npx eosio-asc ./contracts/balance/balance.contract.ts",
     "build:escrow": "npx eosio-asc ./contracts/escrow/escrow.contract.ts",
-    "build:allow": "npx eosio-asc ./contracts/allow/allow.contract.ts --sourceMap allow.contract.map --debug",
+    "build:allow": "npx eosio-asc ./contracts/allow/allow.contract.ts",
     "build:kv": "npx eosio-asc ./contracts/kv/kv.contract.ts",
     "build2:atomicassets": "npx eosio-asc ./contracts/atomicassets/atomicassets.contract.ts",
     "build": "run-p build:*",
