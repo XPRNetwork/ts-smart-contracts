@@ -1,12 +1,12 @@
 import { expect } from "chai";
-import { Blockchain, eosio_assert, expectToThrow, createContract, createAccounts } from "@jafri/vert"
+import { Blockchain, eosio_assert, expectToThrow } from "@jafri/vert"
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
 
 /* Create Contracts and accounts */
-const allowedContract = createContract(blockchain, 'allowed', 'contracts/allow/target/allow.contract')
-const [researcher, malicious] = createAccounts(blockchain, 'researcher', 'malicious')
+const allowedContract = blockchain.createContract('allowed', 'contracts/allow/target/allow.contract')
+const [researcher, malicious] = blockchain.createAccounts('researcher', 'malicious')
 
 /* Helpers */
 const getAllowGlobals = () => allowedContract.tables.allowglobals().getTableRows()

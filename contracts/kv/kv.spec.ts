@@ -1,12 +1,12 @@
 import { expect } from "chai";
-import { Blockchain, createContract, createAccounts, expectToThrow } from "@jafri/vert"
+import { Blockchain, expectToThrow } from "@jafri/vert"
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
 
 /* Create Contracts and accounts */
-const kvContract = createContract(blockchain, 'kv', 'contracts/kv/target/kv.contract', true)
-createAccounts(blockchain, 'account1', 'account2', 'account3')
+const kvContract = blockchain.createContract('kv', 'contracts/kv/target/kv.contract', true)
+blockchain.createAccounts('account1', 'account2', 'account3')
 
 /* Runs before each test */
 beforeEach(async () => {
