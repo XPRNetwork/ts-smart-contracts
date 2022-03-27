@@ -8,17 +8,20 @@
     "build:escrow": "npx eosio-asc ./contracts/escrow/escrow.contract.ts",
     "build:allow": "npx eosio-asc ./contracts/allow/allow.contract.ts",
     "build:kv": "npx eosio-asc ./contracts/kv/kv.contract.ts",
+    "build2:atomicassets": "npx eosio-asc ./contracts/atomicassets/atomicassets.contract.ts",
     "build": "run-p build:*",
     "test:eosio.token": "mocha contracts/eosio.token/*.spec.ts -r ts-node/register",
     "test:balance": "mocha contracts/balance/*.spec.ts -r ts-node/register",
     "test:allow": "mocha contracts/allow/*.spec.ts -r ts-node/register",
     "test:escrow": "mocha contracts/escrow/*.spec.ts -r ts-node/register",
     "test:kv": "mocha contracts/kv/*.spec.ts -r ts-node/register",
+    "test2:atomicassets": "mocha contracts/atomicassets/*.spec.ts -r ts-node/register",
     "test": "run-p test:*"
   },
   "dependencies": {
-    "as-chain": "^0.0.12",
-    "eosio-asc": "^0.2.17"
+    "as-base58": "^0.1.1",
+    "as-chain": "^0.0.16",
+    "eosio-asc": "^0.2.25"
   },
   "engines": {
     "npm": ">=7.0.0",
