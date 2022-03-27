@@ -1,0 +1,176 @@
+{
+  "version": "eosio::abi/1.1",
+  "structs": [
+    {
+      "name": "AllowGlobalsSingleton",
+      "base": "",
+      "fields": [
+        {
+          "name": "isPaused",
+          "type": "bool"
+        },
+        {
+          "name": "isActorStrict",
+          "type": "bool"
+        },
+        {
+          "name": "isTokenStrict",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "AllowedActorTable",
+      "base": "",
+      "fields": [
+        {
+          "name": "actor",
+          "type": "name"
+        },
+        {
+          "name": "isAllowed",
+          "type": "bool"
+        },
+        {
+          "name": "isBlocked",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "AllowedTokenTable",
+      "base": "",
+      "fields": [
+        {
+          "name": "index",
+          "type": "uint64"
+        },
+        {
+          "name": "token",
+          "type": "ExtendedSymbol"
+        },
+        {
+          "name": "isAllowed",
+          "type": "bool"
+        },
+        {
+          "name": "isBlocked",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "setglobals",
+      "base": "",
+      "fields": [
+        {
+          "name": "isPaused",
+          "type": "bool"
+        },
+        {
+          "name": "isActorStrict",
+          "type": "bool"
+        },
+        {
+          "name": "isTokenStrict",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "settoken",
+      "base": "",
+      "fields": [
+        {
+          "name": "token",
+          "type": "ExtendedSymbol"
+        },
+        {
+          "name": "isAllowed",
+          "type": "bool"
+        },
+        {
+          "name": "isBlocked",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "setactor",
+      "base": "",
+      "fields": [
+        {
+          "name": "actor",
+          "type": "name"
+        },
+        {
+          "name": "isAllowed",
+          "type": "bool"
+        },
+        {
+          "name": "isBlocked",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "ExtendedSymbol",
+      "base": "",
+      "fields": [
+        {
+          "name": "sym",
+          "type": "symbol"
+        },
+        {
+          "name": "contract",
+          "type": "name"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "actions": [
+    {
+      "name": "setglobals",
+      "type": "setglobals",
+      "ricardian_contract": ""
+    },
+    {
+      "name": "settoken",
+      "type": "settoken",
+      "ricardian_contract": ""
+    },
+    {
+      "name": "setactor",
+      "type": "setactor",
+      "ricardian_contract": ""
+    }
+  ],
+  "tables": [
+    {
+      "name": "allowglobals",
+      "type": "AllowGlobalsSingleton",
+      "index_type": "i64",
+      "key_names": [],
+      "key_types": []
+    },
+    {
+      "name": "allowedactor",
+      "type": "AllowedActorTable",
+      "index_type": "i64",
+      "key_names": [],
+      "key_types": []
+    },
+    {
+      "name": "allowedtoken",
+      "type": "AllowedTokenTable",
+      "index_type": "i64",
+      "key_names": [],
+      "key_types": []
+    }
+  ],
+  "ricardian_clauses": [],
+  "variants": [],
+  "abi_extensions": [],
+  "error_messages": []
+}
