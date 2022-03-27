@@ -1,6 +1,5 @@
 import { expect } from "chai";
-import { Account, Blockchain, eosio_assert } from "@jafri/vert"
-import { createAccounts, createContract, expectToThrow, createDummyNfts, mintTokens } from "../../utils";
+import { Account, Blockchain, eosio_assert, createAccounts, createContract, expectToThrow, createDummyNfts, mintTokens } from "@jafri/vert"
 import { TimePointSec } from "@greymass/eosio";
 
 /* Create Blockchain */

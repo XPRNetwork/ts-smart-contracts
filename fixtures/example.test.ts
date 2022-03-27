@@ -1,4 +1,4 @@
-import { Fixtures } from "fixtures/fixture";
+import { Fixtures } from "@jafri/vert";
 
 export const allowFixtures: Fixtures = {
     contracts: [{

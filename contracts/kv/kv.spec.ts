@@ -1,6 +1,5 @@
 import { expect } from "chai";
-import { Blockchain } from "@jafri/vert"
-import { createContract, createAccounts, expectToThrow } from "../../utils";
+import { Blockchain, createContract, createAccounts, expectToThrow } from "@jafri/vert"
 
 /* Create Blockchain */
 const blockchain = new Blockchain()

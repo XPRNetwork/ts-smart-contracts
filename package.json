@@ -6,7 +6,7 @@
     "build:eosio.token": "npx eosio-asc ./contracts/eosio.token/eosio.token.contract.ts",
     "build:balance": "npx eosio-asc ./contracts/balance/balance.contract.ts",
     "build:escrow": "npx eosio-asc ./contracts/escrow/escrow.contract.ts",
-    "build:allow": "npx eosio-asc ./contracts/allow/allow.contract.ts",
+    "build:allow": "npx eosio-asc ./contracts/allow/allow.contract.ts --sourceMap allow.contract.map --debug",
     "build:kv": "npx eosio-asc ./contracts/kv/kv.contract.ts",
     "build2:atomicassets": "npx eosio-asc ./contracts/atomicassets/atomicassets.contract.ts",
     "build": "run-p build:*",
@@ -21,6 +21,7 @@
   "dependencies": {
     "as-base58": "^0.1.1",
     "as-chain": "^0.0.16",
+    "cross-fetch": "^3.1.5",
     "eosio-asc": "^0.2.25"
   },
   "engines": {
@@ -29,7 +30,7 @@
   },
   "engineStrict": true,
   "devDependencies": {
-    "@jafri/vert": "^0.1.15",
+    "@jafri/vert": "^0.1.27",
     "@types/chai": "^4.3.0",
     "@types/mocha": "^9.1.0",
     "@types/node": "^17.0.22",
