@@ -1,4 +1,4 @@
 import { processFixtures } from '@jafri/vert'
-import { allowFixtures } from './example.test'
+import { allowFixtures } from './allowed-fixtures.test'
 
 processFixtures(allowFixtures)
