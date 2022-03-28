@@ -1,4 +1,5 @@
-import { Name, table, primary, Table, MultiIndex, singleton, Singleton, secondary, U128, ExtendedSymbol, IDXDB, IDX128, print } from "as-chain";
+import { Name, table, primary, Table, singleton, Singleton, secondary, U128, ExtendedSymbol, IDXDB, IDX128 } from "as-chain";
+import { TableStore } from "../store";
 import { allowedactor, allowedtoken, allowglobals } from "./allow.constants";
 import { extendedSymbolToU128, U128ToExtSym } from "./allow.utils";
 
@@ -36,8 +37,8 @@ export class AllowedActorTable extends Table {
         return this.actor.N;
     }
 
-    static getTable(code: Name): MultiIndex<AllowedActor> {
-        return new MultiIndex<AllowedActor>(code, code, allowedactor);
+    static getTable(code: Name): TableStore<AllowedActor> {
+        return new TableStore<AllowedActor>(code, code, allowedactor);
     }
 }
 
@@ -69,14 +70,14 @@ export class AllowedTokenTable extends Table {
        this.token = U128ToExtSym(value)
     }
 
-    static getTable(code: Name): MultiIndex<AllowedToken> {
+    static getTable(code: Name): TableStore<AllowedToken> {
         const scope = code
         const tableName = allowedtoken
         const idxTableBase: u64 = (tableName.N & 0xfffffffffffffff0);
         const indexes: IDXDB[] = [
             new IDX128(code.N, scope.N, idxTableBase + 0, 0),
         ];
-        return new MultiIndex<AllowedToken>(code, code, allowedtoken, indexes);
+        return new TableStore<AllowedToken>(code, code, allowedtoken, indexes);
     }
 }
 

@@ -1,4 +1,5 @@
-import { ExtendedAsset, Name, table, primary, Table, singleton, secondary, MultiIndex, Singleton } from "as-chain";
+import { ExtendedAsset, Name, table, primary, Table, singleton, secondary, Singleton } from "as-chain";
+import { TableStore } from "../store";
 import { escrowglobal, escrows } from "./escrow.constants";
 
 @table(escrowglobal, singleton)
@@ -53,8 +54,8 @@ export class escrow extends Table {
         this.to.N = value;
     }
    
-    static getTable(code: Name): MultiIndex<Escrow> {
-        return new MultiIndex<Escrow>(code, code, escrows);
+    static getTable(code: Name): TableStore<Escrow> {
+        return new TableStore<Escrow>(code, code, escrows);
     }
 }
 export class Escrow extends escrow {}

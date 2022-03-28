@@ -1,5 +1,6 @@
 import { expect } from "chai";
-import { Blockchain, eosio_assert, expectToThrow, createDummyNfts, mintTokens } from "@jafri/vert"
+import { Blockchain, eosio_assert, expectToThrow, createDummyNfts, mintTokens, Account, nameToBigInt, symbolCodeToBigInt } from "@jafri/vert"
+import { Asset, Name } from '@greymass/eosio'
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
@@ -19,11 +20,21 @@ beforeEach(async () => {
   await mintTokens(xtokensContract, 'XETH', 8, 1000000, 100000, [trader, collector])
   await mintTokens(eosioTokenContract, 'XPR', 4, 1000000, 100000, [trader, collector])
 
-  await createDummyNfts(atomicassetsContract, artist, 3, [trader, collector])
+  await createDummyNfts(atomicassetsContract, artist, 5, [trader, collector])
 })
 
 /* Helpers */
 const getBalanceRows = () => balanceContract.tables.accounts().getTableRows()
+const getAccount = (contract: Account, accountName: string, symcode: string) => {
+  const accountBigInt = nameToBigInt(Name.from(accountName));
+  const symcodeBigInt = symbolCodeToBigInt(Asset.SymbolCode.from(symcode));
+  return contract.tables!.accounts(accountBigInt).getTableRow(symcodeBigInt)
+}
+const getXUSDCBalance = (accountName: string) => getAccount(xtokensContract, accountName, 'XUSDC')
+const getXETHBalance = (accountName: string) => getAccount(xtokensContract, accountName, 'XETH')
+const getXPRBalance = (accountName: string) => getAccount(eosioTokenContract, accountName, 'XPR')
+const getNftAssetIds = (account: Account) => atomicassetsContract.tables.assets(account.toBigInt()).getTableRows().map((_: any) => _.asset_id)
+
 
 /* Tests */
 describe('Balance', () => {
@@ -50,9 +61,9 @@ describe('Balance', () => {
 
     it('isPaused: Incoming NFT deposits do not work (transfer)', async () => {
       await balanceContract.actions.setglobals([true, false, false]).send()
-      const assets = atomicassetsContract.tables.assets(collector.toBigInt()).getTableRows()
+      const nfts = getNftAssetIds(collector)
       await expectToThrow(
-        atomicassetsContract.actions.transfer(['collector', 'balance', [assets[0].asset_id], 'deposit']).send('collector@active'),
+        atomicassetsContract.actions.transfer(['collector', 'balance', nfts.slice(0, 1), 'deposit']).send('collector@active'),
         eosio_assert('Contract balance is paused')
       )
     });
@@ -70,8 +81,9 @@ describe('Balance', () => {
     it('1 token from 1 contract with 1 owner', async () => { 
       await xtokensContract.actions.transfer(['trader', 'balance', '1000.000000 XUSDC', 'deposit']).send('trader@active')
 
+      expect(getXUSDCBalance('trader')).to.be.deep.eq({ balance: '99000.000000 XUSDC' })
       expect(getBalanceRows()).to.be.deep.equal([{
-        name: 'trader',
+        account: 'trader',
         tokens: [{
           contract: xtokensContract.name.toString(),
           quantity: '1000.000000 XUSDC'
@@ -84,8 +96,10 @@ describe('Balance', () => {
       await xtokensContract.actions.transfer(['trader', 'balance', '1000.000000 XUSDC', 'deposit']).send('trader@active')
       await eosioTokenContract.actions.transfer(['trader', 'balance', '3.3333 XPR', 'deposit']).send('trader@active')
 
+      expect(getXUSDCBalance('trader')).to.be.deep.eq({ balance: '99000.000000 XUSDC' })
+      expect(getXPRBalance('trader')).to.be.deep.eq({ balance: '99996.6667 XPR' })
       expect(getBalanceRows()).to.be.deep.equal([{
-        name: 'trader',
+        account: 'trader',
         tokens: [{
           contract: xtokensContract.name.toString(),
           quantity: '1000.000000 XUSDC'
@@ -102,12 +116,20 @@ describe('Balance', () => {
       await xtokensContract.actions.transfer(['trader', 'balance', '1000.00000000 XETH', 'deposit']).send('trader@active')
       await eosioTokenContract.actions.transfer(['trader', 'balance', '3.3333 XPR', 'deposit']).send('trader@active')
 
+      expect(getXUSDCBalance('trader')).to.be.deep.eq({ balance: '99000.000000 XUSDC' })
+      expect(getXETHBalance('trader')).to.be.deep.eq({ balance: '99000.00000000 XETH' })
+      expect(getXPRBalance('trader')).to.be.deep.eq({ balance: '99996.6667 XPR' })
+
       await xtokensContract.actions.transfer(['collector', 'balance', '100.000000 XUSDC', 'deposit']).send('collector@active')
       await xtokensContract.actions.transfer(['collector', 'balance', '100.00000000 XETH', 'deposit']).send('collector@active')
       await eosioTokenContract.actions.transfer(['collector', 'balance', '0.3333 XPR', 'deposit']).send('collector@active')
 
+      expect(getXUSDCBalance('collector')).to.be.deep.eq({ balance: '99900.000000 XUSDC' })
+      expect(getXETHBalance('collector')).to.be.deep.eq({ balance: '99900.00000000 XETH' })
+      expect(getXPRBalance('collector')).to.be.deep.eq({ balance: '99999.6667 XPR' })
+
       expect(getBalanceRows()).to.be.deep.equal([{
-        name: 'collector',
+        account: 'collector',
         tokens: [{
           contract: xtokensContract.name.toString(),
           quantity: '100.000000 XUSDC'
@@ -120,7 +142,7 @@ describe('Balance', () => {
         }],
         nfts: []
       }, {
-        name: 'trader',
+        account: 'trader',
         tokens: [{
           contract: xtokensContract.name.toString(),
           quantity: '1000.000000 XUSDC'
@@ -136,43 +158,50 @@ describe('Balance', () => {
     });
 
     it('1 NFT from 1 owner', async () => { 
-      const assets = atomicassetsContract.tables.assets(collector.toBigInt()).getTableRows()
-      await atomicassetsContract.actions.transfer(['collector', 'balance', [assets[0].asset_id], 'deposit']).send('collector@active')
+      const preNfts = getNftAssetIds(collector)
+      await atomicassetsContract.actions.transfer(['collector', 'balance', preNfts.slice(0, 1), 'deposit']).send('collector@active')
       expect(getBalanceRows()).to.be.deep.equal([{
-        name: 'collector',
+        account: 'collector',
         tokens: [],
-        nfts: [assets[0].asset_id]
+        nfts: preNfts.slice(0, 1)
       }])
+
+      const postNfts = getNftAssetIds(collector)
+      expect(postNfts).to.be.deep.equal(preNfts.slice(1))
     });
 
     it('2 NFTs from 1 owner', async () => { 
-      const assets = atomicassetsContract.tables.assets(collector.toBigInt()).getTableRows()
-      await atomicassetsContract.actions.transfer(['collector', 'balance', [assets[0].asset_id, assets[1].asset_id], 'deposit']).send('collector@active')
+      const preNfts = getNftAssetIds(collector)
+      await atomicassetsContract.actions.transfer(['collector', 'balance', preNfts.slice(0, 2), 'deposit']).send('collector@active')
       expect(getBalanceRows()).to.be.deep.equal([{
-        name: 'collector',
+        account: 'collector',
         tokens: [],
-        nfts: [assets[0].asset_id, assets[1].asset_id]
+        nfts: preNfts.slice(0, 2)
       }])
+
+      const postNfts = getNftAssetIds(collector)
+      expect(postNfts).to.be.deep.equal(preNfts.slice(2))
     });
 
     it('6 NFTs from 2 owners', async () => { 
-      const collectorAssets = atomicassetsContract.tables.assets(collector.toBigInt()).getTableRows()
-      const collectorAssetIds = collectorAssets.map((_: any) => _.asset_id)
-      await atomicassetsContract.actions.transfer([collector.name, 'balance', collectorAssetIds, 'deposit']).send('collector@active')
+      const collectorNfts = getNftAssetIds(collector)
+      await atomicassetsContract.actions.transfer([collector.name, 'balance', collectorNfts, 'deposit']).send('collector@active')
       
-      const traderAssets = atomicassetsContract.tables.assets(trader.toBigInt()).getTableRows()
-      const traderAssetIds = traderAssets.map((_: any) => _.asset_id)
-      await atomicassetsContract.actions.transfer([trader.name, 'balance', traderAssetIds, 'deposit']).send('trader@active')
+      const traderNfts = getNftAssetIds(trader)
+      await atomicassetsContract.actions.transfer([trader.name, 'balance', traderNfts, 'deposit']).send('trader@active')
       
       expect(getBalanceRows()).to.be.deep.equal([{
-        name: 'collector',
+        account: 'collector',
         tokens: [],
-        nfts: collectorAssetIds
+        nfts: collectorNfts
       }, {
-        name: 'trader',
+        account: 'trader',
         tokens: [],
-        nfts: traderAssetIds
+        nfts: traderNfts
       }])
+
+      expect(getNftAssetIds(collector)).to.be.deep.equal([])
+      expect(getNftAssetIds(trader)).to.be.deep.equal([])
     });
   })
 
@@ -181,6 +210,7 @@ describe('Balance', () => {
       await xtokensContract.actions.transfer(['trader', 'balance', '1000.000000 XUSDC', 'deposit']).send('trader@active')
       await balanceContract.actions.withdraw(['trader', [{ quantity: '1000.000000 XUSDC', contract: 'xtokens' }], []]).send('trader@active')
       expect(getBalanceRows()).to.be.deep.equal([])
+      expect(getXUSDCBalance('trader')).to.be.deep.eq({ balance: '100000.000000 XUSDC' })
     });
 
     it('2 tokens from 1 contract with 1 owner', async () => { 
@@ -192,8 +222,11 @@ describe('Balance', () => {
         { quantity: '2.0000 XPR', contract: eosioTokenContract.name }
       ], []]).send('trader@active')
 
+      expect(getXUSDCBalance('trader')).to.be.deep.eq({ balance: '99500.000000 XUSDC' })
+      expect(getXPRBalance('trader')).to.be.deep.eq({ balance: '99998.6667 XPR' })
+
       expect(getBalanceRows()).to.be.deep.equal([{
-        name: 'trader',
+        account: 'trader',
         tokens: [{
           contract: xtokensContract.name.toString(),
           quantity: '500.000000 XUSDC'
@@ -226,8 +259,16 @@ describe('Balance', () => {
         { quantity: '0.2000 XPR', contract: eosioTokenContract.name }
       ], []]).send('collector@active')
 
+      expect(getXUSDCBalance('trader')).to.be.deep.eq({ balance: '99500.000000 XUSDC' })
+      expect(getXETHBalance('trader')).to.be.deep.eq({ balance: '99500.00000000 XETH' })
+      expect(getXPRBalance('trader')).to.be.deep.eq({ balance: '99998.6667 XPR' })
+
+      expect(getXUSDCBalance('collector')).to.be.deep.eq({ balance: '99950.000000 XUSDC' })
+      expect(getXETHBalance('collector')).to.be.deep.eq({ balance: '99950.00000000 XETH' })
+      expect(getXPRBalance('collector')).to.be.deep.eq({ balance: '99999.8667 XPR' })
+
       expect(getBalanceRows()).to.be.deep.equal([{
-        name: 'collector',
+        account: 'collector',
         tokens: [{
           contract: xtokensContract.name.toString(),
           quantity: '50.000000 XUSDC'
@@ -240,7 +281,7 @@ describe('Balance', () => {
         }],
         nfts: []
       }, {
-        name: 'trader',
+        account: 'trader',
         tokens: [{
           contract: xtokensContract.name.toString(),
           quantity: '500.000000 XUSDC'
@@ -267,31 +308,29 @@ describe('Balance', () => {
       await atomicassetsContract.actions.transfer(['collector', 'balance', [assets[0].asset_id, assets[1].asset_id], 'deposit']).send('collector@active')
       await balanceContract.actions.withdraw(['collector', [], [assets[0].asset_id]]).send('collector@active')
       expect(getBalanceRows()).to.be.deep.equal([{
-        name: 'collector',
+        account: 'collector',
         tokens: [],
         nfts: [assets[1].asset_id]
       }])
     });
 
     it('6 NFTs from 2 owners', async () => { 
-      const collectorAssets = atomicassetsContract.tables.assets(collector.toBigInt()).getTableRows()
-      const collectorAssetIds = collectorAssets.map((_: any) => _.asset_id)
-      await atomicassetsContract.actions.transfer([collector.name, 'balance', collectorAssetIds, 'deposit']).send('collector@active')
-      await balanceContract.actions.withdraw(['collector', [], [collectorAssetIds[0]]]).send('collector@active')
+      const collectorNfts = getNftAssetIds(collector)
+      await atomicassetsContract.actions.transfer([collector.name, 'balance', collectorNfts, 'deposit']).send('collector@active')
+      await balanceContract.actions.withdraw(['collector', [], collectorNfts.slice(0, 1)]).send('collector@active')
 
-      const traderAssets = atomicassetsContract.tables.assets(trader.toBigInt()).getTableRows()
-      const traderAssetIds = traderAssets.map((_: any) => _.asset_id)
-      await atomicassetsContract.actions.transfer([trader.name, 'balance', traderAssetIds, 'deposit']).send('trader@active')
-      await balanceContract.actions.withdraw(['trader', [], [traderAssetIds[0]]]).send('trader@active')
+      const traderNfts = getNftAssetIds(trader)
+      await atomicassetsContract.actions.transfer([trader.name, 'balance', traderNfts, 'deposit']).send('trader@active')
+      await balanceContract.actions.withdraw(['trader', [], traderNfts.slice(0, 1)]).send('trader@active')
 
       expect(getBalanceRows()).to.be.deep.equal([{
-        name: 'collector',
+        account: 'collector',
         tokens: [],
-        nfts: collectorAssetIds.slice(1)
+        nfts: collectorNfts.slice(1)
       }, {
-        name: 'trader',
+        account: 'trader',
         tokens: [],
-        nfts: traderAssetIds.slice(1)
+        nfts: traderNfts.slice(1)
       }])
     });
   })

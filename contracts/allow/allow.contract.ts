@@ -1,4 +1,5 @@
-import { Name, Singleton, action, Contract, contract, check, requireAuth, MultiIndex, IDX128, ExtendedSymbol, SecondaryIterator, Decoder, print } from 'as-chain'
+import { Name, Singleton, action, Contract, contract, check, requireAuth, ExtendedSymbol } from 'as-chain'
+import { TableStore } from '../store';
 import { allow, setactor, settoken, setglobals } from './allow.constants';
 import { AllowedActor, AllowedToken, AllowGlobals } from './allow.tables';
 import { extendedSymbolToU128 } from './allow.utils';
@@ -8,8 +9,8 @@ export class AllowContract extends Contract {
     contract: Name = this.receiver
     parentContract: Name = this.firstReceiver
 
-    allowedActorTable: MultiIndex<AllowedActor> = AllowedActor.getTable(this.receiver)
-    allowedTokenTable: MultiIndex<AllowedToken> = AllowedToken.getTable(this.receiver)
+    allowedActorTable: TableStore<AllowedActor> = AllowedActor.getTable(this.receiver)
+    allowedTokenTable: TableStore<AllowedToken> = AllowedToken.getTable(this.receiver)
     allowGlobalsSingleton: Singleton<AllowGlobals> = AllowGlobals.getSingleton(this.receiver)
 
     /**
@@ -53,16 +54,14 @@ export class AllowContract extends Contract {
         check(!(isAllowed && isBlocked), "a token cannot be both allowed and blocked at the same time")
 
         // Logic
-        const allowedTokenIdxItr = this.findAllowedTokenSecondaryItr(token)
-        const tokenPrimaryKey = allowedTokenIdxItr.isOk()
-            ? allowedTokenIdxItr.primary
-            : this.allowedTokenTable.availablePrimaryKey()
+        const existingAllowedToken = this.findAllowedToken(token)
+        const tokenPrimaryKey = existingAllowedToken ? existingAllowedToken.primary : this.allowedTokenTable.availablePrimaryKey()
         const allowedToken = new AllowedToken(tokenPrimaryKey, token, isAllowed, isBlocked)
 
         if (isAllowed || isBlocked) {
             this.allowedTokenTable.set(allowedToken, this.contract)
-        } else if (allowedTokenIdxItr.isOk()) {
-            this.allowedTokenTable.removeEx(allowedToken.getPrimaryValue())
+        } else {
+            this.allowedTokenTable.remove(allowedToken)
         }
     }
 
@@ -87,28 +86,16 @@ export class AllowContract extends Contract {
         const allowedActor = new AllowedActor(actor, isAllowed, isBlocked)
         if (isAllowed || isBlocked) {
             this.allowedActorTable.set(allowedActor, this.contract)
-        } else  {
-            const itr = this.allowedActorTable.find(allowedActor.getPrimaryValue())
-            if (itr.isOk()) {
-                this.allowedActorTable.remove(itr)
-            }
+        } else {
+            this.allowedActorTable.remove(allowedActor)
         }
     }
 
     /**
      * Helper functions
      */
-    findAllowedTokenSecondaryItr(token: ExtendedSymbol): SecondaryIterator {
-        const idx128 = <IDX128>this.allowedTokenTable.idxdbs[0]
-        const extSymKey = extendedSymbolToU128(token)
-        return idx128.find(extSymKey);
-    }
     findAllowedToken(token: ExtendedSymbol): AllowedToken | null {
-        const allowedTokenIdxItr = this.findAllowedTokenSecondaryItr(token);
-        if (!allowedTokenIdxItr.isOk()) {
-            return null;
-        }
-        return this.allowedTokenTable.getByKey(allowedTokenIdxItr.primary) 
+        return this.allowedTokenTable.getBySecondaryIDX128(extendedSymbolToU128(token), 0)
     }
     isTokenAllowed(token: ExtendedSymbol): boolean {
         // Check stricst
@@ -134,7 +121,7 @@ export class AllowContract extends Contract {
         const isActorStrict = this.allowGlobalsSingleton.get().isActorStrict
 
         // Find entry
-        const allowedActor = this.allowedActorTable.getByKey(actor.N)
+        const allowedActor = this.allowedActorTable.get(actor.N)
 
         // If no entry found, account is allowed
         if (allowedActor == null) {

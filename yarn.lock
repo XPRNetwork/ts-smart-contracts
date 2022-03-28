@@ -21,7 +21,7 @@
 
 "@greymass/eosio@^0.5.4":
   version "0.5.4"
-  resolved "https://registry.npmjs.org/@greymass/eosio/-/eosio-0.5.4.tgz"
+  resolved "https://registry.yarnpkg.com/@greymass/eosio/-/eosio-0.5.4.tgz#22ddb16f90aa6841bea4f50c1ddef0cc3b79d384"
   integrity sha512-bcXsGenmzXtFm6PkGCpWREqTHKG3PDT8peNEH6N358GFwjOuqenMDh/r4eMv2uekNETzyNwQ1VF2Hxb/SaY2ng==
   dependencies:
     bn.js "^4.11.9"

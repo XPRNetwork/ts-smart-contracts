@@ -100,6 +100,13 @@ describe('Allowed', () => {
       }])
     });
 
+    it('settoken: Fail if try to delete not existing actor', async () => { 
+      await expectToThrow(
+        allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, false, false]).send('allowed@active'),
+        eosio_assert("Failed to 'remove' value as item does not exist, please use 'set' or 'store' to save value first")
+      )
+    });
+
     it('settoken: Fail if both isAllowed and isBlocked set to true', async () => { 
       await expectToThrow(
         allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true, true]).send('allowed@active'),
@@ -133,18 +140,12 @@ describe('Allowed', () => {
       expect(getAllowedTokens()).to.be.deep.eq([])
     });
 
-    it('settoken: Does not add to table if both isAllowed and isBlocked are false', async () => { 
-      await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, false, false]).send('allowed@active')
-      expect(getAllowedTokens()).to.be.deep.eq([])
-    });
-
     it('settoken: Multiple set and unset', async () => { 
       expect(getAllowedTokens()).to.be.deep.eq([])
 
       await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true, false]).send('allowed@active')
       await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '4,XPR' }, true, false]).send('allowed@active')
       await allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDT' }, false, true]).send('allowed@active')
-      await allowedContract.actions.settoken([{ contract: 'eosio.token', sym: '4,EOS' }, false, false]).send('allowed@active')
       expect(getAllowedTokens()).to.be.deep.eq([{
         index: 0,
         token: { contract: 'xtokens', sym: '6,XUSDC' },
@@ -175,6 +176,13 @@ describe('Allowed', () => {
         isAllowed: true,
         isBlocked: false
       }])
+    });
+
+    it('setactor: Fail if try to delete not existing actor', async () => { 
+      await expectToThrow(
+        allowedContract.actions.setactor([researcher.name, false, false]).send('allowed@active'),
+        eosio_assert("Failed to 'remove' value as item does not exist, please use 'set' or 'store' to save value first")
+      )
     });
 
     it('setactor: Fail if both isAllowed and isBlocked set to true', async () => { 
