@@ -19,6 +19,15 @@
   dependencies:
     "@cspotcode/source-map-consumer" "0.8.0"
 
+"@greymass/abi2core@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@greymass/abi2core/-/abi2core-1.1.0.tgz#ea4a4c2dd8821fa0d3cb4e75e157f205718a5aa8"
+  integrity sha512-sz9R8tO0tGSRgaAw+Fk/1Fb9UroSII4nSHghXBtVSvXKAABf2D9paajT3Na0OJA2lGUJIpRsIFpuXZZaFo5I5w==
+  dependencies:
+    "@greymass/eosio" "^0.5.4"
+    argparse "^2.0.1"
+    tslib "^2.1.0"
+
 "@greymass/eosio@^0.5.4":
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/@greymass/eosio/-/eosio-0.5.4.tgz#22ddb16f90aa6841bea4f50c1ddef0cc3b79d384"
@@ -1293,7 +1302,7 @@ ts-node@^10.7.0:
     v8-compile-cache-lib "^3.0.0"
     yn "3.1.1"
 
-tslib@^2.0.3:
+tslib@^2.0.3, tslib@^2.1.0:
   version "2.3.1"
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.3.1.tgz"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==

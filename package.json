@@ -18,7 +18,8 @@
     "test:kv": "mocha -s 250 contracts/kv/*.spec.ts -r ts-node/register",
     "test:txid": "mocha -s 250 contracts/txid/*.spec.ts -r ts-node/register",
     "test2:atomicassets": "mocha -s 250 contracts/atomicassets/*.spec.ts -r ts-node/register",
-    "test": "run-p test:*"
+    "test": "run-p test:*",
+    "core:escrow": "cat ./contracts/escrow/target/escrow.contract.abi | abi2core > ./contracts/escrow/target/escrow.client-types.ts"
   },
   "dependencies": {
     "as-base58": "^0.1.1",
@@ -32,6 +33,7 @@
   },
   "engineStrict": true,
   "devDependencies": {
+    "@greymass/abi2core": "^1.1.0",
     "@jafri/vert": "^0.1.29",
     "@types/chai": "^4.3.0",
     "@types/mocha": "^9.1.0",

@@ -24,7 +24,7 @@ beforeEach(async () => {
 })
 
 /* Helpers */
-const getBalanceRows = () => balanceContract.tables.accounts().getTableRows()
+const getBalanceRows = () => balanceContract.tables.balances().getTableRows()
 const getAccount = (contract: Account, accountName: string, symcode: string) => {
   const accountBigInt = nameToBigInt(Name.from(accountName));
   const symcodeBigInt = symbolCodeToBigInt(Asset.SymbolCode.from(symcode));

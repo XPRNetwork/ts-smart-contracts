@@ -24,7 +24,7 @@ beforeEach(async () => {
 })
 
 /* Helpers */
-const getBalanceRows = () => escrowContract.tables.accounts().getTableRows()
+const getBalanceRows = () => escrowContract.tables.balances().getTableRows()
 const getEscrowGlobal = () => escrowContract.tables.escrowglobal().getTableRows()
 const getEscrowRows = () => escrowContract.tables.escrows().getTableRows()
 const getAccount = (contract: Account, accountName: string, symcode: string) => {
