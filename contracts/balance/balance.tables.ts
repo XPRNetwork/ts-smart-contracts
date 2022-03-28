@@ -1,4 +1,5 @@
-import { ExtendedAsset, Name, table, primary, Table, MultiIndex, singleton, Singleton } from "as-chain";
+import { ExtendedAsset, Name, table, primary, Table, singleton, Singleton } from "as-chain";
+import { TableStore } from "../store";
 import { global, accounts } from "./balance.constants";
 
 @table(global, singleton)
@@ -20,7 +21,7 @@ export class Global extends GlobalTable {}
 @table(accounts)
 export class AccountTable extends Table {
     constructor (
-        public name: Name = new Name(),
+        public account: Name = new Name(),
         public tokens: ExtendedAsset[] = [],
         public nfts: u64[] = [],
     ) {
@@ -29,11 +30,11 @@ export class AccountTable extends Table {
 
     @primary
     get primary(): u64 {
-        return this.name.N;
+        return this.account.N;
     }
 
-    static getTable(code: Name): MultiIndex<Account> {
-        return new MultiIndex<Account>(code, code, accounts);
+    static getTable(code: Name): TableStore<Account> {
+        return new TableStore<Account>(code, code, accounts);
     }
 }
 

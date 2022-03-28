@@ -1,11 +1,12 @@
-import { currentTimePoint, ExtendedAsset, Name, check, contract, action, requireAuth, isAccount, SAME_PAYER, MultiIndex, ExtendedSymbol } from 'as-chain'
-import { BalanceContract, OPERATION } from '../balance';
+import { currentTimePoint, ExtendedAsset, Name, check, contract, action, requireAuth, isAccount, ExtendedSymbol } from 'as-chain'
+import { TableStore } from '../store';
+import { BalanceContract } from '../balance';
 import { startescrow, fillescrow, cancelescrow, logescrow, ESCROW_STATUS } from './escrow.constants';
 import { sendLogEscrow } from './escrow.inline';
 import { EscrowGlobal, Escrow, escrow } from './escrow.tables';
 @contract(escrow)
 export class EscrowContract extends BalanceContract {
-    escrowsTable: MultiIndex<Escrow> = Escrow.getTable(this.receiver)
+    escrowsTable: TableStore<Escrow> = Escrow.getTable(this.receiver)
 
     /**
      * It creates an escrow.
@@ -40,15 +41,17 @@ export class EscrowContract extends BalanceContract {
         check(toTokens.length || toNfts.length, "must escrow atleast one token or NFT on to side");
 
         // Substract balances
-        this.modifyBalance(from, fromTokens, fromNfts, OPERATION.SUB, this.contract)
+        this.substractBalance(from, fromTokens, fromNfts)
       
-        // Get config
+        // Get and update config
         const escrowGlobalSingleton = EscrowGlobal.getSingleton(this.contract)
         const escrowGlobal = escrowGlobalSingleton.get()
+        const escrowId = escrowGlobal.escrowId++;
+        escrowGlobalSingleton.set(escrowGlobal, this.contract);
 
         // Create escrow object
         const escrow = new Escrow(
-            escrowGlobal.escrowId,
+            escrowId,
             from,
             to,
             fromTokens,
@@ -57,10 +60,6 @@ export class EscrowContract extends BalanceContract {
             toNfts,
             expiry
         )
-
-        // Update config
-        escrowGlobal.escrowId++;
-        escrowGlobalSingleton.set(escrowGlobal, this.contract);
 
         // Save escrow
         this.escrowsTable.store(escrow, this.contract);
@@ -86,8 +85,7 @@ export class EscrowContract extends BalanceContract {
         this.checkContractIsNotPaused()
         
         // Get Escrow
-        const escrowItr = this.escrowsTable.requireFind(id, "no escrow with ID found.");
-        const escrow = this.escrowsTable.get(escrowItr);
+        const escrow = this.escrowsTable.requireGet(id, `no escrow with ID ${id} found.`);
     
         // If empty, set to as actor
         if (escrow.to == new Name()) {
@@ -95,13 +93,13 @@ export class EscrowContract extends BalanceContract {
         }
 
         // Validation
-        check(escrow.to == actor, "incorrect to account");
+        check(escrow.to == actor, `only ${escrow.to} can fill this escrow`);
 
         // Substract balances
-        this.modifyBalance(escrow.to, escrow.toTokens, escrow.toNfts, OPERATION.SUB, SAME_PAYER)
+        this.substractBalance(escrow.to, escrow.toTokens, escrow.toNfts)
 
         // Erase
-        this.escrowsTable.remove(escrowItr);
+        this.escrowsTable.remove(escrow);
         
         // Send out
         const memo = `escrow ${id} completed!`
@@ -128,14 +126,13 @@ export class EscrowContract extends BalanceContract {
         this.checkContractIsNotPaused()
 
         // Get Escrow
-        const escrowItr = this.escrowsTable.requireFind(id, `no escrow with ID ${id} found.`);
-        const escrow = this.escrowsTable.get(escrowItr);
+        const escrow = this.escrowsTable.requireGet(id, `no escrow with ID ${id} found.`);
     
         // Authenticate
-        check(actor == escrow.from || actor == escrow.to, `must have auth of ${escrow.from} or ${escrow.to}`);
+        check(actor == escrow.from || actor == escrow.to, `missing required authority of ${escrow.from} or ${escrow.to}`);
 
         // Erase
-        this.escrowsTable.remove(escrowItr);
+        this.escrowsTable.remove(escrow);
 
         // Send out
         this.withdrawadmin(escrow.from, escrow.fromTokens, escrow.fromNfts, `escrow ${id} cancelled!`)

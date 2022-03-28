@@ -26,7 +26,7 @@ export function findIndexOfExtendedAsset (tokens: ExtendedAsset[], token: Extend
 export function substractNfts(account: Account, nftsToRemove: u64[]): void {
     for (let i = 0; i < nftsToRemove.length; i++) {
         const nftToRemoveIndex = account.nfts.indexOf(nftsToRemove[i])
-        check(nftToRemoveIndex != -1, `NFT ${nftsToRemove[i]} not found in balance of ${account.name}`)
+        check(nftToRemoveIndex != -1, `NFT ${nftsToRemove[i]} not found in balance of ${account.account}`)
         account.nfts.splice(nftToRemoveIndex, 1)
     }
 }
@@ -110,13 +110,6 @@ export function addTokens(account: Account, tokensToAdd: ExtendedAsset[]): void 
         addToken(account.tokens, tokensToAdd[i])
     } 
 }
-
-// Operations
-export namespace OPERATION {
-    export const ADD = 'add';
-    export const SUB = 'sub';
-}
-export type OPERATION = string;
 
 // Include
 @packer
