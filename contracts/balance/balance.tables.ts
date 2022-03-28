@@ -1,25 +1,9 @@
-import { ExtendedAsset, Name, table, primary, Table, singleton, Singleton } from "as-chain";
+import { ExtendedAsset, Name, table, primary, Table } from "as-chain";
 import { TableStore } from "../store";
-import { global, accounts } from "./balance.constants";
+import { balances } from "./balance.constants";
 
-@table(global, singleton)
-export class GlobalTable extends Table {
-    constructor (
-        public enableWhitelist: u64 = 0,
-        public enableBlacklist: u64 = 0,
-    ) {
-        super();
-    }
-
-    static getSingleton(code: Name): Singleton<Global> {
-        return new Singleton<Global>(code, code, global);
-    }
-}
-
-export class Global extends GlobalTable {}
-
-@table(accounts)
-export class AccountTable extends Table {
+@table(balances)
+export class BalanceTable extends Table {
     constructor (
         public account: Name = new Name(),
         public tokens: ExtendedAsset[] = [],
@@ -33,9 +17,9 @@ export class AccountTable extends Table {
         return this.account.N;
     }
 
-    static getTable(code: Name): TableStore<Account> {
-        return new TableStore<Account>(code, code, accounts);
+    static getTable(code: Name): TableStore<Balance> {
+        return new TableStore<Balance>(code, code, balances);
     }
 }
 
-export class Account extends AccountTable {}
+export class Balance extends BalanceTable {}

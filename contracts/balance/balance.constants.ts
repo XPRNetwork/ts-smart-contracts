@@ -4,8 +4,7 @@ import { ActionWrapper, Name, packer, Table } from "as-chain"
 export const balance = Name.fromString("balance")
 
 // Tables
-export const accounts = Name.fromString("accounts")
-export const global = Name.fromString("global")
+export const balances = Name.fromString("balances")
 
 // Actions
 export const withdraw = new ActionWrapper(Name.fromString("withdraw"))

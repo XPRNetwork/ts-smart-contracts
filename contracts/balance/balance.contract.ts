@@ -3,12 +3,12 @@ import { TableStore } from '../store';
 import { AllowContract } from '../allow';
 import { transfer, atomicassets, withdraw, balance } from './balance.constants';
 import { sendTransferTokens, sendTransferNfts, NftTransfer, TokenTransfer } from './balance.inline';
-import { Account } from './balance.tables';
+import { Balance } from './balance.tables';
 import { addNfts, addTokens, substractNfts, substractTokens } from './balance.utils';
 
 @contract(balance)
 export class BalanceContract extends AllowContract {
-    accountsTable: TableStore<Account> = Account.getTable(this.receiver)
+    balancesTable: TableStore<Balance> = Balance.getTable(this.receiver)
 
     /**
      * Incoming notification of "transfer" action from any contract
@@ -56,8 +56,14 @@ export class BalanceContract extends AllowContract {
             // Validate transfer
             check(t.to == this.contract, "Invalid Deposit");
 
-            // Add balance
+            // Balance
             const tokens = [new ExtendedAsset(t.quantity, this.parentContract)]
+
+            // Allow deposits
+            check(this.isActorAllowed(this.parentContract), `Tokens from contract ${this.parentContract} are not enabled for deposits`)
+            check(this.isTokenAllowed(tokens[0].getExtendedSymbol()), `Token ${tokens[0]} is not enabled for deposits`)
+
+            // Add balance
             this.addBalance(t.from, tokens, [], this.contract)
         }
     }
@@ -121,7 +127,7 @@ export class BalanceContract extends AllowContract {
      */
     substractBalance(actor: Name, tokens: ExtendedAsset[], nfts: u64[]): void {
         // Get account
-        const account = this.accountsTable.requireGet(actor.N, `Account ${actor} not found`)
+        const account = this.balancesTable.requireGet(actor.N, `Account ${actor} not found`)
 
         // Substract Tokens + NFTs
         substractTokens(account, tokens)
@@ -130,9 +136,9 @@ export class BalanceContract extends AllowContract {
         // Delete table if no NFTs and no tokens
         // Update table if any NFT or token found
         if (account.nfts.length == 0 && account.tokens.length == 0) {
-            this.accountsTable.remove(account);
+            this.balancesTable.remove(account);
         } else {
-            this.accountsTable.update(account, SAME_PAYER)
+            this.balancesTable.update(account, SAME_PAYER)
         }
     }
 
@@ -145,13 +151,13 @@ export class BalanceContract extends AllowContract {
      */
     addBalance(actor: Name, tokens: ExtendedAsset[], nfts: u64[], ramPayer: Name = actor): void {
         // Get actor
-        const account = this.accountsTable.getWithDefault(actor.N, new Account(actor))
+        const account = this.balancesTable.getWithDefault(actor.N, new Balance(actor))
 
         // Add Tokens + NFTs
         addTokens(account, tokens)
         addNfts(account, nfts)
 
         // Upsert table 
-        this.accountsTable.set(account, ramPayer)
+        this.balancesTable.set(account, ramPayer)
     }
 }
