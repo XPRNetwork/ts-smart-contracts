@@ -14,9 +14,9 @@ export const allowedactor = Name.fromString("allowedactor")
 export const allowedtoken = Name.fromString("allowedtoken")
 
 // Actions
-export const setglobals = new ActionWrapper(Name.fromString("setglobals"))
-export const setactor = new ActionWrapper(Name.fromString("setactor"))
-export const settoken = new ActionWrapper(Name.fromString("settoken"))
+export const setglobals = ActionWrapper.fromString("setglobals")
+export const setactor = ActionWrapper.fromString("setactor")
+export const settoken = ActionWrapper.fromString("settoken")
 
 // Include
 @packer

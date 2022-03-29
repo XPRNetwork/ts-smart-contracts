@@ -14,10 +14,10 @@ export const accounts = Name.fromString("accounts")
 export const escrowglobal = Name.fromString("escrowglobal")
 
 // Actions
-export const startescrow = new ActionWrapper(Name.fromString("startescrow"));
-export const fillescrow = new ActionWrapper(Name.fromString("fillescrow"));
-export const cancelescrow = new ActionWrapper(Name.fromString("cancelescrow"));
-export const logescrow = new ActionWrapper(Name.fromString("logescrow"));
+export const startescrow = ActionWrapper.fromString("startescrow");
+export const fillescrow = ActionWrapper.fromString("fillescrow");
+export const cancelescrow = ActionWrapper.fromString("cancelescrow");
+export const logescrow = ActionWrapper.fromString("logescrow");
 
 // Status
 export namespace ESCROW_STATUS {
