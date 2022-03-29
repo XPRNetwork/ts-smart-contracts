@@ -34,7 +34,7 @@
   "engineStrict": true,
   "devDependencies": {
     "@greymass/abi2core": "^1.1.0",
-    "@jafri/vert": "^0.1.29",
+    "@jafri/vert": "^0.1.30",
     "@types/chai": "^4.3.0",
     "@types/mocha": "^9.1.0",
     "@types/node": "^17.0.22",
