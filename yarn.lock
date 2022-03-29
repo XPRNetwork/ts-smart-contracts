@@ -156,7 +156,15 @@ as-bignum@^0.2.18:
   resolved "https://registry.npmjs.org/as-bignum/-/as-bignum-0.2.18.tgz"
   integrity sha512-5LODrOr7wvS643oh7PHfyRtbBO9vCcU69vNNvrqh5yovrApM9nRHDeT5XcqnaSI8TqK9ZhN12qhZnq4rdIGcwQ==
 
-as-chain@0.0.16, as-chain@^0.0.16:
+as-chain@0.0.17:
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/as-chain/-/as-chain-0.0.17.tgz#0562dc7ac76f218f41fb2e72e585406f79946492"
+  integrity sha512-mFvyXpzjXVJkiRjac59ymz0CPHkZw54mlf4xdkqkdmVSWtJmSFJpxn6IGz2uop79fOMeqhStCA2UFGITudd5FA==
+  dependencies:
+    "@assemblyscript/loader" "^0.19.22"
+    as-bignum "^0.2.18"
+
+as-chain@^0.0.16:
   version "0.0.16"
   resolved "https://registry.npmjs.org/as-chain/-/as-chain-0.0.16.tgz"
   integrity sha512-oOxyX2LYua2suC/rEBfuoVw6rEIfuGnhRFROTSoksXbV6md0+J64tHYhEjADuemqISOqFe8qvj9Sxw3lPxjejA==
@@ -164,7 +172,7 @@ as-chain@0.0.16, as-chain@^0.0.16:
     "@assemblyscript/loader" "^0.19.22"
     as-bignum "^0.2.18"
 
-assemblyscript@0.18:
+assemblyscript@^0.18.3:
   version "0.18.32"
   resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.18.32.tgz#cbb76076bd4d9702f4baae0a2910c9755c8e4ecd"
   integrity sha512-Py6zremwGhO3nSoI/VxyVUzTZfNhTjzNzFDaUdG4JhPJHeG+FzVlEoNCrw4bE5nPc7F+P2DJ8tZQCqIt15ceKw==
@@ -405,13 +413,13 @@ emoji-regex@^8.0.0:
   resolved "https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz"
   integrity sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==
 
-eosio-asc@^0.2.43:
-  version "0.2.43"
-  resolved "https://registry.yarnpkg.com/eosio-asc/-/eosio-asc-0.2.43.tgz#2b6efc64bdcc9ef2e4e01b7e44fcd66435c222c8"
-  integrity sha512-vqZxxTXnV0cpt6ye0qalw97wJdsCRGDoZHEWZeNUr3GeEdbByzsIft6kPF1/GtSSL6xyUiV4NGmwRtm6b/+hOQ==
+eosio-asc@^0.2.53:
+  version "0.2.53"
+  resolved "https://registry.yarnpkg.com/eosio-asc/-/eosio-asc-0.2.53.tgz#5b84dfa318a882fddac96eee5109b69bc7b6d1a4"
+  integrity sha512-Wu3WWolrB+EoSM9MEbywOVJrjq16xhCS6n4lTnt9cGaeVKaF3P5JgANj1plL+h9DIuTdRi6hvkpmkswjVS4HaA==
   dependencies:
-    as-chain "0.0.16"
-    assemblyscript "0.18"
+    as-chain "0.0.17"
+    assemblyscript "^0.18.3"
     handlebars "4.7.7"
     ts-dedent "^2.2.0"
 
