@@ -1,5 +1,10 @@
 import { ActionWrapper, Name, packer, Table } from "as-chain"
 
+/**
+ * The name of the constant and the string must be exactly the same
+ * for decorators to utilize it correctly
+ */
+
 // Contract
 export const atomicassets = Name.fromString("atomicassets")
 
