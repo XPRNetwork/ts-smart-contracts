@@ -12,8 +12,8 @@ export const txid = Name.fromString("txid")
 export const kvs = Name.fromString("kvs")
 
 // Actions
-export const getsizeandid = ActionWrapper.fromString("getsizeandid")
-export const readaction = ActionWrapper.fromString("readaction")
+export const getsizeandid = new ActionWrapper(Name.fromString("getsizeandid"))
+export const readaction = new ActionWrapper(Name.fromString("readaction"))
 
 // Include
 @packer

@@ -13,7 +13,7 @@ export const collections = Name.fromString("collections")
 export const config = Name.fromString("config")
 
 // Actions
-export const createcol = ActionWrapper.fromString("createcol")
+export const createcol = new ActionWrapper(Name.fromString("createcol"))
 
 // Constants
 export const MAX_MARKET_FEE: f64 = 0.15;
