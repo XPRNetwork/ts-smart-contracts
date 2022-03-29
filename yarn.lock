@@ -39,10 +39,10 @@
     hash.js "^1.0.0"
     tslib "^2.0.3"
 
-"@jafri/vert@^0.1.29":
-  version "0.1.29"
-  resolved "https://registry.yarnpkg.com/@jafri/vert/-/vert-0.1.29.tgz#0dd5999a96c50ae033452025a6834b1ed65ac712"
-  integrity sha512-Ly82loCfOXvkOxF6//o/N0NRC2FFRW7TUUFo/P9rvEXasSOH2PfMAZw4eP5jX5XH7ZRirMBKmpkvmKNOTjmrMA==
+"@jafri/vert@^0.1.30":
+  version "0.1.30"
+  resolved "https://registry.yarnpkg.com/@jafri/vert/-/vert-0.1.30.tgz#fc41e20ef1949846b7f7b5fb932fdcf0bfa6a87b"
+  integrity sha512-LC5vGyq96mpxzftScbBsU6LFvGLS58Et7Q2aNV6WK94HqbCPKaPaV4Z+FFS7+Lkb22ZX19BFFvyGxV5xrH6F5Q==
   dependencies:
     "@greymass/eosio" "^0.5.4"
     bn.js "^5.2.0"
