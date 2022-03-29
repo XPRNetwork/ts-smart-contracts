@@ -12,8 +12,8 @@ export const balance = Name.fromString("balance")
 export const balances = Name.fromString("balances")
 
 // Actions
-export const withdraw = new ActionWrapper(Name.fromString("withdraw"))
-export const transfer = new ActionWrapper(Name.fromString("transfer"))
+export const withdraw = ActionWrapper.fromString("withdraw")
+export const transfer = ActionWrapper.fromString("transfer")
 
 // External
 export const atomicassets = Name.fromString("atomicassets");
