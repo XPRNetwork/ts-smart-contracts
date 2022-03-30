@@ -1,4 +1,4 @@
-import { ExtendedSymbol, U128, Decoder, check, Table, packer } from "as-chain"
+import { ExtendedSymbol, U128, Decoder, check, Table } from "as-chain"
 
 export const extendedSymbolToU128 = (extSym: ExtendedSymbol): U128 => {
     return new U128(extSym.contract.N, extSym.sym.value)

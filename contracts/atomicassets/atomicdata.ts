@@ -1,4 +1,4 @@
-import { Packer, Float128, calcPackedVarUint32Length, check, Decoder, Encoder, Utils, packer, Table, variant } from "as-chain";
+import { Packer, Float128, calcPackedVarUint32Length, check, Decoder, Encoder, Utils, Table } from "as-chain";
 import { RESERVED } from "./atomicassets.constants";
 import { decode } from "./base58";
 

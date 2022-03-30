@@ -1,7 +1,7 @@
 // Code converted from:
 // https://github.com/cryptocoinjs/base-x/blob/master/src/index.js
 
-import { packer, Table } from "as-chain";
+import { Table } from "as-chain";
 
 const ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 @inline const BASE = 58;

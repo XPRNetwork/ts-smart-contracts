@@ -1,4 +1,4 @@
-import { packer, Name, Table, PermissionLevel } from "as-chain"
+import { Name, Table, PermissionLevel } from "as-chain"
 import { logescrow } from "./escrow.constants";
 import { Escrow } from "./escrow.tables";
 

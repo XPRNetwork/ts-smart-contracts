@@ -1,4 +1,4 @@
-import { ExtendedAsset, Name, table, primary, Table } from "as-chain";
+import { ExtendedAsset, Name, Table } from "as-chain";
 import { TableStore } from "../store";
 import { balances } from "./balance.constants";
 

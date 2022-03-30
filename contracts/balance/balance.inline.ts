@@ -1,4 +1,4 @@
-import { packer, Name, Asset, Table, ExtendedAsset, PermissionLevel } from "as-chain"
+import { Name, Asset, Table, ExtendedAsset, PermissionLevel } from "as-chain"
 import { atomicassets, transfer } from "./balance.constants";
 
 /* This is a class that represents a transfer of token */

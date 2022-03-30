@@ -1,4 +1,4 @@
-import { Name, Singleton, action, Contract, contract, check, requireAuth, ExtendedSymbol } from 'as-chain'
+import { Name, Singleton, Contract, check, requireAuth, ExtendedSymbol } from 'as-chain'
 import { TableStore } from '../store';
 import { allow, setactor, settoken, setglobals } from './allow.constants';
 import { AllowedActor, AllowedToken, AllowGlobals } from './allow.tables';

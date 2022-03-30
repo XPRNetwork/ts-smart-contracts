@@ -1,4 +1,4 @@
-import { ExtendedAsset, Name, table, primary, Table, singleton, secondary, Singleton } from "as-chain";
+import { ExtendedAsset, Name, Table, Singleton } from "as-chain";
 import { TableStore } from "../store";
 import { escrowglobal, escrows } from "./escrow.constants";
 
