@@ -1,4 +1,4 @@
-import { Name, check, action, contract, requireAuth, MultiIndex, Contract, print } from 'as-chain'
+import { Name, check, requireAuth, MultiIndex, Contract, print } from 'as-chain'
 import { kv, updatevalues, removekeys } from './kv.constants';
 import { KV, AccountKV } from './kv.tables';
 

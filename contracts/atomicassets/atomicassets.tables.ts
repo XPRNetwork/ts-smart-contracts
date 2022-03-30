@@ -1,4 +1,4 @@
-import { Name, table, primary, Table, MultiIndex, singleton, Singleton, ExtendedSymbol } from "as-chain";
+import { Name, Table, MultiIndex, Singleton, ExtendedSymbol } from "as-chain";
 import { collections, config } from "./atomicassets.constants";
 import { FORMAT } from "./atomicdata";
 

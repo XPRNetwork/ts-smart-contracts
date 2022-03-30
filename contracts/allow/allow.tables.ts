@@ -1,4 +1,4 @@
-import { Name, table, primary, Table, singleton, Singleton, secondary, U128, ExtendedSymbol, IDXDB, IDX128 } from "as-chain";
+import { Name, Table, Singleton, U128, ExtendedSymbol, IDXDB, IDX128 } from "as-chain";
 import { TableStore } from "../store";
 import { allowedactor, allowedtoken, allowglobals } from "./allow.constants";
 import { extendedSymbolToU128, U128ToExtSym } from "./allow.utils";

@@ -1,4 +1,4 @@
-import { currentTimePoint, ExtendedAsset, Name, check, contract, action, requireAuth, isAccount, ExtendedSymbol } from 'as-chain'
+import { currentTimePoint, ExtendedAsset, Name, check, requireAuth, isAccount, ExtendedSymbol } from 'as-chain'
 import { TableStore } from '../store';
 import { BalanceContract } from '../balance';
 import { startescrow, fillescrow, cancelescrow, logescrow, ESCROW_STATUS } from './escrow.constants';

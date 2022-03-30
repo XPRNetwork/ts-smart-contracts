@@ -1,4 +1,4 @@
-import { Name, table, primary, Table, MultiIndex, packer } from "as-chain";
+import { Name, Table, MultiIndex } from "as-chain";
 import { kvs } from "./txid.constants";
 
 @packer

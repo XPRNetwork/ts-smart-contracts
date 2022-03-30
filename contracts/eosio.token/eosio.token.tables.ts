@@ -1,4 +1,4 @@
-import { Asset, Name, table, primary, Table, MultiIndex, Symbol, check } from "as-chain";
+import { Asset, Name, Table, MultiIndex, Symbol, check } from "as-chain";
 import { accounts, stat } from "./eosio.token.constants";
 
 /**

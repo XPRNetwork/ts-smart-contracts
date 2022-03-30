@@ -1,4 +1,4 @@
-import { check, ExtendedAsset, packer, Table } from "as-chain"
+import { check, ExtendedAsset, Table } from "as-chain"
 import { Balance } from "./balance.tables";
 
 /**

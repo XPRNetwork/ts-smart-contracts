@@ -1,4 +1,4 @@
-import { ExtendedAsset, unpackActionData, Name, check, action, notify, contract, requireAuth, SAME_PAYER, ExtendedSymbol } from 'as-chain'
+import { ExtendedAsset, unpackActionData, Name, check, requireAuth, SAME_PAYER, ExtendedSymbol } from 'as-chain'
 import { TableStore } from '../store';
 import { AllowContract } from '../allow';
 import { transfer, atomicassets, withdraw, balance } from './balance.constants';

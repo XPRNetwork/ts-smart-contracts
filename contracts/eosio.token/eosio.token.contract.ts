@@ -1,4 +1,4 @@
-import { Name, Asset, Symbol, check, requireAuth, hasAuth, isAccount, requireRecipient, contract, action, SAME_PAYER, Contract } from 'as-chain'
+import { Name, Asset, Symbol, check, requireAuth, hasAuth, isAccount, requireRecipient, SAME_PAYER, Contract } from 'as-chain'
 import { token, create, issue, retire, transfer, open, close } from './eosio.token.constants';
 import { Account, Stat } from './eosio.token.tables';
 
