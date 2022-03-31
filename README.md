@@ -3,8 +3,11 @@
 <a href="https://gitpod.io/#https://github.com/ProtonProtocol/typescript-smart-contracts">
     <img align="left" width="150" height="45" src="https://gitpod.io/button/open-in-gitpod.svg"></img>
 </a>
-<a  href="https://replit.com/@jafri1/ascdk-minimal#contracts/eosio.token/eosio.token.contract.ts">
-    <img align="left" width="150" height="40" src="https://repl.it/badge/github/sherlock-project/sherlock"></img>
+
+<a href="https://protonide.com">
+    <img align="center" width="45" height="45" src="https://www.protonswap.com/img/logo-head.svg">
+        Open in Proton IDE
+    </img>
 </a>
 
 <br/><br/>
