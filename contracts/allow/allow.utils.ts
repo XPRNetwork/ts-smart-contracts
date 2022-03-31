@@ -13,7 +13,3 @@ export const U128ToExtSym = (value: U128): ExtendedSymbol => {
     check(extSym.sym.isValid(), "invalid extended symbol");
     return extSym;
 }
-
-// Include
-@packer
-class allow_utils extends Table { constructor() { super(); } }
