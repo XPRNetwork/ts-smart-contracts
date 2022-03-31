@@ -1,4 +1,4 @@
-import { ActionWrapper, Name, Table } from "as-chain"
+import { ActionWrapper, Name } from "as-chain"
 
 /**
  * The name of the constant and the string must be exactly the same
@@ -12,9 +12,5 @@ export const txid = Name.fromString("txid")
 export const kvs = Name.fromString("kvs")
 
 // Actions
-export const getsizeandid = new ActionWrapper(Name.fromString("getsizeandid"))
-export const readaction = new ActionWrapper(Name.fromString("readaction"))
-
-// Include
-@packer
-class txid_contants extends Table { constructor() { super(); } }
+export const getsizeandid = ActionWrapper.fromString("getsizeandid")
+export const readaction = ActionWrapper.fromString("readaction")

@@ -1,4 +1,4 @@
-import { ActionWrapper, Name, Table } from "as-chain"
+import { ActionWrapper, Name } from "as-chain"
 
 /**
  * The name of the constant and the string must be exactly the same
@@ -14,10 +14,6 @@ export const allowedactor = Name.fromString("allowedactor")
 export const allowedtoken = Name.fromString("allowedtoken")
 
 // Actions
-export const setglobals = new ActionWrapper(Name.fromString("setglobals"))
-export const setactor = new ActionWrapper(Name.fromString("setactor"))
-export const settoken = new ActionWrapper(Name.fromString("settoken"))
-
-// Include
-@packer
-class allow_constants extends Table { constructor() { super(); } }
+export const setglobals = ActionWrapper.fromString("setglobals")
+export const setactor = ActionWrapper.fromString("setactor")
+export const settoken = ActionWrapper.fromString("settoken")

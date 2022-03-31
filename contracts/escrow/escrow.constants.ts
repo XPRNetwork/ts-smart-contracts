@@ -1,4 +1,4 @@
-import { ActionWrapper, Name, Table } from "as-chain"
+import { ActionWrapper, Name } from "as-chain"
 
 /**
  * The name of the constant and the string must be exactly the same
@@ -14,10 +14,10 @@ export const accounts = Name.fromString("accounts")
 export const escrowglobal = Name.fromString("escrowglobal")
 
 // Actions
-export const startescrow = new ActionWrapper(Name.fromString("startescrow"));
-export const fillescrow = new ActionWrapper(Name.fromString("fillescrow"));
-export const cancelescrow = new ActionWrapper(Name.fromString("cancelescrow"));
-export const logescrow = new ActionWrapper(Name.fromString("logescrow"));
+export const startescrow = ActionWrapper.fromString("startescrow");
+export const fillescrow = ActionWrapper.fromString("fillescrow");
+export const cancelescrow = ActionWrapper.fromString("cancelescrow");
+export const logescrow = ActionWrapper.fromString("logescrow");
 
 // Status
 export namespace ESCROW_STATUS {
@@ -26,7 +26,3 @@ export namespace ESCROW_STATUS {
     export const CANCEL = 'cancel';
 }
 export type ESCROW_STATUS = string;
-
-// Include
-@packer
-class empty extends Table { constructor() { super(); } }
