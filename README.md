@@ -1,7 +1,12 @@
 # Boilerplate for Typescript Smart Contract
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ProtonProtocol/typescript-smart-contracts)
-[![Run on Repl.it](https://repl.it/badge/github/sherlock-project/sherlock)](https://replit.com/@jafri1/ascdk-minimal#contracts/eosio.token/eosio.token.contract.ts)
+<a href="https://gitpod.io/#https://github.com/ProtonProtocol/typescript-smart-contracts">
+    <img align="left" width="150" height="100" src="https://gitpod.io/button/open-in-gitpod.svg"></img>
+</a>
+
+<a href="https://replit.com/@jafri1/ascdk-minimal#contracts/eosio.token/eosio.token.contract.ts">
+    <img align="left" width="150" height="50" src="https://repl.it/badge/github/sherlock-project/sherlock"></img>
+</a>
 
 <!-- [![Open in Proton IDE](https://gitpod.io/button/open-in-gitpod.svg)](https://protonide.com) -->
 
