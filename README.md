@@ -1,4 +1,4 @@
-# Boilerplate for Typescript Smart Contract
+# Proton Typescript Smart Contracts
 
 <a href="https://gitpod.io/#https://github.com/ProtonProtocol/typescript-smart-contracts">
     <img align="left" width="150" height="45" src="https://gitpod.io/button/open-in-gitpod.svg"></img>
