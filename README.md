@@ -10,7 +10,7 @@
     </img>
 </a>
 
-<br/><br/>
+<br/>
 <!-- [![Open in Proton IDE](https://gitpod.io/button/open-in-gitpod.svg)](https://protonide.com) -->
 
 
