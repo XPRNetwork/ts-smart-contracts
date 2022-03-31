@@ -7,7 +7,7 @@
     <img align="left" width="150" height="40" src="https://repl.it/badge/github/sherlock-project/sherlock"></img>
 </a>
 
-<br/><br/><br/>
+<br/><br/>
 <!-- [![Open in Proton IDE](https://gitpod.io/button/open-in-gitpod.svg)](https://protonide.com) -->
 
 
