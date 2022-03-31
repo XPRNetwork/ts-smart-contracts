@@ -14,6 +14,8 @@ export const config = Name.fromString("config")
 
 // Actions
 export const createcol = ActionWrapper.fromString("createcol")
+export const setcolformat = ActionWrapper.fromString("setcolformat")
+export const deserialize1 = ActionWrapper.fromString("deserialize1")
 
 // Constants
 export const MAX_MARKET_FEE: f64 = 0.15;

@@ -9,7 +9,7 @@
     "build:allow": "npx eosio-asc ./contracts/allow/allow.contract.ts",
     "build:kv": "npx eosio-asc ./contracts/kv/kv.contract.ts",
     "build:txid": "npx eosio-asc ./contracts/txid/txid.contract.ts",
-    "build2:atomicassets": "npx eosio-asc ./contracts/atomicassets/atomicassets.contract.ts",
+    "build:atomicassets": "npx eosio-asc ./contracts/atomicassets/atomicassets.contract.ts --debug --sourceMap",
     "build": "run-p build:*",
     "test:eosio.token": "mocha -s 250 contracts/eosio.token/*.spec.ts -r ts-node/register",
     "test:balance": "mocha -s 250 contracts/balance/*.spec.ts -r ts-node/register",
@@ -17,15 +17,14 @@
     "test:escrow": "mocha -s 250 contracts/escrow/*.spec.ts -r ts-node/register",
     "test:kv": "mocha -s 250 contracts/kv/*.spec.ts -r ts-node/register",
     "test:txid": "mocha -s 250 contracts/txid/*.spec.ts -r ts-node/register",
-    "test2:atomicassets": "mocha -s 250 contracts/atomicassets/*.spec.ts -r ts-node/register",
+    "test:atomicassets": "mocha -s 250 contracts/atomicassets/*.spec.ts -r ts-node/register",
     "test": "run-p test:*",
     "core:escrow": "cat ./contracts/escrow/target/escrow.contract.abi | abi2core > ./contracts/escrow/target/escrow.client-types.ts"
   },
   "dependencies": {
-    "as-base58": "^0.1.1",
-    "as-chain": "^0.0.20",
+    "as-chain": "^0.0.21",
     "cross-fetch": "^3.1.5",
-    "eosio-asc": "^0.2.59"
+    "eosio-asc": "^0.2.61"
   },
   "engines": {
     "npm": ">=7.0.0",
