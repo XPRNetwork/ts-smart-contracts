@@ -110,7 +110,3 @@ export function addTokens(balance: Balance, tokensToAdd: ExtendedAsset[]): void 
         addToken(balance.tokens, tokensToAdd[i])
     } 
 }
-
-// Include
-@packer
-class utils extends Table { constructor() { super(); } }
