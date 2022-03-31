@@ -5,7 +5,7 @@
 </a>
 
 <a href="https://protonide.com">
-    <img align="center" width="45" height="45" src="https://www.protonswap.com/img/logo-head.svg">
+    <img align="center" width="45" height="42" src="https://www.protonswap.com/img/logo-head.svg">
         Open in Proton IDE
     </img>
 </a>
