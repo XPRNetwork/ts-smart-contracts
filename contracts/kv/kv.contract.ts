@@ -1,12 +1,11 @@
-import { Name, check, requireAuth, MultiIndex, Contract, print } from 'as-chain'
-import { kv, updatevalues, removekeys } from './kv.constants';
+import { Name, check, requireAuth, MultiIndex, Contract } from 'as-chain'
 import { KV, AccountKV } from './kv.tables';
 
-@contract(kv)
+@contract("kv")
 export class KvContract extends Contract {
     kvsTable: MultiIndex<AccountKV> = AccountKV.getTable(this.receiver)
 
-    @action(updatevalues)
+    @action("updatevalues")
     updatevalues(
         actor: Name,
         values: KV[],
@@ -41,7 +40,7 @@ export class KvContract extends Contract {
         this.kvsTable.set(kv, actor)
     }
 
-    @action(removekeys)
+    @action("removekeys")
     removekeys(
         actor: Name,
         keys: string[],

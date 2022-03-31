@@ -1,8 +1,7 @@
 import { ExtendedAsset, Name, Table, Singleton } from "as-chain";
 import { TableStore } from "../store";
-import { escrowglobal, escrows } from "./escrow.constants";
 
-@table(escrowglobal, singleton)
+@table("escrowglobal", singleton)
 export class escrowGlobal extends Table {
     constructor (
        public escrowId: u64 = 0,
@@ -11,12 +10,12 @@ export class escrowGlobal extends Table {
     }
 
     static getSingleton(code: Name): Singleton<EscrowGlobal> {
-        return new Singleton<EscrowGlobal>(code, code, escrowglobal);
+        return new Singleton<EscrowGlobal>(code, code, Name.fromString("escrowglobal"));
     }
 }
 export class EscrowGlobal extends escrowGlobal {}
 
-@table(escrows)
+@table("escrows")
 export class escrow extends Table {
     constructor (
        public id: u64 = 0,
@@ -55,7 +54,7 @@ export class escrow extends Table {
     }
    
     static getTable(code: Name): TableStore<Escrow> {
-        return new TableStore<Escrow>(code, code, escrows);
+        return new TableStore<Escrow>(code, code, Name.fromString("escrows"));
     }
 }
 export class Escrow extends escrow {}

@@ -1,5 +1,4 @@
 import { Action, Name, requireAuth, Contract, transactionSize, MultiIndex, print, Checksum256, readTransaction, check, sha256,  getAction, Table } from 'as-chain'
-import { txid, getsizeandid, readaction } from './txid.constants';
 import { AccountKV, KV } from './txid.tables';
 
 @packer
@@ -11,11 +10,11 @@ class GetSizeAndId extends Table {
     }
 }
 
-@contract(txid)
+@contract("txid")
 export class KvContract extends Contract {
     kvsTable: MultiIndex<AccountKV> = AccountKV.getTable(this.receiver)
 
-    @action(getsizeandid)
+    @action("getsizeandid")
     getsizeandid(
         actor: Name
     ): void {
@@ -30,7 +29,7 @@ export class KvContract extends Contract {
         this.kvsTable.store(accountKv, actor)
     }
 
-    @action(readaction)
+    @action("readaction")
     readaction(): void {
         const rawAction: u8[] = getAction(1, 0)
         const action = new Action()

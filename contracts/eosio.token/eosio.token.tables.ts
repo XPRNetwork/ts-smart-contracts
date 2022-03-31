@@ -1,10 +1,9 @@
 import { Asset, Name, Table, MultiIndex, Symbol, check } from "as-chain";
-import { accounts, stat } from "./eosio.token.constants";
 
 /**
  * Tables
  */
-@table(accounts)
+@table("accounts")
 export class account extends Table {
     constructor (
         public balance: Asset = new Asset()
@@ -18,10 +17,10 @@ export class account extends Table {
     }
 
     static getTable(code: Name, accountName: Name): MultiIndex<Account>  {
-        return new MultiIndex<Account>(code, accountName, accounts);
+        return new MultiIndex<Account>(code, accountName, Name.fromString("accounts"));
     }
 }
-@table(stat)
+@table("stat")
 export class currency_stats extends Table {
     constructor (
        public supply: Asset = new Asset(),
@@ -37,7 +36,7 @@ export class currency_stats extends Table {
     }
 
     static getTable(code: Name, sym: Symbol): MultiIndex<Stat>  {
-        return new MultiIndex<Stat>(code, new Name(sym.code()), stat);
+        return new MultiIndex<Stat>(code, new Name(sym.code()), Name.fromString("stat"));
     }
 }
 

@@ -1,10 +1,9 @@
 import { Name, Singleton, Contract, check, requireAuth, ExtendedSymbol } from 'as-chain'
 import { TableStore } from '../store';
-import { allow, setactor, settoken, setglobals } from './allow.constants';
 import { AllowedActor, AllowedToken, AllowGlobals } from './allow.tables';
 import { extendedSymbolToU128 } from './allow.utils';
 
-@contract(allow)
+@contract("allow")
 export class AllowContract extends Contract {
     contract: Name = this.receiver
     parentContract: Name = this.firstReceiver
@@ -19,7 +18,7 @@ export class AllowContract extends Contract {
      * @param {boolean} isActorStrict - If true, then actors must be registered with the system.
      * @param {boolean} isTokenStrict - boolean
      */
-    @action(setglobals)
+    @action("setglobals")
     setglobals(
         isPaused: boolean,
         isActorStrict: boolean,
@@ -41,7 +40,7 @@ export class AllowContract extends Contract {
      * @param {ExtendedSymbol} token - The token to be updated.
      * @param {boolean} isBlocked - boolean
      */
-    @action(settoken)
+    @action("settoken")
     settoken(
         token: ExtendedSymbol,
         isAllowed: boolean,
@@ -70,7 +69,7 @@ export class AllowContract extends Contract {
      * @param {Name} actor - Name
      * @param {boolean} isAllowed - boolean
      */
-    @action(setactor)
+    @action("setactor")
     setactor(
         actor: Name,
         isAllowed: boolean,

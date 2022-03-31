@@ -1,5 +1,4 @@
 import { Name, Table, MultiIndex } from "as-chain";
-import { kvs } from "./kv.constants";
 
 @packer
 export class KV {
@@ -9,7 +8,7 @@ export class KV {
     ) {}
 }
 
-@table(kvs)
+@table("kvs")
 export class AccountKVTable extends Table {
     constructor (
         public account: Name = new Name(),
@@ -24,7 +23,7 @@ export class AccountKVTable extends Table {
     }
 
     static getTable(code: Name): MultiIndex<AccountKV> {
-        return new MultiIndex<AccountKV>(code, code, kvs);
+        return new MultiIndex<AccountKV>(code, code, Name.fromString("kvs"));
     }
 }
 
