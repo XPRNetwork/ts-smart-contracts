@@ -1,10 +1,11 @@
 import { currentTimePoint, ExtendedAsset, Name, check, requireAuth, isAccount, ExtendedSymbol } from 'as-chain'
 import { TableStore } from '../store';
 import { BalanceContract } from '../balance';
-import { startescrow, fillescrow, cancelescrow, logescrow, ESCROW_STATUS } from './escrow.constants';
+import { ESCROW_STATUS } from './escrow.constants';
 import { sendLogEscrow } from './escrow.inline';
 import { EscrowGlobal, Escrow, escrow } from './escrow.tables';
-@contract(escrow)
+
+@contract("escrow")
 export class EscrowContract extends BalanceContract {
     escrowsTable: TableStore<Escrow> = Escrow.getTable(this.receiver)
 
@@ -18,7 +19,7 @@ export class EscrowContract extends BalanceContract {
      * @param {u64[]} toNfts - the nft's that were given to the user
      * @param {u32} expiry - u32
      */
-    @action(startescrow)
+    @action("startescrow")
     startescrow(
         from: Name,
         to: Name,
@@ -73,7 +74,7 @@ export class EscrowContract extends BalanceContract {
      * @param {Name} actor - Name,
      * @param {u64} id - u64
      */
-    @action(fillescrow)
+    @action("fillescrow")
     fillescrow(
         actor: Name,
         id: u64
@@ -114,7 +115,7 @@ export class EscrowContract extends BalanceContract {
      * It cancels an escrow.
      * @param {u64} id - u64
      */
-    @action(cancelescrow)
+    @action("cancelescrow")
     cancelescrow(
         actor: Name,
         id: u64
@@ -146,7 +147,7 @@ export class EscrowContract extends BalanceContract {
      * @param {escrow} escrow - The escrow object that is being updated.
      * @param {string} status - The status of the escrow.
      */
-    @action(logescrow)
+    @action("logescrow")
     logescrow(
         escrow: escrow,
         status: string

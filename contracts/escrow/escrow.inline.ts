@@ -1,5 +1,4 @@
-import { Name, Table, PermissionLevel } from "as-chain"
-import { logescrow } from "./escrow.constants";
+import { Name, Table, PermissionLevel, ActionWrapper } from "as-chain"
 import { Escrow } from "./escrow.tables";
 
 /* LogEscrow is a table that contains a single escrow and its status */
@@ -20,6 +19,7 @@ export class LogEscrow extends Table {
  * @param {string} status - The status of the escrow.
  */
 export function sendLogEscrow(contract: Name, escrow: Escrow, status: string): void {
+    const logescrow = ActionWrapper.fromString("logescrow");
     const action = logescrow.act(contract, new PermissionLevel(contract))
     const actionParams = new LogEscrow(escrow, status)
     action.send(actionParams)

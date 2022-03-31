@@ -1,15 +1,15 @@
 import { Name, check, requireAuth, MultiIndex, Contract, nameToSuffix, hasAuth, isAccount, Singleton, print } from 'as-chain'
-import { atomicassets, createcol, deserialize1, MAX_MARKET_FEE, setcolformat } from './atomicassets.constants';
+import { MAX_MARKET_FEE } from './atomicassets.constants';
 import { Collections, Config } from './atomicassets.tables';
 import { ATTRIBUTE_MAP_SINGLE, serialize, FORMAT, deserialize } from './atomicdata';
 import { check_name_length } from './checkformat';
 
-@contract(atomicassets)
-class KvContract extends Contract {
+@contract("atomicassets")
+export class KvContract extends Contract {
     collectionsTable: MultiIndex<Collections> = Collections.getTable(this.receiver)
     configSingleton: Singleton<Config> = Config.getSingleton(this.receiver)
 
-    @action(setcolformat)
+    @action("setcolformat")
     colformat(
         format: FORMAT[]
     ): void {
@@ -18,7 +18,7 @@ class KvContract extends Contract {
         this.configSingleton.set(config, this.receiver)
     }
 
-    @action(createcol)
+    @action("createcol")
     createcol(
         author: Name,
         collection_name: Name,
@@ -74,7 +74,7 @@ class KvContract extends Contract {
     }
 
 
-    @action(deserialize1)
+    @action("deserialize1")
     deserialize1(
         collection_name: Name
     ): void {

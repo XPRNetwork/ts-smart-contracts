@@ -1,10 +1,9 @@
 import { Name, Asset, Symbol, check, requireAuth, hasAuth, isAccount, requireRecipient, SAME_PAYER, Contract } from 'as-chain'
-import { token, create, issue, retire, transfer, open, close } from './eosio.token.constants';
 import { Account, Stat } from './eosio.token.tables';
 
-@contract(token)
+@contract("token")
 export class TokenContract extends Contract {
-    @action(create)
+    @action("create")
     create(issuer: Name, maximum_supply: Asset): void {
         requireAuth(this.receiver);
 
@@ -20,7 +19,7 @@ export class TokenContract extends Contract {
         statstable.store(value, this.receiver);
     }
 
-    @action(issue)
+    @action("issue")
     issue(to: Name, quantity: Asset, memo: string): void {
         const sym = quantity.symbol;
         check(sym.isValid(), "invalid symbol name");
@@ -44,7 +43,7 @@ export class TokenContract extends Contract {
         this.addBalance(st.issuer, quantity, st.issuer);
     }
 
-    @action(retire)
+    @action("retire")
     retire(quantity: Asset, memo: string): void {
         const sym = quantity.symbol;
         check(sym.isValid(), "invalid symbol name");
@@ -66,7 +65,7 @@ export class TokenContract extends Contract {
         this.subBalance(st.issuer, quantity);
     }
 
-    @action(transfer)
+    @action("transfer")
     transfer(from: Name, to: Name, quantity: Asset, memo: string): void {
         check(from != to, "cannot transfer to self");
         requireAuth(from);
@@ -88,6 +87,35 @@ export class TokenContract extends Contract {
 
         this.subBalance(from, quantity);
         this.addBalance(to, quantity, payer);
+    }
+
+    @action("open")
+    open(owner: Name, symbol: Symbol, ram_payer: Name): void {
+        requireAuth(ram_payer);
+
+        check(isAccount(owner), "owner account does not exist");
+
+        const statstable = Stat.getTable(this.receiver, symbol);
+        const existing = statstable.requireFind(symbol.code(), "symbol does not exist");
+        const st = statstable.get(existing);
+        check(st.supply.symbol == symbol, "symbol precision mismatch");
+
+        const acnts = Account.getTable(this.receiver, owner)
+        const it = acnts.find(symbol.code());
+        if (!it.isOk()) {
+            const account = new Account(new Asset(0, symbol));
+            acnts.store(account, ram_payer);
+        }
+    }
+
+    @action("close")
+    close(owner: Name, symbol: Symbol): void {
+        requireAuth(owner);
+        const acnts = Account.getTable(this.receiver, owner)
+        const it = acnts.requireFind(symbol.code(), "Balance row already deleted or never existed. Action won't have any effect.");
+        const account = acnts.get(it);
+        check(account.balance.amount == 0, "Cannot close because the balance is not zero.");
+        acnts.remove(it);
     }
 
     subBalance(owner: Name, value: Asset): void {
@@ -113,34 +141,5 @@ export class TokenContract extends Contract {
             account.balance = Asset.add(account.balance, value);
             toAcnts.update(to, account, ramPayer);
         }
-    }
-
-    @action(open)
-    open(owner: Name, symbol: Symbol, ram_payer: Name): void {
-        requireAuth(ram_payer);
-
-        check(isAccount(owner), "owner account does not exist");
-
-        const statstable = Stat.getTable(this.receiver, symbol);
-        const existing = statstable.requireFind(symbol.code(), "symbol does not exist");
-        const st = statstable.get(existing);
-        check(st.supply.symbol == symbol, "symbol precision mismatch");
-
-        const acnts = Account.getTable(this.receiver, owner)
-        const it = acnts.find(symbol.code());
-        if (!it.isOk()) {
-            const account = new Account(new Asset(0, symbol));
-            acnts.store(account, ram_payer);
-        }
-    }
-
-    @action(close)
-    close(owner: Name, symbol: Symbol): void {
-        requireAuth(owner);
-        const acnts = Account.getTable(this.receiver, owner)
-        const it = acnts.requireFind(symbol.code(), "Balance row already deleted or never existed. Action won't have any effect.");
-        const account = acnts.get(it);
-        check(account.balance.amount == 0, "Cannot close because the balance is not zero.");
-        acnts.remove(it);
     }
 }
