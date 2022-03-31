@@ -1,8 +1,9 @@
 # Boilerplate for Typescript Smart Contract
 
-Online IDE: [Open](https://gitpod.io/#https://github.com/ProtonProtocol/typescript-smart-contracts)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ProtonProtocol/typescript-smart-contracts)
+[![Run on Repl.it](https://repl.it/badge/github/sherlock-project/sherlock)](https://replit.com/@jafri1/ascdk-minimal#contracts/eosio.token/eosio.token.contract.ts)
 
-Repl.it: [Open](https://replit.com/@jafri1/ascdk-minimal#contracts/eosio.token/eosio.token.contract.ts)
+<!-- [![Open in Proton IDE](https://gitpod.io/button/open-in-gitpod.svg)](https://protonide.com) -->
 
 ## Local Install
 **Must use Node 16**
