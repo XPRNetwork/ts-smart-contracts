@@ -1,4 +1,4 @@
-import { ActionWrapper, Name, Table } from "as-chain"
+import { ActionWrapper, Name } from "as-chain"
 
 /**
  * The name of the constant and the string must be exactly the same
@@ -12,12 +12,8 @@ export const balance = Name.fromString("balance")
 export const balances = Name.fromString("balances")
 
 // Actions
-export const withdraw = new ActionWrapper(Name.fromString("withdraw"))
-export const transfer = new ActionWrapper(Name.fromString("transfer"))
+export const withdraw = ActionWrapper.fromString("withdraw")
+export const transfer = ActionWrapper.fromString("transfer")
 
 // External
 export const atomicassets = Name.fromString("atomicassets");
-
-// Include
-@packer
-class balance_constants extends Table { constructor() { super(); } }

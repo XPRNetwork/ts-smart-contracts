@@ -1,4 +1,4 @@
-import { ActionWrapper, Name, Table } from "as-chain"
+import { ActionWrapper, Name } from "as-chain"
 
 /**
  * The name of the constant and the string must be exactly the same
@@ -13,12 +13,8 @@ export const collections = Name.fromString("collections")
 export const config = Name.fromString("config")
 
 // Actions
-export const createcol = new ActionWrapper(Name.fromString("createcol"))
+export const createcol = ActionWrapper.fromString("createcol")
 
 // Constants
 export const MAX_MARKET_FEE: f64 = 0.15;
 export const RESERVED: u64 = 4;
-
-// Include
-@packer
-class kv_contants extends Table { constructor() { super(); } }
