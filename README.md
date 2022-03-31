@@ -4,7 +4,7 @@
     <img align="left" width="150" height="45" src="https://gitpod.io/button/open-in-gitpod.svg"></img>
 </a>
 <a  href="https://replit.com/@jafri1/ascdk-minimal#contracts/eosio.token/eosio.token.contract.ts">
-    <img align="left" width="150" height="38" src="https://repl.it/badge/github/sherlock-project/sherlock"></img>
+    <img align="left" width="150" height="40" src="https://repl.it/badge/github/sherlock-project/sherlock"></img>
 </a>
 
 <br/><br/><br/>
