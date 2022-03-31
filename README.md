@@ -5,7 +5,7 @@
 </a>
 
 <a href="https://protonide.com">
-    <img align="center" width="45" height="38" src="./button_protonide.svg"></img>
+    <img align="center" width="150" height="45" src="./button_protonide.svg"></img>
 </a>
 
 <br/>
