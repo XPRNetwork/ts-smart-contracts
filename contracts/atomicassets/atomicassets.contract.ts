@@ -1,12 +1,13 @@
-import { Name, check, requireAuth, MultiIndex, Contract, nameToSuffix, hasAuth, isAccount, Singleton, print } from 'as-chain'
+import { Name, check, requireAuth, Contract, nameToSuffix, hasAuth, isAccount, Singleton, print } from 'as-chain'
 import { MAX_MARKET_FEE } from './atomicassets.constants';
 import { Collections, Config } from './atomicassets.tables';
 import { ATTRIBUTE_MAP_SINGLE, serialize, FORMAT, deserialize } from './atomicdata';
 import { check_name_length } from './checkformat';
+import { TableStore } from "../../contracts/store";
 
 @contract("atomicassets")
 class AtomicAssetsContract extends Contract {
-    collectionsTable: MultiIndex<Collections> = Collections.getTable(this.receiver)
+    collectionsTable: TableStore<Collections> = Collections.getTable(this.receiver)
     configSingleton: Singleton<Config> = Config.getSingleton(this.receiver)
 
     @action("setcolformat")
@@ -42,7 +43,7 @@ class AtomicAssetsContract extends Contract {
             }
         }
         
-        check(!this.collectionsTable.find(collection_name.N).isOk(), "A collection with this name already exists");
+        check(!this.collectionsTable.exists(collection_name.N), "A collection with this name already exists")
     
         check(allow_notify || notify_accounts.length == 0, "Can't add notify_accounts if allow_notify is false");
     
@@ -78,9 +79,7 @@ class AtomicAssetsContract extends Contract {
     deserialize1(
         collection_name: Name
     ): void {
-        const collectionItr = this.collectionsTable.requireFind(collection_name.N, "collection not found")
-        const collection = this.collectionsTable.get(collectionItr)
-
+        const collection = this.collectionsTable.requireGet(collection_name.N, "collection not found")
         const current_config = this.configSingleton.get();
         const attr = deserialize(collection.serialized_data, current_config.collection_format)
 

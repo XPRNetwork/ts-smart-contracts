@@ -1,9 +1,10 @@
-import { Name, check, requireAuth, MultiIndex, Contract } from 'as-chain'
+import { Name, check, requireAuth, Contract } from 'as-chain'
+import { TableStore } from '../../contracts/store';
 import { KV, AccountKV } from './kv.tables';
 
 @contract("kv")
 export class KvContract extends Contract {
-    kvsTable: MultiIndex<AccountKV> = AccountKV.getTable(this.receiver)
+    kvsTable: TableStore<AccountKV> = AccountKV.getTable(this.receiver)
 
     @action("updatevalues")
     updatevalues(
@@ -21,7 +22,7 @@ export class KvContract extends Contract {
         }
 
         // Find account
-        let kv = this.kvsTable.getByKey(actor.N)
+        let kv = this.kvsTable.get(actor.N)
         if (kv == null) {
             kv = new AccountKV(actor, values)
         } else {
@@ -49,8 +50,7 @@ export class KvContract extends Contract {
         requireAuth(actor)
 
         // Find account
-        const kvItr = this.kvsTable.requireFind(actor.N, `no kv found with name ${actor}`)
-        const kv = this.kvsTable.get(kvItr)
+        const kv = this.kvsTable.requireGet(actor.N, `no kv found with name ${actor}`)
 
         // Update
         let filteredValues: KV[] = []
@@ -63,9 +63,9 @@ export class KvContract extends Contract {
 
         // Save
         if (kv.values.length > 0) {
-            this.kvsTable.update(kvItr, kv, actor)
+            this.kvsTable.update(kv, actor)
         } else {
-            this.kvsTable.remove(kvItr)
+            this.kvsTable.remove(kv)
         }
     }
 }

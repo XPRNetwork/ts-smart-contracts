@@ -1,5 +1,6 @@
-import { Name, Table, MultiIndex, Singleton, ExtendedSymbol } from "as-chain";
+import { Name, Table, Singleton, ExtendedSymbol } from "as-chain";
 import { FORMAT } from "./atomicdata";
+import { TableStore } from "../../contracts/store";
 
 @table("collections")
 export class CollectionsTable extends Table {
@@ -20,8 +21,8 @@ export class CollectionsTable extends Table {
         return this.collection_name.N;
     }
 
-    static getTable(code: Name): MultiIndex<Collections> {
-        return new MultiIndex<Collections>(code, code, Name.fromString("collections"));
+    static getTable(code: Name): TableStore<Collections> {
+        return new TableStore<Collections>(code, code, Name.fromString("collections"));
     }
 }
 export class Collections extends CollectionsTable {}
