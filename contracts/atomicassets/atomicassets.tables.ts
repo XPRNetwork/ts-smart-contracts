@@ -1,8 +1,7 @@
 import { Name, Table, MultiIndex, Singleton, ExtendedSymbol } from "as-chain";
-import { collections, config } from "./atomicassets.constants";
 import { FORMAT } from "./atomicdata";
 
-@table(collections)
+@table("collections")
 export class CollectionsTable extends Table {
     constructor (
         public collection_name: Name = new Name(),
@@ -22,12 +21,12 @@ export class CollectionsTable extends Table {
     }
 
     static getTable(code: Name): MultiIndex<Collections> {
-        return new MultiIndex<Collections>(code, code, collections);
+        return new MultiIndex<Collections>(code, code, Name.fromString("collections"));
     }
 }
 export class Collections extends CollectionsTable {}
 
-@table(config, singleton)
+@table("config", singleton)
 export class ConfigSingleton extends Table {
     constructor (
         public asset_counter: u64 = 1099511627776,
@@ -40,7 +39,7 @@ export class ConfigSingleton extends Table {
     }
 
     static getSingleton(code: Name): Singleton<Config> {
-        return new Singleton<Config>(code, code, config);
+        return new Singleton<Config>(code, code, Name.fromString("config"));
     }
 }
 

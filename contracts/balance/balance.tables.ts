@@ -1,8 +1,7 @@
 import { ExtendedAsset, Name, Table } from "as-chain";
 import { TableStore } from "../store";
-import { balances } from "./balance.constants";
 
-@table(balances)
+@table("balances")
 export class BalanceTable extends Table {
     constructor (
         public account: Name = new Name(),
@@ -18,7 +17,7 @@ export class BalanceTable extends Table {
     }
 
     static getTable(code: Name): TableStore<Balance> {
-        return new TableStore<Balance>(code, code, balances);
+        return new TableStore<Balance>(code, code, Name.fromString("balances"));
     }
 }
 
