@@ -5,7 +5,7 @@ import { ATTRIBUTE_MAP_SINGLE, serialize, FORMAT, deserialize } from './atomicda
 import { check_name_length } from './checkformat';
 
 @contract("atomicassets")
-class KvContract extends Contract {
+class AtomicAssetsContract extends Contract {
     collectionsTable: MultiIndex<Collections> = Collections.getTable(this.receiver)
     configSingleton: Singleton<Config> = Config.getSingleton(this.receiver)
 

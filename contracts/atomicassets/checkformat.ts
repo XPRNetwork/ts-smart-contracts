@@ -90,7 +90,7 @@ export function check_format(lines: FORMAT[]): void {
 export function check_name_length(data: ATTRIBUTE_MAP_SINGLE[]): void {
     const index = findIndexOfAttribute(data, "name");
     if (index != -1) {
-        if (data[index].value.isstring()) {
+        if (data[index].value.is<string>()) {
             check(data[index].value.get<string>().length <= 64, "Names (attribute with name: \"name\") can only be 64 characters max");
         }
     }

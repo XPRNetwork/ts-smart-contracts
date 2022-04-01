@@ -22,9 +22,9 @@
     "core:escrow": "cat ./contracts/escrow/target/escrow.contract.abi | abi2core > ./contracts/escrow/target/escrow.client-types.ts"
   },
   "dependencies": {
-    "as-chain": "^0.0.27",
+    "as-chain": "^0.0.29",
     "cross-fetch": "^3.1.5",
-    "eosio-asc": "^0.2.66"
+    "eosio-asc": "^0.2.69"
   },
   "engines": {
     "npm": ">=7.0.0",
