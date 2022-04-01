@@ -9,7 +9,7 @@
     "build:allow": "npx eosio-asc ./contracts/allow/allow.contract.ts",
     "build:kv": "npx eosio-asc ./contracts/kv/kv.contract.ts",
     "build:txid": "npx eosio-asc ./contracts/txid/txid.contract.ts",
-    "build:atomicassets": "npx eosio-asc ./contracts/atomicassets/atomicassets.contract.ts --debug --sourceMap",
+    "build:atomicassets": "npx eosio-asc ./contracts/atomicassets/atomicassets.contract.ts --debug --sourceMap --target release",
     "build": "run-p build:*",
     "test:token": "mocha -s 250 contracts/token/*.spec.ts -r ts-node/register",
     "test:balance": "mocha -s 250 contracts/balance/*.spec.ts -r ts-node/register",
@@ -24,7 +24,7 @@
   "dependencies": {
     "as-chain": "^0.0.29",
     "cross-fetch": "^3.1.5",
-    "eosio-asc": "^0.2.69"
+    "eosio-asc": "^0.2.70"
   },
   "engines": {
     "npm": ">=7.0.0",
