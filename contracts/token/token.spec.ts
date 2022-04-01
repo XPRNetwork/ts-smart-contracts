@@ -6,7 +6,7 @@ import { Blockchain, nameToBigInt, symbolCodeToBigInt, eosio_assert, expectToThr
  * Initialize
  */
 const blockchain = new Blockchain()
-const eosioToken = blockchain.createContract('eosio.token', 'contracts/eosio.token/target/eosio.token.contract');
+const eosioToken = blockchain.createContract('eosio.token', 'contracts/token/target/token.contract');
 blockchain.createAccounts('alice', 'bob')
 
 beforeEach(() => {

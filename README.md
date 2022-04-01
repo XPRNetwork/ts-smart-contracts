@@ -22,12 +22,12 @@ npm i
 
 ## Build TS Smart Contract to WASM+ABI
 ```
-npm run build:eosio.token
+npm run build:token
 ```
 
 ## Run tests
 ```
-npm run test:eosio.token
+npm run test:token
 ```
 
 ## Upload WASM+ABI to Blockchain

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "build:eosio.token": "npx eosio-asc ./contracts/eosio.token/eosio.token.contract.ts",
+    "build:token": "npx eosio-asc ./contracts/token/token.contract.ts",
     "build:balance": "npx eosio-asc ./contracts/balance/balance.contract.ts",
     "build:escrow": "npx eosio-asc ./contracts/escrow/escrow.contract.ts",
     "build:allow": "npx eosio-asc ./contracts/allow/allow.contract.ts",
@@ -11,7 +11,7 @@
     "build:txid": "npx eosio-asc ./contracts/txid/txid.contract.ts",
     "build:atomicassets": "npx eosio-asc ./contracts/atomicassets/atomicassets.contract.ts --debug --sourceMap",
     "build": "run-p build:*",
-    "test:eosio.token": "mocha -s 250 contracts/eosio.token/*.spec.ts -r ts-node/register",
+    "test:token": "mocha -s 250 contracts/token/*.spec.ts -r ts-node/register",
     "test:balance": "mocha -s 250 contracts/balance/*.spec.ts -r ts-node/register",
     "test:allow": "mocha -s 250 contracts/allow/*.spec.ts -r ts-node/register",
     "test:escrow": "mocha -s 250 contracts/escrow/*.spec.ts -r ts-node/register",
