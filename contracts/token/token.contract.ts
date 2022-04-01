@@ -1,8 +1,20 @@
 import { Name, Asset, Symbol, check, requireAuth, hasAuth, isAccount, requireRecipient, SAME_PAYER, Contract } from 'as-chain'
-import { Account, Stat } from './eosio.token.tables';
+import { Account, Stat } from './token.tables';
 
 @contract("token")
 export class TokenContract extends Contract {
+
+    /**
+     * Allows `issuer` account to create a token in supply of `maximum_supply`. If validation is successful a new entry in statstable for token symbol scope gets created.
+     *
+     * @param issuer - the account that creates the token,
+     * @param maximum_supply - the maximum supply set for the token created.
+     *
+     * @pre Token symbol has to be valid,
+     * @pre Token symbol must not be already created,
+     * @pre maximum_supply has to be smaller than the maximum supply allowed by the system: 1^62 - 1.
+     * @pre Maximum supply must be positive;
+     */
     @action("create")
     create(issuer: Name, maximum_supply: Asset): void {
         requireAuth(this.receiver);
@@ -19,6 +31,13 @@ export class TokenContract extends Contract {
         statstable.store(value, this.receiver);
     }
 
+    /**
+     *  This action issues to `to` account a `quantity` of tokens.
+     *
+     * @param to - the account to issue tokens to, it must be the same as the issuer,
+     * @param quantity - the amount of tokens to be issued,
+     * @memo - the memo string that accompanies the token issue transaction.
+     */
     @action("issue")
     issue(to: Name, quantity: Asset, memo: string): void {
         const sym = quantity.symbol;
@@ -42,6 +61,13 @@ export class TokenContract extends Contract {
         this.addBalance(st.issuer, quantity, st.issuer);
     }
 
+    /**
+     * The opposite for create action, if all validations succeed,
+     * it debits the statstable.supply amount.
+     *
+     * @param quantity - the quantity of tokens to retire,
+     * @param memo - the memo string to accompany the transaction.
+     */
     @action("retire")
     retire(quantity: Asset, memo: string): void {
         const sym = quantity.symbol;
@@ -63,6 +89,15 @@ export class TokenContract extends Contract {
         this.subBalance(st.issuer, quantity);
     }
 
+    /**
+     * Allows `from` account to transfer to `to` account the `quantity` tokens.
+     * One account is debited and the other is credited with quantity tokens.
+     *
+     * @param from - the account to transfer from,
+     * @param to - the account to be transferred to,
+     * @param quantity - the quantity of tokens to be transferred,
+     * @param memo - the memo string to accompany the transaction.
+     */
     @action("transfer")
     transfer(from: Name, to: Name, quantity: Asset, memo: string): void {
         check(from != to, "cannot transfer to self");
@@ -86,6 +121,15 @@ export class TokenContract extends Contract {
         this.addBalance(to, quantity, payer);
     }
 
+    /**
+     * Allows `ram_payer` to create an account `owner` with zero balance for
+     * token `symbol` at the expense of `ram_payer`.
+     *
+     * @param owner - the account to be created,
+     * @param symbol - the token to be payed with by `ram_payer`,
+     * @param ram_payer - the account that supports the cost of this action.
+     *
+     */
     @action("open")
     open(owner: Name, symbol: Symbol, ram_payer: Name): void {
         requireAuth(ram_payer);
@@ -104,6 +148,16 @@ export class TokenContract extends Contract {
         }
     }
 
+    /**
+     * This action is the opposite for open, it closes the account `owner`
+     * for token `symbol`.
+     *
+     * @param owner - the owner account to execute the close action for,
+     * @param symbol - the symbol of the token to execute the close action for.
+     *
+     * @pre The pair of owner plus symbol has to exist otherwise no action is executed,
+     * @pre If the pair of owner plus symbol exists, the balance has to be zero.
+     */
     @action("close")
     close(owner: Name, symbol: Symbol): void {
         requireAuth(owner);

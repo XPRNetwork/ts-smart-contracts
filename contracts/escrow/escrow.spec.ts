@@ -9,7 +9,7 @@ const blockchain = new Blockchain()
 const escrowContract = blockchain.createContract('escrow', 'contracts/escrow/target/escrow.contract', true)
 const atomicassetsContract = blockchain.createContract('atomicassets', 'contracts/external/atomicassets/atomicassets', true)
 const xtokensContract = blockchain.createContract('xtokens', 'contracts/external/xtokens/xtokens')
-const eosioTokenContract = blockchain.createContract('eosio.token', 'contracts/eosio.token/target/eosio.token.contract')
+const eosioTokenContract = blockchain.createContract('eosio.token', 'contracts/token/target/token.contract')
 const [collector, trader, artist] = blockchain.createAccounts('collector', 'trader', 'artist')
 
 /* Runs before each test */

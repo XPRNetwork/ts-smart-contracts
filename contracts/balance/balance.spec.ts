@@ -8,7 +8,7 @@ const blockchain = new Blockchain()
 /* Create Contracts and accounts */
 const balanceContract = blockchain.createContract('balance', 'contracts/balance/target/balance.contract', true)
 const xtokensContract = blockchain.createContract('xtokens', 'contracts/external/xtokens/xtokens')
-const eosioTokenContract = blockchain.createContract('eosio.token', 'contracts/eosio.token/target/eosio.token.contract')
+const eosioTokenContract = blockchain.createContract('eosio.token', 'contracts/token/target/token.contract')
 const atomicassetsContract = blockchain.createContract('atomicassets', 'contracts/external/atomicassets/atomicassets', true)
 const [collector, trader, artist] = blockchain.createAccounts('collector', 'trader', 'artist')
 
