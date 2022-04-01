@@ -85,50 +85,52 @@ class KvContract extends Contract {
         const attr = deserialize(collection.serialized_data, current_config.collection_format)
 
         for (let i = 0; i < attr.length; i++) {
-            if (attr[i].value.isi8()) {
-                print(`${attr[i].value.geti8()} | `)
-            } else if (attr[i].value.isi16()) {
-                print(`${attr[i].value.geti16()} | `)
-            } else if (attr[i].value.isi32()) {
-                print(`${attr[i].value.geti32()} | `)
-            } else if (attr[i].value.isi64()) {
-                print(`${attr[i].value.geti64()} | `)
-            } else if (attr[i].value.isu8()) {
-                print(`${attr[i].value.getu8()} | `)
-            } else if (attr[i].value.isu16()) {
-                print(`${attr[i].value.getu16()} | `)
-            } else if (attr[i].value.isu32()) {
-                print(`${attr[i].value.getu32()} | `)
-            } else if (attr[i].value.isu64()) {
-                print(`${attr[i].value.getu64()} | `)
-            } else if (attr[i].value.isfloat()) {
-                print(`${attr[i].value.getfloat().toString().slice(0, 7)} | `)
-            } else if (attr[i].value.isdouble()) {
-                print(`${attr[i].value.getdouble().toString().slice(0, 14)} | `)
-            } else if (attr[i].value.isstring()) {
-                print(`${attr[i].value.getstring().toString()} | `)
-            } else if (attr[i].value.isINT8_VEC()) {
-                print(`${attr[i].value.getINT8_VEC()} | `)
-            } else if (attr[i].value.isINT16_VEC()) {
-                print(`${attr[i].value.getINT16_VEC()} | `)
-            } else if (attr[i].value.isINT32_VEC()) {
-                print(`${attr[i].value.getINT32_VEC()} | `)
-            } else if (attr[i].value.isINT64_VEC()) {
-                print(`${attr[i].value.getINT64_VEC()} | `)
-            } else if (attr[i].value.isUINT8_VEC()) {
-                print(`${attr[i].value.getUINT8_VEC()} | `)
-            } else if (attr[i].value.isUINT16_VEC()) {
-                print(`${attr[i].value.getUINT16_VEC()} | `)
-            } else if (attr[i].value.isUINT32_VEC()) {
-                print(`${attr[i].value.getUINT32_VEC()} | `)
-            } else if (attr[i].value.isUINT64_VEC()) {
-                print(`${attr[i].value.getUINT64_VEC()} | `)
-            } else if (attr[i].value.isFLOAT_VEC()) {
-                print(`${attr[i].value.getFLOAT_VEC().map<string>((i: f32) => (i + 0.000002).toString().slice(0, 8)).join(',')} | `)
-            } else if (attr[i].value.isDOUBLE_VEC()) {
-                print(`${attr[i].value.getDOUBLE_VEC().map<string>((i: f64) => (i + 0.000002).toString().slice(0, 8)).join(',')} | `)
-            } else if (attr[i].value.isSTRING_VEC()) {
-                print(`${attr[i].value.getSTRING_VEC()} | `)
+            if (attr[i].value.is<i8>()) {
+                print(`${attr[i].value.get<i8>()} | `)
+            } else if (attr[i].value.is<i16>()) {
+                print(`${attr[i].value.get<i16>()} | `)
+            } else if (attr[i].value.is<i32>()) {
+                print(`${attr[i].value.get<i32>()} | `)
+            } else if (attr[i].value.is<i64>()) {
+                print(`${attr[i].value.get<i64>()} | `)
+            } else if (attr[i].value.is<u8>()) {
+                print(`${attr[i].value.get<u8>()} | `)
+            } else if (attr[i].value.is<u16>()) {
+                print(`${attr[i].value.get<u16>()} | `)
+            } else if (attr[i].value.is<u32>()) {
+                print(`${attr[i].value.get<u32>()} | `)
+            } else if (attr[i].value.is<u64>()) {
+                print(`${attr[i].value.get<u64>()} | `)
+            } else if (attr[i].value.is<f32>()) {
+                print(`${attr[i].value.get<f32>().toString().slice(0, 7)} | `)
+            } else if (attr[i].value.is<f64>()) {
+                print(`${attr[i].value.get<f64>().toString().slice(0, 14)} | `)
+            } else if (attr[i].value.is<string>()) {
+                print(`${attr[i].value.get<string>().toString()} | `)
+            } else if (attr[i].value.is<i8[]>()) {
+                print(`${attr[i].value.get<i8[]>()} | `)
+            } else if (attr[i].value.is<i16[]>()) {
+                print(`${attr[i].value.get<i16[]>()} | `)
+            } else if (attr[i].value.is<i32[]>()) {
+                print(`${attr[i].value.get<i32[]>()} | `)
+            } else if (attr[i].value.is<i64[]>()) {
+                print(`${attr[i].value.get<i64[]>()} | `)
+            } else if (attr[i].value.is<u8[]>()) {
+                print(`${attr[i].value.get<u8[]>()} | `)
+            } else if (attr[i].value.is<u16[]>()) {
+                print(`${attr[i].value.get<u16[]>()} | `)
+            } else if (attr[i].value.is<u32[]>()) {
+                print(`${attr[i].value.get<u32[]>()} | `)
+            } else if (attr[i].value.is<u64[]>()) {
+                print(`${attr[i].value.get<u64[]>()} | `)
+            } else if (attr[i].value.is<f32[]>()) {
+                print(`${attr[i].value.get<f32[]>().map<string>((i: f32) => (i + 0.000002).toString().slice(0, 8)).join(',')} | `)
+            } else if (attr[i].value.is<f64[]>()) {
+                print(`${attr[i].value.get<f64[]>().map<string>((i: f64) => (i + 0.000002).toString().slice(0, 8)).join(',')} | `)
+            } else if (attr[i].value.is<string[]>()) {
+                print(`${attr[i].value.get<string[]>()} | `)
+            } else {
+                check(false, "type not found?")
             }
         }
     }
