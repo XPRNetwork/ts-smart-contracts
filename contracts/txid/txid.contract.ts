@@ -1,5 +1,6 @@
-import { Action, Name, requireAuth, Contract, transactionSize, MultiIndex, print, Checksum256, readTransaction, check, sha256,  getAction, Table } from 'as-chain'
+import { Action, Name, requireAuth, Contract, transactionSize, print, Checksum256, readTransaction, check, sha256,  getAction, Table } from 'as-chain'
 import { AccountKV, KV } from './txid.tables';
+import { TableStore } from "../../contracts/store";
 
 @packer
 class GetSizeAndId extends Table {
@@ -12,7 +13,7 @@ class GetSizeAndId extends Table {
 
 @contract("txid")
 export class KvContract extends Contract {
-    kvsTable: MultiIndex<AccountKV> = AccountKV.getTable(this.receiver)
+    kvsTable: TableStore<AccountKV> = AccountKV.getTable(this.receiver)
 
     @action("getsizeandid")
     getsizeandid(
@@ -40,11 +41,10 @@ export class KvContract extends Contract {
 
         print(`${getSizeAndId.actor}`)
 
-        const accountKvItr = this.kvsTable.requireFind(getSizeAndId.actor.N, "could not find KV")
-        const accountKv = this.kvsTable.get(accountKvItr)
-
+        const accountKv = this.kvsTable.requireGet(getSizeAndId.actor.N, "could not find KV")
         accountKv.values.push(new KV("action_size", `${rawAction.length}`))
-        this.kvsTable.update(accountKvItr, accountKv, getSizeAndId.actor)
+
+        this.kvsTable.update(accountKv, getSizeAndId.actor)
     }
 
     getTxid(): Checksum256 {

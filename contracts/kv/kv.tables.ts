@@ -1,4 +1,5 @@
-import { Name, Table, MultiIndex } from "as-chain";
+import { Name, Table } from "as-chain";
+import { TableStore } from "../../contracts/store";
 
 @packer
 export class KV {
@@ -22,8 +23,8 @@ export class AccountKVTable extends Table {
         return this.account.N;
     }
 
-    static getTable(code: Name): MultiIndex<AccountKV> {
-        return new MultiIndex<AccountKV>(code, code, Name.fromString("kvs"));
+    static getTable(code: Name): TableStore<AccountKV> {
+        return new TableStore<AccountKV>(code, code, Name.fromString("kvs"));
     }
 }
 

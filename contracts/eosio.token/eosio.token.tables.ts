@@ -1,4 +1,5 @@
-import { Asset, Name, Table, MultiIndex, Symbol, check } from "as-chain";
+import { Asset, Name, Table, Symbol } from "as-chain";
+import { TableStore } from "../../contracts/store";
 
 /**
  * Tables
@@ -16,8 +17,8 @@ export class account extends Table {
         return this.balance.symbol.code();
     }
 
-    static getTable(code: Name, accountName: Name): MultiIndex<Account>  {
-        return new MultiIndex<Account>(code, accountName, Name.fromString("accounts"));
+    static getTable(code: Name, accountName: Name): TableStore<Account>  {
+        return new TableStore<Account>(code, accountName, Name.fromString("accounts"));
     }
 }
 @table("stat")
@@ -35,8 +36,8 @@ export class currency_stats extends Table {
         return this.supply.symbol.code();
     }
 
-    static getTable(code: Name, sym: Symbol): MultiIndex<Stat>  {
-        return new MultiIndex<Stat>(code, new Name(sym.code()), Name.fromString("stat"));
+    static getTable(code: Name, sym: Symbol): TableStore<Stat>  {
+        return new TableStore<Stat>(code, new Name(sym.code()), Name.fromString("stat"));
     }
 }
 
@@ -48,20 +49,12 @@ export class Stat extends currency_stats {}
  */
 export function getSupply(tokenContractAccount: Name, sym: Symbol): Asset {
     const statstable = Stat.getTable(tokenContractAccount, sym);
-
-    const existing = statstable.find(sym.code());
-    check(existing.isOk(), "token with symbol does not exist");
-    const st = statstable.get(existing);
-
+    const st = statstable.requireGet(sym.code(), "token with symbol does not exist");
     return st.supply;
 }
 
 export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset {
     const acnts = Account.getTable(tokenContractAccount, owner)
-
-    const existing = acnts.find(sym.code());
-    check(existing.isOk(), "no balance object found");
-    const ac = acnts.get(existing);
-
+    const ac = acnts.requireGet(sym.code(), "no balance object found");
     return ac.balance;
 }

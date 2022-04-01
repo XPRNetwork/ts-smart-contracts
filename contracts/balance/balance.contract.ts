@@ -151,7 +151,10 @@ export class BalanceContract extends AllowContract {
      */
     addBalance(actor: Name, tokens: ExtendedAsset[], nfts: u64[], ramPayer: Name = actor): void {
         // Get actor
-        const account = this.balancesTable.getWithDefault(actor.N, new Balance(actor))
+        let account = this.balancesTable.get(actor.N)
+        if (!account) {
+            account = new Balance(actor)
+        }
 
         // Add Tokens + NFTs
         addTokens(account, tokens)
