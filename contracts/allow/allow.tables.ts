@@ -1,10 +1,9 @@
 import { Name, Table, Singleton, U128, ExtendedSymbol, IDXDB, IDX128 } from "as-chain";
 import { TableStore } from "../store";
-import { allowedactor, allowedtoken, allowglobals } from "./allow.constants";
 import { extendedSymbolToU128, U128ToExtSym } from "./allow.utils";
 
 // scope: contract
-@table(allowglobals, singleton)
+@table("allowglobals", singleton)
 export class AllowGlobalsSingleton extends Table {
     constructor (
         public isPaused: boolean = false,
@@ -15,14 +14,14 @@ export class AllowGlobalsSingleton extends Table {
     }
 
     static getSingleton(code: Name): Singleton<AllowGlobals> {
-        return new Singleton<AllowGlobals>(code, code, allowglobals);
+        return new Singleton<AllowGlobals>(code, code, Name.fromString("allowglobals"));
     }
 }
 
 export class AllowGlobals extends AllowGlobalsSingleton {}
 
 // scope: contract
-@table(allowedactor)
+@table("allowedactor")
 export class AllowedActorTable extends Table {
     constructor (
         public actor: Name = new Name(),
@@ -38,14 +37,14 @@ export class AllowedActorTable extends Table {
     }
 
     static getTable(code: Name): TableStore<AllowedActor> {
-        return new TableStore<AllowedActor>(code, code, allowedactor);
+        return new TableStore<AllowedActor>(code, code, Name.fromString("allowedactor"));
     }
 }
 
 export class AllowedActor extends AllowedActorTable {}
 
 // scope: contract
-@table(allowedtoken)
+@table("allowedtoken")
 export class AllowedTokenTable extends Table {
     constructor (
         public index: u64 = 0,
@@ -72,12 +71,12 @@ export class AllowedTokenTable extends Table {
 
     static getTable(code: Name): TableStore<AllowedToken> {
         const scope = code
-        const tableName = allowedtoken
+        const tableName = Name.fromString("allowedtoken")
         const idxTableBase: u64 = (tableName.N & 0xfffffffffffffff0);
         const indexes: IDXDB[] = [
             new IDX128(code.N, scope.N, idxTableBase + 0, 0),
         ];
-        return new TableStore<AllowedToken>(code, code, allowedtoken, indexes);
+        return new TableStore<AllowedToken>(code, code, tableName, indexes);
     }
 }
 
