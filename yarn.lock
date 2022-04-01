@@ -400,10 +400,10 @@ emoji-regex@^8.0.0:
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-8.0.0.tgz#e818fd69ce5ccfcb404594f842963bf53164cc37"
   integrity sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==
 
-eosio-asc@^0.2.69:
-  version "0.2.69"
-  resolved "https://registry.yarnpkg.com/eosio-asc/-/eosio-asc-0.2.69.tgz#eb84574c980a4ad03fdaec04af4aa53f9ccef4e7"
-  integrity sha512-EcKAFoB/1V/UiH/4NvnKpE0P4TDf3aVO4FLBCTwilEr04a43q51ZigQ/1woQN2FcxGCl6nCe5mSpYCkcBUxREQ==
+eosio-asc@^0.2.70:
+  version "0.2.70"
+  resolved "https://registry.yarnpkg.com/eosio-asc/-/eosio-asc-0.2.70.tgz#209a42931eebaf2080f63bc2c0e8e4c63833f24a"
+  integrity sha512-yVXiikf2Zhia5JfrtGfmilZgD/4FJErdZ4s5R/99swzjxnV+FOdjyCp5NBD2FGFA5J533E6Eau485J0RenbXjg==
   dependencies:
     as-chain "0.0.29"
     assemblyscript "0.18"
