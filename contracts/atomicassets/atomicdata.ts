@@ -1,5 +1,5 @@
 import { decode, encode } from "./base58";
-import { check, Encoder, Utils, Decoder } from "as-chain";
+import { check, Encoder, Utils, Decoder, Variant } from "as-chain";
 import { RESERVED } from "./atomicassets.constants";
 
 @packer
@@ -28,9 +28,8 @@ export class ATTRIBUTE_MAP_SINGLE {
     }
 }
 
-
 @variant
-class ATOMIC_ATTRIBUTE {
+class ATOMIC_ATTRIBUTE extends Variant {
     i8: i8;
     i16: i16;
     i32: i32;
@@ -53,6 +52,11 @@ class ATOMIC_ATTRIBUTE {
     FLOAT_VEC: f32[];
     DOUBLE_VEC: f64[];
     STRING_VEC: string[];
+
+    // Just for TS intellisense, gets replaced by pre-processor
+    static new<T>(value: T): ATOMIC_ATTRIBUTE {
+        return instantiate<ATOMIC_ATTRIBUTE>()
+    }
 }
 
 export function unsignedFromVarintBytes(itr: u8[]): u64 {
@@ -167,16 +171,16 @@ export function stringToBytes (string: string): u8[] {
 
 export function serialize_attribute (type: string, attr: ATOMIC_ATTRIBUTE): u8[]  {
     if (type.indexOf("[]") == type.length - 2) {
-        if (attr.isINT8_VEC()) {
-            const vec = attr.getINT8_VEC()
+        if (attr.is<i8[]>()) {
+            const vec = attr.get<i8[]>()
             let serialized_data = toVarintBytes(vec.length)
             for (let i = 0; i < vec.length; i++) {
                 const serialized_element: u8[] = toVarintBytes(zigzagEncode(vec[i]), 1);
                 serialized_data = serialized_data.concat(serialized_element)
             }
             return serialized_data
-        } else if (attr.isINT16_VEC()) {
-            const vec = attr.getINT16_VEC()
+        } else if (attr.is<i16[]>()) {
+            const vec = attr.get<i16[]>()
             let serialized_data = toVarintBytes(vec.length)
 
             for (let i = 0; i < vec.length; i++) {
@@ -184,72 +188,72 @@ export function serialize_attribute (type: string, attr: ATOMIC_ATTRIBUTE): u8[]
                 serialized_data = serialized_data.concat(serialized_element)
             }
             return serialized_data
-        } else if (attr.isINT32_VEC()) {
-            const vec = attr.getINT32_VEC()
+        } else if (attr.is<i32[]>()) {
+            const vec = attr.get<i32[]>()
             let serialized_data = toVarintBytes(vec.length)
             for (let i = 0; i < vec.length; i++) {
                 const serialized_element: u8[] = toVarintBytes(zigzagEncode(vec[i]), 4);
                 serialized_data = serialized_data.concat(serialized_element)
             }
             return serialized_data
-        } else if (attr.isINT64_VEC()) {
-            const vec = attr.getINT64_VEC()
+        } else if (attr.is<i64[]>()) {
+            const vec = attr.get<i64[]>()
             let serialized_data = toVarintBytes(vec.length)
             for (let i = 0; i < vec.length; i++) {
                 const serialized_element: u8[] = toVarintBytes(zigzagEncode(vec[i]), 8);
                 serialized_data = serialized_data.concat(serialized_element)
             }
             return serialized_data
-        } else if (attr.isUINT8_VEC()) {
-            const vec = attr.getUINT8_VEC()
+        } else if (attr.is<u8[]>()) {
+            const vec = attr.get<u8[]>()
             let serialized_data = toVarintBytes(vec.length)
             for (let i = 0; i < vec.length; i++) {
                 const serialized_element: u8[] = toVarintBytes(vec[i], 1);
                 serialized_data = serialized_data.concat(serialized_element)
             }
             return serialized_data
-        } else if (attr.isUINT16_VEC()) {
-            const vec = attr.getUINT16_VEC()
+        } else if (attr.is<u16[]>()) {
+            const vec = attr.get<u16[]>()
             let serialized_data = toVarintBytes(vec.length)
             for (let i = 0; i < vec.length; i++) {
                 const serialized_element: u8[] = toVarintBytes(vec[i], 2);
                 serialized_data = serialized_data.concat(serialized_element)
             }
             return serialized_data
-        } else if (attr.isUINT32_VEC()) {
-            const vec = attr.getUINT32_VEC()
+        } else if (attr.is<u32[]>()) {
+            const vec = attr.get<u32[]>()
             let serialized_data = toVarintBytes(vec.length)
             for (let i = 0; i < vec.length; i++) {
                 const serialized_element: u8[] = toVarintBytes(vec[i], 4);
                 serialized_data = serialized_data.concat(serialized_element)
             }
             return serialized_data
-        } else if (attr.isUINT64_VEC()) {
-            const vec = attr.getUINT64_VEC()
+        } else if (attr.is<u64[]>()) {
+            const vec = attr.get<u64[]>()
             let serialized_data = toVarintBytes(vec.length)
             for (let i = 0; i < vec.length; i++) {
                 const serialized_element: u8[] = toVarintBytes(vec[i], 8);
                 serialized_data = serialized_data.concat(serialized_element)
             }
             return serialized_data
-        } else if (attr.isFLOAT_VEC()) {
-            const vec = attr.getFLOAT_VEC()
+        } else if (attr.is<f32[]>()) {
+            const vec = attr.get<f32[]>()
             let serialized_data = toVarintBytes(vec.length)
             for (let i = 0; i < vec.length; i++) {
                 const serialized_element: u8[] = floatToBytes(vec[i])
                 serialized_data = serialized_data.concat(serialized_element)
             }
             return serialized_data
-        }  else if (attr.isDOUBLE_VEC()) {
-            const vec = attr.getDOUBLE_VEC()
+        }  else if (attr.is<f64[]>()) {
+            const vec = attr.get<f64[]>()
             let serialized_data = toVarintBytes(vec.length)
             for (let i = 0; i < vec.length; i++) {
                 const serialized_element: u8[] = doubleToBytes(vec[i])
                 serialized_data = serialized_data.concat(serialized_element)
             }
             return serialized_data
-        } else if (attr.isSTRING_VEC()) {
-            const vec = attr.getSTRING_VEC()
+        } else if (attr.is<string[]>()) {
+            const vec = attr.get<string[]>()
             let serialized_data = toVarintBytes(vec.length)
             for (let i = 0; i < vec.length; i++) {
                 const serialized_element: u8[] = stringToBytes(vec[i])
@@ -261,48 +265,48 @@ export function serialize_attribute (type: string, attr: ATOMIC_ATTRIBUTE): u8[]
         }
 
     } else if (type == "int8") {
-        return toVarintBytes(zigzagEncode(attr.geti8()), 1)
+        return toVarintBytes(zigzagEncode(attr.get<i8>()), 1)
     } else if (type == "int16") {
-        return toVarintBytes(zigzagEncode(attr.geti16()), 2)
+        return toVarintBytes(zigzagEncode(attr.get<i16>()), 2)
     }  else if (type == "int32") {
-        return toVarintBytes(zigzagEncode(attr.geti32()), 4)
+        return toVarintBytes(zigzagEncode(attr.get<i32>()), 4)
     }  else if (type == "int64") {
-        return toVarintBytes(zigzagEncode(attr.geti64()), 8)
+        return toVarintBytes(zigzagEncode(attr.get<i64>()), 8)
        
     } else if (type == "uint8") {
-        return toVarintBytes(attr.getu8(), 1)
+        return toVarintBytes(attr.get<u8>(), 1)
     } else if (type == "uint16") {
-        return toVarintBytes(attr.getu16(), 2)
+        return toVarintBytes(attr.get<u16>(), 2)
     }  else if (type == "uint32") {
-        return toVarintBytes(attr.getu32(), 4)
+        return toVarintBytes(attr.get<u32>(), 4)
     }  else if (type == "uint64") {
-        return toVarintBytes(attr.getu64(), 8)
+        return toVarintBytes(attr.get<u64>(), 8)
         
     } else if (type == "fixed8" || type == "byte") {
-        return toIntBytes(attr.getu8(), 1);
+        return toIntBytes(attr.get<u8>(), 1);
     } else if (type == "fixed16") {
-        return toIntBytes(attr.getu16(), 2);
+        return toIntBytes(attr.get<u16>(), 2);
     } else if (type == "fixed32") {
-        return toIntBytes(attr.getu32(), 4);
+        return toIntBytes(attr.get<u32>(), 4);
     } else if (type == "fixed64") {
-        return toIntBytes(attr.getu64(), 8);
+        return toIntBytes(attr.get<u64>(), 8);
 
     } else if (type == "float") {
-        return floatToBytes(attr.getfloat())
+        return floatToBytes(attr.get<f32>())
 
     } else if (type == "double") {
-        return doubleToBytes(attr.getdouble())
+        return doubleToBytes(attr.get<f64>())
 
     } else if (type == "string" || type == "image") {
-        return stringToBytes(attr.getstring())
+        return stringToBytes(attr.get<string>())
 
     } else if (type == "ipfs") {
-        const value = decode(attr.getstring())
+        const value = decode(attr.get<string>())
         const length_bytes: u8[] = toVarintBytes(value.length)
         return length_bytes.concat(value)
 
     } else if (type == "bool") {
-        const value = attr.getu8()
+        const value = attr.get<u8>()
         check(value == 0 || value == 1, "Bools need to be provided as an uin8_t that is either 0 or 1")
         return [<u8>(value)]
 
@@ -320,71 +324,71 @@ export function deserialize_attribute (type: string, itr: u8[]): ATOMIC_ATTRIBUT
         if (type == "int8[]") {
             const vec: i8[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
-                vec.push(deserialize_attribute(base_type, itr).geti8())
+                vec.push(deserialize_attribute(base_type, itr).get<i8>())
             }
             return ATOMIC_ATTRIBUTE.new<i8[]>(vec)
         } else if (type == "int16[]") {
             const vec: i16[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
-                vec.push(deserialize_attribute(base_type, itr).geti16())
+                vec.push(deserialize_attribute(base_type, itr).get<i16>())
             }
             return ATOMIC_ATTRIBUTE.new<i16[]>(vec)
         } else if (type == "int32[]") {
             const vec: i32[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
-                vec.push(deserialize_attribute(base_type, itr).geti32())
+                vec.push(deserialize_attribute(base_type, itr).get<i32>())
             }
             return ATOMIC_ATTRIBUTE.new<i32[]>(vec)
         } else if (type == "int64[]") {
             const vec: i64[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
-                vec.push(deserialize_attribute(base_type, itr).geti64())
+                vec.push(deserialize_attribute(base_type, itr).get<i64>())
             }
             return ATOMIC_ATTRIBUTE.new<i64[]>(vec)
 
         } else if (type == "uint8[]" || type == "fixed8[]" || type == "bool[]") {
             const vec: u8[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
-                vec.push(deserialize_attribute(base_type, itr).getu8())
+                vec.push(deserialize_attribute(base_type, itr).get<u8>())
             }
             return ATOMIC_ATTRIBUTE.new<u8[]>(vec)
         } else if (type == "uint16[]" || type == "fixed16[]") {
             const vec: u16[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
-                vec.push(deserialize_attribute(base_type, itr).getu16())
+                vec.push(deserialize_attribute(base_type, itr).get<u16>())
             }
             return ATOMIC_ATTRIBUTE.new<u16[]>(vec)
         } else if (type == "uint32[]" || type == "fixed32[]") {
             const vec: u32[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
-                vec.push(deserialize_attribute(base_type, itr).getu32())
+                vec.push(deserialize_attribute(base_type, itr).get<u32>())
             }
             return ATOMIC_ATTRIBUTE.new<u32[]>(vec)
         } else if (type == "uint64[]" || type == "fixed64[]") {
             const vec: u64[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
-                vec.push(deserialize_attribute(base_type, itr).getu64())
+                vec.push(deserialize_attribute(base_type, itr).get<u64>())
             }
             return ATOMIC_ATTRIBUTE.new<u64[]>(vec)
 
         } else if (type == "float[]") {
             const vec: f32[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
-                vec.push(deserialize_attribute(base_type, itr).getfloat())
+                vec.push(deserialize_attribute(base_type, itr).get<f32>())
             }
             return ATOMIC_ATTRIBUTE.new<f32[]>(vec)
 
         } else if (type == "double[]") {
             const vec: f64[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
-                vec.push(deserialize_attribute(base_type, itr).getdouble())
+                vec.push(deserialize_attribute(base_type, itr).get<f64>())
             }
             return ATOMIC_ATTRIBUTE.new<f64[]>(vec)
 
         } else if (type == "string[]" || type == "image[]") {
             const vec: string[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
-                vec.push(deserialize_attribute(base_type, itr).getstring())
+                vec.push(deserialize_attribute(base_type, itr).get<string>())
             }
             return ATOMIC_ATTRIBUTE.new<string[]>(vec)
         } else {
