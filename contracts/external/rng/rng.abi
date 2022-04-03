@@ -1,0 +1,196 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.1",
+    "types": [],
+    "structs": [
+        {
+            "name": "config_a",
+            "base": "",
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "uint64"
+                },
+                {
+                    "name": "value",
+                    "type": "int64"
+                }
+            ]
+        },
+        {
+            "name": "jobs_a",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "assoc_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "signing_value",
+                    "type": "uint64"
+                },
+                {
+                    "name": "caller",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "killjobs",
+            "base": "",
+            "fields": [
+                {
+                    "name": "job_ids",
+                    "type": "uint64[]"
+                }
+            ]
+        },
+        {
+            "name": "pause",
+            "base": "",
+            "fields": [
+                {
+                    "name": "paused",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "requestrand",
+            "base": "",
+            "fields": [
+                {
+                    "name": "assoc_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "signing_value",
+                    "type": "uint64"
+                },
+                {
+                    "name": "caller",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "setrand",
+            "base": "",
+            "fields": [
+                {
+                    "name": "job_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "random_value",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "setsigpubkey",
+            "base": "",
+            "fields": [
+                {
+                    "name": "exponent",
+                    "type": "string"
+                },
+                {
+                    "name": "modulus",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "signvals_a",
+            "base": "",
+            "fields": [
+                {
+                    "name": "signing_value",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "sigpubkey_a",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "exponent",
+                    "type": "string"
+                },
+                {
+                    "name": "modulus",
+                    "type": "string"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "killjobs",
+            "type": "killjobs",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "pause",
+            "type": "pause",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "requestrand",
+            "type": "requestrand",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setrand",
+            "type": "setrand",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setsigpubkey",
+            "type": "setsigpubkey",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "config.a",
+            "type": "config_a",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "jobs.a",
+            "type": "jobs_a",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "signvals.a",
+            "type": "signvals_a",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "sigpubkey.a",
+            "type": "sigpubkey_a",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "variants": []
+}
