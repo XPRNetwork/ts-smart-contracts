@@ -18,7 +18,7 @@ class RequestRng extends Contract {
         requireAuth(account)
 
         // Check customer ID doesnt exist
-        check(!this.resultsTable.exists(customerId), "Customer ID already exists")
+        check(!this.resultsTable.exists(customerId), `Customer ID ${customerId} already exists`)
 
         // Save new request
         const request = new Results(customerId, account)
