@@ -1,14 +1,6 @@
 import { Name, Table } from "as-chain";
 import { TableStore } from "../store";
 
-@packer
-export class KV {
-    constructor (
-        public key: string = "",
-        public value: string = "",
-    ) {}
-}
-
 @table("results")
 export class ResultsTable extends Table {
     constructor (
