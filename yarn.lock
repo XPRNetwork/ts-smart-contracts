@@ -44,14 +44,15 @@
     hash.js "^1.0.0"
     tslib "^2.0.3"
 
-"@jafri/vert@^0.1.38":
-  version "0.1.38"
-  resolved "https://registry.yarnpkg.com/@jafri/vert/-/vert-0.1.38.tgz#0e47adb2d39606e8941ce89e0c69e1462781c512"
-  integrity sha512-8FofF+wsq3jhPArCDfqSXsEmAf2gf4OT9V8dm6sd+GzpuATMDPM/Oex6EZg+eoyuBKIagrnxzIGQR754muJA4g==
+"@jafri/vert@^0.1.45":
+  version "0.1.45"
+  resolved "https://registry.yarnpkg.com/@jafri/vert/-/vert-0.1.45.tgz#91f9913deea348f7feddabb141d008bd7d195fbc"
+  integrity sha512-To6ZxaTIAIozd9UHJEIWVxFrZVp2xtLKDHUDNeriWgo4YSpxYv5bZf1StuEb9ovobLNDpw0WowMF4nIptd3C0A==
   dependencies:
     "@greymass/eosio" "^0.5.4"
     bn.js "^5.2.0"
     brorand "^1.1.0"
+    colors "^1.4.0"
     cross-fetch "^3.1.5"
     elliptic "^6.5.4"
     hash.js "^1.1.7"
@@ -341,6 +342,11 @@ color-name@~1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
+
+colors@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/colors/-/colors-1.4.0.tgz#c50491479d4c1bdaed2c9ced32cf7c7dc2360f78"
+  integrity sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==
 
 concat-map@0.0.1:
   version "0.0.1"

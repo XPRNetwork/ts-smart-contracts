@@ -29,7 +29,7 @@ export class ATTRIBUTE_MAP_SINGLE {
 }
 
 @variant
-class ATOMIC_ATTRIBUTE extends Variant {
+export class ATOMIC_ATTRIBUTE extends Variant {
     i8: i8;
     i16: i16;
     i32: i32;
@@ -435,7 +435,7 @@ export function deserialize_attribute (type: string, itr: u8[]): ATOMIC_ATTRIBUT
 
     } else if (type == "string" || type == "image") {
         const string_length = unsignedFromVarintBytes(itr);
-        const rawStr = itr.splice(0, <i32>(string_length + 1)).slice(1);
+        const rawStr = itr.splice(0, <i32>(string_length)).slice(0);
         const innerValue: string = String.UTF8.decode(rawStr.buffer);
         return ATOMIC_ATTRIBUTE.new<string>(innerValue)
 
