@@ -1,7 +1,7 @@
 import { Name, check, requireAuth, Contract, nameToSuffix, hasAuth, isAccount, Singleton, print } from 'as-chain'
 import { MAX_MARKET_FEE } from './atomicassets.constants';
 import { Collections, Config } from './atomicassets.tables';
-import { ATTRIBUTE_MAP_SINGLE, serialize, FORMAT, deserialize } from './atomicdata';
+import { AtomicAttribute, serialize, FORMAT, deserialize } from './atomicdata';
 import { check_name_length } from './checkformat';
 import { TableStore } from "../../contracts/store";
 
@@ -27,7 +27,7 @@ class AtomicAssetsContract extends Contract {
         authorized_accounts: Name[],
         notify_accounts: Name[],
         market_fee: f64,
-        data: ATTRIBUTE_MAP_SINGLE[]
+        data: AtomicAttribute[]
     ): void {
         requireAuth(author)
 

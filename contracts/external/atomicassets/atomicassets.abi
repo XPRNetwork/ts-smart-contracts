@@ -3,12 +3,12 @@
     "version": "eosio::abi/1.1",
     "types": [
         {
-            "new_type_name": "ATOMIC_ATTRIBUTE",
+            "new_type_name": "AtomicValue",
             "type": "variant_int8_int16_int32_int64_uint8_uint16_uint32_uint64_float32_float64_string_INT8_VEC_INT16_VEC_INT32_VEC_INT64_VEC_UINT8_VEC_UINT16_VEC_UINT32_VEC_UINT64_VEC_FLOAT_VEC_DOUBLE_VEC_STRING_VEC"
         },
         {
             "new_type_name": "ATTRIBUTE_MAP",
-            "type": "pair_string_ATOMIC_ATTRIBUTE[]"
+            "type": "pair_string_AtomicValue[]"
         },
         {
             "new_type_name": "DOUBLE_VEC",
@@ -794,7 +794,7 @@
             ]
         },
         {
-            "name": "pair_string_ATOMIC_ATTRIBUTE",
+            "name": "pair_string_AtomicValue",
             "base": "",
             "fields": [
                 {
@@ -803,7 +803,7 @@
                 },
                 {
                     "name": "value",
-                    "type": "ATOMIC_ATTRIBUTE"
+                    "type": "AtomicValue"
                 }
             ]
         },
