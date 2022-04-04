@@ -30,12 +30,14 @@ describe('Atomicassets', () => {
     await createNftContract.actions.createschema([]).send('createnft@active')
     await createNftContract.actions.createtempl([]).send('createnft@active')
     await createNftContract.actions.mintasset([]).send('createnft@active')
+    await createNftContract.actions.setassetdata([]).send('createnft@active')
     await createNftContract.actions.readnft([]).send('createnft@active')
 
     expect(createNftContract.bc.console.trim()).to.be.deep.equal(`
             Collection: bullscollect
             Collection Data: Description = Collection for Bulls
             Template Data: Image = QmT35anF2vLjjfgCQXBXfXqGgXXj4rJrsjcXWYLm9HDfWL
+            Asset Data: Health = 5
             Asset: 1099511627776
     `.trim())
   });

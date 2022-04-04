@@ -1,6 +1,6 @@
 import { Name, Contract, Asset, check, print } from 'as-chain'
 import { ATOMIC_ATTRIBUTE, ATTRIBUTE_MAP_SINGLE, deserialize, FORMAT } from '../atomicassets/atomicdata';
-import { sendCreateColllection, sendCreateTemplate, sendMintAsset, sendCreateSchema, ATOMICASSETS_CONTRACT } from '../atomicassets/atomicassets.inline';
+import { sendCreateColllection, sendCreateTemplate, sendMintAsset, sendCreateSchema, ATOMICASSETS_CONTRACT, sendSetAssetData } from '../atomicassets/atomicassets.inline';
 import { Assets, Collections, Config, Schemas, Templates } from '../atomicassets/atomicassets.tables';
 
 @contract("createnft")
@@ -37,6 +37,7 @@ class CreateNftContract extends Contract {
             new FORMAT("series", "uint16"),
             new FORMAT("image", "string"),
             new FORMAT("name", "string"),
+            new FORMAT("health", "uint64"),
         ]
         sendCreateSchema(this.contract, authorizedCreator, collectionName, schemaName, schemaFormat)
     }
@@ -66,11 +67,28 @@ class CreateNftContract extends Contract {
         const templateId = 1 // hard coded since we only created 1 template, but replace it with actual template ID
         const newAssetOwner = authorizedMinter
         const immutableData: ATTRIBUTE_MAP_SINGLE[] = []
-        const mutableData: ATTRIBUTE_MAP_SINGLE[] = []
+        const mutableData: ATTRIBUTE_MAP_SINGLE[] = [
+            new ATTRIBUTE_MAP_SINGLE("health", ATOMIC_ATTRIBUTE.new<u64>(10))
+        ]
         const tokensToBack: Asset[] = []
         sendMintAsset(this.contract, authorizedMinter, collectionName, schemaName, templateId, newAssetOwner, immutableData, mutableData, tokensToBack)
     }
 
+    @action("setassetdata")
+    setassetdata(): void {
+        const author = Name.fromString("createnft")
+        const owner = Name.fromString("createnft")
+        const assetTable = Assets.getTable(ATOMICASSETS_CONTRACT, owner)
+        const asset = assetTable.first()
+        if (asset == null) {
+            check(false, "asset not found")
+            return
+        }
+
+        sendSetAssetData(this.contract, author, owner, asset.asset_id, [
+            new ATTRIBUTE_MAP_SINGLE("health", ATOMIC_ATTRIBUTE.new<u64>(5))
+        ])
+    }
 
     @action("readnft")
     readnft(): void {
@@ -102,12 +120,14 @@ class CreateNftContract extends Contract {
         // Deserialize data
         const collectionData = deserialize(collection.serialized_data, config.collection_format)
         const templateData = deserialize(template.immutable_serialized_data, schema.format)
+        const assetData = deserialize(asset.mutable_serialized_data, schema.format)
 
         // Print output
         print(`
             Collection: ${collection.collection_name}
             Collection Data: Description = ${collectionData[2].value.get<string>()}
             Template Data: Image = ${templateData[1].value.get<string>()}
+            Asset Data: Health = ${assetData[0].value.get<u64>()}
             Asset: ${asset.asset_id}
         `)
     }
