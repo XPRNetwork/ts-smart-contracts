@@ -1,5 +1,5 @@
 import { Name, InlineAction, Symbol, Asset, ActionWrapper, PermissionLevel } from "as-chain";
-import { AtomicAttribute, FORMAT } from "./atomicdata";
+import { AtomicAttribute, AtomicFormat } from "./atomicdata";
 
 //------------------- Contract Names ------------------------------//
 export const ATOMICASSETS_CONTRACT = Name.fromString("atomicassets")
@@ -36,7 +36,7 @@ const PAYOFFERRAM_ACTION = new ActionWrapper(Name.fromString("payofferram"))
 
 @packer
 export class AdminColEdit extends InlineAction {
-    constructor (public collectionFormatExtension: FORMAT[] = []) {
+    constructor (public collectionFormatExtension: AtomicFormat[] = []) {
         super();
     }
 }
@@ -161,7 +161,7 @@ export class CreateSchema extends InlineAction {
         public authorized_creator: Name = new Name(),
         public collection_name: Name = new Name(),
         public schema_name: Name = new Name(),
-        public schema_format: FORMAT[] = [],
+        public schema_format: AtomicFormat[] = [],
     ) {
         super();
     }
@@ -173,7 +173,7 @@ export class ExtendSchema extends InlineAction {
         public authorized_editor: Name = new Name(),
         public collection_name: Name = new Name(),
         public schema_name: Name = new Name(),
-        public schema_format_extension: FORMAT[] = [],
+        public schema_format_extension: AtomicFormat[] = [],
     ) {
         super();
     }
@@ -318,13 +318,13 @@ export class PayOfferRam extends InlineAction {
 //------------------- Helper functions ------------------------------//
 
 // Inline action
-export function sendAdminCollectionEdit(contract: Name, collectionFormatExtension: FORMAT[]): void {
+export function sendAdminCollectionEdit(contract: Name, collectionFormatExtension: AtomicFormat[]): void {
     const action = ADMINCOLEDIT_ACTION.act(ATOMICASSETS_CONTRACT, new PermissionLevel(contract))
     const actionParams = new AdminColEdit(collectionFormatExtension)
     action.send(actionParams)
 }
 
-export function sendSetVersion(contract: Name, collectionFormatExtension: FORMAT[]): void {
+export function sendSetVersion(contract: Name, collectionFormatExtension: AtomicFormat[]): void {
     const action = SETVERSION_ACTION.act(ATOMICASSETS_CONTRACT, new PermissionLevel(contract))
     const actionParams = new AdminColEdit(collectionFormatExtension)
     action.send(actionParams)
@@ -390,13 +390,13 @@ export function sendForbidNotify(contract: Name, collection_name: Name): void {
     action.send(actionParams)
 }
 
-export function sendCreateSchema(contract: Name, authorized_creator: Name, collection_name: Name, schema_name: Name, schema_format: FORMAT[]): void {
+export function sendCreateSchema(contract: Name, authorized_creator: Name, collection_name: Name, schema_name: Name, schema_format: AtomicFormat[]): void {
     const action = CREATESCHEMA_ACTION.act(ATOMICASSETS_CONTRACT, new PermissionLevel(contract))
     const actionParams = new CreateSchema(authorized_creator, collection_name, schema_name, schema_format)
     action.send(actionParams)
 }
 
-export function sendExtendSchema(contract: Name, authorized_editor: Name, collection_name: Name, schema_name: Name, schema_format_extension: FORMAT[]): void {
+export function sendExtendSchema(contract: Name, authorized_editor: Name, collection_name: Name, schema_name: Name, schema_format_extension: AtomicFormat[]): void {
     const action = EXTENDSCHEMA_ACTION.act(ATOMICASSETS_CONTRACT, new PermissionLevel(contract))
     const actionParams = new ExtendSchema(authorized_editor, collection_name, schema_name, schema_format_extension)
     action.send(actionParams)

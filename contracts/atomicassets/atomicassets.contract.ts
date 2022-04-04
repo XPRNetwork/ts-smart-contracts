@@ -1,7 +1,7 @@
 import { Name, check, requireAuth, Contract, nameToSuffix, hasAuth, isAccount, Singleton, print } from 'as-chain'
 import { MAX_MARKET_FEE } from './atomicassets.constants';
 import { Collections, Config } from './atomicassets.tables';
-import { AtomicAttribute, serialize, FORMAT, deserialize } from './atomicdata';
+import { AtomicAttribute, serialize, AtomicFormat, deserialize } from './atomicdata';
 import { check_name_length } from './checkformat';
 import { TableStore } from "../../contracts/store";
 
@@ -12,7 +12,7 @@ class AtomicAssetsContract extends Contract {
 
     @action("setcolformat")
     colformat(
-        format: FORMAT[]
+        format: AtomicFormat[]
     ): void {
         const config = this.configSingleton.get()
         config.collection_format = format

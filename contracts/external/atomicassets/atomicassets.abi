@@ -57,7 +57,7 @@
     ],
     "structs": [
         {
-            "name": "FORMAT",
+            "name": "AtomicFormat",
             "base": "",
             "fields": [
                 {
@@ -128,7 +128,7 @@
             "fields": [
                 {
                     "name": "collection_format_extension",
-                    "type": "FORMAT[]"
+                    "type": "AtomicFormat[]"
                 }
             ]
         },
@@ -296,7 +296,7 @@
                 },
                 {
                     "name": "collection_format",
-                    "type": "FORMAT[]"
+                    "type": "AtomicFormat[]"
                 },
                 {
                     "name": "supported_tokens",
@@ -382,7 +382,7 @@
                 },
                 {
                     "name": "schema_format",
-                    "type": "FORMAT[]"
+                    "type": "AtomicFormat[]"
                 }
             ]
         },
@@ -462,7 +462,7 @@
                 },
                 {
                     "name": "schema_format_extension",
-                    "type": "FORMAT[]"
+                    "type": "AtomicFormat[]"
                 }
             ]
         },
@@ -859,7 +859,7 @@
                 },
                 {
                     "name": "format",
-                    "type": "FORMAT[]"
+                    "type": "AtomicFormat[]"
                 }
             ]
         },
