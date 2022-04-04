@@ -1,4 +1,5 @@
 import { Blockchain } from "@jafri/vert"
+import { expect } from "chai"
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
@@ -30,6 +31,12 @@ describe('Atomicassets', () => {
     await createNftContract.actions.createtempl([]).send('createnft@active')
     await createNftContract.actions.mintasset([]).send('createnft@active')
     await createNftContract.actions.readnft([]).send('createnft@active')
-    console.log(createNftContract.bc.console)
+
+    expect(createNftContract.bc.console.trim()).to.be.deep.equal(`
+            Collection: bullscollect
+            Collection Data: Description = Collection for Bulls
+            Template Data: Image = QmT35anF2vLjjfgCQXBXfXqGgXXj4rJrsjcXWYLm9HDfWL
+            Asset: 1099511627776
+    `.trim())
   });
 });
