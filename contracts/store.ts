@@ -215,7 +215,7 @@ export class TableStore<T extends MultiIndexValue> {
      * @param {u8} index - The index to search in.
      * @returns The table element.
      */
-    getBySecondaryIDXFloat(secondaryValue: f64, index: u8): T | null {
+    getBySecondaryIDXDouble(secondaryValue: f64, index: u8): T | null {
         const idx = <IDXF64>this.mi.idxdbs[index]
         const secondaryIt = idx.find(secondaryValue);
         if (!secondaryIt.isOk()) {
@@ -236,7 +236,7 @@ export class TableStore<T extends MultiIndexValue> {
      * @param {u8} index - The index to search in.
      * @returns The table element.
      */
-    getBySecondaryIDXDouble(secondaryValue: Float128, index: u8): T | null {
+    getBySecondaryIDXLongDouble(secondaryValue: Float128, index: u8): T | null {
         const idx = <IDXF128>this.mi.idxdbs[index]
         const secondaryIt = idx.find(secondaryValue);
         if (!secondaryIt.isOk()) {
