@@ -1,8 +1,8 @@
 import { check } from "as-chain";
-import { AtomicAttribute, findIndexOfAttribute, FORMAT } from "./atomicdata";
+import { AtomicAttribute, findIndexOfAttribute, AtomicFormat } from "./atomicdata";
 
 /*
-This function checks if a vector of FORMAT structs, used to describe a format, is valid
+This function checks if a vector of AtomicFormat structs, used to describe a format, is valid
 For a format to be valid, three things are checked:
 1. The type attribute has to be a valid type. Valid types are:
     int8 / int16 / int32 / int64
@@ -17,7 +17,7 @@ For a format to be valid, three things are checked:
 Note: This could all be done a lot cleaner by using regex or similar libraries
       However, using them would bloat up the contract size significantly.
 */
-export function check_format(lines: FORMAT[]): void {
+export function check_format(lines: AtomicFormat[]): void {
     let found_name = false;
     const attribute_names: string[] = []
 

@@ -1,5 +1,5 @@
 import { Name, Contract, Asset, check, print } from 'as-chain'
-import { AtomicValue, AtomicAttribute, deserialize, FORMAT } from '../atomicassets/atomicdata';
+import { AtomicValue, AtomicAttribute, deserialize, AtomicFormat } from '../atomicassets/atomicdata';
 import { sendCreateColllection, sendCreateTemplate, sendMintAsset, sendCreateSchema, ATOMICASSETS_CONTRACT, sendSetAssetData } from '../atomicassets/atomicassets.inline';
 import { Assets, Collections, Config, Schemas, Templates } from '../atomicassets/atomicassets.tables';
 
@@ -34,10 +34,10 @@ class CreateNftContract extends Contract {
         const schemaName = Name.fromString("bullsschema1")
         const schemaFormat = [
             // LHS is name, RHS is type. 
-            new FORMAT("series", "uint16"),
-            new FORMAT("image", "string"),
-            new FORMAT("name", "string"),
-            new FORMAT("health", "uint64"),
+            new AtomicFormat("series", "uint16"),
+            new AtomicFormat("image", "string"),
+            new AtomicFormat("name", "string"),
+            new AtomicFormat("health", "uint64"),
         ]
         sendCreateSchema(this.contract, authorizedCreator, collectionName, schemaName, schemaFormat)
     }

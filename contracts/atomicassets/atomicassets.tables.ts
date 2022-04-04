@@ -1,5 +1,5 @@
 import { Name, Table, Singleton, ExtendedSymbol, Asset, IDX64, IDXDB } from "as-chain";
-import { FORMAT } from "./atomicdata";
+import { AtomicFormat } from "./atomicdata";
 import { TableStore } from "../../contracts/store";
 
 // Scope: N/A
@@ -33,7 +33,7 @@ export class Collections extends CollectionsTable {}
 export class SchemasTable extends Table {
     constructor (
         public schema_name: Name = new Name(),
-        public format: FORMAT[] = [],
+        public format: AtomicFormat[] = [],
     ) {
         super();
     }
@@ -157,7 +157,7 @@ export class ConfigSingleton extends Table {
         public asset_counter: u64 = 1099511627776,
         public template_counter: u32 = 1,
         public offer_counter: u64 = 1,
-        public collection_format: FORMAT[] = [],
+        public collection_format: AtomicFormat[] = [],
         public supported_tokens: ExtendedSymbol[] = [],
     ) {
         super();

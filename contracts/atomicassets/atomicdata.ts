@@ -3,7 +3,7 @@ import { check, Encoder, Utils, Decoder, Variant } from "as-chain";
 import { RESERVED } from "./atomicassets.constants";
 
 @packer
-export class FORMAT {
+export class AtomicFormat {
     constructor (
         public name: string = "",
         public type: string = "",
@@ -453,7 +453,7 @@ export function deserialize_attribute (type: string, itr: u8[]): AtomicValue  {
     }
 }
 
-export function serialize(attr_map: AtomicAttribute[], format_lines: FORMAT[]): u8[] {
+export function serialize(attr_map: AtomicAttribute[], format_lines: AtomicFormat[]): u8[] {
     let number: u64 = 0;
     let serialized_data: u8[] = []
 
@@ -479,7 +479,7 @@ export function serialize(attr_map: AtomicAttribute[], format_lines: FORMAT[]): 
     return serialized_data;
 }
 
-export function deserialize(data: u8[], format_lines: FORMAT[]): AtomicAttribute[] {
+export function deserialize(data: u8[], format_lines: AtomicFormat[]): AtomicAttribute[] {
     const attr_map: AtomicAttribute[] = [];
 
     while (data.length) {
