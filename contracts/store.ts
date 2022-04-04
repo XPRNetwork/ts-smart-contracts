@@ -234,7 +234,7 @@ export class TableStore<T extends MultiIndexValue> {
      * Given a secondary key, find the first table element that matches secondary value
      * @param {Float128} secondaryValue - double - the secondary value to search for
      * @param {u8} index - The index to search in.
-     * @returns The table element.
+     * @returns The table element..
      */
     getBySecondaryIDXLongDouble(secondaryValue: Float128, index: u8): T | null {
         const idx = <IDXF128>this.mi.idxdbs[index]
