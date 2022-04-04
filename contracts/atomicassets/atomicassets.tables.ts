@@ -3,7 +3,7 @@ import { AtomicFormat } from "./atomicdata";
 import { TableStore } from "../../contracts/store";
 
 // Scope: N/A
-@table("collections")
+@table("collections", noabigen)
 export class CollectionsTable extends Table {
     constructor (
         public collection_name: Name = new Name(),
@@ -29,7 +29,7 @@ export class CollectionsTable extends Table {
 export class Collections extends CollectionsTable {}
 
 //Scope: collection_name
-@table("schemas")
+@table("schemas", noabigen)
 export class SchemasTable extends Table {
     constructor (
         public schema_name: Name = new Name(),
@@ -50,7 +50,7 @@ export class SchemasTable extends Table {
 export class Schemas extends SchemasTable {}
 
 //Scope: collection_name
-@table("templates")
+@table("templates", noabigen)
 export class TemplatesTable extends Table {
     constructor (
         public template_id: i32 = 0,
@@ -76,7 +76,7 @@ export class TemplatesTable extends Table {
 export class Templates extends TemplatesTable {}
 
 //Scope: owner
-@table("assets")
+@table("assets", noabigen)
 export class AssetsTable extends Table {
     constructor (
         public asset_id: u64 = 0,
@@ -103,7 +103,7 @@ export class AssetsTable extends Table {
 export class Assets extends AssetsTable {}
 
 // Scope: N/A
-@table("offers")
+@table("offers", noabigen)
 export class OffersTable extends Table {
     constructor (
         public offer_id: u64 = 0,
@@ -151,7 +151,7 @@ export class OffersTable extends Table {
 }
 export class Offers extends OffersTable {}
 
-@table("config", singleton)
+@table("config", singleton, noabigen)
 export class ConfigSingleton extends Table {
     constructor (
         public asset_counter: u64 = 1099511627776,

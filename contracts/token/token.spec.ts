@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { Asset, Name } from "@greymass/eosio";
-import { Blockchain, nameToBigInt, symbolCodeToBigInt, eosio_assert, expectToThrow } from "@jafri/vert"
+import { Blockchain, nameToBigInt, symbolCodeToBigInt, eosio_assert, expectToThrow } from "@proton/vert"
 
 /**
  * Initialize

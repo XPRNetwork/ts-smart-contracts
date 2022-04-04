@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Account, Blockchain, eosio_assert,  expectToThrow, createDummyNfts, mintTokens, nameToBigInt, symbolCodeToBigInt } from "@jafri/vert"
+import { Account, Blockchain, eosio_assert,  expectToThrow, createDummyNfts, mintTokens, nameToBigInt, symbolCodeToBigInt } from "@proton/vert"
 import { TimePointSec, Name, Asset } from "@greymass/eosio";
 
 /* Create Blockchain */

@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Blockchain } from "@jafri/vert"
+import { Blockchain } from "@proton/vert"
 import { pubKeyData, sign } from "../external/rng/utils";
 
 /* Create Blockchain */

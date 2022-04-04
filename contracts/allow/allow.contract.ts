@@ -54,7 +54,7 @@ export class AllowContract extends Contract {
 
         // Logic
         const existingAllowedToken = this.findAllowedToken(token)
-        const tokenPrimaryKey = existingAllowedToken ? existingAllowedToken.primary : this.allowedTokenTable.availablePrimaryKey()
+        const tokenPrimaryKey = existingAllowedToken ? existingAllowedToken.primary : this.allowedTokenTable.availablePrimaryKey
         const allowedToken = new AllowedToken(tokenPrimaryKey, token, isAllowed, isBlocked)
 
         if (isAllowed || isBlocked) {

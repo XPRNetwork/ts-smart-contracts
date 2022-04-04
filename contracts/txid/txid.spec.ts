@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Blockchain } from "@jafri/vert"
+import { Blockchain } from "@proton/vert"
 import { Transaction, PermissionLevel, Serializer } from "@greymass/eosio";
 
 /* Create Blockchain */

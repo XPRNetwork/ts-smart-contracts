@@ -1,4 +1,4 @@
-import { Name, IDXDB, PrimaryIterator, check, MultiIndex, MultiIndexValue, IDX128, U128, IDX256, U256, IDX64, IDXF64, IDXF128, Float128 } from "as-chain";
+import { Name, IDXDB, check, MultiIndex, MultiIndexValue, IDX128, U128, IDX256, U256, IDX64, IDXF64, IDXF128, Float128, print } from "as-chain";
 
 export const NO_AVAILABLE_PRIMARY_KEY = <u64>(-2) // Must be the smallest uint64_t value compared to all other tags
 export const UNSET_NEXT_PRIMARY_KEY = <u64>(-1) // No table
@@ -31,22 +31,27 @@ export class TableStore<T extends MultiIndexValue> {
     }
 
     store(value: T, payer: Name): void {
-        const itr = this.mi.requireNotFind(value.getPrimaryValue(), FAIL_STORE)
+        const primary = value.getPrimaryValue()
+        this.mi.requireNotFind(primary, FAIL_STORE)
         this.mi.store(value, payer)
-        this.updateAvailablePrimaryKey(itr.primary)
+
+        if (primary >= this.nextPrimaryKey) {
+            this.nextPrimaryKey = (primary >= NO_AVAILABLE_PRIMARY_KEY) ? NO_AVAILABLE_PRIMARY_KEY : (primary + 1);
+        }
     }
 
     update(value: T, payer: Name): void {
-        const itr = this.mi.requireFind(value.getPrimaryValue(), FAIL_UPDATE)
+        const primary = value.getPrimaryValue()
+        const itr = this.mi.requireFind(primary, FAIL_UPDATE)
         this.mi.update(itr, value, payer)
-        this.updateAvailablePrimaryKey(itr.primary)
     }
 
     remove(value: T): void {
-        const itr = this.mi.requireFind(value.getPrimaryValue(), FAIL_REMOVE)
-        this.mi.removeEx(itr.primary)
+        const primary = value.getPrimaryValue()
+        this.mi.requireFind(primary, FAIL_REMOVE)
+        this.mi.removeEx(primary)
 
-        if (itr.primary == this.nextPrimaryKey - 1) {
+        if (primary == this.nextPrimaryKey - 1) {
             this.nextPrimaryKey = UNSET_NEXT_PRIMARY_KEY
         }
     }
@@ -58,13 +63,6 @@ export class TableStore<T extends MultiIndexValue> {
     requireGet(key: u64, errorMsg: string): T {
         const itr = this.mi.find(key)
         check(itr.isOk(), errorMsg)
-        return this.mi.get(itr)
-    }
-
-    private getByItr(itr: PrimaryIterator): T | null {
-        if (!itr.isOk()) {
-            return null
-        }
         return this.mi.get(itr)
     }
 
@@ -83,32 +81,32 @@ export class TableStore<T extends MultiIndexValue> {
 
     next(value: T): T | null {
         const itr = this.mi.requireFind(value.getPrimaryValue(), FAIL_NEXT);
-        return this.getByItr(this.mi.next(itr))
+        return this.mi.next(itr).value
     }
 
     previous(value: T): T | null {
         const itr = this.mi.requireFind(value.getPrimaryValue(), FAIL_PREVIOUS);
-        return this.getByItr(this.mi.previous(itr))
+        return this.mi.previous(itr).value
     }
 
     // Primary may be UNKNOWN_PRIMARY_KEY
     lowerBound(id: u64): T | null {
-        return this.getByItr(this.mi.lowerBound(id))
+        return this.mi.lowerBound(id).value
     }
 
     upperBound(id: u64): T | null {
-        return this.getByItr(this.mi.upperBound(id))
+        return this.mi.upperBound(id).value
     }
 
     /**
      * Size utils
      */
     first(): T | null {
-        return this.getByItr(this.mi.begin())
+        return this.mi.begin().value
     }
     last(): T | null {
         const end = this.mi.end()
-        return this.getByItr(this.mi.previous(end))
+        return this.mi.previous(end).value
     }
     isEmpty(): bool {
         return this.mi.begin().i == this.mi.end().i
@@ -117,7 +115,7 @@ export class TableStore<T extends MultiIndexValue> {
     /**
      * Available primary index
      */
-    availablePrimaryKey(): u64 {
+    get availablePrimaryKey (): u64 {
         if (this.nextPrimaryKey == UNSET_NEXT_PRIMARY_KEY) {
             if (this.isEmpty()) {
                 this.nextPrimaryKey = 0;
@@ -135,12 +133,6 @@ export class TableStore<T extends MultiIndexValue> {
 
         check(this.nextPrimaryKey < NO_AVAILABLE_PRIMARY_KEY, FAIL_AVAILABLE_PRIMARY_KEY)
         return this.nextPrimaryKey
-    }
-
-    private updateAvailablePrimaryKey(primary: u64): void {
-        if (primary >= this.nextPrimaryKey) {
-            this.nextPrimaryKey = (primary >= NO_AVAILABLE_PRIMARY_KEY) ? NO_AVAILABLE_PRIMARY_KEY : (primary + 1);
-        }
     }
 
     /**
