@@ -11,25 +11,25 @@ export class FORMAT {
 }
 
 @packer
-export class ATTRIBUTE_MAP_SINGLE {
+export class AtomicAttribute {
     constructor (
         public key: string = "",
-        public value: ATOMIC_ATTRIBUTE = new ATOMIC_ATTRIBUTE()
+        public value: AtomicValue = new AtomicValue()
     ) {}
 
     @inline @operator('==')
-    static eq(a: ATTRIBUTE_MAP_SINGLE, b: ATTRIBUTE_MAP_SINGLE): bool {
+    static eq(a: AtomicAttribute, b: AtomicAttribute): bool {
         return a.key == b.key;
     }
 
     @inline @operator('!=')
-    static ne(a: ATTRIBUTE_MAP_SINGLE, b: ATTRIBUTE_MAP_SINGLE): bool {
+    static ne(a: AtomicAttribute, b: AtomicAttribute): bool {
         return a.key != b.key;
     }
 }
 
 @variant
-export class ATOMIC_ATTRIBUTE extends Variant {
+export class AtomicValue extends Variant {
     i8: i8;
     i16: i16;
     i32: i32;
@@ -54,8 +54,8 @@ export class ATOMIC_ATTRIBUTE extends Variant {
     STRING_VEC: string[];
 
     // Just for TS intellisense, gets replaced by pre-processor
-    static new<T>(value: T): ATOMIC_ATTRIBUTE {
-        return instantiate<ATOMIC_ATTRIBUTE>()
+    static new<T>(value: T): AtomicValue {
+        return instantiate<AtomicValue>()
     }
 }
 
@@ -114,7 +114,7 @@ export function zigzagDecode (value: u64): i64 {
 }
 
 
-export function eraseAttribute (attributes: ATTRIBUTE_MAP_SINGLE[], toErase: ATTRIBUTE_MAP_SINGLE): void {
+export function eraseAttribute (attributes: AtomicAttribute[], toErase: AtomicAttribute): void {
     if (!toErase) {
         return
     }
@@ -144,7 +144,7 @@ export function toVarintBytes(number: u64, original_bytes: u64 = 8): u8[] {
 }
 
 
-export function findIndexOfAttribute (attributes: ATTRIBUTE_MAP_SINGLE[], key: string): i32 {
+export function findIndexOfAttribute (attributes: AtomicAttribute[], key: string): i32 {
     const keys = attributes.map<string>(attr => attr.key)
     return keys.indexOf(key)
 }
@@ -168,7 +168,7 @@ export function stringToBytes (string: string): u8[] {
     return serialized_data
 }
 
-export function serialize_attribute (type: string, attr: ATOMIC_ATTRIBUTE): u8[]  {
+export function serialize_attribute (type: string, attr: AtomicValue): u8[]  {
     if (type.indexOf("[]") == type.length - 2) {
         if (attr.is<i8[]>()) {
             const vec = attr.get<i8[]>()
@@ -315,7 +315,7 @@ export function serialize_attribute (type: string, attr: ATOMIC_ATTRIBUTE): u8[]
     }
 }
 
-export function deserialize_attribute (type: string, itr: u8[]): ATOMIC_ATTRIBUTE  {
+export function deserialize_attribute (type: string, itr: u8[]): AtomicValue  {
     if (type.indexOf("[]", type.length - 2) == type.length - 2) {
         const array_length = unsignedFromVarintBytes(itr)
         const base_type = type.slice(0, type.length - 2)
@@ -325,135 +325,135 @@ export function deserialize_attribute (type: string, itr: u8[]): ATOMIC_ATTRIBUT
             for (let i = 0; i < <i32>(array_length); i++) {
                 vec.push(deserialize_attribute(base_type, itr).get<i8>())
             }
-            return ATOMIC_ATTRIBUTE.new<i8[]>(vec)
+            return AtomicValue.new<i8[]>(vec)
         } else if (type == "int16[]") {
             const vec: i16[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
                 vec.push(deserialize_attribute(base_type, itr).get<i16>())
             }
-            return ATOMIC_ATTRIBUTE.new<i16[]>(vec)
+            return AtomicValue.new<i16[]>(vec)
         } else if (type == "int32[]") {
             const vec: i32[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
                 vec.push(deserialize_attribute(base_type, itr).get<i32>())
             }
-            return ATOMIC_ATTRIBUTE.new<i32[]>(vec)
+            return AtomicValue.new<i32[]>(vec)
         } else if (type == "int64[]") {
             const vec: i64[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
                 vec.push(deserialize_attribute(base_type, itr).get<i64>())
             }
-            return ATOMIC_ATTRIBUTE.new<i64[]>(vec)
+            return AtomicValue.new<i64[]>(vec)
 
         } else if (type == "uint8[]" || type == "fixed8[]" || type == "bool[]") {
             const vec: u8[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
                 vec.push(deserialize_attribute(base_type, itr).get<u8>())
             }
-            return ATOMIC_ATTRIBUTE.new<u8[]>(vec)
+            return AtomicValue.new<u8[]>(vec)
         } else if (type == "uint16[]" || type == "fixed16[]") {
             const vec: u16[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
                 vec.push(deserialize_attribute(base_type, itr).get<u16>())
             }
-            return ATOMIC_ATTRIBUTE.new<u16[]>(vec)
+            return AtomicValue.new<u16[]>(vec)
         } else if (type == "uint32[]" || type == "fixed32[]") {
             const vec: u32[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
                 vec.push(deserialize_attribute(base_type, itr).get<u32>())
             }
-            return ATOMIC_ATTRIBUTE.new<u32[]>(vec)
+            return AtomicValue.new<u32[]>(vec)
         } else if (type == "uint64[]" || type == "fixed64[]") {
             const vec: u64[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
                 vec.push(deserialize_attribute(base_type, itr).get<u64>())
             }
-            return ATOMIC_ATTRIBUTE.new<u64[]>(vec)
+            return AtomicValue.new<u64[]>(vec)
 
         } else if (type == "float[]") {
             const vec: f32[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
                 vec.push(deserialize_attribute(base_type, itr).get<f32>())
             }
-            return ATOMIC_ATTRIBUTE.new<f32[]>(vec)
+            return AtomicValue.new<f32[]>(vec)
 
         } else if (type == "double[]") {
             const vec: f64[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
                 vec.push(deserialize_attribute(base_type, itr).get<f64>())
             }
-            return ATOMIC_ATTRIBUTE.new<f64[]>(vec)
+            return AtomicValue.new<f64[]>(vec)
 
         } else if (type == "string[]" || type == "image[]") {
             const vec: string[] = []
             for (let i = 0; i < <i32>(array_length); i++) {
                 vec.push(deserialize_attribute(base_type, itr).get<string>())
             }
-            return ATOMIC_ATTRIBUTE.new<string[]>(vec)
+            return AtomicValue.new<string[]>(vec)
         } else {
             check(false, "No type could be matched - " + type);
-            return new ATOMIC_ATTRIBUTE()
+            return new AtomicValue()
         }
 
     } else if (type == "int8") {
-        return ATOMIC_ATTRIBUTE.new(<i8>(zigzagDecode(unsignedFromVarintBytes(itr))))
+        return AtomicValue.new(<i8>(zigzagDecode(unsignedFromVarintBytes(itr))))
     } else if (type == "int16") {
-        return ATOMIC_ATTRIBUTE.new(<i16>(zigzagDecode(unsignedFromVarintBytes(itr))))
+        return AtomicValue.new(<i16>(zigzagDecode(unsignedFromVarintBytes(itr))))
     }  else if (type == "int32") {
-        return ATOMIC_ATTRIBUTE.new(<i32>(zigzagDecode(unsignedFromVarintBytes(itr))))
+        return AtomicValue.new(<i32>(zigzagDecode(unsignedFromVarintBytes(itr))))
     }  else if (type == "int64") {
-        return ATOMIC_ATTRIBUTE.new(<i64>(zigzagDecode(unsignedFromVarintBytes(itr))))
+        return AtomicValue.new(<i64>(zigzagDecode(unsignedFromVarintBytes(itr))))
        
     } else if (type == "uint8") {
-        return ATOMIC_ATTRIBUTE.new(<u8>(unsignedFromVarintBytes(itr)))
+        return AtomicValue.new(<u8>(unsignedFromVarintBytes(itr)))
     } else if (type == "uint16") {
-        return ATOMIC_ATTRIBUTE.new(<u16>(unsignedFromVarintBytes(itr)))
+        return AtomicValue.new(<u16>(unsignedFromVarintBytes(itr)))
     }  else if (type == "uint32") {
-        return ATOMIC_ATTRIBUTE.new(<u32>(unsignedFromVarintBytes(itr)))
+        return AtomicValue.new(<u32>(unsignedFromVarintBytes(itr)))
     }  else if (type == "uint64") {
-        return ATOMIC_ATTRIBUTE.new(<u64>(unsignedFromVarintBytes(itr)))
+        return AtomicValue.new(<u64>(unsignedFromVarintBytes(itr)))
         
     } else if (type == "fixed8") {
-        return ATOMIC_ATTRIBUTE.new(<u8>(unsignedFromIntBytes(itr, 1)))
+        return AtomicValue.new(<u8>(unsignedFromIntBytes(itr, 1)))
     } else if (type == "fixed16") {
-        return ATOMIC_ATTRIBUTE.new(<u16>(unsignedFromIntBytes(itr, 2)))
+        return AtomicValue.new(<u16>(unsignedFromIntBytes(itr, 2)))
     } else if (type == "fixed32") {
-        return ATOMIC_ATTRIBUTE.new(<u32>(unsignedFromIntBytes(itr, 4)))
+        return AtomicValue.new(<u32>(unsignedFromIntBytes(itr, 4)))
     } else if (type == "fixed64") {
-        return ATOMIC_ATTRIBUTE.new(<u64>(unsignedFromIntBytes(itr, 8)))
+        return AtomicValue.new(<u64>(unsignedFromIntBytes(itr, 8)))
 
     } else if (type == "float") {
         const dec = new Decoder(itr.splice(0, 4));
         const innerValue: f32 = dec.unpackNumber<f32>();
-        return ATOMIC_ATTRIBUTE.new<f32>(innerValue)
+        return AtomicValue.new<f32>(innerValue)
 
     } else if (type == "double") {
         const dec = new Decoder(itr.splice(0, 8));
         const innerValue: f64 = dec.unpackNumber<f64>();
-        return ATOMIC_ATTRIBUTE.new<f64>(innerValue)
+        return AtomicValue.new<f64>(innerValue)
 
     } else if (type == "string" || type == "image") {
         const string_length = unsignedFromVarintBytes(itr);
         const rawStr = itr.splice(0, <i32>(string_length));
         const innerValue: string = String.UTF8.decode(rawStr.buffer);
-        return ATOMIC_ATTRIBUTE.new<string>(innerValue)
+        return AtomicValue.new<string>(innerValue)
 
     } else if (type == "ipfs") {
         const array_length = unsignedFromVarintBytes(itr);
         const byte_array = Uint8Array.wrap(itr.splice(0, <i32>(array_length)).buffer)
-        return ATOMIC_ATTRIBUTE.new<string>(encode(byte_array))
+        return AtomicValue.new<string>(encode(byte_array))
 
     } else if (type == "bool") {
         const next_byte = itr.splice(0, 1)[0]
-        return ATOMIC_ATTRIBUTE.new<u8>(next_byte)
+        return AtomicValue.new<u8>(next_byte)
 
     } else {
         check(false, "No type could be matched - " + type);
-        return new ATOMIC_ATTRIBUTE()
+        return new AtomicValue()
     }
 }
 
-export function serialize(attr_map: ATTRIBUTE_MAP_SINGLE[], format_lines: FORMAT[]): u8[] {
+export function serialize(attr_map: AtomicAttribute[], format_lines: FORMAT[]): u8[] {
     let number: u64 = 0;
     let serialized_data: u8[] = []
 
@@ -479,15 +479,15 @@ export function serialize(attr_map: ATTRIBUTE_MAP_SINGLE[], format_lines: FORMAT
     return serialized_data;
 }
 
-export function deserialize(data: u8[], format_lines: FORMAT[]): ATTRIBUTE_MAP_SINGLE[] {
-    const attr_map: ATTRIBUTE_MAP_SINGLE[] = [];
+export function deserialize(data: u8[], format_lines: FORMAT[]): AtomicAttribute[] {
+    const attr_map: AtomicAttribute[] = [];
 
     while (data.length) {
         const identifier = unsignedFromVarintBytes(data);
         const format = format_lines[<i32>(identifier - RESERVED)]
         const attr = deserialize_attribute(format.type, data)
         attr_map.push(
-            new ATTRIBUTE_MAP_SINGLE(format.name, attr)
+            new AtomicAttribute(format.name, attr)
         )
     }
 

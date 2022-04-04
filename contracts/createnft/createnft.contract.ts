@@ -1,5 +1,5 @@
 import { Name, Contract, Asset, check, print } from 'as-chain'
-import { ATOMIC_ATTRIBUTE, ATTRIBUTE_MAP_SINGLE, deserialize, FORMAT } from '../atomicassets/atomicdata';
+import { AtomicValue, AtomicAttribute, deserialize, FORMAT } from '../atomicassets/atomicdata';
 import { sendCreateColllection, sendCreateTemplate, sendMintAsset, sendCreateSchema, ATOMICASSETS_CONTRACT, sendSetAssetData } from '../atomicassets/atomicassets.inline';
 import { Assets, Collections, Config, Schemas, Templates } from '../atomicassets/atomicassets.tables';
 
@@ -17,10 +17,10 @@ class CreateNftContract extends Contract {
         const marketFee = 0.02
         const data = [
             // Only these 4 are supported for collections
-            new ATTRIBUTE_MAP_SINGLE("name", ATOMIC_ATTRIBUTE.new<string>("Bulls Collection")),
-            new ATTRIBUTE_MAP_SINGLE("img", ATOMIC_ATTRIBUTE.new<string>("QmT35anF2vLjjfgCQXBXfXqGgXXj4rJrsjcXWYLm9HDfWL")),
-            new ATTRIBUTE_MAP_SINGLE("description", ATOMIC_ATTRIBUTE.new<string>("Collection for Bulls")),
-            new ATTRIBUTE_MAP_SINGLE("url", ATOMIC_ATTRIBUTE.new<string>("https://bulls.com")),
+            new AtomicAttribute("name", AtomicValue.new<string>("Bulls Collection")),
+            new AtomicAttribute("img", AtomicValue.new<string>("QmT35anF2vLjjfgCQXBXfXqGgXXj4rJrsjcXWYLm9HDfWL")),
+            new AtomicAttribute("description", AtomicValue.new<string>("Collection for Bulls")),
+            new AtomicAttribute("url", AtomicValue.new<string>("https://bulls.com")),
         ]
 
         // Sends inline action
@@ -52,9 +52,9 @@ class CreateNftContract extends Contract {
         const maxSupply = 100
         const immutableData = [
             // Match schema from createschema
-            new ATTRIBUTE_MAP_SINGLE("series", ATOMIC_ATTRIBUTE.new<u16>(1)),
-            new ATTRIBUTE_MAP_SINGLE("image", ATOMIC_ATTRIBUTE.new<string>("QmT35anF2vLjjfgCQXBXfXqGgXXj4rJrsjcXWYLm9HDfWL")),
-            new ATTRIBUTE_MAP_SINGLE("name", ATOMIC_ATTRIBUTE.new<string>("Dullahan"))
+            new AtomicAttribute("series", AtomicValue.new<u16>(1)),
+            new AtomicAttribute("image", AtomicValue.new<string>("QmT35anF2vLjjfgCQXBXfXqGgXXj4rJrsjcXWYLm9HDfWL")),
+            new AtomicAttribute("name", AtomicValue.new<string>("Dullahan"))
         ]
         sendCreateTemplate(this.contract, authorizedCreator, collectionName, schemaName, transferable, burnable, maxSupply, immutableData)
     }
@@ -66,9 +66,9 @@ class CreateNftContract extends Contract {
         const schemaName = Name.fromString("bullsschema1")
         const templateId = 1 // hard coded since we only created 1 template, but replace it with actual template ID
         const newAssetOwner = authorizedMinter
-        const immutableData: ATTRIBUTE_MAP_SINGLE[] = []
-        const mutableData: ATTRIBUTE_MAP_SINGLE[] = [
-            new ATTRIBUTE_MAP_SINGLE("health", ATOMIC_ATTRIBUTE.new<u64>(10))
+        const immutableData: AtomicAttribute[] = []
+        const mutableData: AtomicAttribute[] = [
+            new AtomicAttribute("health", AtomicValue.new<u64>(10))
         ]
         const tokensToBack: Asset[] = []
         sendMintAsset(this.contract, authorizedMinter, collectionName, schemaName, templateId, newAssetOwner, immutableData, mutableData, tokensToBack)
@@ -86,7 +86,7 @@ class CreateNftContract extends Contract {
         }
 
         sendSetAssetData(this.contract, author, owner, asset.asset_id, [
-            new ATTRIBUTE_MAP_SINGLE("health", ATOMIC_ATTRIBUTE.new<u64>(5))
+            new AtomicAttribute("health", AtomicValue.new<u64>(5))
         ])
     }
 

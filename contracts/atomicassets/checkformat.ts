@@ -1,5 +1,5 @@
 import { check } from "as-chain";
-import { ATTRIBUTE_MAP_SINGLE, findIndexOfAttribute, FORMAT } from "./atomicdata";
+import { AtomicAttribute, findIndexOfAttribute, FORMAT } from "./atomicdata";
 
 /*
 This function checks if a vector of FORMAT structs, used to describe a format, is valid
@@ -87,7 +87,7 @@ export function check_format(lines: FORMAT[]): void {
 * This function checks that, if there exists an ATTRIBUTE with name: "name", the value of it
 * must be of length <= 64
 */
-export function check_name_length(data: ATTRIBUTE_MAP_SINGLE[]): void {
+export function check_name_length(data: AtomicAttribute[]): void {
     const index = findIndexOfAttribute(data, "name");
     if (index != -1) {
         if (data[index].value.is<string>()) {

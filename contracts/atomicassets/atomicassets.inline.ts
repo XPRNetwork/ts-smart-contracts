@@ -1,5 +1,5 @@
 import { Name, InlineAction, Symbol, Asset, ActionWrapper, PermissionLevel } from "as-chain";
-import { ATTRIBUTE_MAP_SINGLE, FORMAT } from "./atomicdata";
+import { AtomicAttribute, FORMAT } from "./atomicdata";
 
 //------------------- Contract Names ------------------------------//
 export const ATOMICASSETS_CONTRACT = Name.fromString("atomicassets")
@@ -79,7 +79,7 @@ export class CreateCollection extends InlineAction {
         public authorized_accounts: Name[] = [],
         public notify_accounts: Name[] = [],
         public market_fee: f64 = 0,
-        public data: ATTRIBUTE_MAP_SINGLE[] = []
+        public data: AtomicAttribute[] = []
     ) {
         super();
     }
@@ -89,7 +89,7 @@ export class CreateCollection extends InlineAction {
 export class SetCollectionData extends InlineAction {
     constructor (
         public collection_name: Name = new Name(),
-        public data: ATTRIBUTE_MAP_SINGLE[] = []
+        public data: AtomicAttribute[] = []
     ) {
         super();
     }
@@ -188,7 +188,7 @@ export class CreateTemplate extends InlineAction {
         public transferable: boolean = true,
         public burnable: boolean = true,
         public max_supply: u32 = 0,
-        public immutable_data: ATTRIBUTE_MAP_SINGLE[] = []
+        public immutable_data: AtomicAttribute[] = []
     ) {
         super();
     }
@@ -213,8 +213,8 @@ export class MintAsset extends InlineAction {
         public schema_name: Name = new Name(),
         public template_id: i32 = 0,
         public newasset_owner: Name = new Name(),
-        public immutable_data: ATTRIBUTE_MAP_SINGLE[] = [],
-        public mutable_data: ATTRIBUTE_MAP_SINGLE[] = [],
+        public immutable_data: AtomicAttribute[] = [],
+        public mutable_data: AtomicAttribute[] = [],
         public tokens_to_back: Asset[] = []
     ) {
         super();
@@ -227,7 +227,7 @@ export class SetAssetData extends InlineAction {
         public authorized_editor: Name = new Name(),
         public asset_owner: Name = new Name(),
         public asset_id: u64 = 0,
-        public new_mutable_data: ATTRIBUTE_MAP_SINGLE[] = [],
+        public new_mutable_data: AtomicAttribute[] = [],
     ) {
         super();
     }
@@ -342,13 +342,13 @@ export function sendTransferNfts(contract: Name, from: Name, to: Name, asset_ids
     action.send(actionParams)
 }
 
-export function sendCreateColllection(contract: Name, author: Name, collection_name: Name, allow_notify: boolean, authorized_accounts: Name[], notify_accounts: Name[], market_fee: f64, data: ATTRIBUTE_MAP_SINGLE[]): void {
+export function sendCreateColllection(contract: Name, author: Name, collection_name: Name, allow_notify: boolean, authorized_accounts: Name[], notify_accounts: Name[], market_fee: f64, data: AtomicAttribute[]): void {
     const action = CREATECOL_ACTION.act(ATOMICASSETS_CONTRACT, new PermissionLevel(contract))
     const actionParams = new CreateCollection(author, collection_name, allow_notify, authorized_accounts, notify_accounts, market_fee, data)
     action.send(actionParams)
 }
 
-export function sendSetCollectionData(contract: Name, collection_name: Name, data: ATTRIBUTE_MAP_SINGLE[]): void {
+export function sendSetCollectionData(contract: Name, collection_name: Name, data: AtomicAttribute[]): void {
     const action = SETCOLDATA_ACTION.act(ATOMICASSETS_CONTRACT, new PermissionLevel(contract))
     const actionParams = new SetCollectionData(collection_name, data)
     action.send(actionParams)
@@ -402,7 +402,7 @@ export function sendExtendSchema(contract: Name, authorized_editor: Name, collec
     action.send(actionParams)
 }
 
-export function sendCreateTemplate(contract: Name, authorized_creator: Name, collection_name: Name, schema_name: Name, transferable: boolean, burnable: boolean, max_supply: u32, immutable_data: ATTRIBUTE_MAP_SINGLE[]): void {
+export function sendCreateTemplate(contract: Name, authorized_creator: Name, collection_name: Name, schema_name: Name, transferable: boolean, burnable: boolean, max_supply: u32, immutable_data: AtomicAttribute[]): void {
     const action = CREATETEMPL_ACTION.act(ATOMICASSETS_CONTRACT, new PermissionLevel(contract))
     const actionParams = new CreateTemplate(authorized_creator, collection_name, schema_name, transferable, burnable, max_supply, immutable_data)
     action.send(actionParams)
@@ -414,13 +414,13 @@ export function sendLockTemplate(contract: Name, authorized_editor: Name, collec
     action.send(actionParams)
 }
 
-export function sendMintAsset(contract: Name, authorized_minter: Name, collection_name: Name, schema_name: Name, template_id: i32, newasset_owner: Name, immutable_data: ATTRIBUTE_MAP_SINGLE[], mutable_data: ATTRIBUTE_MAP_SINGLE[], tokens_to_back: Asset[]): void {
+export function sendMintAsset(contract: Name, authorized_minter: Name, collection_name: Name, schema_name: Name, template_id: i32, newasset_owner: Name, immutable_data: AtomicAttribute[], mutable_data: AtomicAttribute[], tokens_to_back: Asset[]): void {
     const action = MINTASSET_ACTION.act(ATOMICASSETS_CONTRACT, new PermissionLevel(contract))
     const actionParams = new MintAsset(authorized_minter, collection_name, schema_name, template_id, newasset_owner, immutable_data, mutable_data, tokens_to_back)
     action.send(actionParams)
 }
 
-export function sendSetAssetData(contract: Name, authorized_editor: Name, asset_owner: Name, asset_id: u64, new_mutable_data: ATTRIBUTE_MAP_SINGLE[]): void {
+export function sendSetAssetData(contract: Name, authorized_editor: Name, asset_owner: Name, asset_id: u64, new_mutable_data: AtomicAttribute[]): void {
     const action = SETASSETDATA_ACTION.act(ATOMICASSETS_CONTRACT, new PermissionLevel(contract))
     const actionParams = new SetAssetData(authorized_editor, asset_owner, asset_id, new_mutable_data)
     action.send(actionParams)
