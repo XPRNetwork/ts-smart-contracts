@@ -165,8 +165,7 @@ export function stringToBytes (string: string): u8[] {
     const enc = new Encoder(Utils.calcPackedStringLength(string))
     enc.packString(string)
     const serialized_data: u8[] = enc.getBytes()
-    const length_bytes: u8[] = toVarintBytes(string.length)
-    return length_bytes.concat(serialized_data)
+    return serialized_data
 }
 
 export function serialize_attribute (type: string, attr: ATOMIC_ATTRIBUTE): u8[]  {
@@ -435,7 +434,7 @@ export function deserialize_attribute (type: string, itr: u8[]): ATOMIC_ATTRIBUT
 
     } else if (type == "string" || type == "image") {
         const string_length = unsignedFromVarintBytes(itr);
-        const rawStr = itr.splice(0, <i32>(string_length)).slice(0);
+        const rawStr = itr.splice(0, <i32>(string_length));
         const innerValue: string = String.UTF8.decode(rawStr.buffer);
         return ATOMIC_ATTRIBUTE.new<string>(innerValue)
 
