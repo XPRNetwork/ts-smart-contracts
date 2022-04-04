@@ -1,4 +1,4 @@
-import { Blockchain } from "@jafri/vert"
+import { Blockchain } from "@proton/vert"
 
 /* Create Blockchain */
 const blockchain = new Blockchain()

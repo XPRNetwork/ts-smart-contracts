@@ -73,8 +73,7 @@ class MyData extends Table {
 }
 
 function checkAvailablePrimaryKey (table: TableStore<MyData>, expected: u64): void {
-    const availableKey = table.availablePrimaryKey()
-    check(availableKey == expected, `expected availablePrimaryKey ${expected}, got ${availableKey}`);
+    check(table.availablePrimaryKey == expected, `expected availablePrimaryKey ${expected}, got ${table.availablePrimaryKey}`);
 }
 
 @contract("hello")
@@ -123,7 +122,7 @@ class MyContract extends Contract{
         this.mdTable.store(value, this.receiver);
         checkAvailablePrimaryKey(this.mdTable, 5)
 
-        value = new MyData(this.mdTable.availablePrimaryKey(), 5, new U128(6), 6.6, new U256(44), new Float128(0xbb));
+        value = new MyData(this.mdTable.availablePrimaryKey, 5, new U128(6), 6.6, new U256(44), new Float128(0xbb));
         this.mdTable.store(value, this.receiver);
         checkAvailablePrimaryKey(this.mdTable, 6)
 
