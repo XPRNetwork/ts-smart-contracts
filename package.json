@@ -27,7 +27,8 @@
     "test:hello": "mocha -s 250 contracts/hello/*.spec.ts -r ts-node/register",
     "test:atomicassets": "mocha -s 250 contracts/atomicassets/*.spec.ts -r ts-node/register",
     "test": "run-p test:*",
-    "core:escrow": "cat ./contracts/escrow/target/escrow.contract.abi | abi2core > ./contracts/escrow/target/escrow.client-types.ts"
+    "core:escrow": "cat ./contracts/escrow/target/escrow.contract.abi | abi2core > ./contracts/escrow/target/escrow.client-types.ts",
+    "run:playground": "npx ts-node ./playground.ts"
   },
   "dependencies": {
     "as-chain": "^0.0.31",
