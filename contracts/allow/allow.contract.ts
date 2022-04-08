@@ -3,7 +3,7 @@ import { TableStore } from '../store';
 import { AllowedActor, AllowedToken, AllowGlobals } from './allow.tables';
 import { extendedSymbolToU128 } from './allow.utils';
 
-@contract("allow")
+@contract
 export class AllowContract extends Contract {
     contract: Name = this.receiver
     parentContract: Name = this.firstReceiver

@@ -76,7 +76,7 @@ function checkAvailablePrimaryKey (table: TableStore<MyData>, expected: u64): vo
     check(table.availablePrimaryKey == expected, `expected availablePrimaryKey ${expected}, got ${table.availablePrimaryKey}`);
 }
 
-@contract("hello")
+@contract
 class MyContract extends Contract{
     mdTable: TableStore<MyData> = MyData.getTable(this.receiver)
 
