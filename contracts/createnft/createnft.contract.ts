@@ -3,7 +3,7 @@ import { AtomicValue, AtomicAttribute, deserialize, AtomicFormat } from '../atom
 import { sendCreateColllection, sendCreateTemplate, sendMintAsset, sendCreateSchema, ATOMICASSETS_CONTRACT, sendSetAssetData } from '../atomicassets/atomicassets.inline';
 import { Assets, Collections, Config, Schemas, Templates } from '../atomicassets/atomicassets.tables';
 
-@contract("createnft")
+@contract
 class CreateNftContract extends Contract {
     contract: Name = this.receiver
     

@@ -6,7 +6,7 @@ import { sendTransferTokens, sendTransferNfts, NftTransfer, TokenTransfer } from
 import { Balance } from './balance.tables';
 import { addNfts, addTokens, substractNfts, substractTokens } from './balance.utils';
 
-@contract("balance")
+@contract
 export class BalanceContract extends AllowContract {
     balancesTable: TableStore<Balance> = Balance.getTable(this.receiver)
 

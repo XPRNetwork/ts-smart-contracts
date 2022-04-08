@@ -11,7 +11,7 @@ class GetSizeAndId extends Table {
     }
 }
 
-@contract("txid")
+@contract
 export class KvContract extends Contract {
     kvsTable: TableStore<AccountKV> = AccountKV.getTable(this.receiver)
 

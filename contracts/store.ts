@@ -81,32 +81,32 @@ export class TableStore<T extends MultiIndexValue> {
 
     next(value: T): T | null {
         const itr = this.mi.requireFind(value.getPrimaryValue(), FAIL_NEXT);
-        return this.mi.next(itr).value
+        return this.mi.next(itr).getValue()
     }
 
     previous(value: T): T | null {
         const itr = this.mi.requireFind(value.getPrimaryValue(), FAIL_PREVIOUS);
-        return this.mi.previous(itr).value
+        return this.mi.previous(itr).getValue()
     }
 
     // Primary may be UNKNOWN_PRIMARY_KEY
     lowerBound(id: u64): T | null {
-        return this.mi.lowerBound(id).value
+        return this.mi.lowerBound(id).getValue()
     }
 
     upperBound(id: u64): T | null {
-        return this.mi.upperBound(id).value
+        return this.mi.upperBound(id).getValue()
     }
 
     /**
      * Size utils
      */
     first(): T | null {
-        return this.mi.begin().value
+        return this.mi.begin().getValue()
     }
     last(): T | null {
         const end = this.mi.end()
-        return this.mi.previous(end).value
+        return this.mi.previous(end).getValue()
     }
     isEmpty(): bool {
         return this.mi.begin().i == this.mi.end().i

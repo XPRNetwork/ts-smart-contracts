@@ -3,7 +3,7 @@ import { TableStore } from '../store';
 import { sendRequestRandom } from './rng.inline';
 import {  Results } from './rng.tables';
 
-@contract("requestrng")
+@contract
 class RequestRng extends Contract {
     resultsTable: TableStore<Results> = Results.getTable(this.receiver)
     contract: Name = this.receiver

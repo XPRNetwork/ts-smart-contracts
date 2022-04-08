@@ -5,7 +5,7 @@ import { AtomicAttribute, serialize, AtomicFormat, deserialize } from './atomicd
 import { check_name_length } from './checkformat';
 import { TableStore } from "../../contracts/store";
 
-@contract("atomicassets")
+@contract
 class AtomicAssetsContract extends Contract {
     collectionsTable: TableStore<Collections> = Collections.getTable(this.receiver)
     configSingleton: Singleton<Config> = Config.getSingleton(this.receiver)

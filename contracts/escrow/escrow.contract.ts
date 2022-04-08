@@ -5,7 +5,7 @@ import { ESCROW_STATUS } from './escrow.constants';
 import { sendLogEscrow } from './escrow.inline';
 import { EscrowGlobal, Escrow, escrow } from './escrow.tables';
 
-@contract("escrow")
+@contract
 export class EscrowContract extends BalanceContract {
     escrowsTable: TableStore<Escrow> = Escrow.getTable(this.receiver)
 
