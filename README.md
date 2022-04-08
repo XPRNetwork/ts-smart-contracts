@@ -31,8 +31,12 @@ npm run test:token
 ```
 
 ## Upload WASM+ABI to Blockchain
-https://www.protonscan.io/wallet/utilities/upload-contract
 
+**Install [@proton/cli](https://github.com/ProtonProtocol/proton-cli)**
+
+```
+proton contract:deploy <account>
+```
 
 ## Built using
 Uses SDK: https://github.com/uuosio/ascdk
