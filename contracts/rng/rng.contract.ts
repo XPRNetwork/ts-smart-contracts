@@ -1,7 +1,7 @@
 import { Name, check, requireAuth, Contract, Checksum256 } from 'as-chain'
 import { TableStore } from '../store';
 import { sendRequestRandom } from './rng.inline';
-import {  Results } from './rng.tables';
+import { Results } from './rng.tables';
 
 @contract
 class RequestRng extends Contract {
