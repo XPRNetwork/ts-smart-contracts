@@ -1,6 +1,6 @@
 import { Name, Table, Singleton, ExtendedSymbol, Asset, IDX64, IDXDB } from "as-chain";
 import { AtomicFormat } from "./atomicdata";
-import { TableStore } from "../../contracts/store";
+import { TableStore } from "../store";
 
 // Scope: N/A
 @table("collections", noabigen)

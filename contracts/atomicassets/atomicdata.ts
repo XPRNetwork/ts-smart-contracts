@@ -23,7 +23,7 @@ export class AtomicAttribute {
     }
 
     @inline @operator('!=')
-    static ne(a: AtomicAttribute, b: AtomicAttribute): bool {
+    static neq(a: AtomicAttribute, b: AtomicAttribute): bool {
         return a.key != b.key;
     }
 }
