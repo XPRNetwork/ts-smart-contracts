@@ -1,5 +1,5 @@
 import { Name, Table } from "as-chain";
-import { TableStore } from "../../contracts/store";
+import { TableStore } from "../store";
 
 @packer
 export class KV {

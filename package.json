@@ -12,7 +12,7 @@
     "build:rng": "npx eosio-asc ./contracts/rng/rng.contract.ts",
     "build:txid": "npx eosio-asc ./contracts/txid/txid.contract.ts",
     "build:hello": "npx eosio-asc ./contracts/hello/hello.contract.ts",
-    "build:storetest": "npx eosio-asc ./contracts/store.test.ts",
+    "build:store": "npx eosio-asc ./contracts/store/store.test.ts",
     "build:atomicassets": "npx eosio-asc ./contracts/atomicassets/atomicassets.contract.ts --debug --sourceMap --target release",
     "build": "run-p build:*",
     "test:token": "mocha -s 250 contracts/token/*.spec.ts -r ts-node/register",
@@ -22,7 +22,7 @@
     "test:createnft": "mocha -s 250 contracts/createnft/*.spec.ts -r ts-node/register",
     "test:kv": "mocha -s 250 contracts/kv/*.spec.ts -r ts-node/register",
     "test:rng": "mocha -s 250 contracts/rng/*.spec.ts -r ts-node/register",
-    "test:storetest": "mocha -s 250 contracts/store.spec.ts -r ts-node/register",
+    "test:store": "mocha -s 250 contracts/store/store.spec.ts -r ts-node/register",
     "test:txid": "mocha -s 250 contracts/txid/*.spec.ts -r ts-node/register",
     "test:hello": "mocha -s 250 contracts/hello/*.spec.ts -r ts-node/register",
     "test:atomicassets": "mocha -s 250 contracts/atomicassets/*.spec.ts -r ts-node/register",
@@ -31,7 +31,7 @@
     "run:playground": "LOG_LEVEL=debug npx ts-node ./playground.ts"
   },
   "dependencies": {
-    "eosio-asc": "^0.2.72"
+    "eosio-asc": "^0.2.73"
   },
   "engines": {
     "npm": ">=7.0.0",
