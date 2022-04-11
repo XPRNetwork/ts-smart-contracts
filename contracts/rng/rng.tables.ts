@@ -1,5 +1,5 @@
 import { Name, Table } from "as-chain";
-import { TableStore } from "../store";
+import { TableStore } from "../../lib/store";
 
 @table("results")
 export class ResultsTable extends Table {

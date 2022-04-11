@@ -1,5 +1,5 @@
 import { Name, Singleton, Contract, check, requireAuth, ExtendedSymbol } from 'as-chain'
-import { TableStore } from '../store';
+import { TableStore } from '../../lib/store';
 import { AllowedActor, AllowedToken, AllowGlobals } from './allow.tables';
 import { extendedSymbolToU128 } from './allow.utils';
 

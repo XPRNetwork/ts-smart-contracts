@@ -3,7 +3,7 @@ import { MAX_MARKET_FEE } from './atomicassets.constants';
 import { Collections, Config } from './atomicassets.tables';
 import { AtomicAttribute, serialize, AtomicFormat, deserialize } from './atomicdata';
 import { check_name_length } from './checkformat';
-import { TableStore } from "../store";
+import { TableStore } from "../../lib/store";
 
 @contract
 class AtomicAssetsContract extends Contract {

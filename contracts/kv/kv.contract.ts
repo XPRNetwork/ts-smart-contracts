@@ -1,5 +1,5 @@
 import { Name, check, requireAuth, Contract } from 'as-chain'
-import { TableStore } from '../store';
+import { TableStore } from '../../lib/store';
 import { KV, AccountKV } from './kv.tables';
 
 @contract("kv")
