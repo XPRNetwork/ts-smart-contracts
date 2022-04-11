@@ -1,5 +1,5 @@
 import { currentTimePoint, ExtendedAsset, Name, check, requireAuth, isAccount, ExtendedSymbol } from 'as-chain'
-import { TableStore } from '../store';
+import { TableStore } from '../../lib/store';
 import { BalanceContract } from '../balance';
 import { ESCROW_STATUS } from './escrow.constants';
 import { sendLogEscrow } from './escrow.inline';

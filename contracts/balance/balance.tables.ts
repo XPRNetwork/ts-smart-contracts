@@ -1,5 +1,5 @@
 import { ExtendedAsset, Name, Table } from "as-chain";
-import { TableStore } from "../store";
+import { TableStore } from "../../lib/store";
 
 @table("balances")
 export class BalanceTable extends Table {
