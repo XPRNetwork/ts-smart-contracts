@@ -1,6 +1,6 @@
 {
   "name": "proton-tsc",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "license": "MIT",
   "main": "./assembly/index.ts",
   "scripts": {
@@ -53,6 +53,7 @@
     "crypto": "^1.0.1",
     "mocha": "^9.2.2",
     "npm-run-all": "^4.1.5",
+    "source-map-support": "^0.5.21",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.2"
   }
