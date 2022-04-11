@@ -4,7 +4,7 @@ import { Blockchain } from "@proton/vert"
 const blockchain = new Blockchain()
 
 /* Create Contracts and accounts */
-const storeTestContract = blockchain.createContract('storetest', 'contracts/target/store.test')
+const storeTestContract = blockchain.createContract('storetest', 'assembly/store/target/store.test')
 
 /* Runs before each test */
 beforeEach(async () => {
