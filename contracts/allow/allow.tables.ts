@@ -1,5 +1,5 @@
 import { Name, Table, Singleton, U128, ExtendedSymbol, IDXDB, IDX128 } from "as-chain";
-import { TableStore } from "../../lib/store";
+import { TableStore } from "../../assembly";
 import { extendedSymbolToU128, U128ToExtSym } from "./allow.utils";
 
 // scope: contract

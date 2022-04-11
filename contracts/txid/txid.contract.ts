@@ -1,6 +1,6 @@
 import { Action, Name, requireAuth, Contract, transactionSize, print, Checksum256, readTransaction, check, sha256,  getAction, Table } from 'as-chain'
 import { AccountKV, KV } from './txid.tables';
-import { TableStore } from "../../lib/store";
+import { TableStore } from "../../assembly";
 
 @packer
 class GetSizeAndId extends Table {

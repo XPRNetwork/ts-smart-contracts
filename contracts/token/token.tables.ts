@@ -1,5 +1,5 @@
 import { Asset, Name, Table, Symbol } from "as-chain";
-import { TableStore } from "../../lib/store"
+import { TableStore } from "../../assembly"
 
 /**
  * Tables

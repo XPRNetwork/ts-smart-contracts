@@ -1,5 +1,5 @@
 import { Name, Table } from "as-chain";
-import { TableStore } from "../../lib/store";
+import { TableStore } from "../../assembly";
 
 @packer
 export class KV {

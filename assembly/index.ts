@@ -120,4 +120,4 @@ export {
 
 export { Utils } from "as-chain";
 
-export { TableStore } from './lib/store/store'
+export { TableStore } from './store/store'
