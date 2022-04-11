@@ -1,6 +1,6 @@
 {
   "name": "proton-tsc",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "license": "MIT",
   "main": "./assembly/index.ts",
   "scripts": {
@@ -39,7 +39,7 @@
     "node": ">=16.0.0"
   },
   "bin": {
-    "proton-tsc": "./node_modules/.bin/proton-asc"
+    "proton-tsc": "./node_modules/proton-asc/bin/proton-asc.js"
   },
   "engineStrict": true,
   "devDependencies": {
