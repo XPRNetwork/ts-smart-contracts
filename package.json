@@ -1,6 +1,6 @@
 {
   "name": "proton-tsc",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "license": "MIT",
   "main": "./assembly/index.ts",
   "scripts": {
@@ -38,9 +38,7 @@
     "npm": ">=7.0.0",
     "node": ">=16.0.0"
   },
-  "bin": {
-    "proton-tsc": "./node_modules/proton-asc/bin/proton-asc.js"
-  },
+  "bin": "./node_modules/proton-asc/bin/proton-asc.js",
   "engineStrict": true,
   "devDependencies": {
     "@greymass/abi2core": "^1.1.0",
