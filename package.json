@@ -1,8 +1,8 @@
 {
   "name": "proton-tsc",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
-  "main": "./index.ts",
+  "main": "./assembly/index.ts",
   "scripts": {
     "build:token": "npx eosio-asc ./contracts/token/token.contract.ts",
     "build:balance": "npx eosio-asc ./contracts/balance/balance.contract.ts",
@@ -13,7 +13,7 @@
     "build:rng": "npx eosio-asc ./contracts/rng/rng.contract.ts",
     "build:txid": "npx eosio-asc ./contracts/txid/txid.contract.ts",
     "build:hello": "npx eosio-asc ./contracts/hello/hello.contract.ts",
-    "build:store": "npx eosio-asc ./lib/store/store.test.ts",
+    "build:store": "npx eosio-asc ./assembly/store/store.test.ts",
     "build:atomicassets": "npx eosio-asc ./contracts/atomicassets/atomicassets.contract.ts --debug --sourceMap --target release",
     "build": "run-p build:*",
     "test:token": "mocha -s 250 contracts/token/*.spec.ts -r ts-node/register",
@@ -23,7 +23,7 @@
     "test:createnft": "mocha -s 250 contracts/createnft/*.spec.ts -r ts-node/register",
     "test:kv": "mocha -s 250 contracts/kv/*.spec.ts -r ts-node/register",
     "test:rng": "mocha -s 250 contracts/rng/*.spec.ts -r ts-node/register",
-    "test:store": "mocha -s 250 lib/store/store.spec.ts -r ts-node/register",
+    "test:store": "mocha -s 250 assembly/store/store.spec.ts -r ts-node/register",
     "test:txid": "mocha -s 250 contracts/txid/*.spec.ts -r ts-node/register",
     "test:hello": "mocha -s 250 contracts/hello/*.spec.ts -r ts-node/register",
     "test:atomicassets": "mocha -s 250 contracts/atomicassets/*.spec.ts -r ts-node/register",
