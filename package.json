@@ -4,17 +4,17 @@
   "license": "MIT",
   "main": "./assembly/index.ts",
   "scripts": {
-    "build:token": "npx eosio-asc ./contracts/token/token.contract.ts",
-    "build:balance": "npx eosio-asc ./contracts/balance/balance.contract.ts",
-    "build:escrow": "npx eosio-asc ./contracts/escrow/escrow.contract.ts",
-    "build:allow": "npx eosio-asc ./contracts/allow/allow.contract.ts",
-    "build:kv": "npx eosio-asc ./contracts/kv/kv.contract.ts",
-    "build:createnft": "npx eosio-asc ./contracts/createnft/createnft.contract.ts",
-    "build:rng": "npx eosio-asc ./contracts/rng/rng.contract.ts",
-    "build:txid": "npx eosio-asc ./contracts/txid/txid.contract.ts",
-    "build:hello": "npx eosio-asc ./contracts/hello/hello.contract.ts",
-    "build:store": "npx eosio-asc ./assembly/store/store.test.ts",
-    "build:atomicassets": "npx eosio-asc ./contracts/atomicassets/atomicassets.contract.ts --debug --sourceMap --target release",
+    "build:token": "npx proton-asc ./contracts/token/token.contract.ts",
+    "build:balance": "npx proton-asc ./contracts/balance/balance.contract.ts",
+    "build:escrow": "npx proton-asc ./contracts/escrow/escrow.contract.ts",
+    "build:allow": "npx proton-asc ./contracts/allow/allow.contract.ts",
+    "build:kv": "npx proton-asc ./contracts/kv/kv.contract.ts",
+    "build:createnft": "npx proton-asc ./contracts/createnft/createnft.contract.ts",
+    "build:rng": "npx proton-asc ./contracts/rng/rng.contract.ts",
+    "build:txid": "npx proton-asc ./contracts/txid/txid.contract.ts",
+    "build:hello": "npx proton-asc ./contracts/hello/hello.contract.ts",
+    "build:store": "npx proton-asc ./assembly/store/store.test.ts",
+    "build:atomicassets": "npx proton-asc ./contracts/atomicassets/atomicassets.contract.ts --debug --sourceMap --target release",
     "build": "run-p build:*",
     "test:token": "mocha -s 250 contracts/token/*.spec.ts -r ts-node/register",
     "test:balance": "mocha -s 250 contracts/balance/*.spec.ts -r ts-node/register",
@@ -32,10 +32,7 @@
     "run:playground": "LOG_LEVEL=debug npx ts-node ./playground.ts"
   },
   "dependencies": {
-    "eosio-asc": "^0.2.73"
-  },
-  "bin": {
-    "proton-tsc": "./bin/proton-tsc.js"
+    "proton-asc": "^0.2.75"
   },
   "engines": {
     "npm": ">=7.0.0",
