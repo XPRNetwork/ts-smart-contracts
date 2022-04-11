@@ -1,6 +1,6 @@
 {
   "name": "proton-tsc",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "license": "MIT",
   "main": "./assembly/index.ts",
   "scripts": {
@@ -32,14 +32,14 @@
     "run:playground": "LOG_LEVEL=debug npx ts-node ./playground.ts"
   },
   "dependencies": {
-    "proton-asc": "^0.2.77"
+    "proton-asc": "^0.2.78"
   },
   "engines": {
     "npm": ">=7.0.0",
     "node": ">=16.0.0"
   },
   "bin": {
-    "proton-tsc": "node_modules/.bin/proton-asc"
+    "proton-tsc": "./node_modules/.bin/proton-asc"
   },
   "engineStrict": true,
   "devDependencies": {
