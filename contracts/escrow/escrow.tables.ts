@@ -1,5 +1,5 @@
 import { ExtendedAsset, Name, Table, Singleton } from "as-chain";
-import { TableStore } from "../../lib/store";
+import { TableStore } from "../../assembly";
 
 @table("escrowglobal", singleton)
 export class escrowGlobal extends Table {

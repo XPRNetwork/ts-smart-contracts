@@ -1,6 +1,6 @@
 {
   "name": "proton-tsc",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "license": "MIT",
   "main": "./assembly/index.ts",
   "scripts": {
@@ -33,6 +33,9 @@
   },
   "dependencies": {
     "eosio-asc": "^0.2.73"
+  },
+  "bin": {
+    "proton-tsc": "./node_modules/eosio-asc"
   },
   "engines": {
     "npm": ">=7.0.0",

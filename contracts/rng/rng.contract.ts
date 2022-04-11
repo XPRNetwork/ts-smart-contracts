@@ -1,5 +1,5 @@
 import { Name, check, requireAuth, Contract, Checksum256 } from 'as-chain'
-import { TableStore } from '../../lib/store';
+import { TableStore } from '../../assembly';
 import { sendRequestRandom } from './rng.inline';
 import { Results } from './rng.tables';
 
