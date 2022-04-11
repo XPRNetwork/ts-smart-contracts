@@ -1,7 +1,9 @@
 {
-  "name": "protonsc",
-  "version": "0.0.1",
+  "name": "proton-tsc",
+  "version": "0.0.2",
   "license": "MIT",
+  "main": "./index.ts",
+  "type": "module",
   "scripts": {
     "build:token": "npx eosio-asc ./contracts/token/token.contract.ts",
     "build:balance": "npx eosio-asc ./contracts/balance/balance.contract.ts",
