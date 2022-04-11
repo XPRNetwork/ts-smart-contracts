@@ -1,9 +1,2 @@
-node_modules
-yarn-error.log
 target
-target/*
-__pycache__
-.DS_Store
-*/.DS_Store
-dist
-reference
+node_modules

@@ -1,0 +1,42 @@
+Arguments: 
+  /Users/jafri/.nvm/versions/node/v16.14.0/bin/node /usr/local/Cellar/yarn/1.22.17_2/libexec/bin/yarn.js add @jafri/vert protonsc
+
+PATH: 
+  /usr/local/opt/openssl@1.1/bin:/Users/jafri/.nvm/versions/node/v16.14.0/bin:/Users/jafri/eosio/2.0/bin:/usr/local/opt/llvm/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Little Snitch.app/Contents/Components:/Applications/Keybase.app/Contents/SharedSupport/bin:/Library/Apple/usr/bin:/Users/jafri/.cargo/bin:/Users/jafri/.svm/solc/0.8.9:/usr/local/opt/openssl@1.1/bin:/usr/local/Caskroom/miniforge/base/bin:/usr/local/Caskroom/miniforge/base/condabin:/Users/jafri/.sdkman/candidates/java/current/bin:/Users/jafri/.nvm/versions/node/v16.14.0/bin:/Users/jafri/eosio/2.0/bin:/usr/local/opt/llvm/bin:/Applications/Little
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  16.14.0
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/protonsc: Not found
+      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.17_2/libexec/lib/cli.js:67029:18)
+      at Request.self.callback (/usr/local/Cellar/yarn/1.22.17_2/libexec/lib/cli.js:140883:22)
+      at Request.emit (node:events:520:28)
+      at Request.<anonymous> (/usr/local/Cellar/yarn/1.22.17_2/libexec/lib/cli.js:141855:10)
+      at Request.emit (node:events:520:28)
+      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.22.17_2/libexec/lib/cli.js:141777:12)
+      at Object.onceWrapper (node:events:639:28)
+      at IncomingMessage.emit (node:events:532:35)
+      at endReadableNT (node:internal/streams/readable:1346:12)
+      at processTicksAndRejections (node:internal/process/task_queues:83:21)
+
+npm manifest: 
+  {
+    "name": "contracts",
+    "version": "1.0.0",
+    "main": "index.js",
+    "author": "jafri",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

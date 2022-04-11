@@ -1123,10 +1123,10 @@ pify@^3.0.0:
   resolved "https://registry.yarnpkg.com/pify/-/pify-3.0.0.tgz#e5a4acd2c101fdf3d9a4d07f0dbc4db49dd28176"
   integrity sha1-5aSs0sEB/fPZpNB/DbxNtJ3SgXY=
 
-proton-asc@^0.2.75:
-  version "0.2.76"
-  resolved "https://registry.yarnpkg.com/proton-asc/-/proton-asc-0.2.76.tgz#79562e787e9d29bb117d209a60fc83fbf20dc718"
-  integrity sha512-HlTuTIgd+qQE08vAp6Rf65OFon1BZrZUr+nocCgDDUQeBdbFglgcb/2ntvYDEdIdRanfvLGMWQq/TqmkhTbbZQ==
+proton-asc@^0.2.78:
+  version "0.2.78"
+  resolved "https://registry.yarnpkg.com/proton-asc/-/proton-asc-0.2.78.tgz#a66bd534eb428280f8d1e3da30b065f0569af3e9"
+  integrity sha512-4yeSNM0kghZsLcpZ5b8t8/NIpmsduN36Cu23tkRIpg/JbRXQnSWhz9tofZOt70xxRaxPU55mvvLxFfosnp1K/Q==
   dependencies:
     as-chain "0.0.33"
     assemblyscript "0.18"
