@@ -1,12 +1,12 @@
 import { expect } from "chai";
 import { Blockchain } from "@proton/vert"
-import { pubKeyData, sign } from "../external/rng/utils";
+import { pubKeyData, sign } from "../../external/rng/utils";
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
 
 /* Create assembly and accounts */
-const rngContract = blockchain.createContract('rng', 'assembly/external/rng/rng', true)
+const rngContract = blockchain.createContract('rng', 'external/rng/rng', true)
 const receiverContract = blockchain.createContract('receiver', 'assembly/rng/target/rng.contract', true)
 
 /* Runs before each test */
