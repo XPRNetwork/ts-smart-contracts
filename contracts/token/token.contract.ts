@@ -1,4 +1,4 @@
-import { Name, Asset, Symbol, check, requireAuth, hasAuth, isAccount, requireRecipient, SAME_PAYER, Contract } from 'as-chain'
+import { Name, Asset, Symbol, check, requireAuth, hasAuth, isAccount, requireRecipient, SAME_PAYER, Contract } from '../../assembly'
 import { Account, Stat } from './token.tables';
 
 @contract

@@ -1,4 +1,4 @@
-import { ExtendedAsset, Name, Table, Singleton } from "as-chain";
+import { ExtendedAsset, Name, Table, Singleton } from "../../assembly";
 import { TableStore } from "../../assembly";
 
 @table("escrowglobal", singleton)

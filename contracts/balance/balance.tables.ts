@@ -1,4 +1,4 @@
-import { ExtendedAsset, Name, Table } from "as-chain";
+import { ExtendedAsset, Name, Table } from "../../assembly";
 import { TableStore } from "../../assembly";
 
 @table("balances")

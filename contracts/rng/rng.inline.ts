@@ -1,5 +1,5 @@
-import { InlineAction } from "as-chain";
-import { Name, PermissionLevel, ActionWrapper } from "as-chain"
+import { InlineAction } from "../../assembly";
+import { Name, PermissionLevel, ActionWrapper } from "../../assembly"
 
 const RNG_CONTRACT = Name.fromString("rng")
 const RNG_ACTION = ActionWrapper.fromString("requestrand");

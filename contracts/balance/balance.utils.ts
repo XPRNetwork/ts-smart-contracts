@@ -1,4 +1,4 @@
-import { check, ExtendedAsset } from "as-chain"
+import { check, ExtendedAsset } from "../../assembly"
 import { Balance } from "./balance.tables";
 
 /**

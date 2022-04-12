@@ -1,5 +1,5 @@
 import { decode, encode } from "./base58";
-import { check, Encoder, Utils, Decoder, Variant } from "as-chain";
+import { check, Encoder, Utils, Decoder, Variant } from "../../assembly";
 import { RESERVED } from "./atomicassets.constants";
 
 @packer

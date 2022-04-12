@@ -1,4 +1,4 @@
-import { Name, check, requireAuth, Contract } from 'as-chain'
+import { Name, check, requireAuth, Contract } from '../../assembly'
 import { TableStore } from '../../assembly';
 import { KV, AccountKV } from './kv.tables';
 

@@ -6,7 +6,7 @@ import {
     Contract,
     Table,
     Name,
-} from "as-chain";
+} from "../../assembly";
 import { TableStore } from "./store";
 
 @table("mydata")

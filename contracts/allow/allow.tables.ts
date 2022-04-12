@@ -1,4 +1,4 @@
-import { Name, Table, Singleton, U128, ExtendedSymbol, IDXDB, IDX128 } from "as-chain";
+import { Name, Table, Singleton, U128, ExtendedSymbol, IDXDB, IDX128 } from "../../assembly";
 import { TableStore } from "../../assembly";
 import { extendedSymbolToU128, U128ToExtSym } from "./allow.utils";
 
