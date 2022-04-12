@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { Asset, Name } from "@greymass/eosio";
-import { Blockchain, nameToBigInt, symbolCodeToBigInt, eosio_assert, expectToThrow } from "@proton/vert"
+import { Blockchain, nameToBigInt, symbolCodeToBigInt, protonAssert, expectToThrow } from "@proton/vert"
 
 /**
  * Initialize
@@ -54,7 +54,7 @@ describe('eos-vm', () => {
     it('create: negative_max_supply', async () => {
       await expectToThrow(
         eosioToken.actions.create(['alice', '-1000.000 TKN']).send(),
-        eosio_assert('max-supply must be positive')
+        protonAssert('max-supply must be positive')
       )
     });
 
@@ -65,7 +65,7 @@ describe('eos-vm', () => {
 
       await expectToThrow(
         action.send(),
-        eosio_assert('token with symbol already exists')
+        protonAssert('token with symbol already exists')
       )
     });
 
@@ -77,7 +77,7 @@ describe('eos-vm', () => {
 
       await expectToThrow(
         eosioToken.actions.create(['alice', '4611686018427387904 NKT']).send(),
-        eosio_assert('invalid asset')
+        protonAssert('invalid asset')
       )
     });
 
@@ -106,12 +106,12 @@ describe('eos-vm', () => {
 
       await expectToThrow(
         eosioToken.actions.issue(['alice', '500.001 TKN', 'hola']).send('alice@active'),
-        eosio_assert('quantity exceeds available supply')
+        protonAssert('quantity exceeds available supply')
       )
 
       await expectToThrow(
         eosioToken.actions.issue(['alice', '-1.000 TKN', 'hola']).send('alice@active'),
-        eosio_assert('must issue positive quantity')
+        protonAssert('must issue positive quantity')
       )
 
       // Check whether action succeeds without exceptions
@@ -132,12 +132,12 @@ describe('eos-vm', () => {
 
       await expectToThrow(
         eosioToken.actions.transfer(['alice', 'bob', '701 CERO', 'hola']).send('alice@active'),
-        eosio_assert('overdrawn balance')
+        protonAssert('overdrawn balance')
       )
 
       await expectToThrow(
         eosioToken.actions.transfer(['alice', 'bob', '-1000 CERO', 'hola']).send('alice@active'),
-        eosio_assert('must transfer positive quantity')
+        protonAssert('must transfer positive quantity')
       )
     });
   });

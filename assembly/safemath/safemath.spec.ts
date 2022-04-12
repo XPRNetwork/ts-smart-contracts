@@ -1,4 +1,4 @@
-import { Blockchain, eosio_assert, expectToThrow } from "@proton/vert"
+import { Blockchain, protonAssert, expectToThrow } from "@proton/vert"
 import { expect } from "chai"
 
 /* Create Blockchain */
@@ -22,7 +22,7 @@ describe('Store', () => {
     // Invalid
     expectToThrow(
       safemathContract.actions.add(["10000000000000000000", "10000000000000000000"]).send(),
-      eosio_assert('SafeMath Add Overflow')
+      protonAssert('SafeMath Add Overflow')
     )
   });
 
@@ -34,7 +34,7 @@ describe('Store', () => {
     // Invalid
     expectToThrow(
       safemathContract.actions.sub(["10000000000000000000", "10000000000000000001"]).send(),
-      eosio_assert('SafeMath Sub Overflow')
+      protonAssert('SafeMath Sub Overflow')
     )
   });
 
@@ -46,7 +46,7 @@ describe('Store', () => {
     // Invalid
     expectToThrow(
       safemathContract.actions.mul(["10000000000000000000", "10000000000000000001"]).send(),
-      eosio_assert('SafeMath Mul Overflow')
+      protonAssert('SafeMath Mul Overflow')
     )
   });
 
@@ -58,7 +58,7 @@ describe('Store', () => {
     // Invalid
     expectToThrow(
       safemathContract.actions.div(["10000000000000000000", "0"]).send(),
-      eosio_assert('SafeMath Div Overflow')
+      protonAssert('SafeMath Div Overflow')
     )
   });
 });
