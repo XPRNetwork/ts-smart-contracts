@@ -1,10 +1,9 @@
-import { ExtendedAsset, Name, Table, Singleton } from "..";
-import { TableStore } from "..";
+import { ExtendedAsset, Name, Table, Singleton, TableStore } from "../index";
 
 @table("escrowglobal", singleton)
 export class escrowGlobal extends Table {
     constructor (
-       public escrowId: u64 = 0,
+       public escrowId: u64 = 0
     ) {
         super();
     }
@@ -25,7 +24,7 @@ export class escrow extends Table {
        public fromNfts: u64[] = [],
        public toTokens: ExtendedAsset[] = [],
        public toNfts: u64[] = [],
-       public expiry: u32 = 0,
+       public expiry: u32 = 0
     ) {
         super();
     }
@@ -57,4 +56,7 @@ export class escrow extends Table {
         return new TableStore<Escrow>(code, code, Name.fromString("escrows"));
     }
 }
-export class Escrow extends escrow {}
+
+export class Escrow extends escrow {
+    
+}
