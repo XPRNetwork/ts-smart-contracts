@@ -1,6 +1,6 @@
-# Proton Typescript Smart assembly
+# Proton Typescript Smart Contracts
 
-<a href="https://gitpod.io/#https://github.com/ProtonProtocol/typescript-smart-assembly">
+<a href="https://gitpod.io/#https://github.com/ProtonProtocol/proton-ts-contracts">
     <img align="left" width="150" height="45" src="https://gitpod.io/button/open-in-gitpod.svg"></img>
 </a>
 
