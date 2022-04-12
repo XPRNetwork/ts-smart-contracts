@@ -23,7 +23,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: npm ci
-      - name: Build Contracts
+      - name: Build assembly
         run: npm run build
-      - name: Test Contracts
+      - name: Test assembly
         run: npm run test

@@ -4,7 +4,7 @@ import { expect } from "chai"
 /* Create Blockchain */
 const blockchain = new Blockchain()
 
-/* Create Contracts and accounts */
+/* Create assembly and accounts */
 const safemathContract = blockchain.createContract('safemath', 'assembly/safemath/target/safemath.test')
 
 /* Runs before each test */
