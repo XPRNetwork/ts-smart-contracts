@@ -1,7 +1,8 @@
 {
   "name": "proton-tsc",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "license": "MIT",
+  "main": "./contracts/index.ts",
   "ascMain": "./contracts/index.ts",
   "scripts": {
     "build:token": "npx proton-asc ./contracts/token/token.contract.ts",
