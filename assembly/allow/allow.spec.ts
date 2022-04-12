@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Blockchain, eosio_assert, expectToThrow } from "@proton/vert"
+import { Blockchain, protonAssert, expectToThrow } from "@proton/vert"
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
@@ -103,14 +103,14 @@ describe('Allowed', () => {
     it('settoken: Fail if try to delete not existing actor', async () => { 
       await expectToThrow(
         allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, false, false]).send('allowed@active'),
-        eosio_assert("Failed to 'remove' value as item does not exist, please use 'set' or 'store' to save value first")
+        protonAssert("Failed to 'remove' value as item does not exist, please use 'set' or 'store' to save value first")
       )
     });
 
     it('settoken: Fail if both isAllowed and isBlocked set to true', async () => { 
       await expectToThrow(
         allowedContract.actions.settoken([{ contract: 'xtokens', sym: '6,XUSDC' }, true, true]).send('allowed@active'),
-        eosio_assert('a token cannot be both allowed and blocked at the same time')
+        protonAssert('a token cannot be both allowed and blocked at the same time')
       )
     });
 
@@ -181,14 +181,14 @@ describe('Allowed', () => {
     it('setactor: Fail if try to delete not existing actor', async () => { 
       await expectToThrow(
         allowedContract.actions.setactor([researcher.name, false, false]).send('allowed@active'),
-        eosio_assert("Failed to 'remove' value as item does not exist, please use 'set' or 'store' to save value first")
+        protonAssert("Failed to 'remove' value as item does not exist, please use 'set' or 'store' to save value first")
       )
     });
 
     it('setactor: Fail if both isAllowed and isBlocked set to true', async () => { 
       await expectToThrow(
         allowedContract.actions.setactor([researcher.name, true, true]).send('allowed@active'),
-        eosio_assert('an actor cannot be both allowed and blocked at the same time')
+        protonAssert('an actor cannot be both allowed and blocked at the same time')
       )
     });
 

@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Account, Blockchain, eosio_assert,  expectToThrow, createDummyNfts, mintTokens, nameToBigInt, symbolCodeToBigInt } from "@proton/vert"
+import { Account, Blockchain, protonAssert,  expectToThrow, createDummyNfts, mintTokens, nameToBigInt, symbolCodeToBigInt } from "@proton/vert"
 import { TimePointSec, Name, Asset } from "@greymass/eosio";
 
 /* Create Blockchain */
@@ -80,7 +80,7 @@ describe('Escrow', () => {
       await escrowContract.actions.setglobals([true, false, false]).send()
       await expectToThrow(
         escrowContract.actions.startescrow(escrow).send('collector@active'),
-        eosio_assert('Contract escrow is paused')
+        protonAssert('Contract escrow is paused')
       )
     });
 
@@ -101,7 +101,7 @@ describe('Escrow', () => {
       // Invalid -> Non-existant account
       await expectToThrow(
         startAndCancelEscrow(2, 'notexist'),
-        eosio_assert('to must be empty or a valid account')
+        protonAssert('to must be empty or a valid account')
       )
     });
 
@@ -121,13 +121,13 @@ describe('Escrow', () => {
       // Invalid -> Expiry is now
       await expectToThrow(
         startAndCancelEscrow(1, 10, 10),
-        eosio_assert('expiry must be in future')
+        protonAssert('expiry must be in future')
       )
 
       // Invalid -> Expiry in past
       await expectToThrow(
         startAndCancelEscrow(1, 10, 9),
-        eosio_assert('expiry must be in future')
+        protonAssert('expiry must be in future')
       )
     });
 
@@ -138,7 +138,7 @@ describe('Escrow', () => {
       escrow.fromTokens = []
       await expectToThrow(
         escrowContract.actions.startescrow(escrow).send('collector@active'),
-        eosio_assert('must escrow atleast one token or NFT on from side')
+        protonAssert('must escrow atleast one token or NFT on from side')
       )
 
       // Empty 'to' side
@@ -147,7 +147,7 @@ describe('Escrow', () => {
       escrow.toTokens = []
       await expectToThrow(
         escrowContract.actions.startescrow(escrow).send('collector@active'),
-        eosio_assert('must escrow atleast one token or NFT on to side')
+        protonAssert('must escrow atleast one token or NFT on to side')
       )
     });
 
@@ -217,7 +217,7 @@ describe('Escrow', () => {
       await escrowContract.actions.setglobals([true, false, false]).send()
       await expectToThrow(
         escrowContract.actions.fillescrow(['trader', 0]).send('trader@active'),
-        eosio_assert('Contract escrow is paused')
+        protonAssert('Contract escrow is paused')
       )
     });
 
@@ -226,7 +226,7 @@ describe('Escrow', () => {
       await escrowContract.actions.startescrow(escrow).send('collector@active')
       await expectToThrow(
         escrowContract.actions.fillescrow(['trader', 1]).send('trader@active'),
-        eosio_assert('no escrow with ID 1 found.')
+        protonAssert('no escrow with ID 1 found.')
       )
     });
 
@@ -247,7 +247,7 @@ describe('Escrow', () => {
       // Invalid -> Mismatch specific account
       await expectToThrow(
         startFillAndCancelEscrow(2, 'artist'),
-        eosio_assert('only artist can fill this escrow')
+        protonAssert('only artist can fill this escrow')
       )
     });
 
@@ -317,7 +317,7 @@ describe('Escrow', () => {
       await escrowContract.actions.setglobals([true, false, false]).send()
       await expectToThrow(
         escrowContract.actions.cancelescrow(['trader', 0]).send('trader@active'),
-        eosio_assert('Contract escrow is paused')
+        protonAssert('Contract escrow is paused')
       )
     });
 
@@ -326,7 +326,7 @@ describe('Escrow', () => {
       await escrowContract.actions.startescrow(escrow).send('collector@active')
       await expectToThrow(
         escrowContract.actions.cancelescrow(['trader', 1]).send('trader@active'),
-        eosio_assert('no escrow with ID 1 found.')
+        protonAssert('no escrow with ID 1 found.')
       )
     });
 
@@ -346,7 +346,7 @@ describe('Escrow', () => {
       await escrowContract.actions.startescrow(escrow).send('collector@active')
       await expectToThrow(
         escrowContract.actions.cancelescrow(['artist', 2]).send('artist@active'),
-        eosio_assert('missing required authority of collector or trader')
+        protonAssert('missing required authority of collector or trader')
       )
     });
 
