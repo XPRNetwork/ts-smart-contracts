@@ -8,7 +8,7 @@ async function wait (ms: number) {
 
 const main = async () => {
     const blockchain = new Blockchain()
-    const helloContract = blockchain.createContract('hello', 'contracts/hello/target/hello.contract')
+    const helloContract = blockchain.createContract('hello', 'assembly/hello/target/hello.contract')
     await wait(0)
     await helloContract.actions.say(['hello']).send()
     console.log(helloContract.bc.console)

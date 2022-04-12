@@ -3,7 +3,7 @@ import { Blockchain } from "@proton/vert"
 /* Create Blockchain */
 const blockchain = new Blockchain()
 
-/* Create Contracts and accounts */
+/* Create assembly and accounts */
 const storeTestContract = blockchain.createContract('storetest', 'assembly/store/target/store.test')
 
 /* Runs before each test */
