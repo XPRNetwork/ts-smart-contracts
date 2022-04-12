@@ -1,4 +1,4 @@
-import { check } from "as-chain";
+import { check } from "../../assembly";
 import { AtomicAttribute, findIndexOfAttribute, AtomicFormat } from "./atomicdata";
 
 /*

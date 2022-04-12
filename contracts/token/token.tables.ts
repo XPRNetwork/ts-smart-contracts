@@ -1,4 +1,4 @@
-import { Asset, Name, Table, Symbol } from "as-chain";
+import { Asset, Name, Table, Symbol } from "../../assembly";
 import { TableStore } from "../../assembly"
 
 /**

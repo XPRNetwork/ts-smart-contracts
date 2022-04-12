@@ -1,4 +1,4 @@
-import { Name, Table, Singleton, ExtendedSymbol, Asset, IDX64, IDXDB } from "as-chain";
+import { Name, Table, Singleton, ExtendedSymbol, Asset, IDX64, IDXDB } from "../../assembly";
 import { AtomicFormat } from "./atomicdata";
 import { TableStore } from "../../assembly";
 

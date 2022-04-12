@@ -1,4 +1,4 @@
-import { ActionWrapper, Name } from "as-chain"
+import { ActionWrapper, Name } from "../../assembly"
 
 /**
  * The name of the constant and the string must be exactly the same

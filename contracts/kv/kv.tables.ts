@@ -1,4 +1,4 @@
-import { Name, Table } from "as-chain";
+import { Name, Table } from "../../assembly";
 import { TableStore } from "../../assembly";
 
 @packer

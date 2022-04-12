@@ -1,4 +1,4 @@
-import { Name, InlineAction, Symbol, Asset, ActionWrapper, PermissionLevel } from "as-chain";
+import { Name, InlineAction, Symbol, Asset, ActionWrapper, PermissionLevel } from "../../assembly";
 import { AtomicAttribute, AtomicFormat } from "./atomicdata";
 
 //------------------- Contract Names ------------------------------//

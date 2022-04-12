@@ -120,4 +120,5 @@ export {
 
 export { Utils } from "as-chain";
 
-export { TableStore } from './store/store'
+export { TableStore } from './store'
+export { SafeMath } from './safemath'

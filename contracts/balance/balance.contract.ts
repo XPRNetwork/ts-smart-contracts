@@ -1,4 +1,4 @@
-import { ExtendedAsset, unpackActionData, Name, check, requireAuth, SAME_PAYER, ExtendedSymbol } from 'as-chain'
+import { ExtendedAsset, unpackActionData, Name, check, requireAuth, SAME_PAYER, ExtendedSymbol } from '../../assembly'
 import { TableStore } from '../../assembly';
 import { AllowContract } from '../allow';
 import { atomicassets } from './balance.constants';

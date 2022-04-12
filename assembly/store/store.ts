@@ -1,4 +1,4 @@
-import { Name, IDXDB, check, MultiIndex, MultiIndexValue, IDX128, U128, IDX256, U256, IDX64, IDXF64, IDXF128, Float128, print } from "as-chain";
+import { Name, IDXDB, check, MultiIndex, MultiIndexValue, IDX128, U128, IDX256, U256, IDX64, IDXF64, IDXF128, Float128, print } from "../../assembly";
 
 export const NO_AVAILABLE_PRIMARY_KEY = <u64>(-2) // Must be the smallest uint64_t value compared to all other tags
 export const UNSET_NEXT_PRIMARY_KEY = <u64>(-1) // No table
