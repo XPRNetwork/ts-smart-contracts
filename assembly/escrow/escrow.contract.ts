@@ -1,12 +1,11 @@
-import { currentTimePoint, ExtendedAsset, Name, check, requireAuth, isAccount, ExtendedSymbol } from ".."
-import { TableStore } from "..";
+import { currentTimePoint, ExtendedAsset, Name, check, requireAuth, isAccount, TableStore, ExtendedSymbol } from ".."
 import { BalanceContract } from '../balance';
 import { ESCROW_STATUS } from './escrow.constants';
 import { sendLogEscrow } from './escrow.inline';
 import { EscrowGlobal, Escrow, escrow } from './escrow.tables';
 
 @contract
-export class EscrowContract extends BalanceContract {
+class EscrowContract extends BalanceContract {
     escrowsTable: TableStore<Escrow> = Escrow.getTable(this.receiver)
 
     /**

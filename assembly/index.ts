@@ -2,6 +2,10 @@
 export { TableStore } from './store';
 export { SafeMath } from './safemath';
 
+// Contracts
+import * as Contracts from './contracts'
+export { Contracts }
+
 // Chain
 export { U128, U256 } from "as-chain";
 export { Float128 } from "as-chain"
