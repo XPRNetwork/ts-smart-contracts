@@ -1,4 +1,4 @@
-import { Name, Contract, Asset, check, print } from '../../assembly'
+import { Name, Contract, Asset, check, print } from "../../assembly"
 import { AtomicValue, AtomicAttribute, deserialize, AtomicFormat } from '../atomicassets/atomicdata';
 import { sendCreateColllection, sendCreateTemplate, sendMintAsset, sendCreateSchema, ATOMICASSETS_CONTRACT, sendSetAssetData } from '../atomicassets/atomicassets.inline';
 import { Assets, Collections, Config, Schemas, Templates } from '../atomicassets/atomicassets.tables';

@@ -41,18 +41,3 @@ export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[]
         action.send(actionParams)
     }
 }
-
-/**
- * Send a transfer action to the contract with the given parameters
- * @param {Name} from - Name of the account that is sending the NFTs
- * @param {Name} to - Name of the account to transfer the NFTs to.
- * @param {u64[]} nfts - An array of u64s representing the NFTs to transfer.
- * @param {string} memo - A string that will be stored in the blockchain as the memo for this transfer.
- */
-export function sendTransferNfts(from: Name, to: Name, nfts: u64[], memo: string): void {
-    if (nfts.length > 0) {
-        const action = transfer.act(atomicassets, new PermissionLevel(from))
-        const actionParams = new NftTransfer(from, to, nfts, memo)
-        action.send(actionParams)
-    }
-}

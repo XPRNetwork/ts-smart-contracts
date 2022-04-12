@@ -6,7 +6,7 @@ import {
     Contract,
     Table,
     Name,
-} from "../../assembly";
+} from "..";
 import { TableStore } from "./store";
 
 @table("mydata")

@@ -1,3 +1,8 @@
+// Modules
+export { TableStore } from './store';
+export { SafeMath } from './safemath';
+
+// Chain
 export { U128, U256 } from "as-chain";
 export { Float128 } from "as-chain"
 
@@ -119,6 +124,3 @@ export {
 } from "as-chain";
 
 export { Utils } from "as-chain";
-
-export { TableStore } from './store'
-export { SafeMath } from './safemath'

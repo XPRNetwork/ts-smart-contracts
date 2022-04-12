@@ -1,4 +1,4 @@
-import { Contract, print } from '../../assembly'
+import { Contract, print } from "../../assembly"
 
 @contract
 class HelloContract extends Contract {

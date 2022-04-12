@@ -1,5 +1,4 @@
-import { Name, check, requireAuth, Contract } from '../../assembly'
-import { TableStore } from '../../assembly';
+import { Name, check, requireAuth, Contract, TableStore } from '../../assembly'
 import { KV, AccountKV } from './kv.tables';
 
 @contract("kv")
