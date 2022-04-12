@@ -1,8 +1,8 @@
 {
   "name": "proton-tsc",
-  "version": "0.0.19",
+  "version": "0.0.21",
   "license": "MIT",
-  "main": "./contracts/index.ts",
+  "main": "./assembly/index.ts",
   "scripts": {
     "build:token": "npx proton-asc ./contracts/token/token.contract.ts",
     "build:balance": "npx proton-asc ./contracts/balance/balance.contract.ts",
