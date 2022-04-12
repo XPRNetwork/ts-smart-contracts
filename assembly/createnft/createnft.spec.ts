@@ -5,7 +5,7 @@ import { expect } from "chai"
 const blockchain = new Blockchain()
 
 /* Create assembly and accounts */
-const atomicassetsContract = blockchain.createContract('atomicassets', 'assembly/external/atomicassets/atomicassets', true)
+const atomicassetsContract = blockchain.createContract('atomicassets', 'external/atomicassets/atomicassets', true)
 const createNftContract = blockchain.createContract('createnft', 'assembly/createnft/target/createnft.contract', true)
 
 /* Runs before each test */
