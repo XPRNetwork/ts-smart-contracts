@@ -1,6 +1,5 @@
-import { Action, Name, requireAuth, Contract, transactionSize, print, Checksum256, readTransaction, check, sha256,  getAction, Table } from '../../assembly'
-import { AccountKV, KV } from './txid.tables';
-import { TableStore } from "../../assembly";
+import { Action, Name, requireAuth, Contract, transactionSize, print, Checksum256, readTransaction, check, sha256,  getAction, Table, TableStore } from '../../assembly'
+import { AccountKV, KV } from '../kv';
 
 @packer
 class GetSizeAndId extends Table {
@@ -12,7 +11,7 @@ class GetSizeAndId extends Table {
 }
 
 @contract
-export class KvContract extends Contract {
+export class TxIdContract extends Contract {
     kvsTable: TableStore<AccountKV> = AccountKV.getTable(this.receiver)
 
     @action("getsizeandid")

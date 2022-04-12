@@ -1,8 +1,8 @@
-import { ExtendedAsset, unpackActionData, Name, check, requireAuth, SAME_PAYER, ExtendedSymbol } from '../../assembly'
-import { TableStore } from '../../assembly';
+import { ExtendedAsset, unpackActionData, Name, check, requireAuth, SAME_PAYER, ExtendedSymbol, TableStore } from '../../assembly'
 import { AllowContract } from '../allow';
+import { sendTransferNfts } from '../atomicassets'
 import { atomicassets } from './balance.constants';
-import { sendTransferTokens, sendTransferNfts, NftTransfer, TokenTransfer } from './balance.inline';
+import { sendTransferTokens, NftTransfer, TokenTransfer } from './balance.inline';
 import { Balance } from './balance.tables';
 import { addNfts, addTokens, substractNfts, substractTokens } from './balance.utils';
 

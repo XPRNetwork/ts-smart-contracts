@@ -6,7 +6,7 @@
     "configurations": [
         {
             "args": [
-                "${workspaceFolder}/contracts/allow/allow.spec.ts",
+                "${workspaceFolder}/assembly/allow/allow.spec.ts",
                 "-r",
                 "ts-node/register",
             ],

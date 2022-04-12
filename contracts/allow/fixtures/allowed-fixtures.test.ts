@@ -3,7 +3,7 @@ import { Fixtures } from "@proton/vert";
 export const allowFixtures: Fixtures = {
     contracts: [{
         name: "allowed",
-        path: "contracts/allow/target/allow.contract",
+        path: "assembly/allow/target/allow.contract",
         sendsInline: false
     }],
 

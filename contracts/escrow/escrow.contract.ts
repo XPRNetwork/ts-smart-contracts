@@ -1,5 +1,5 @@
-import { currentTimePoint, ExtendedAsset, Name, check, requireAuth, isAccount, ExtendedSymbol } from '../../assembly'
-import { TableStore } from '../../assembly';
+import { currentTimePoint, ExtendedAsset, Name, check, requireAuth, isAccount, ExtendedSymbol } from "../../assembly"
+import { TableStore } from "../../assembly";
 import { BalanceContract } from '../balance';
 import { ESCROW_STATUS } from './escrow.constants';
 import { sendLogEscrow } from './escrow.inline';

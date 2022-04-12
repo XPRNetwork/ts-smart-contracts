@@ -336,10 +336,19 @@ export function sendAddConfigToken(contract: Name, tokenContract: Name, tokenSym
     action.send(actionParams)
 }
 
-export function sendTransferNfts(contract: Name, from: Name, to: Name, asset_ids: u64[], memo: string): void {
-    const action = TRANSFER_ACTION.act(ATOMICASSETS_CONTRACT, new PermissionLevel(contract))
-    const actionParams = new TransferNfts(from, to, asset_ids, memo)
-    action.send(actionParams)
+/**
+ * Send a transfer action to the contract with the given parameters
+ * @param {Name} from - Name of the account that is sending the NFTs
+ * @param {Name} to - Name of the account to transfer the NFTs to.
+ * @param {u64[]} nfts - An array of u64s representing the NFTs to transfer.
+ * @param {string} memo - A string that will be stored in the blockchain as the memo for this transfer.
+ */
+export function sendTransferNfts(from: Name, to: Name, asset_ids: u64[], memo: string): void {
+    if (asset_ids.length > 0) {
+        const action = TRANSFER_ACTION.act(ATOMICASSETS_CONTRACT, new PermissionLevel(from))
+        const actionParams = new TransferNfts(from, to, asset_ids, memo)
+        action.send(actionParams)
+    }
 }
 
 export function sendCreateColllection(contract: Name, author: Name, collection_name: Name, allow_notify: boolean, authorized_accounts: Name[], notify_accounts: Name[], market_fee: f64, data: AtomicAttribute[]): void {

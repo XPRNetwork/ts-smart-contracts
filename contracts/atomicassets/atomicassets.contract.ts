@@ -1,4 +1,4 @@
-import { Name, check, requireAuth, Contract, nameToSuffix, hasAuth, isAccount, Singleton, print } from '../../assembly'
+import { Name, check, requireAuth, Contract, nameToSuffix, hasAuth, isAccount, Singleton, print } from "../../assembly"
 import { MAX_MARKET_FEE } from './atomicassets.constants';
 import { Collections, Config } from './atomicassets.tables';
 import { AtomicAttribute, serialize, AtomicFormat, deserialize } from './atomicdata';
