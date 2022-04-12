@@ -1,8 +1,8 @@
 {
   "name": "proton-tsc",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "license": "MIT",
-  "main": "./assembly/index.ts",
+  "ascMain": "./contracts/index.ts",
   "scripts": {
     "build:token": "npx proton-asc ./contracts/token/token.contract.ts",
     "build:balance": "npx proton-asc ./contracts/balance/balance.contract.ts",
@@ -14,8 +14,8 @@
     "build:txid": "npx proton-asc ./contracts/txid/txid.contract.ts",
     "build:hello": "npx proton-asc ./contracts/hello/hello.contract.ts",
     "build:atomicassets": "npx proton-asc ./contracts/atomicassets/atomicassets.contract.ts --debug --sourceMap --target release",
-    "build:store": "npx proton-asc ./assembly/store/store.test.ts",
-    "build:safemath": "npx proton-asc ./assembly/safemath/safemath.test.ts",
+    "build:store": "npx proton-asc ./contracts/store/store.test.ts",
+    "build:safemath": "npx proton-asc ./contracts/safemath/safemath.test.ts",
     "build": "run-p build:*",
     "test:token": "mocha -s 250 ./contracts/token/*.spec.ts -r ts-node/register",
     "test:balance": "mocha -s 250 ./contracts/balance/*.spec.ts -r ts-node/register",
@@ -27,8 +27,8 @@
     "test:txid": "mocha -s 250 ./contracts/txid/*.spec.ts -r ts-node/register",
     "test:hello": "mocha -s 250 ./contracts/hello/*.spec.ts -r ts-node/register",
     "test:atomicassets": "mocha -s 250 ./contracts/atomicassets/*.spec.ts -r ts-node/register",
-    "test:store": "mocha -s 250 ./assembly/store/store.spec.ts -r ts-node/register",
-    "test:safemath": "mocha -s 250 ./assembly/safemath/safemath.spec.ts -r ts-node/register",
+    "test:store": "mocha -s 250 ./contracts/store/store.spec.ts -r ts-node/register",
+    "test:safemath": "mocha -s 250 ./contracts/safemath/safemath.spec.ts -r ts-node/register",
     "test": "run-p test:*",
     "core:escrow": "cat ./contracts/escrow/target/escrow.contract.abi | abi2core > ./contracts/escrow/target/escrow.client-types.ts",
     "run:playground": "LOG_LEVEL=debug npx ts-node ./playground.ts"
