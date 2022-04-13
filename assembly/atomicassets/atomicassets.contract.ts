@@ -1,4 +1,4 @@
-import { Name, check, requireAuth, Contract, nameToSuffix, hasAuth, isAccount, Singleton, print } from ".."
+import { Name, check, requireAuth, Contract, hasAuth, isAccount, Singleton, print } from ".."
 import { MAX_MARKET_FEE } from './atomicassets.constants';
 import { Collections, Config } from './atomicassets.tables';
 import { AtomicAttribute, serialize, AtomicFormat, deserialize } from './atomicdata';
@@ -31,7 +31,7 @@ class AtomicAssetsContract extends Contract {
     ): void {
         requireAuth(author)
 
-        const collection_name_suffix = nameToSuffix(collection_name)
+        const collection_name_suffix = collection_name.suffix()
         
         if (isAccount(collection_name)) {
             check(hasAuth(collection_name), "When the collection has the name of an existing account, its authorization is required");
