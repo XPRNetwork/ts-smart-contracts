@@ -1,4 +1,4 @@
-export { U128, U256 } from "as-chain";
+export { U128, U256, I128 } from "as-chain";
 export { Float128 } from "as-chain"
 
 export { VarInt32, VarUint32, calcPackedVarUint32Length } from "as-chain";
