@@ -1,26 +1,14 @@
-import { Name, Asset, Table, ExtendedAsset, PermissionLevel } from ".."
-import { atomicassets, transfer } from "./balance.constants";
+import { ActionWrapper, Name, ExtendedAsset, PermissionLevel, Asset, InlineAction } from ".."
 
-/* This is a class that represents a transfer of token */
+// Actions
+export const transfer = ActionWrapper.fromString("transfer")
+
 @packer
-export class TokenTransfer extends Table {
+export class TokenTransfer extends InlineAction {
     constructor (
         public from: Name = new Name(),
         public to: Name = new Name(),
         public quantity: Asset = new Asset(),
-        public memo: string = "",
-    ) {
-        super();
-    }
-}
-
-@packer
-/* This is a class that represents a transfer of NFTs */
-export class NftTransfer extends Table {
-    constructor (
-        public from: Name = new Name(),
-        public to: Name = new Name(),
-        public asset_ids: u64[] = [],
         public memo: string = "",
     ) {
         super();
@@ -34,7 +22,7 @@ export class NftTransfer extends Table {
  * @param {ExtendedAsset[]} tokens - An array of ExtendedAsset objects.
  * @param {string} memo - A string that is included in the transaction. This is optional.
  */
-export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void {
+ export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void {
     for (let i = 0; i < tokens.length; i++) {
         const action = transfer.act(tokens[i].contract, new PermissionLevel(from))
         const actionParams = new TokenTransfer(from, to, tokens[i].quantity, memo)

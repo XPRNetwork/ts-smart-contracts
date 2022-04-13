@@ -1,8 +1,8 @@
 import { ExtendedAsset, unpackActionData, Name, check, requireAuth, SAME_PAYER, ExtendedSymbol, TableStore } from '..'
+import { TokenTransfer, sendTransferTokens } from '../token';
 import { AllowContract } from '../allow';
-import { sendTransferNfts } from '../atomicassets'
+import { sendTransferNfts, TransferNfts } from '../atomicassets'
 import { atomicassets } from './balance.constants';
-import { sendTransferTokens, NftTransfer, TokenTransfer } from './balance.inline';
 import { Balance } from './balance.tables';
 import { addNfts, addTokens, substractNfts, substractTokens } from './balance.utils';
 
@@ -23,7 +23,7 @@ export class BalanceContract extends AllowContract {
 
         if (this.parentContract == atomicassets) {
             // Unpack nft transfer
-            let t = unpackActionData<NftTransfer>()
+            let t = unpackActionData<TransferNfts>()
 
             // Skip if outgoing
             if (t.from == this.contract) {
