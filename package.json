@@ -34,7 +34,7 @@
     "run:playground": "cross-env LOG_LEVEL=debug ts-node ./playground.ts"
   },
   "dependencies": {
-    "proton-asc": "^0.2.80"
+    "proton-asc": "^0.2.82"
   },
   "engines": {
     "npm": ">=7.0.0",
