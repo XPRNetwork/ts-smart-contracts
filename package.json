@@ -1,8 +1,9 @@
 {
   "name": "proton-tsc",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MIT",
   "main": "./assembly/index.ts",
+  "types": "./index.d.ts",
   "scripts": {
     "build:token": "npx proton-asc ./assembly/token/token.contract.ts",
     "build:balance": "npx proton-asc ./assembly/balance/balance.contract.ts",
@@ -31,7 +32,8 @@
     "test:safemath": "mocha -s 250 ./assembly/safemath/safemath.spec.ts -r ts-node/register",
     "test": "run-p test:*",
     "core:escrow": "cat ./assembly/escrow/target/escrow.contract.abi | abi2core > ./assembly/escrow/target/escrow.client-types.ts",
-    "run:playground": "cross-env LOG_LEVEL=debug ts-node ./playground.ts"
+    "run:playground": "cross-env LOG_LEVEL=debug ts-node ./playground.ts",
+    "prepublish": "npx npm-dts generate --entry ./assembly/index.ts --force"
   },
   "dependencies": {
     "proton-asc": "^0.2.82"
