@@ -1,4 +1,4 @@
-import { Name, Contract, Asset, check, print } from ".."
+import { Name, Contract, Asset, check, print, TableStore } from ".."
 import { AtomicValue, AtomicAttribute, deserialize, AtomicFormat } from '../atomicassets/atomicdata';
 import { sendCreateColllection, sendCreateTemplate, sendMintAsset, sendCreateSchema, ATOMICASSETS_CONTRACT, sendSetAssetData } from '../atomicassets/atomicassets.inline';
 import { Assets, Collections, Config, Schemas, Templates } from '../atomicassets/atomicassets.tables';
@@ -101,7 +101,7 @@ class CreateNftContract extends Contract {
         const configSingleton = Config.getSingleton(ATOMICASSETS_CONTRACT)
         const collectionTable = Collections.getTable(ATOMICASSETS_CONTRACT)
         const schemaTable = Schemas.getTable(ATOMICASSETS_CONTRACT, collectionName)
-        const templateTable = Templates.getTable(ATOMICASSETS_CONTRACT, collectionName)
+        const templateTable: TableStore<Templates> = Templates.getTable(ATOMICASSETS_CONTRACT, collectionName)
         const assetTable = Assets.getTable(ATOMICASSETS_CONTRACT, owner)
 
         // Get by name
