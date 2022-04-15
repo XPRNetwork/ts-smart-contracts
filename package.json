@@ -1,6 +1,6 @@
 {
   "name": "proton-tsc",
-  "version": "0.1.21",
+  "version": "0.1.22",
   "license": "MIT",
   "types": "./index.d.ts",
   "main": "./assembly/index.ts",
@@ -33,7 +33,7 @@
     "test": "run-p test:*",
     "core:escrow": "cat ./assembly/escrow/target/escrow.contract.abi | abi2core > ./assembly/escrow/target/escrow.client-types.ts",
     "run:playground": "cross-env LOG_LEVEL=debug ts-node ./playground.ts",
-    "prepublish3": "npx npm-dts generate --entry ./assembly/index.ts --force && npx replace-in-file //assembly//g / ./index.d.ts --isRegex && npx replace-in-file //index/g '' ./index.d.ts --isRegex"
+    "prepublish": "npx npm-dts generate --entry ./assembly/index.ts --force && npx replace-in-file --configFile=./replace.config.js"
   },
   "dependencies": {
     "proton-asc": "^0.2.82"

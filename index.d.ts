@@ -1,7 +1,7 @@
-declare module 'proton-tsc/assembly/allow/allow.contract' {
-  import { Name, Singleton, Contract, ExtendedSymbol } from 'proton-tsc/assembly/index';
-  import { TableStore } from 'proton-tsc/assembly/index';
-  import { AllowedActor, AllowedToken, AllowGlobals } from 'proton-tsc/assembly/allow/allow.tables';
+declare module 'proton-tsc/allow/allow.contract' {
+  import { Name, Singleton, Contract, ExtendedSymbol } from 'proton-tsc';
+  import { TableStore } from 'proton-tsc';
+  import { AllowedActor, AllowedToken, AllowGlobals } from 'proton-tsc/allow/allow.tables';
   export class AllowContract extends Contract {
       contract: Name;
       parentContract: Name;
@@ -40,14 +40,14 @@ declare module 'proton-tsc/assembly/allow/allow.contract' {
   }
 
 }
-declare module 'proton-tsc/assembly/allow/allow.spec' {
+declare module 'proton-tsc/allow/allow.spec' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/allow/allow.tables' {
+declare module 'proton-tsc/allow/allow.tables' {
   /// <reference types="assembly" />
-  import { Name, Table, Singleton, U128, ExtendedSymbol } from "proton-tsc/assembly/index";
-  import { TableStore } from "proton-tsc/assembly/index";
+  import { Name, Table, Singleton, U128, ExtendedSymbol } from "proton-tsc";
+  import { TableStore } from "proton-tsc";
   export class AllowGlobalsSingleton extends Table {
       isPaused: boolean;
       isActorStrict: boolean;
@@ -82,32 +82,32 @@ declare module 'proton-tsc/assembly/allow/allow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/allow/allow.utils' {
-  import { ExtendedSymbol, U128 } from "proton-tsc/assembly/index";
+declare module 'proton-tsc/allow/allow.utils' {
+  import { ExtendedSymbol, U128 } from "proton-tsc";
   export const extendedSymbolToU128: (extSym: ExtendedSymbol) => U128;
   export const U128ToExtSym: (value: U128) => ExtendedSymbol;
 
 }
-declare module 'proton-tsc/assembly/allow/fixtures/allowed-fixtures.spec' {
+declare module 'proton-tsc/allow/fixtures/allowed-fixtures.spec' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/allow/fixtures/allowed-fixtures.test' {
+declare module 'proton-tsc/allow/fixtures/allowed-fixtures.test' {
   import { Fixtures } from "@proton/vert";
   export const allowFixtures: Fixtures;
 
 }
-declare module 'proton-tsc/assembly/allow/index' {
-  export * from 'proton-tsc/assembly/allow/allow.contract';
-  export * from 'proton-tsc/assembly/allow/allow.tables';
-  export * from 'proton-tsc/assembly/allow/allow.utils';
+declare module 'proton-tsc/allow' {
+  export * from 'proton-tsc/allow/allow.contract';
+  export * from 'proton-tsc/allow/allow.tables';
+  export * from 'proton-tsc/allow/allow.utils';
 
 }
-declare module 'proton-tsc/assembly/allow/target/allow.contract' {
+declare module 'proton-tsc/allow/target/allow.contract' {
   /// <reference types="assembly" />
-  import { Name, Singleton, Contract, ExtendedSymbol } from 'proton-tsc/assembly/allow/index';
-  import { TableStore } from 'proton-tsc/assembly/allow/index';
-  import { AllowedActor, AllowedToken, AllowGlobals } from 'proton-tsc/assembly/allow/target/allow.tables';
+  import { Name, Singleton, Contract, ExtendedSymbol } from 'proton-tsc/allow';
+  import { TableStore } from 'proton-tsc/allow';
+  import { AllowedActor, AllowedToken, AllowGlobals } from 'proton-tsc/allow/target/allow.tables';
   export class AllowContract extends Contract {
       contract: Name;
       parentContract: Name;
@@ -147,11 +147,11 @@ declare module 'proton-tsc/assembly/allow/target/allow.contract' {
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
-declare module 'proton-tsc/assembly/allow/target/allow.tables' {
+declare module 'proton-tsc/allow/target/allow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/assembly/allow/index";
-  import { TableStore } from "proton-tsc/assembly/allow/index";
+  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/allow";
+  import { TableStore } from "proton-tsc/allow";
   export class AllowGlobalsSingletonDB extends _chain.MultiIndex<AllowGlobalsSingleton> {
   }
   export class AllowGlobalsSingleton implements _chain.MultiIndexValue {
@@ -215,11 +215,11 @@ declare module 'proton-tsc/assembly/allow/target/allow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/allow/target/atomicassets.inline' {
+declare module 'proton-tsc/allow/target/atomicassets.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Symbol, Asset } from "proton-tsc/assembly/allow/index";
-  import { AtomicAttribute, AtomicFormat } from "proton-tsc/assembly/allow/target/atomicdata";
+  import { Name, Symbol, Asset } from "proton-tsc/allow";
+  import { AtomicAttribute, AtomicFormat } from "proton-tsc/allow/target/atomicdata";
   export const ATOMICASSETS_CONTRACT: any;
   export class AdminColEdit implements _chain.Packer {
       collectionFormatExtension: AtomicFormat[];
@@ -488,12 +488,12 @@ declare module 'proton-tsc/assembly/allow/target/atomicassets.inline' {
   export function sendPayOfferRam(contract: Name, payer: Name, offer_id: u64): void;
 
 }
-declare module 'proton-tsc/assembly/allow/target/atomicassets.tables' {
+declare module 'proton-tsc/allow/target/atomicassets.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/assembly/allow/index";
-  import { AtomicFormat } from "proton-tsc/assembly/allow/target/atomicdata";
-  import { TableStore } from "proton-tsc/assembly/allow/index";
+  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/allow";
+  import { AtomicFormat } from "proton-tsc/allow/target/atomicdata";
+  import { TableStore } from "proton-tsc/allow";
   export class CollectionsTableDB extends _chain.MultiIndex<CollectionsTable> {
   }
   export class CollectionsTable implements _chain.MultiIndexValue {
@@ -635,7 +635,7 @@ declare module 'proton-tsc/assembly/allow/target/atomicassets.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/allow/target/atomicdata' {
+declare module 'proton-tsc/allow/target/atomicdata' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
   export class AtomicFormat implements _chain.Packer {
@@ -727,10 +727,10 @@ declare module 'proton-tsc/assembly/allow/target/atomicdata' {
   export function deserialize(data: u8[], format_lines: AtomicFormat[]): AtomicAttribute[];
 
 }
-declare module 'proton-tsc/assembly/allow/target/balance.inline' {
+declare module 'proton-tsc/allow/target/balance.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Asset, ExtendedAsset } from "proton-tsc/assembly/allow/index";
+  import { Name, Asset, ExtendedAsset } from "proton-tsc/allow";
   export class TokenTransfer implements _chain.Packer {
       from: Name;
       to: Name;
@@ -761,11 +761,11 @@ declare module 'proton-tsc/assembly/allow/target/balance.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/allow/target/balance.tables' {
+declare module 'proton-tsc/allow/target/balance.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name } from "proton-tsc/assembly/allow/index";
-  import { TableStore } from "proton-tsc/assembly/allow/index";
+  import { ExtendedAsset, Name } from "proton-tsc/allow";
+  import { TableStore } from "proton-tsc/allow";
   export class BalanceTableDB extends _chain.MultiIndex<BalanceTable> {
   }
   export class BalanceTable implements _chain.MultiIndexValue {
@@ -787,7 +787,7 @@ declare module 'proton-tsc/assembly/allow/target/balance.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/allow/target/base58' {
+declare module 'proton-tsc/allow/target/base58' {
   /// <reference types="assembly" />
   /**
   * Encode Uint8Array as a base58 string.
@@ -798,11 +798,11 @@ declare module 'proton-tsc/assembly/allow/target/base58' {
   export function decode(source: string): u8[];
 
 }
-declare module 'proton-tsc/assembly/allow/target/escrow.inline' {
+declare module 'proton-tsc/allow/target/escrow.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/allow/index";
-  import { Escrow } from "proton-tsc/assembly/allow/target/escrow.tables";
+  import { Name } from "proton-tsc/allow";
+  import { Escrow } from "proton-tsc/allow/target/escrow.tables";
   export class LogEscrow implements _chain.Packer {
       escrow: Escrow;
       status: string;
@@ -820,10 +820,10 @@ declare module 'proton-tsc/assembly/allow/target/escrow.inline' {
   export function sendLogEscrow(contract: Name, escrow: Escrow, status: string): void;
 
 }
-declare module 'proton-tsc/assembly/allow/target/escrow.tables' {
+declare module 'proton-tsc/allow/target/escrow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/assembly/allow/index";
+  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/allow";
   export class escrowGlobalDB extends _chain.MultiIndex<escrowGlobal> {
   }
   export class escrowGlobal implements _chain.MultiIndexValue {
@@ -877,11 +877,11 @@ declare module 'proton-tsc/assembly/allow/target/escrow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/allow/target/kv.tables' {
+declare module 'proton-tsc/allow/target/kv.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/allow/index";
-  import { TableStore } from "proton-tsc/assembly/allow/index";
+  import { Name } from "proton-tsc/allow";
+  import { TableStore } from "proton-tsc/allow";
   export class KV implements _chain.Packer {
       key: string;
       value: string;
@@ -910,10 +910,10 @@ declare module 'proton-tsc/assembly/allow/target/kv.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/allow/target/rng.inline' {
+declare module 'proton-tsc/allow/target/rng.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/allow/index";
+  import { Name } from "proton-tsc/allow";
   export class RequestRandom implements _chain.Packer {
       customerId: u64;
       signingValue: u64;
@@ -926,11 +926,11 @@ declare module 'proton-tsc/assembly/allow/target/rng.inline' {
   export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
-declare module 'proton-tsc/assembly/allow/target/rng.tables' {
+declare module 'proton-tsc/allow/target/rng.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/allow/index";
-  import { TableStore } from "proton-tsc/assembly/allow/index";
+  import { Name } from "proton-tsc/allow";
+  import { TableStore } from "proton-tsc/allow";
   export class ResultsTableDB extends _chain.MultiIndex<ResultsTable> {
   }
   export class ResultsTable implements _chain.MultiIndexValue {
@@ -952,10 +952,10 @@ declare module 'proton-tsc/assembly/allow/target/rng.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/allow/target/token.inline' {
+declare module 'proton-tsc/allow/target/token.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, ExtendedAsset, Asset } from "proton-tsc/assembly/allow/index";
+  import { Name, ExtendedAsset, Asset } from "proton-tsc/allow";
   export const transfer: any;
   export class TokenTransfer implements _chain.Packer {
       from: Name;
@@ -977,11 +977,11 @@ declare module 'proton-tsc/assembly/allow/target/token.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/allow/target/token.tables' {
+declare module 'proton-tsc/allow/target/token.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Asset, Name, Symbol } from "proton-tsc/assembly/allow/index";
-  import { TableStore } from "proton-tsc/assembly/allow/index";
+  import { Asset, Name, Symbol } from "proton-tsc/allow";
+  import { TableStore } from "proton-tsc/allow";
   /**
    * Tables
    */
@@ -1028,9 +1028,9 @@ declare module 'proton-tsc/assembly/allow/target/token.tables' {
   export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
 
 }
-declare module 'proton-tsc/assembly/allow/target/txid.contract' {
-  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/assembly/allow/index';
-  import { AccountKV } from 'proton-tsc/assembly/allow/kv/index';
+declare module 'proton-tsc/allow/target/txid.contract' {
+  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/allow';
+  import { AccountKV } from 'proton-tsc/allow/kv';
   export class TxIdContract extends Contract {
       kvsTable: TableStore<AccountKV>;
       getsizeandid(actor: Name): void;
@@ -1039,20 +1039,20 @@ declare module 'proton-tsc/assembly/allow/target/txid.contract' {
   }
 
 }
-declare module 'proton-tsc/assembly/atomicassets/atomicassets.constants' {
+declare module 'proton-tsc/atomicassets/atomicassets.constants' {
   /// <reference types="assembly" />
   export const MAX_MARKET_FEE: f64;
   export const RESERVED: u64;
 
 }
-declare module 'proton-tsc/assembly/atomicassets/atomicassets.contract' {
+declare module 'proton-tsc/atomicassets/atomicassets.contract' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/atomicassets/atomicassets.inline' {
+declare module 'proton-tsc/atomicassets/atomicassets.inline' {
   /// <reference types="assembly" />
-  import { Name, InlineAction, Symbol, Asset } from "proton-tsc/assembly/index";
-  import { AtomicAttribute, AtomicFormat } from "proton-tsc/assembly/atomicassets/atomicdata";
+  import { Name, InlineAction, Symbol, Asset } from "proton-tsc";
+  import { AtomicAttribute, AtomicFormat } from "proton-tsc/atomicassets/atomicdata";
   export const ATOMICASSETS_CONTRACT: Name;
   export class AdminColEdit extends InlineAction {
       collectionFormatExtension: AtomicFormat[];
@@ -1243,15 +1243,15 @@ declare module 'proton-tsc/assembly/atomicassets/atomicassets.inline' {
   export function sendPayOfferRam(contract: Name, payer: Name, offer_id: u64): void;
 
 }
-declare module 'proton-tsc/assembly/atomicassets/atomicassets.spec' {
+declare module 'proton-tsc/atomicassets/atomicassets.spec' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/atomicassets/atomicassets.tables' {
+declare module 'proton-tsc/atomicassets/atomicassets.tables' {
   /// <reference types="assembly" />
-  import { Name, Table, Singleton, ExtendedSymbol, Asset } from "proton-tsc/assembly/index";
-  import { AtomicFormat } from "proton-tsc/assembly/atomicassets/atomicdata";
-  import { TableStore } from "proton-tsc/assembly/index";
+  import { Name, Table, Singleton, ExtendedSymbol, Asset } from "proton-tsc";
+  import { AtomicFormat } from "proton-tsc/atomicassets/atomicdata";
+  import { TableStore } from "proton-tsc";
   export class CollectionsTable extends Table {
       collection_name: Name;
       author: Name;
@@ -1335,9 +1335,9 @@ declare module 'proton-tsc/assembly/atomicassets/atomicassets.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/atomicassets/atomicdata' {
+declare module 'proton-tsc/atomicassets/atomicdata' {
   /// <reference types="assembly" />
-  import { Variant } from "proton-tsc/assembly/index";
+  import { Variant } from "proton-tsc";
   export class AtomicFormat {
       name: string;
       type: string;
@@ -1392,7 +1392,7 @@ declare module 'proton-tsc/assembly/atomicassets/atomicdata' {
   export function deserialize(data: u8[], format_lines: AtomicFormat[]): AtomicAttribute[];
 
 }
-declare module 'proton-tsc/assembly/atomicassets/base58' {
+declare module 'proton-tsc/atomicassets/base58' {
   /// <reference types="assembly" />
   /**
   * Encode Uint8Array as a base58 string.
@@ -1403,8 +1403,8 @@ declare module 'proton-tsc/assembly/atomicassets/base58' {
   export function decode(source: string): u8[];
 
 }
-declare module 'proton-tsc/assembly/atomicassets/checkformat' {
-  import { AtomicAttribute, AtomicFormat } from "proton-tsc/assembly/atomicassets/atomicdata";
+declare module 'proton-tsc/atomicassets/checkformat' {
+  import { AtomicAttribute, AtomicFormat } from "proton-tsc/atomicassets/atomicdata";
   export function check_format(lines: AtomicFormat[]): void;
   /**
   * The "name" attribute is limited to 64 characters max for both assets and collections
@@ -1414,21 +1414,21 @@ declare module 'proton-tsc/assembly/atomicassets/checkformat' {
   export function check_name_length(data: AtomicAttribute[]): void;
 
 }
-declare module 'proton-tsc/assembly/atomicassets/index' {
-  export * from 'proton-tsc/assembly/atomicassets/atomicassets.constants';
-  export * from 'proton-tsc/assembly/atomicassets/atomicassets.contract';
-  export * from 'proton-tsc/assembly/atomicassets/atomicassets.inline';
-  export * from 'proton-tsc/assembly/atomicassets/atomicassets.tables';
-  export * from 'proton-tsc/assembly/atomicassets/atomicdata';
-  export * from 'proton-tsc/assembly/atomicassets/base58';
-  export * from 'proton-tsc/assembly/atomicassets/checkformat';
+declare module 'proton-tsc/atomicassets' {
+  export * from 'proton-tsc/atomicassets/atomicassets.constants';
+  export * from 'proton-tsc/atomicassets/atomicassets.contract';
+  export * from 'proton-tsc/atomicassets/atomicassets.inline';
+  export * from 'proton-tsc/atomicassets/atomicassets.tables';
+  export * from 'proton-tsc/atomicassets/atomicdata';
+  export * from 'proton-tsc/atomicassets/base58';
+  export * from 'proton-tsc/atomicassets/checkformat';
 
 }
-declare module 'proton-tsc/assembly/atomicassets/target/allow.tables' {
+declare module 'proton-tsc/atomicassets/target/allow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/assembly/atomicassets/index";
-  import { TableStore } from "proton-tsc/assembly/atomicassets/index";
+  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/atomicassets";
+  import { TableStore } from "proton-tsc/atomicassets";
   export class AllowGlobalsSingletonDB extends _chain.MultiIndex<AllowGlobalsSingleton> {
   }
   export class AllowGlobalsSingleton implements _chain.MultiIndexValue {
@@ -1492,16 +1492,16 @@ declare module 'proton-tsc/assembly/atomicassets/target/allow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/atomicassets/target/atomicassets.contract' {
+declare module 'proton-tsc/atomicassets/target/atomicassets.contract' {
   /// <reference types="assembly" />
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
-declare module 'proton-tsc/assembly/atomicassets/target/atomicassets.inline' {
+declare module 'proton-tsc/atomicassets/target/atomicassets.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Symbol, Asset } from "proton-tsc/assembly/atomicassets/index";
-  import { AtomicAttribute, AtomicFormat } from "proton-tsc/assembly/atomicassets/target/atomicdata";
+  import { Name, Symbol, Asset } from "proton-tsc/atomicassets";
+  import { AtomicAttribute, AtomicFormat } from "proton-tsc/atomicassets/target/atomicdata";
   export const ATOMICASSETS_CONTRACT: any;
   export class AdminColEdit implements _chain.Packer {
       collectionFormatExtension: AtomicFormat[];
@@ -1770,12 +1770,12 @@ declare module 'proton-tsc/assembly/atomicassets/target/atomicassets.inline' {
   export function sendPayOfferRam(contract: Name, payer: Name, offer_id: u64): void;
 
 }
-declare module 'proton-tsc/assembly/atomicassets/target/atomicassets.tables' {
+declare module 'proton-tsc/atomicassets/target/atomicassets.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/assembly/atomicassets/index";
-  import { AtomicFormat } from "proton-tsc/assembly/atomicassets/target/atomicdata";
-  import { TableStore } from "proton-tsc/assembly/atomicassets/index";
+  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/atomicassets";
+  import { AtomicFormat } from "proton-tsc/atomicassets/target/atomicdata";
+  import { TableStore } from "proton-tsc/atomicassets";
   export class CollectionsTableDB extends _chain.MultiIndex<CollectionsTable> {
   }
   export class CollectionsTable implements _chain.MultiIndexValue {
@@ -1917,7 +1917,7 @@ declare module 'proton-tsc/assembly/atomicassets/target/atomicassets.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/atomicassets/target/atomicdata' {
+declare module 'proton-tsc/atomicassets/target/atomicdata' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
   export class AtomicFormat implements _chain.Packer {
@@ -2009,10 +2009,10 @@ declare module 'proton-tsc/assembly/atomicassets/target/atomicdata' {
   export function deserialize(data: u8[], format_lines: AtomicFormat[]): AtomicAttribute[];
 
 }
-declare module 'proton-tsc/assembly/atomicassets/target/balance.inline' {
+declare module 'proton-tsc/atomicassets/target/balance.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Asset, ExtendedAsset } from "proton-tsc/assembly/atomicassets/index";
+  import { Name, Asset, ExtendedAsset } from "proton-tsc/atomicassets";
   export class TokenTransfer implements _chain.Packer {
       from: Name;
       to: Name;
@@ -2043,11 +2043,11 @@ declare module 'proton-tsc/assembly/atomicassets/target/balance.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/atomicassets/target/balance.tables' {
+declare module 'proton-tsc/atomicassets/target/balance.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name } from "proton-tsc/assembly/atomicassets/index";
-  import { TableStore } from "proton-tsc/assembly/atomicassets/index";
+  import { ExtendedAsset, Name } from "proton-tsc/atomicassets";
+  import { TableStore } from "proton-tsc/atomicassets";
   export class BalanceTableDB extends _chain.MultiIndex<BalanceTable> {
   }
   export class BalanceTable implements _chain.MultiIndexValue {
@@ -2069,7 +2069,7 @@ declare module 'proton-tsc/assembly/atomicassets/target/balance.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/atomicassets/target/base58' {
+declare module 'proton-tsc/atomicassets/target/base58' {
   /// <reference types="assembly" />
   /**
   * Encode Uint8Array as a base58 string.
@@ -2080,11 +2080,11 @@ declare module 'proton-tsc/assembly/atomicassets/target/base58' {
   export function decode(source: string): u8[];
 
 }
-declare module 'proton-tsc/assembly/atomicassets/target/escrow.inline' {
+declare module 'proton-tsc/atomicassets/target/escrow.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/atomicassets/index";
-  import { Escrow } from "proton-tsc/assembly/atomicassets/target/escrow.tables";
+  import { Name } from "proton-tsc/atomicassets";
+  import { Escrow } from "proton-tsc/atomicassets/target/escrow.tables";
   export class LogEscrow implements _chain.Packer {
       escrow: Escrow;
       status: string;
@@ -2102,10 +2102,10 @@ declare module 'proton-tsc/assembly/atomicassets/target/escrow.inline' {
   export function sendLogEscrow(contract: Name, escrow: Escrow, status: string): void;
 
 }
-declare module 'proton-tsc/assembly/atomicassets/target/escrow.tables' {
+declare module 'proton-tsc/atomicassets/target/escrow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/assembly/atomicassets/index";
+  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/atomicassets";
   export class escrowGlobalDB extends _chain.MultiIndex<escrowGlobal> {
   }
   export class escrowGlobal implements _chain.MultiIndexValue {
@@ -2159,11 +2159,11 @@ declare module 'proton-tsc/assembly/atomicassets/target/escrow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/atomicassets/target/kv.tables' {
+declare module 'proton-tsc/atomicassets/target/kv.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/atomicassets/index";
-  import { TableStore } from "proton-tsc/assembly/atomicassets/index";
+  import { Name } from "proton-tsc/atomicassets";
+  import { TableStore } from "proton-tsc/atomicassets";
   export class KV implements _chain.Packer {
       key: string;
       value: string;
@@ -2192,10 +2192,10 @@ declare module 'proton-tsc/assembly/atomicassets/target/kv.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/atomicassets/target/rng.inline' {
+declare module 'proton-tsc/atomicassets/target/rng.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/atomicassets/index";
+  import { Name } from "proton-tsc/atomicassets";
   export class RequestRandom implements _chain.Packer {
       customerId: u64;
       signingValue: u64;
@@ -2208,11 +2208,11 @@ declare module 'proton-tsc/assembly/atomicassets/target/rng.inline' {
   export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
-declare module 'proton-tsc/assembly/atomicassets/target/rng.tables' {
+declare module 'proton-tsc/atomicassets/target/rng.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/atomicassets/index";
-  import { TableStore } from "proton-tsc/assembly/atomicassets/index";
+  import { Name } from "proton-tsc/atomicassets";
+  import { TableStore } from "proton-tsc/atomicassets";
   export class ResultsTableDB extends _chain.MultiIndex<ResultsTable> {
   }
   export class ResultsTable implements _chain.MultiIndexValue {
@@ -2234,10 +2234,10 @@ declare module 'proton-tsc/assembly/atomicassets/target/rng.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/atomicassets/target/token.inline' {
+declare module 'proton-tsc/atomicassets/target/token.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, ExtendedAsset, Asset } from "proton-tsc/assembly/atomicassets/index";
+  import { Name, ExtendedAsset, Asset } from "proton-tsc/atomicassets";
   export const transfer: any;
   export class TokenTransfer implements _chain.Packer {
       from: Name;
@@ -2259,11 +2259,11 @@ declare module 'proton-tsc/assembly/atomicassets/target/token.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/atomicassets/target/token.tables' {
+declare module 'proton-tsc/atomicassets/target/token.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Asset, Name, Symbol } from "proton-tsc/assembly/atomicassets/index";
-  import { TableStore } from "proton-tsc/assembly/atomicassets/index";
+  import { Asset, Name, Symbol } from "proton-tsc/atomicassets";
+  import { TableStore } from "proton-tsc/atomicassets";
   /**
    * Tables
    */
@@ -2310,9 +2310,9 @@ declare module 'proton-tsc/assembly/atomicassets/target/token.tables' {
   export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
 
 }
-declare module 'proton-tsc/assembly/atomicassets/target/txid.contract' {
-  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/assembly/atomicassets/index';
-  import { AccountKV } from 'proton-tsc/assembly/atomicassets/kv/index';
+declare module 'proton-tsc/atomicassets/target/txid.contract' {
+  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/atomicassets';
+  import { AccountKV } from 'proton-tsc/atomicassets/kv';
   export class TxIdContract extends Contract {
       kvsTable: TableStore<AccountKV>;
       getsizeandid(actor: Name): void;
@@ -2321,8 +2321,8 @@ declare module 'proton-tsc/assembly/atomicassets/target/txid.contract' {
   }
 
 }
-declare module 'proton-tsc/assembly/balance/balance.constants' {
-  import { Name } from "proton-tsc/assembly/index";
+declare module 'proton-tsc/balance/balance.constants' {
+  import { Name } from "proton-tsc";
   /**
    * The name of the constant and the string must be exactly the same
    * for decorators to utilize it correctly
@@ -2330,11 +2330,11 @@ declare module 'proton-tsc/assembly/balance/balance.constants' {
   export const atomicassets: Name;
 
 }
-declare module 'proton-tsc/assembly/balance/balance.contract' {
+declare module 'proton-tsc/balance/balance.contract' {
   /// <reference types="assembly" />
-  import { ExtendedAsset, Name, TableStore } from 'proton-tsc/assembly/index';
-  import { AllowContract } from 'proton-tsc/assembly/allow/index';
-  import { Balance } from 'proton-tsc/assembly/balance/balance.tables';
+  import { ExtendedAsset, Name, TableStore } from 'proton-tsc';
+  import { AllowContract } from 'proton-tsc/allow';
+  import { Balance } from 'proton-tsc/balance/balance.tables';
   export class BalanceContract extends AllowContract {
       balancesTable: TableStore<Balance>;
       /**
@@ -2381,14 +2381,14 @@ declare module 'proton-tsc/assembly/balance/balance.contract' {
   }
 
 }
-declare module 'proton-tsc/assembly/balance/balance.spec' {
+declare module 'proton-tsc/balance/balance.spec' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/balance/balance.tables' {
+declare module 'proton-tsc/balance/balance.tables' {
   /// <reference types="assembly" />
-  import { ExtendedAsset, Name, Table } from "proton-tsc/assembly/index";
-  import { TableStore } from "proton-tsc/assembly/index";
+  import { ExtendedAsset, Name, Table } from "proton-tsc";
+  import { TableStore } from "proton-tsc";
   export class BalanceTable extends Table {
       account: Name;
       tokens: ExtendedAsset[];
@@ -2401,10 +2401,10 @@ declare module 'proton-tsc/assembly/balance/balance.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/balance/balance.utils' {
+declare module 'proton-tsc/balance/balance.utils' {
   /// <reference types="assembly" />
-  import { ExtendedAsset } from "proton-tsc/assembly/index";
-  import { Balance } from "proton-tsc/assembly/balance/balance.tables";
+  import { ExtendedAsset } from "proton-tsc";
+  import { Balance } from "proton-tsc/balance/balance.tables";
   /**
    * Find the index of an extended asset in an array of extended assets
    * @param {ExtendedAsset[]} tokens - The list of tokens to search through.
@@ -2451,18 +2451,18 @@ declare module 'proton-tsc/assembly/balance/balance.utils' {
   export function addTokens(balance: Balance, tokensToAdd: ExtendedAsset[]): void;
 
 }
-declare module 'proton-tsc/assembly/balance/index' {
-  export * from 'proton-tsc/assembly/balance/balance.constants';
-  export * from 'proton-tsc/assembly/balance/balance.contract';
-  export * from 'proton-tsc/assembly/balance/balance.tables';
-  export * from 'proton-tsc/assembly/balance/balance.utils';
+declare module 'proton-tsc/balance' {
+  export * from 'proton-tsc/balance/balance.constants';
+  export * from 'proton-tsc/balance/balance.contract';
+  export * from 'proton-tsc/balance/balance.tables';
+  export * from 'proton-tsc/balance/balance.utils';
 
 }
-declare module 'proton-tsc/assembly/balance/target/allow.tables' {
+declare module 'proton-tsc/balance/target/allow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/assembly/balance/index";
-  import { TableStore } from "proton-tsc/assembly/balance/index";
+  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/balance";
+  import { TableStore } from "proton-tsc/balance";
   export class AllowGlobalsSingletonDB extends _chain.MultiIndex<AllowGlobalsSingleton> {
   }
   export class AllowGlobalsSingleton implements _chain.MultiIndexValue {
@@ -2526,11 +2526,11 @@ declare module 'proton-tsc/assembly/balance/target/allow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/balance/target/atomicassets.inline' {
+declare module 'proton-tsc/balance/target/atomicassets.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Symbol, Asset } from "proton-tsc/assembly/balance/index";
-  import { AtomicAttribute, AtomicFormat } from "proton-tsc/assembly/balance/target/atomicdata";
+  import { Name, Symbol, Asset } from "proton-tsc/balance";
+  import { AtomicAttribute, AtomicFormat } from "proton-tsc/balance/target/atomicdata";
   export const ATOMICASSETS_CONTRACT: any;
   export class AdminColEdit implements _chain.Packer {
       collectionFormatExtension: AtomicFormat[];
@@ -2799,12 +2799,12 @@ declare module 'proton-tsc/assembly/balance/target/atomicassets.inline' {
   export function sendPayOfferRam(contract: Name, payer: Name, offer_id: u64): void;
 
 }
-declare module 'proton-tsc/assembly/balance/target/atomicassets.tables' {
+declare module 'proton-tsc/balance/target/atomicassets.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/assembly/balance/index";
-  import { AtomicFormat } from "proton-tsc/assembly/balance/target/atomicdata";
-  import { TableStore } from "proton-tsc/assembly/balance/index";
+  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/balance";
+  import { AtomicFormat } from "proton-tsc/balance/target/atomicdata";
+  import { TableStore } from "proton-tsc/balance";
   export class CollectionsTableDB extends _chain.MultiIndex<CollectionsTable> {
   }
   export class CollectionsTable implements _chain.MultiIndexValue {
@@ -2946,7 +2946,7 @@ declare module 'proton-tsc/assembly/balance/target/atomicassets.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/balance/target/atomicdata' {
+declare module 'proton-tsc/balance/target/atomicdata' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
   export class AtomicFormat implements _chain.Packer {
@@ -3038,11 +3038,11 @@ declare module 'proton-tsc/assembly/balance/target/atomicdata' {
   export function deserialize(data: u8[], format_lines: AtomicFormat[]): AtomicAttribute[];
 
 }
-declare module 'proton-tsc/assembly/balance/target/balance.contract' {
+declare module 'proton-tsc/balance/target/balance.contract' {
   /// <reference types="assembly" />
-  import { ExtendedAsset, Name, TableStore } from 'proton-tsc/assembly/balance/index';
-  import { AllowContract } from 'proton-tsc/assembly/balance/allow/index';
-  import { Balance } from 'proton-tsc/assembly/balance/target/balance.tables';
+  import { ExtendedAsset, Name, TableStore } from 'proton-tsc/balance';
+  import { AllowContract } from 'proton-tsc/balance/allow';
+  import { Balance } from 'proton-tsc/balance/target/balance.tables';
   export class BalanceContract extends AllowContract {
       balancesTable: TableStore<Balance>;
       /**
@@ -3090,10 +3090,10 @@ declare module 'proton-tsc/assembly/balance/target/balance.contract' {
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
-declare module 'proton-tsc/assembly/balance/target/balance.inline' {
+declare module 'proton-tsc/balance/target/balance.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Asset, ExtendedAsset } from "proton-tsc/assembly/balance/index";
+  import { Name, Asset, ExtendedAsset } from "proton-tsc/balance";
   export class TokenTransfer implements _chain.Packer {
       from: Name;
       to: Name;
@@ -3124,11 +3124,11 @@ declare module 'proton-tsc/assembly/balance/target/balance.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/balance/target/balance.tables' {
+declare module 'proton-tsc/balance/target/balance.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name } from "proton-tsc/assembly/balance/index";
-  import { TableStore } from "proton-tsc/assembly/balance/index";
+  import { ExtendedAsset, Name } from "proton-tsc/balance";
+  import { TableStore } from "proton-tsc/balance";
   export class BalanceTableDB extends _chain.MultiIndex<BalanceTable> {
   }
   export class BalanceTable implements _chain.MultiIndexValue {
@@ -3150,7 +3150,7 @@ declare module 'proton-tsc/assembly/balance/target/balance.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/balance/target/base58' {
+declare module 'proton-tsc/balance/target/base58' {
   /// <reference types="assembly" />
   /**
   * Encode Uint8Array as a base58 string.
@@ -3161,11 +3161,11 @@ declare module 'proton-tsc/assembly/balance/target/base58' {
   export function decode(source: string): u8[];
 
 }
-declare module 'proton-tsc/assembly/balance/target/escrow.inline' {
+declare module 'proton-tsc/balance/target/escrow.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/balance/index";
-  import { Escrow } from "proton-tsc/assembly/balance/target/escrow.tables";
+  import { Name } from "proton-tsc/balance";
+  import { Escrow } from "proton-tsc/balance/target/escrow.tables";
   export class LogEscrow implements _chain.Packer {
       escrow: Escrow;
       status: string;
@@ -3183,10 +3183,10 @@ declare module 'proton-tsc/assembly/balance/target/escrow.inline' {
   export function sendLogEscrow(contract: Name, escrow: Escrow, status: string): void;
 
 }
-declare module 'proton-tsc/assembly/balance/target/escrow.tables' {
+declare module 'proton-tsc/balance/target/escrow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/assembly/balance/index";
+  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/balance";
   export class escrowGlobalDB extends _chain.MultiIndex<escrowGlobal> {
   }
   export class escrowGlobal implements _chain.MultiIndexValue {
@@ -3240,11 +3240,11 @@ declare module 'proton-tsc/assembly/balance/target/escrow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/balance/target/kv.tables' {
+declare module 'proton-tsc/balance/target/kv.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/balance/index";
-  import { TableStore } from "proton-tsc/assembly/balance/index";
+  import { Name } from "proton-tsc/balance";
+  import { TableStore } from "proton-tsc/balance";
   export class KV implements _chain.Packer {
       key: string;
       value: string;
@@ -3273,10 +3273,10 @@ declare module 'proton-tsc/assembly/balance/target/kv.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/balance/target/rng.inline' {
+declare module 'proton-tsc/balance/target/rng.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/balance/index";
+  import { Name } from "proton-tsc/balance";
   export class RequestRandom implements _chain.Packer {
       customerId: u64;
       signingValue: u64;
@@ -3289,11 +3289,11 @@ declare module 'proton-tsc/assembly/balance/target/rng.inline' {
   export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
-declare module 'proton-tsc/assembly/balance/target/rng.tables' {
+declare module 'proton-tsc/balance/target/rng.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/balance/index";
-  import { TableStore } from "proton-tsc/assembly/balance/index";
+  import { Name } from "proton-tsc/balance";
+  import { TableStore } from "proton-tsc/balance";
   export class ResultsTableDB extends _chain.MultiIndex<ResultsTable> {
   }
   export class ResultsTable implements _chain.MultiIndexValue {
@@ -3315,10 +3315,10 @@ declare module 'proton-tsc/assembly/balance/target/rng.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/balance/target/token.inline' {
+declare module 'proton-tsc/balance/target/token.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, ExtendedAsset, Asset } from "proton-tsc/assembly/balance/index";
+  import { Name, ExtendedAsset, Asset } from "proton-tsc/balance";
   export const transfer: any;
   export class TokenTransfer implements _chain.Packer {
       from: Name;
@@ -3340,11 +3340,11 @@ declare module 'proton-tsc/assembly/balance/target/token.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/balance/target/token.tables' {
+declare module 'proton-tsc/balance/target/token.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Asset, Name, Symbol } from "proton-tsc/assembly/balance/index";
-  import { TableStore } from "proton-tsc/assembly/balance/index";
+  import { Asset, Name, Symbol } from "proton-tsc/balance";
+  import { TableStore } from "proton-tsc/balance";
   /**
    * Tables
    */
@@ -3391,9 +3391,9 @@ declare module 'proton-tsc/assembly/balance/target/token.tables' {
   export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
 
 }
-declare module 'proton-tsc/assembly/balance/target/txid.contract' {
-  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/assembly/balance/index';
-  import { AccountKV } from 'proton-tsc/assembly/balance/kv/index';
+declare module 'proton-tsc/balance/target/txid.contract' {
+  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/balance';
+  import { AccountKV } from 'proton-tsc/balance/kv';
   export class TxIdContract extends Contract {
       kvsTable: TableStore<AccountKV>;
       getsizeandid(actor: Name): void;
@@ -3402,7 +3402,7 @@ declare module 'proton-tsc/assembly/balance/target/txid.contract' {
   }
 
 }
-declare module 'proton-tsc/assembly/chain' {
+declare module 'proton-tsc/chain' {
   export { U128, U256, I128 } from "as-chain";
   export { Float128 } from "as-chain";
   export { VarInt32, VarUint32, calcPackedVarUint32Length } from "as-chain";
@@ -3430,23 +3430,23 @@ declare module 'proton-tsc/assembly/chain' {
   export { Utils } from "as-chain";
 
 }
-declare module 'proton-tsc/assembly/createnft/createnft.contract' {
+declare module 'proton-tsc/createnft/createnft.contract' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/createnft/createnft.spec' {
+declare module 'proton-tsc/createnft/createnft.spec' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/createnft/index' {
-  export * from 'proton-tsc/assembly/createnft/createnft.contract';
+declare module 'proton-tsc/createnft' {
+  export * from 'proton-tsc/createnft/createnft.contract';
 
 }
-declare module 'proton-tsc/assembly/createnft/target/allow.tables' {
+declare module 'proton-tsc/createnft/target/allow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/assembly/createnft/index";
-  import { TableStore } from "proton-tsc/assembly/createnft/index";
+  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/createnft";
+  import { TableStore } from "proton-tsc/createnft";
   export class AllowGlobalsSingletonDB extends _chain.MultiIndex<AllowGlobalsSingleton> {
   }
   export class AllowGlobalsSingleton implements _chain.MultiIndexValue {
@@ -3510,11 +3510,11 @@ declare module 'proton-tsc/assembly/createnft/target/allow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/createnft/target/atomicassets.inline' {
+declare module 'proton-tsc/createnft/target/atomicassets.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Symbol, Asset } from "proton-tsc/assembly/createnft/index";
-  import { AtomicAttribute, AtomicFormat } from "proton-tsc/assembly/createnft/target/atomicdata";
+  import { Name, Symbol, Asset } from "proton-tsc/createnft";
+  import { AtomicAttribute, AtomicFormat } from "proton-tsc/createnft/target/atomicdata";
   export const ATOMICASSETS_CONTRACT: any;
   export class AdminColEdit implements _chain.Packer {
       collectionFormatExtension: AtomicFormat[];
@@ -3783,12 +3783,12 @@ declare module 'proton-tsc/assembly/createnft/target/atomicassets.inline' {
   export function sendPayOfferRam(contract: Name, payer: Name, offer_id: u64): void;
 
 }
-declare module 'proton-tsc/assembly/createnft/target/atomicassets.tables' {
+declare module 'proton-tsc/createnft/target/atomicassets.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/assembly/createnft/index";
-  import { AtomicFormat } from "proton-tsc/assembly/createnft/target/atomicdata";
-  import { TableStore } from "proton-tsc/assembly/createnft/index";
+  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/createnft";
+  import { AtomicFormat } from "proton-tsc/createnft/target/atomicdata";
+  import { TableStore } from "proton-tsc/createnft";
   export class CollectionsTableDB extends _chain.MultiIndex<CollectionsTable> {
   }
   export class CollectionsTable implements _chain.MultiIndexValue {
@@ -3930,7 +3930,7 @@ declare module 'proton-tsc/assembly/createnft/target/atomicassets.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/createnft/target/atomicdata' {
+declare module 'proton-tsc/createnft/target/atomicdata' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
   export class AtomicFormat implements _chain.Packer {
@@ -4022,10 +4022,10 @@ declare module 'proton-tsc/assembly/createnft/target/atomicdata' {
   export function deserialize(data: u8[], format_lines: AtomicFormat[]): AtomicAttribute[];
 
 }
-declare module 'proton-tsc/assembly/createnft/target/balance.inline' {
+declare module 'proton-tsc/createnft/target/balance.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Asset, ExtendedAsset } from "proton-tsc/assembly/createnft/index";
+  import { Name, Asset, ExtendedAsset } from "proton-tsc/createnft";
   export class TokenTransfer implements _chain.Packer {
       from: Name;
       to: Name;
@@ -4056,11 +4056,11 @@ declare module 'proton-tsc/assembly/createnft/target/balance.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/createnft/target/balance.tables' {
+declare module 'proton-tsc/createnft/target/balance.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name } from "proton-tsc/assembly/createnft/index";
-  import { TableStore } from "proton-tsc/assembly/createnft/index";
+  import { ExtendedAsset, Name } from "proton-tsc/createnft";
+  import { TableStore } from "proton-tsc/createnft";
   export class BalanceTableDB extends _chain.MultiIndex<BalanceTable> {
   }
   export class BalanceTable implements _chain.MultiIndexValue {
@@ -4082,7 +4082,7 @@ declare module 'proton-tsc/assembly/createnft/target/balance.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/createnft/target/base58' {
+declare module 'proton-tsc/createnft/target/base58' {
   /// <reference types="assembly" />
   /**
   * Encode Uint8Array as a base58 string.
@@ -4093,16 +4093,16 @@ declare module 'proton-tsc/assembly/createnft/target/base58' {
   export function decode(source: string): u8[];
 
 }
-declare module 'proton-tsc/assembly/createnft/target/createnft.contract' {
+declare module 'proton-tsc/createnft/target/createnft.contract' {
   /// <reference types="assembly" />
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
-declare module 'proton-tsc/assembly/createnft/target/escrow.inline' {
+declare module 'proton-tsc/createnft/target/escrow.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/createnft/index";
-  import { Escrow } from "proton-tsc/assembly/createnft/target/escrow.tables";
+  import { Name } from "proton-tsc/createnft";
+  import { Escrow } from "proton-tsc/createnft/target/escrow.tables";
   export class LogEscrow implements _chain.Packer {
       escrow: Escrow;
       status: string;
@@ -4120,10 +4120,10 @@ declare module 'proton-tsc/assembly/createnft/target/escrow.inline' {
   export function sendLogEscrow(contract: Name, escrow: Escrow, status: string): void;
 
 }
-declare module 'proton-tsc/assembly/createnft/target/escrow.tables' {
+declare module 'proton-tsc/createnft/target/escrow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/assembly/createnft/index";
+  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/createnft";
   export class escrowGlobalDB extends _chain.MultiIndex<escrowGlobal> {
   }
   export class escrowGlobal implements _chain.MultiIndexValue {
@@ -4177,11 +4177,11 @@ declare module 'proton-tsc/assembly/createnft/target/escrow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/createnft/target/kv.tables' {
+declare module 'proton-tsc/createnft/target/kv.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/createnft/index";
-  import { TableStore } from "proton-tsc/assembly/createnft/index";
+  import { Name } from "proton-tsc/createnft";
+  import { TableStore } from "proton-tsc/createnft";
   export class KV implements _chain.Packer {
       key: string;
       value: string;
@@ -4210,10 +4210,10 @@ declare module 'proton-tsc/assembly/createnft/target/kv.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/createnft/target/rng.inline' {
+declare module 'proton-tsc/createnft/target/rng.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/createnft/index";
+  import { Name } from "proton-tsc/createnft";
   export class RequestRandom implements _chain.Packer {
       customerId: u64;
       signingValue: u64;
@@ -4226,11 +4226,11 @@ declare module 'proton-tsc/assembly/createnft/target/rng.inline' {
   export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
-declare module 'proton-tsc/assembly/createnft/target/rng.tables' {
+declare module 'proton-tsc/createnft/target/rng.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/createnft/index";
-  import { TableStore } from "proton-tsc/assembly/createnft/index";
+  import { Name } from "proton-tsc/createnft";
+  import { TableStore } from "proton-tsc/createnft";
   export class ResultsTableDB extends _chain.MultiIndex<ResultsTable> {
   }
   export class ResultsTable implements _chain.MultiIndexValue {
@@ -4252,10 +4252,10 @@ declare module 'proton-tsc/assembly/createnft/target/rng.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/createnft/target/token.inline' {
+declare module 'proton-tsc/createnft/target/token.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, ExtendedAsset, Asset } from "proton-tsc/assembly/createnft/index";
+  import { Name, ExtendedAsset, Asset } from "proton-tsc/createnft";
   export const transfer: any;
   export class TokenTransfer implements _chain.Packer {
       from: Name;
@@ -4277,11 +4277,11 @@ declare module 'proton-tsc/assembly/createnft/target/token.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/createnft/target/token.tables' {
+declare module 'proton-tsc/createnft/target/token.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Asset, Name, Symbol } from "proton-tsc/assembly/createnft/index";
-  import { TableStore } from "proton-tsc/assembly/createnft/index";
+  import { Asset, Name, Symbol } from "proton-tsc/createnft";
+  import { TableStore } from "proton-tsc/createnft";
   /**
    * Tables
    */
@@ -4328,9 +4328,9 @@ declare module 'proton-tsc/assembly/createnft/target/token.tables' {
   export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
 
 }
-declare module 'proton-tsc/assembly/createnft/target/txid.contract' {
-  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/assembly/createnft/index';
-  import { AccountKV } from 'proton-tsc/assembly/createnft/kv/index';
+declare module 'proton-tsc/createnft/target/txid.contract' {
+  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/createnft';
+  import { AccountKV } from 'proton-tsc/createnft/kv';
   export class TxIdContract extends Contract {
       kvsTable: TableStore<AccountKV>;
       getsizeandid(actor: Name): void;
@@ -4339,7 +4339,7 @@ declare module 'proton-tsc/assembly/createnft/target/txid.contract' {
   }
 
 }
-declare module 'proton-tsc/assembly/escrow/escrow.constants' {
+declare module 'proton-tsc/escrow/escrow.constants' {
   export namespace ESCROW_STATUS {
       const START = "start";
       const FILL = "fill";
@@ -4348,13 +4348,13 @@ declare module 'proton-tsc/assembly/escrow/escrow.constants' {
   export type ESCROW_STATUS = string;
 
 }
-declare module 'proton-tsc/assembly/escrow/escrow.contract' {
+declare module 'proton-tsc/escrow/escrow.contract' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/escrow/escrow.inline' {
-  import { Name, Table } from "proton-tsc/assembly/index";
-  import { Escrow } from "proton-tsc/assembly/escrow/escrow.tables";
+declare module 'proton-tsc/escrow/escrow.inline' {
+  import { Name, Table } from "proton-tsc";
+  import { Escrow } from "proton-tsc/escrow/escrow.tables";
   export class LogEscrow extends Table {
       escrow: Escrow;
       status: string;
@@ -4369,13 +4369,13 @@ declare module 'proton-tsc/assembly/escrow/escrow.inline' {
   export function sendLogEscrow(contract: Name, escrow: Escrow, status: string): void;
 
 }
-declare module 'proton-tsc/assembly/escrow/escrow.spec' {
+declare module 'proton-tsc/escrow/escrow.spec' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/escrow/escrow.tables' {
+declare module 'proton-tsc/escrow/escrow.tables' {
   /// <reference types="assembly" />
-  import { ExtendedAsset, Name, Table, Singleton, TableStore } from "proton-tsc/assembly/index";
+  import { ExtendedAsset, Name, Table, Singleton, TableStore } from "proton-tsc";
   export class escrowGlobal extends Table {
       escrowId: u64;
       constructor(escrowId?: u64);
@@ -4404,18 +4404,18 @@ declare module 'proton-tsc/assembly/escrow/escrow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/escrow/index' {
-  export * from 'proton-tsc/assembly/escrow/escrow.contract';
-  export * from 'proton-tsc/assembly/escrow/escrow.tables';
-  export * from 'proton-tsc/assembly/escrow/escrow.inline';
-  export * from 'proton-tsc/assembly/escrow/escrow.constants';
+declare module 'proton-tsc/escrow' {
+  export * from 'proton-tsc/escrow/escrow.contract';
+  export * from 'proton-tsc/escrow/escrow.tables';
+  export * from 'proton-tsc/escrow/escrow.inline';
+  export * from 'proton-tsc/escrow/escrow.constants';
 
 }
-declare module 'proton-tsc/assembly/escrow/target/allow.tables' {
+declare module 'proton-tsc/escrow/target/allow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/assembly/escrow/index";
-  import { TableStore } from "proton-tsc/assembly/escrow/index";
+  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/escrow";
+  import { TableStore } from "proton-tsc/escrow";
   export class AllowGlobalsSingletonDB extends _chain.MultiIndex<AllowGlobalsSingleton> {
   }
   export class AllowGlobalsSingleton implements _chain.MultiIndexValue {
@@ -4479,11 +4479,11 @@ declare module 'proton-tsc/assembly/escrow/target/allow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/escrow/target/atomicassets.inline' {
+declare module 'proton-tsc/escrow/target/atomicassets.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Symbol, Asset } from "proton-tsc/assembly/escrow/index";
-  import { AtomicAttribute, AtomicFormat } from "proton-tsc/assembly/escrow/target/atomicdata";
+  import { Name, Symbol, Asset } from "proton-tsc/escrow";
+  import { AtomicAttribute, AtomicFormat } from "proton-tsc/escrow/target/atomicdata";
   export const ATOMICASSETS_CONTRACT: any;
   export class AdminColEdit implements _chain.Packer {
       collectionFormatExtension: AtomicFormat[];
@@ -4752,12 +4752,12 @@ declare module 'proton-tsc/assembly/escrow/target/atomicassets.inline' {
   export function sendPayOfferRam(contract: Name, payer: Name, offer_id: u64): void;
 
 }
-declare module 'proton-tsc/assembly/escrow/target/atomicassets.tables' {
+declare module 'proton-tsc/escrow/target/atomicassets.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/assembly/escrow/index";
-  import { AtomicFormat } from "proton-tsc/assembly/escrow/target/atomicdata";
-  import { TableStore } from "proton-tsc/assembly/escrow/index";
+  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/escrow";
+  import { AtomicFormat } from "proton-tsc/escrow/target/atomicdata";
+  import { TableStore } from "proton-tsc/escrow";
   export class CollectionsTableDB extends _chain.MultiIndex<CollectionsTable> {
   }
   export class CollectionsTable implements _chain.MultiIndexValue {
@@ -4899,7 +4899,7 @@ declare module 'proton-tsc/assembly/escrow/target/atomicassets.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/escrow/target/atomicdata' {
+declare module 'proton-tsc/escrow/target/atomicdata' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
   export class AtomicFormat implements _chain.Packer {
@@ -4991,11 +4991,11 @@ declare module 'proton-tsc/assembly/escrow/target/atomicdata' {
   export function deserialize(data: u8[], format_lines: AtomicFormat[]): AtomicAttribute[];
 
 }
-declare module 'proton-tsc/assembly/escrow/target/balance.tables' {
+declare module 'proton-tsc/escrow/target/balance.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name } from "proton-tsc/assembly/escrow/index";
-  import { TableStore } from "proton-tsc/assembly/escrow/index";
+  import { ExtendedAsset, Name } from "proton-tsc/escrow";
+  import { TableStore } from "proton-tsc/escrow";
   export class BalanceTableDB extends _chain.MultiIndex<BalanceTable> {
   }
   export class BalanceTable implements _chain.MultiIndexValue {
@@ -5017,7 +5017,7 @@ declare module 'proton-tsc/assembly/escrow/target/balance.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/escrow/target/base58' {
+declare module 'proton-tsc/escrow/target/base58' {
   /// <reference types="assembly" />
   /**
   * Encode Uint8Array as a base58 string.
@@ -5028,16 +5028,16 @@ declare module 'proton-tsc/assembly/escrow/target/base58' {
   export function decode(source: string): u8[];
 
 }
-declare module 'proton-tsc/assembly/escrow/target/escrow.contract' {
+declare module 'proton-tsc/escrow/target/escrow.contract' {
   /// <reference types="assembly" />
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
-declare module 'proton-tsc/assembly/escrow/target/escrow.inline' {
+declare module 'proton-tsc/escrow/target/escrow.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/escrow/index";
-  import { Escrow } from "proton-tsc/assembly/escrow/target/escrow.tables";
+  import { Name } from "proton-tsc/escrow";
+  import { Escrow } from "proton-tsc/escrow/target/escrow.tables";
   export class LogEscrow implements _chain.Packer {
       escrow: Escrow;
       status: string;
@@ -5055,10 +5055,10 @@ declare module 'proton-tsc/assembly/escrow/target/escrow.inline' {
   export function sendLogEscrow(contract: Name, escrow: Escrow, status: string): void;
 
 }
-declare module 'proton-tsc/assembly/escrow/target/escrow.tables' {
+declare module 'proton-tsc/escrow/target/escrow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/assembly/escrow/index";
+  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/escrow";
   export class escrowGlobalDB extends _chain.MultiIndex<escrowGlobal> {
   }
   export class escrowGlobal implements _chain.MultiIndexValue {
@@ -5109,10 +5109,10 @@ declare module 'proton-tsc/assembly/escrow/target/escrow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/escrow/target/token.inline' {
+declare module 'proton-tsc/escrow/target/token.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, ExtendedAsset, Asset } from "proton-tsc/assembly/escrow/index";
+  import { Name, ExtendedAsset, Asset } from "proton-tsc/escrow";
   export const transfer: any;
   export class TokenTransfer implements _chain.Packer {
       from: Name;
@@ -5134,11 +5134,11 @@ declare module 'proton-tsc/assembly/escrow/target/token.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/escrow/target/token.tables' {
+declare module 'proton-tsc/escrow/target/token.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Asset, Name, Symbol } from "proton-tsc/assembly/escrow/index";
-  import { TableStore } from "proton-tsc/assembly/escrow/index";
+  import { Asset, Name, Symbol } from "proton-tsc/escrow";
+  import { TableStore } from "proton-tsc/escrow";
   /**
    * Tables
    */
@@ -5185,23 +5185,23 @@ declare module 'proton-tsc/assembly/escrow/target/token.tables' {
   export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
 
 }
-declare module 'proton-tsc/assembly/hello/hello.contract' {
+declare module 'proton-tsc/hello/hello.contract' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/hello/hello.spec' {
+declare module 'proton-tsc/hello/hello.spec' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/hello/index' {
-  export * from 'proton-tsc/assembly/hello/hello.contract';
+declare module 'proton-tsc/hello' {
+  export * from 'proton-tsc/hello/hello.contract';
 
 }
-declare module 'proton-tsc/assembly/hello/target/allow.tables' {
+declare module 'proton-tsc/hello/target/allow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/assembly/hello/index";
-  import { TableStore } from "proton-tsc/assembly/hello/index";
+  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/hello";
+  import { TableStore } from "proton-tsc/hello";
   export class AllowGlobalsSingletonDB extends _chain.MultiIndex<AllowGlobalsSingleton> {
   }
   export class AllowGlobalsSingleton implements _chain.MultiIndexValue {
@@ -5265,11 +5265,11 @@ declare module 'proton-tsc/assembly/hello/target/allow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/hello/target/atomicassets.inline' {
+declare module 'proton-tsc/hello/target/atomicassets.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Symbol, Asset } from "proton-tsc/assembly/hello/index";
-  import { AtomicAttribute, AtomicFormat } from "proton-tsc/assembly/hello/target/atomicdata";
+  import { Name, Symbol, Asset } from "proton-tsc/hello";
+  import { AtomicAttribute, AtomicFormat } from "proton-tsc/hello/target/atomicdata";
   export const ATOMICASSETS_CONTRACT: any;
   export class AdminColEdit implements _chain.Packer {
       collectionFormatExtension: AtomicFormat[];
@@ -5538,12 +5538,12 @@ declare module 'proton-tsc/assembly/hello/target/atomicassets.inline' {
   export function sendPayOfferRam(contract: Name, payer: Name, offer_id: u64): void;
 
 }
-declare module 'proton-tsc/assembly/hello/target/atomicassets.tables' {
+declare module 'proton-tsc/hello/target/atomicassets.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/assembly/hello/index";
-  import { AtomicFormat } from "proton-tsc/assembly/hello/target/atomicdata";
-  import { TableStore } from "proton-tsc/assembly/hello/index";
+  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/hello";
+  import { AtomicFormat } from "proton-tsc/hello/target/atomicdata";
+  import { TableStore } from "proton-tsc/hello";
   export class CollectionsTableDB extends _chain.MultiIndex<CollectionsTable> {
   }
   export class CollectionsTable implements _chain.MultiIndexValue {
@@ -5685,7 +5685,7 @@ declare module 'proton-tsc/assembly/hello/target/atomicassets.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/hello/target/atomicdata' {
+declare module 'proton-tsc/hello/target/atomicdata' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
   export class AtomicFormat implements _chain.Packer {
@@ -5777,10 +5777,10 @@ declare module 'proton-tsc/assembly/hello/target/atomicdata' {
   export function deserialize(data: u8[], format_lines: AtomicFormat[]): AtomicAttribute[];
 
 }
-declare module 'proton-tsc/assembly/hello/target/balance.inline' {
+declare module 'proton-tsc/hello/target/balance.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Asset, ExtendedAsset } from "proton-tsc/assembly/hello/index";
+  import { Name, Asset, ExtendedAsset } from "proton-tsc/hello";
   export class TokenTransfer implements _chain.Packer {
       from: Name;
       to: Name;
@@ -5811,11 +5811,11 @@ declare module 'proton-tsc/assembly/hello/target/balance.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/hello/target/balance.tables' {
+declare module 'proton-tsc/hello/target/balance.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name } from "proton-tsc/assembly/hello/index";
-  import { TableStore } from "proton-tsc/assembly/hello/index";
+  import { ExtendedAsset, Name } from "proton-tsc/hello";
+  import { TableStore } from "proton-tsc/hello";
   export class BalanceTableDB extends _chain.MultiIndex<BalanceTable> {
   }
   export class BalanceTable implements _chain.MultiIndexValue {
@@ -5837,7 +5837,7 @@ declare module 'proton-tsc/assembly/hello/target/balance.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/hello/target/base58' {
+declare module 'proton-tsc/hello/target/base58' {
   /// <reference types="assembly" />
   /**
   * Encode Uint8Array as a base58 string.
@@ -5848,11 +5848,11 @@ declare module 'proton-tsc/assembly/hello/target/base58' {
   export function decode(source: string): u8[];
 
 }
-declare module 'proton-tsc/assembly/hello/target/escrow.inline' {
+declare module 'proton-tsc/hello/target/escrow.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/hello/index";
-  import { Escrow } from "proton-tsc/assembly/hello/target/escrow.tables";
+  import { Name } from "proton-tsc/hello";
+  import { Escrow } from "proton-tsc/hello/target/escrow.tables";
   export class LogEscrow implements _chain.Packer {
       escrow: Escrow;
       status: string;
@@ -5870,10 +5870,10 @@ declare module 'proton-tsc/assembly/hello/target/escrow.inline' {
   export function sendLogEscrow(contract: Name, escrow: Escrow, status: string): void;
 
 }
-declare module 'proton-tsc/assembly/hello/target/escrow.tables' {
+declare module 'proton-tsc/hello/target/escrow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/assembly/hello/index";
+  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/hello";
   export class escrowGlobalDB extends _chain.MultiIndex<escrowGlobal> {
   }
   export class escrowGlobal implements _chain.MultiIndexValue {
@@ -5927,16 +5927,16 @@ declare module 'proton-tsc/assembly/hello/target/escrow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/hello/target/hello.contract' {
+declare module 'proton-tsc/hello/target/hello.contract' {
   /// <reference types="assembly" />
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
-declare module 'proton-tsc/assembly/hello/target/kv.tables' {
+declare module 'proton-tsc/hello/target/kv.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/hello/index";
-  import { TableStore } from "proton-tsc/assembly/hello/index";
+  import { Name } from "proton-tsc/hello";
+  import { TableStore } from "proton-tsc/hello";
   export class KV implements _chain.Packer {
       key: string;
       value: string;
@@ -5965,10 +5965,10 @@ declare module 'proton-tsc/assembly/hello/target/kv.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/hello/target/rng.inline' {
+declare module 'proton-tsc/hello/target/rng.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/hello/index";
+  import { Name } from "proton-tsc/hello";
   export class RequestRandom implements _chain.Packer {
       customerId: u64;
       signingValue: u64;
@@ -5981,11 +5981,11 @@ declare module 'proton-tsc/assembly/hello/target/rng.inline' {
   export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
-declare module 'proton-tsc/assembly/hello/target/rng.tables' {
+declare module 'proton-tsc/hello/target/rng.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/hello/index";
-  import { TableStore } from "proton-tsc/assembly/hello/index";
+  import { Name } from "proton-tsc/hello";
+  import { TableStore } from "proton-tsc/hello";
   export class ResultsTableDB extends _chain.MultiIndex<ResultsTable> {
   }
   export class ResultsTable implements _chain.MultiIndexValue {
@@ -6007,10 +6007,10 @@ declare module 'proton-tsc/assembly/hello/target/rng.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/hello/target/token.inline' {
+declare module 'proton-tsc/hello/target/token.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, ExtendedAsset, Asset } from "proton-tsc/assembly/hello/index";
+  import { Name, ExtendedAsset, Asset } from "proton-tsc/hello";
   export const transfer: any;
   export class TokenTransfer implements _chain.Packer {
       from: Name;
@@ -6032,11 +6032,11 @@ declare module 'proton-tsc/assembly/hello/target/token.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/hello/target/token.tables' {
+declare module 'proton-tsc/hello/target/token.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Asset, Name, Symbol } from "proton-tsc/assembly/hello/index";
-  import { TableStore } from "proton-tsc/assembly/hello/index";
+  import { Asset, Name, Symbol } from "proton-tsc/hello";
+  import { TableStore } from "proton-tsc/hello";
   /**
    * Tables
    */
@@ -6083,9 +6083,9 @@ declare module 'proton-tsc/assembly/hello/target/token.tables' {
   export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
 
 }
-declare module 'proton-tsc/assembly/hello/target/txid.contract' {
-  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/assembly/hello/index';
-  import { AccountKV } from 'proton-tsc/assembly/hello/kv/index';
+declare module 'proton-tsc/hello/target/txid.contract' {
+  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/hello';
+  import { AccountKV } from 'proton-tsc/hello/kv';
   export class TxIdContract extends Contract {
       kvsTable: TableStore<AccountKV>;
       getsizeandid(actor: Name): void;
@@ -6094,19 +6094,19 @@ declare module 'proton-tsc/assembly/hello/target/txid.contract' {
   }
 
 }
-declare module 'proton-tsc/assembly/index' {
-  export * from 'proton-tsc/assembly/chain';
-  export * from 'proton-tsc/assembly/modules';
+declare module 'proton-tsc' {
+  export * from 'proton-tsc/chain';
+  export * from 'proton-tsc/modules';
 
 }
-declare module 'proton-tsc/assembly/kv/index' {
-  export * from 'proton-tsc/assembly/kv/kv.contract';
-  export * from 'proton-tsc/assembly/kv/kv.tables';
+declare module 'proton-tsc/kv' {
+  export * from 'proton-tsc/kv/kv.contract';
+  export * from 'proton-tsc/kv/kv.tables';
 
 }
-declare module 'proton-tsc/assembly/kv/kv.contract' {
-  import { Name, Contract, TableStore } from 'proton-tsc/assembly/index';
-  import { KV, AccountKV } from 'proton-tsc/assembly/kv/kv.tables';
+declare module 'proton-tsc/kv/kv.contract' {
+  import { Name, Contract, TableStore } from 'proton-tsc';
+  import { KV, AccountKV } from 'proton-tsc/kv/kv.tables';
   export class KvContract extends Contract {
       kvsTable: TableStore<AccountKV>;
       updatevalues(actor: Name, values: KV[]): void;
@@ -6114,14 +6114,14 @@ declare module 'proton-tsc/assembly/kv/kv.contract' {
   }
 
 }
-declare module 'proton-tsc/assembly/kv/kv.spec' {
+declare module 'proton-tsc/kv/kv.spec' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/kv/kv.tables' {
+declare module 'proton-tsc/kv/kv.tables' {
   /// <reference types="assembly" />
-  import { Name, Table } from "proton-tsc/assembly/index";
-  import { TableStore } from "proton-tsc/assembly/index";
+  import { Name, Table } from "proton-tsc";
+  import { TableStore } from "proton-tsc";
   export class KV {
       key: string;
       value: string;
@@ -6138,11 +6138,11 @@ declare module 'proton-tsc/assembly/kv/kv.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/kv/target/allow.tables' {
+declare module 'proton-tsc/kv/target/allow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/assembly/kv/index";
-  import { TableStore } from "proton-tsc/assembly/kv/index";
+  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/kv";
+  import { TableStore } from "proton-tsc/kv";
   export class AllowGlobalsSingletonDB extends _chain.MultiIndex<AllowGlobalsSingleton> {
   }
   export class AllowGlobalsSingleton implements _chain.MultiIndexValue {
@@ -6206,11 +6206,11 @@ declare module 'proton-tsc/assembly/kv/target/allow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/kv/target/atomicassets.inline' {
+declare module 'proton-tsc/kv/target/atomicassets.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Symbol, Asset } from "proton-tsc/assembly/kv/index";
-  import { AtomicAttribute, AtomicFormat } from "proton-tsc/assembly/kv/target/atomicdata";
+  import { Name, Symbol, Asset } from "proton-tsc/kv";
+  import { AtomicAttribute, AtomicFormat } from "proton-tsc/kv/target/atomicdata";
   export const ATOMICASSETS_CONTRACT: any;
   export class AdminColEdit implements _chain.Packer {
       collectionFormatExtension: AtomicFormat[];
@@ -6479,12 +6479,12 @@ declare module 'proton-tsc/assembly/kv/target/atomicassets.inline' {
   export function sendPayOfferRam(contract: Name, payer: Name, offer_id: u64): void;
 
 }
-declare module 'proton-tsc/assembly/kv/target/atomicassets.tables' {
+declare module 'proton-tsc/kv/target/atomicassets.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/assembly/kv/index";
-  import { AtomicFormat } from "proton-tsc/assembly/kv/target/atomicdata";
-  import { TableStore } from "proton-tsc/assembly/kv/index";
+  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/kv";
+  import { AtomicFormat } from "proton-tsc/kv/target/atomicdata";
+  import { TableStore } from "proton-tsc/kv";
   export class CollectionsTableDB extends _chain.MultiIndex<CollectionsTable> {
   }
   export class CollectionsTable implements _chain.MultiIndexValue {
@@ -6626,7 +6626,7 @@ declare module 'proton-tsc/assembly/kv/target/atomicassets.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/kv/target/atomicdata' {
+declare module 'proton-tsc/kv/target/atomicdata' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
   export class AtomicFormat implements _chain.Packer {
@@ -6718,10 +6718,10 @@ declare module 'proton-tsc/assembly/kv/target/atomicdata' {
   export function deserialize(data: u8[], format_lines: AtomicFormat[]): AtomicAttribute[];
 
 }
-declare module 'proton-tsc/assembly/kv/target/balance.inline' {
+declare module 'proton-tsc/kv/target/balance.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Asset, ExtendedAsset } from "proton-tsc/assembly/kv/index";
+  import { Name, Asset, ExtendedAsset } from "proton-tsc/kv";
   export class TokenTransfer implements _chain.Packer {
       from: Name;
       to: Name;
@@ -6752,11 +6752,11 @@ declare module 'proton-tsc/assembly/kv/target/balance.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/kv/target/balance.tables' {
+declare module 'proton-tsc/kv/target/balance.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name } from "proton-tsc/assembly/kv/index";
-  import { TableStore } from "proton-tsc/assembly/kv/index";
+  import { ExtendedAsset, Name } from "proton-tsc/kv";
+  import { TableStore } from "proton-tsc/kv";
   export class BalanceTableDB extends _chain.MultiIndex<BalanceTable> {
   }
   export class BalanceTable implements _chain.MultiIndexValue {
@@ -6778,7 +6778,7 @@ declare module 'proton-tsc/assembly/kv/target/balance.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/kv/target/base58' {
+declare module 'proton-tsc/kv/target/base58' {
   /// <reference types="assembly" />
   /**
   * Encode Uint8Array as a base58 string.
@@ -6789,11 +6789,11 @@ declare module 'proton-tsc/assembly/kv/target/base58' {
   export function decode(source: string): u8[];
 
 }
-declare module 'proton-tsc/assembly/kv/target/escrow.inline' {
+declare module 'proton-tsc/kv/target/escrow.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/kv/index";
-  import { Escrow } from "proton-tsc/assembly/kv/target/escrow.tables";
+  import { Name } from "proton-tsc/kv";
+  import { Escrow } from "proton-tsc/kv/target/escrow.tables";
   export class LogEscrow implements _chain.Packer {
       escrow: Escrow;
       status: string;
@@ -6811,10 +6811,10 @@ declare module 'proton-tsc/assembly/kv/target/escrow.inline' {
   export function sendLogEscrow(contract: Name, escrow: Escrow, status: string): void;
 
 }
-declare module 'proton-tsc/assembly/kv/target/escrow.tables' {
+declare module 'proton-tsc/kv/target/escrow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/assembly/kv/index";
+  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/kv";
   export class escrowGlobalDB extends _chain.MultiIndex<escrowGlobal> {
   }
   export class escrowGlobal implements _chain.MultiIndexValue {
@@ -6868,10 +6868,10 @@ declare module 'proton-tsc/assembly/kv/target/escrow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/kv/target/kv.contract' {
+declare module 'proton-tsc/kv/target/kv.contract' {
   /// <reference types="assembly" />
-  import { Name, Contract, TableStore } from 'proton-tsc/assembly/kv/index';
-  import { KV, AccountKV } from 'proton-tsc/assembly/kv/target/kv.tables';
+  import { Name, Contract, TableStore } from 'proton-tsc/kv';
+  import { KV, AccountKV } from 'proton-tsc/kv/target/kv.tables';
   export class KvContract extends Contract {
       kvsTable: TableStore<AccountKV>;
       updatevalues(actor: Name, values: KV[]): void;
@@ -6880,11 +6880,11 @@ declare module 'proton-tsc/assembly/kv/target/kv.contract' {
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
-declare module 'proton-tsc/assembly/kv/target/kv.tables' {
+declare module 'proton-tsc/kv/target/kv.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/kv/index";
-  import { TableStore } from "proton-tsc/assembly/kv/index";
+  import { Name } from "proton-tsc/kv";
+  import { TableStore } from "proton-tsc/kv";
   export class KV implements _chain.Packer {
       key: string;
       value: string;
@@ -6913,10 +6913,10 @@ declare module 'proton-tsc/assembly/kv/target/kv.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/kv/target/rng.inline' {
+declare module 'proton-tsc/kv/target/rng.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/kv/index";
+  import { Name } from "proton-tsc/kv";
   export class RequestRandom implements _chain.Packer {
       customerId: u64;
       signingValue: u64;
@@ -6929,11 +6929,11 @@ declare module 'proton-tsc/assembly/kv/target/rng.inline' {
   export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
-declare module 'proton-tsc/assembly/kv/target/rng.tables' {
+declare module 'proton-tsc/kv/target/rng.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/kv/index";
-  import { TableStore } from "proton-tsc/assembly/kv/index";
+  import { Name } from "proton-tsc/kv";
+  import { TableStore } from "proton-tsc/kv";
   export class ResultsTableDB extends _chain.MultiIndex<ResultsTable> {
   }
   export class ResultsTable implements _chain.MultiIndexValue {
@@ -6955,10 +6955,10 @@ declare module 'proton-tsc/assembly/kv/target/rng.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/kv/target/token.inline' {
+declare module 'proton-tsc/kv/target/token.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, ExtendedAsset, Asset } from "proton-tsc/assembly/kv/index";
+  import { Name, ExtendedAsset, Asset } from "proton-tsc/kv";
   export const transfer: any;
   export class TokenTransfer implements _chain.Packer {
       from: Name;
@@ -6980,11 +6980,11 @@ declare module 'proton-tsc/assembly/kv/target/token.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/kv/target/token.tables' {
+declare module 'proton-tsc/kv/target/token.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Asset, Name, Symbol } from "proton-tsc/assembly/kv/index";
-  import { TableStore } from "proton-tsc/assembly/kv/index";
+  import { Asset, Name, Symbol } from "proton-tsc/kv";
+  import { TableStore } from "proton-tsc/kv";
   /**
    * Tables
    */
@@ -7031,9 +7031,9 @@ declare module 'proton-tsc/assembly/kv/target/token.tables' {
   export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
 
 }
-declare module 'proton-tsc/assembly/kv/target/txid.contract' {
-  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/assembly/kv/index';
-  import { AccountKV } from 'proton-tsc/assembly/kv/kv/index';
+declare module 'proton-tsc/kv/target/txid.contract' {
+  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/kv';
+  import { AccountKV } from 'proton-tsc/kv/kv';
   export class TxIdContract extends Contract {
       kvsTable: TableStore<AccountKV>;
       getsizeandid(actor: Name): void;
@@ -7042,25 +7042,25 @@ declare module 'proton-tsc/assembly/kv/target/txid.contract' {
   }
 
 }
-declare module 'proton-tsc/assembly/modules' {
-  export { TableStore } from 'proton-tsc/assembly/store/index';
-  export { SafeMath } from 'proton-tsc/assembly/safemath/index';
+declare module 'proton-tsc/modules' {
+  export { TableStore } from 'proton-tsc/store';
+  export { SafeMath } from 'proton-tsc/safemath';
 
 }
-declare module 'proton-tsc/assembly/rng/index' {
-  export * from 'proton-tsc/assembly/rng/rng.contract';
-  export * from 'proton-tsc/assembly/rng/rng.inline';
-  export * from 'proton-tsc/assembly/rng/rng.tables';
+declare module 'proton-tsc/rng' {
+  export * from 'proton-tsc/rng/rng.contract';
+  export * from 'proton-tsc/rng/rng.inline';
+  export * from 'proton-tsc/rng/rng.tables';
 
 }
-declare module 'proton-tsc/assembly/rng/rng.contract' {
+declare module 'proton-tsc/rng/rng.contract' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/rng/rng.inline' {
+declare module 'proton-tsc/rng/rng.inline' {
   /// <reference types="assembly" />
-  import { InlineAction } from "proton-tsc/assembly/index";
-  import { Name } from "proton-tsc/assembly/index";
+  import { InlineAction } from "proton-tsc";
+  import { Name } from "proton-tsc";
   export class RequestRandom extends InlineAction {
       customerId: u64;
       signingValue: u64;
@@ -7070,14 +7070,14 @@ declare module 'proton-tsc/assembly/rng/rng.inline' {
   export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
-declare module 'proton-tsc/assembly/rng/rng.spec' {
+declare module 'proton-tsc/rng/rng.spec' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/rng/rng.tables' {
+declare module 'proton-tsc/rng/rng.tables' {
   /// <reference types="assembly" />
-  import { Name, Table } from "proton-tsc/assembly/index";
-  import { TableStore } from "proton-tsc/assembly/index";
+  import { Name, Table } from "proton-tsc";
+  import { TableStore } from "proton-tsc";
   export class ResultsTable extends Table {
       customerId: u64;
       account: Name;
@@ -7090,11 +7090,11 @@ declare module 'proton-tsc/assembly/rng/rng.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/rng/target/allow.tables' {
+declare module 'proton-tsc/rng/target/allow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/assembly/rng/index";
-  import { TableStore } from "proton-tsc/assembly/rng/index";
+  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/rng";
+  import { TableStore } from "proton-tsc/rng";
   export class AllowGlobalsSingletonDB extends _chain.MultiIndex<AllowGlobalsSingleton> {
   }
   export class AllowGlobalsSingleton implements _chain.MultiIndexValue {
@@ -7158,11 +7158,11 @@ declare module 'proton-tsc/assembly/rng/target/allow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/rng/target/atomicassets.inline' {
+declare module 'proton-tsc/rng/target/atomicassets.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Symbol, Asset } from "proton-tsc/assembly/rng/index";
-  import { AtomicAttribute, AtomicFormat } from "proton-tsc/assembly/rng/target/atomicdata";
+  import { Name, Symbol, Asset } from "proton-tsc/rng";
+  import { AtomicAttribute, AtomicFormat } from "proton-tsc/rng/target/atomicdata";
   export const ATOMICASSETS_CONTRACT: any;
   export class AdminColEdit implements _chain.Packer {
       collectionFormatExtension: AtomicFormat[];
@@ -7431,12 +7431,12 @@ declare module 'proton-tsc/assembly/rng/target/atomicassets.inline' {
   export function sendPayOfferRam(contract: Name, payer: Name, offer_id: u64): void;
 
 }
-declare module 'proton-tsc/assembly/rng/target/atomicassets.tables' {
+declare module 'proton-tsc/rng/target/atomicassets.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/assembly/rng/index";
-  import { AtomicFormat } from "proton-tsc/assembly/rng/target/atomicdata";
-  import { TableStore } from "proton-tsc/assembly/rng/index";
+  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/rng";
+  import { AtomicFormat } from "proton-tsc/rng/target/atomicdata";
+  import { TableStore } from "proton-tsc/rng";
   export class CollectionsTableDB extends _chain.MultiIndex<CollectionsTable> {
   }
   export class CollectionsTable implements _chain.MultiIndexValue {
@@ -7578,7 +7578,7 @@ declare module 'proton-tsc/assembly/rng/target/atomicassets.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/rng/target/atomicdata' {
+declare module 'proton-tsc/rng/target/atomicdata' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
   export class AtomicFormat implements _chain.Packer {
@@ -7670,10 +7670,10 @@ declare module 'proton-tsc/assembly/rng/target/atomicdata' {
   export function deserialize(data: u8[], format_lines: AtomicFormat[]): AtomicAttribute[];
 
 }
-declare module 'proton-tsc/assembly/rng/target/balance.inline' {
+declare module 'proton-tsc/rng/target/balance.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Asset, ExtendedAsset } from "proton-tsc/assembly/rng/index";
+  import { Name, Asset, ExtendedAsset } from "proton-tsc/rng";
   export class TokenTransfer implements _chain.Packer {
       from: Name;
       to: Name;
@@ -7704,11 +7704,11 @@ declare module 'proton-tsc/assembly/rng/target/balance.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/rng/target/balance.tables' {
+declare module 'proton-tsc/rng/target/balance.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name } from "proton-tsc/assembly/rng/index";
-  import { TableStore } from "proton-tsc/assembly/rng/index";
+  import { ExtendedAsset, Name } from "proton-tsc/rng";
+  import { TableStore } from "proton-tsc/rng";
   export class BalanceTableDB extends _chain.MultiIndex<BalanceTable> {
   }
   export class BalanceTable implements _chain.MultiIndexValue {
@@ -7730,7 +7730,7 @@ declare module 'proton-tsc/assembly/rng/target/balance.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/rng/target/base58' {
+declare module 'proton-tsc/rng/target/base58' {
   /// <reference types="assembly" />
   /**
   * Encode Uint8Array as a base58 string.
@@ -7741,11 +7741,11 @@ declare module 'proton-tsc/assembly/rng/target/base58' {
   export function decode(source: string): u8[];
 
 }
-declare module 'proton-tsc/assembly/rng/target/escrow.inline' {
+declare module 'proton-tsc/rng/target/escrow.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/rng/index";
-  import { Escrow } from "proton-tsc/assembly/rng/target/escrow.tables";
+  import { Name } from "proton-tsc/rng";
+  import { Escrow } from "proton-tsc/rng/target/escrow.tables";
   export class LogEscrow implements _chain.Packer {
       escrow: Escrow;
       status: string;
@@ -7763,10 +7763,10 @@ declare module 'proton-tsc/assembly/rng/target/escrow.inline' {
   export function sendLogEscrow(contract: Name, escrow: Escrow, status: string): void;
 
 }
-declare module 'proton-tsc/assembly/rng/target/escrow.tables' {
+declare module 'proton-tsc/rng/target/escrow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/assembly/rng/index";
+  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/rng";
   export class escrowGlobalDB extends _chain.MultiIndex<escrowGlobal> {
   }
   export class escrowGlobal implements _chain.MultiIndexValue {
@@ -7820,11 +7820,11 @@ declare module 'proton-tsc/assembly/rng/target/escrow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/rng/target/kv.tables' {
+declare module 'proton-tsc/rng/target/kv.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/rng/index";
-  import { TableStore } from "proton-tsc/assembly/rng/index";
+  import { Name } from "proton-tsc/rng";
+  import { TableStore } from "proton-tsc/rng";
   export class KV implements _chain.Packer {
       key: string;
       value: string;
@@ -7853,15 +7853,15 @@ declare module 'proton-tsc/assembly/rng/target/kv.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/rng/target/rng.contract' {
+declare module 'proton-tsc/rng/target/rng.contract' {
   /// <reference types="assembly" />
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
-declare module 'proton-tsc/assembly/rng/target/rng.inline' {
+declare module 'proton-tsc/rng/target/rng.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/rng/index";
+  import { Name } from "proton-tsc/rng";
   export class RequestRandom implements _chain.Packer {
       customerId: u64;
       signingValue: u64;
@@ -7874,11 +7874,11 @@ declare module 'proton-tsc/assembly/rng/target/rng.inline' {
   export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
-declare module 'proton-tsc/assembly/rng/target/rng.tables' {
+declare module 'proton-tsc/rng/target/rng.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/rng/index";
-  import { TableStore } from "proton-tsc/assembly/rng/index";
+  import { Name } from "proton-tsc/rng";
+  import { TableStore } from "proton-tsc/rng";
   export class ResultsTableDB extends _chain.MultiIndex<ResultsTable> {
   }
   export class ResultsTable implements _chain.MultiIndexValue {
@@ -7900,10 +7900,10 @@ declare module 'proton-tsc/assembly/rng/target/rng.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/rng/target/token.inline' {
+declare module 'proton-tsc/rng/target/token.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, ExtendedAsset, Asset } from "proton-tsc/assembly/rng/index";
+  import { Name, ExtendedAsset, Asset } from "proton-tsc/rng";
   export const transfer: any;
   export class TokenTransfer implements _chain.Packer {
       from: Name;
@@ -7925,11 +7925,11 @@ declare module 'proton-tsc/assembly/rng/target/token.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/rng/target/token.tables' {
+declare module 'proton-tsc/rng/target/token.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Asset, Name, Symbol } from "proton-tsc/assembly/rng/index";
-  import { TableStore } from "proton-tsc/assembly/rng/index";
+  import { Asset, Name, Symbol } from "proton-tsc/rng";
+  import { TableStore } from "proton-tsc/rng";
   /**
    * Tables
    */
@@ -7976,9 +7976,9 @@ declare module 'proton-tsc/assembly/rng/target/token.tables' {
   export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
 
 }
-declare module 'proton-tsc/assembly/rng/target/txid.contract' {
-  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/assembly/rng/index';
-  import { AccountKV } from 'proton-tsc/assembly/rng/kv/index';
+declare module 'proton-tsc/rng/target/txid.contract' {
+  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/rng';
+  import { AccountKV } from 'proton-tsc/rng/kv';
   export class TxIdContract extends Contract {
       kvsTable: TableStore<AccountKV>;
       getsizeandid(actor: Name): void;
@@ -7987,11 +7987,11 @@ declare module 'proton-tsc/assembly/rng/target/txid.contract' {
   }
 
 }
-declare module 'proton-tsc/assembly/safemath/index' {
-  export * from 'proton-tsc/assembly/safemath/safemath';
+declare module 'proton-tsc/safemath' {
+  export * from 'proton-tsc/safemath/safemath';
 
 }
-declare module 'proton-tsc/assembly/safemath/safemath' {
+declare module 'proton-tsc/safemath/safemath' {
   /// <reference types="assembly" />
   import { u128 } from "as-bignum";
   export class SafeMath {
@@ -8002,19 +8002,19 @@ declare module 'proton-tsc/assembly/safemath/safemath' {
   }
 
 }
-declare module 'proton-tsc/assembly/safemath/safemath.spec' {
+declare module 'proton-tsc/safemath/safemath.spec' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/safemath/safemath.test' {
+declare module 'proton-tsc/safemath/safemath.test' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/safemath/target/allow.tables' {
+declare module 'proton-tsc/safemath/target/allow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/assembly/safemath/index";
-  import { TableStore } from "proton-tsc/assembly/safemath/index";
+  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/safemath";
+  import { TableStore } from "proton-tsc/safemath";
   export class AllowGlobalsSingletonDB extends _chain.MultiIndex<AllowGlobalsSingleton> {
   }
   export class AllowGlobalsSingleton implements _chain.MultiIndexValue {
@@ -8078,11 +8078,11 @@ declare module 'proton-tsc/assembly/safemath/target/allow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/safemath/target/atomicassets.inline' {
+declare module 'proton-tsc/safemath/target/atomicassets.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Symbol, Asset } from "proton-tsc/assembly/safemath/index";
-  import { AtomicAttribute, AtomicFormat } from "proton-tsc/assembly/safemath/target/atomicdata";
+  import { Name, Symbol, Asset } from "proton-tsc/safemath";
+  import { AtomicAttribute, AtomicFormat } from "proton-tsc/safemath/target/atomicdata";
   export const ATOMICASSETS_CONTRACT: any;
   export class AdminColEdit implements _chain.Packer {
       collectionFormatExtension: AtomicFormat[];
@@ -8351,12 +8351,12 @@ declare module 'proton-tsc/assembly/safemath/target/atomicassets.inline' {
   export function sendPayOfferRam(contract: Name, payer: Name, offer_id: u64): void;
 
 }
-declare module 'proton-tsc/assembly/safemath/target/atomicassets.tables' {
+declare module 'proton-tsc/safemath/target/atomicassets.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/assembly/safemath/index";
-  import { AtomicFormat } from "proton-tsc/assembly/safemath/target/atomicdata";
-  import { TableStore } from "proton-tsc/assembly/safemath/index";
+  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/safemath";
+  import { AtomicFormat } from "proton-tsc/safemath/target/atomicdata";
+  import { TableStore } from "proton-tsc/safemath";
   export class CollectionsTableDB extends _chain.MultiIndex<CollectionsTable> {
   }
   export class CollectionsTable implements _chain.MultiIndexValue {
@@ -8498,7 +8498,7 @@ declare module 'proton-tsc/assembly/safemath/target/atomicassets.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/safemath/target/atomicdata' {
+declare module 'proton-tsc/safemath/target/atomicdata' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
   export class AtomicFormat implements _chain.Packer {
@@ -8590,10 +8590,10 @@ declare module 'proton-tsc/assembly/safemath/target/atomicdata' {
   export function deserialize(data: u8[], format_lines: AtomicFormat[]): AtomicAttribute[];
 
 }
-declare module 'proton-tsc/assembly/safemath/target/balance.inline' {
+declare module 'proton-tsc/safemath/target/balance.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Asset, ExtendedAsset } from "proton-tsc/assembly/safemath/index";
+  import { Name, Asset, ExtendedAsset } from "proton-tsc/safemath";
   export class TokenTransfer implements _chain.Packer {
       from: Name;
       to: Name;
@@ -8624,11 +8624,11 @@ declare module 'proton-tsc/assembly/safemath/target/balance.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/safemath/target/balance.tables' {
+declare module 'proton-tsc/safemath/target/balance.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name } from "proton-tsc/assembly/safemath/index";
-  import { TableStore } from "proton-tsc/assembly/safemath/index";
+  import { ExtendedAsset, Name } from "proton-tsc/safemath";
+  import { TableStore } from "proton-tsc/safemath";
   export class BalanceTableDB extends _chain.MultiIndex<BalanceTable> {
   }
   export class BalanceTable implements _chain.MultiIndexValue {
@@ -8650,7 +8650,7 @@ declare module 'proton-tsc/assembly/safemath/target/balance.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/safemath/target/base58' {
+declare module 'proton-tsc/safemath/target/base58' {
   /// <reference types="assembly" />
   /**
   * Encode Uint8Array as a base58 string.
@@ -8661,11 +8661,11 @@ declare module 'proton-tsc/assembly/safemath/target/base58' {
   export function decode(source: string): u8[];
 
 }
-declare module 'proton-tsc/assembly/safemath/target/escrow.inline' {
+declare module 'proton-tsc/safemath/target/escrow.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/safemath/index";
-  import { Escrow } from "proton-tsc/assembly/safemath/target/escrow.tables";
+  import { Name } from "proton-tsc/safemath";
+  import { Escrow } from "proton-tsc/safemath/target/escrow.tables";
   export class LogEscrow implements _chain.Packer {
       escrow: Escrow;
       status: string;
@@ -8683,10 +8683,10 @@ declare module 'proton-tsc/assembly/safemath/target/escrow.inline' {
   export function sendLogEscrow(contract: Name, escrow: Escrow, status: string): void;
 
 }
-declare module 'proton-tsc/assembly/safemath/target/escrow.tables' {
+declare module 'proton-tsc/safemath/target/escrow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/assembly/safemath/index";
+  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/safemath";
   export class escrowGlobalDB extends _chain.MultiIndex<escrowGlobal> {
   }
   export class escrowGlobal implements _chain.MultiIndexValue {
@@ -8740,11 +8740,11 @@ declare module 'proton-tsc/assembly/safemath/target/escrow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/safemath/target/kv.tables' {
+declare module 'proton-tsc/safemath/target/kv.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/safemath/index";
-  import { TableStore } from "proton-tsc/assembly/safemath/index";
+  import { Name } from "proton-tsc/safemath";
+  import { TableStore } from "proton-tsc/safemath";
   export class KV implements _chain.Packer {
       key: string;
       value: string;
@@ -8773,10 +8773,10 @@ declare module 'proton-tsc/assembly/safemath/target/kv.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/safemath/target/rng.inline' {
+declare module 'proton-tsc/safemath/target/rng.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/safemath/index";
+  import { Name } from "proton-tsc/safemath";
   export class RequestRandom implements _chain.Packer {
       customerId: u64;
       signingValue: u64;
@@ -8789,11 +8789,11 @@ declare module 'proton-tsc/assembly/safemath/target/rng.inline' {
   export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
-declare module 'proton-tsc/assembly/safemath/target/rng.tables' {
+declare module 'proton-tsc/safemath/target/rng.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/safemath/index";
-  import { TableStore } from "proton-tsc/assembly/safemath/index";
+  import { Name } from "proton-tsc/safemath";
+  import { TableStore } from "proton-tsc/safemath";
   export class ResultsTableDB extends _chain.MultiIndex<ResultsTable> {
   }
   export class ResultsTable implements _chain.MultiIndexValue {
@@ -8815,15 +8815,15 @@ declare module 'proton-tsc/assembly/safemath/target/rng.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/safemath/target/safemath.test' {
+declare module 'proton-tsc/safemath/target/safemath.test' {
   /// <reference types="assembly" />
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
-declare module 'proton-tsc/assembly/safemath/target/token.inline' {
+declare module 'proton-tsc/safemath/target/token.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, ExtendedAsset, Asset } from "proton-tsc/assembly/safemath/index";
+  import { Name, ExtendedAsset, Asset } from "proton-tsc/safemath";
   export const transfer: any;
   export class TokenTransfer implements _chain.Packer {
       from: Name;
@@ -8845,11 +8845,11 @@ declare module 'proton-tsc/assembly/safemath/target/token.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/safemath/target/token.tables' {
+declare module 'proton-tsc/safemath/target/token.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Asset, Name, Symbol } from "proton-tsc/assembly/safemath/index";
-  import { TableStore } from "proton-tsc/assembly/safemath/index";
+  import { Asset, Name, Symbol } from "proton-tsc/safemath";
+  import { TableStore } from "proton-tsc/safemath";
   /**
    * Tables
    */
@@ -8896,9 +8896,9 @@ declare module 'proton-tsc/assembly/safemath/target/token.tables' {
   export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
 
 }
-declare module 'proton-tsc/assembly/safemath/target/txid.contract' {
-  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/assembly/safemath/index';
-  import { AccountKV } from 'proton-tsc/assembly/safemath/kv/index';
+declare module 'proton-tsc/safemath/target/txid.contract' {
+  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/safemath';
+  import { AccountKV } from 'proton-tsc/safemath/kv';
   export class TxIdContract extends Contract {
       kvsTable: TableStore<AccountKV>;
       getsizeandid(actor: Name): void;
@@ -8907,13 +8907,13 @@ declare module 'proton-tsc/assembly/safemath/target/txid.contract' {
   }
 
 }
-declare module 'proton-tsc/assembly/store/index' {
-  export * from 'proton-tsc/assembly/store/store';
+declare module 'proton-tsc/store' {
+  export * from 'proton-tsc/store/store';
 
 }
-declare module 'proton-tsc/assembly/store/store' {
+declare module 'proton-tsc/store/store' {
   /// <reference types="assembly" />
-  import { Name, IDXDB, MultiIndexValue, U128, U256, Float128 } from "proton-tsc/assembly/index";
+  import { Name, IDXDB, MultiIndexValue, U128, U256, Float128 } from "proton-tsc";
   export const NO_AVAILABLE_PRIMARY_KEY: number;
   export const UNSET_NEXT_PRIMARY_KEY: number;
   export class TableStore<T extends MultiIndexValue> {
@@ -8989,19 +8989,19 @@ declare module 'proton-tsc/assembly/store/store' {
   }
 
 }
-declare module 'proton-tsc/assembly/store/store.spec' {
+declare module 'proton-tsc/store/store.spec' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/store/store.test' {
+declare module 'proton-tsc/store/store.test' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/store/target/allow.tables' {
+declare module 'proton-tsc/store/target/allow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/assembly/store/index";
-  import { TableStore } from "proton-tsc/assembly/store/index";
+  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/store";
+  import { TableStore } from "proton-tsc/store";
   export class AllowGlobalsSingletonDB extends _chain.MultiIndex<AllowGlobalsSingleton> {
   }
   export class AllowGlobalsSingleton implements _chain.MultiIndexValue {
@@ -9065,11 +9065,11 @@ declare module 'proton-tsc/assembly/store/target/allow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/store/target/atomicassets.inline' {
+declare module 'proton-tsc/store/target/atomicassets.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Symbol, Asset } from "proton-tsc/assembly/store/index";
-  import { AtomicAttribute, AtomicFormat } from "proton-tsc/assembly/store/target/atomicdata";
+  import { Name, Symbol, Asset } from "proton-tsc/store";
+  import { AtomicAttribute, AtomicFormat } from "proton-tsc/store/target/atomicdata";
   export const ATOMICASSETS_CONTRACT: any;
   export class AdminColEdit implements _chain.Packer {
       collectionFormatExtension: AtomicFormat[];
@@ -9338,12 +9338,12 @@ declare module 'proton-tsc/assembly/store/target/atomicassets.inline' {
   export function sendPayOfferRam(contract: Name, payer: Name, offer_id: u64): void;
 
 }
-declare module 'proton-tsc/assembly/store/target/atomicassets.tables' {
+declare module 'proton-tsc/store/target/atomicassets.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/assembly/store/index";
-  import { AtomicFormat } from "proton-tsc/assembly/store/target/atomicdata";
-  import { TableStore } from "proton-tsc/assembly/store/index";
+  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/store";
+  import { AtomicFormat } from "proton-tsc/store/target/atomicdata";
+  import { TableStore } from "proton-tsc/store";
   export class CollectionsTableDB extends _chain.MultiIndex<CollectionsTable> {
   }
   export class CollectionsTable implements _chain.MultiIndexValue {
@@ -9485,7 +9485,7 @@ declare module 'proton-tsc/assembly/store/target/atomicassets.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/store/target/atomicdata' {
+declare module 'proton-tsc/store/target/atomicdata' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
   export class AtomicFormat implements _chain.Packer {
@@ -9577,10 +9577,10 @@ declare module 'proton-tsc/assembly/store/target/atomicdata' {
   export function deserialize(data: u8[], format_lines: AtomicFormat[]): AtomicAttribute[];
 
 }
-declare module 'proton-tsc/assembly/store/target/balance.inline' {
+declare module 'proton-tsc/store/target/balance.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Asset, ExtendedAsset } from "proton-tsc/assembly/store/index";
+  import { Name, Asset, ExtendedAsset } from "proton-tsc/store";
   export class TokenTransfer implements _chain.Packer {
       from: Name;
       to: Name;
@@ -9611,11 +9611,11 @@ declare module 'proton-tsc/assembly/store/target/balance.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/store/target/balance.tables' {
+declare module 'proton-tsc/store/target/balance.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name } from "proton-tsc/assembly/store/index";
-  import { TableStore } from "proton-tsc/assembly/store/index";
+  import { ExtendedAsset, Name } from "proton-tsc/store";
+  import { TableStore } from "proton-tsc/store";
   export class BalanceTableDB extends _chain.MultiIndex<BalanceTable> {
   }
   export class BalanceTable implements _chain.MultiIndexValue {
@@ -9637,7 +9637,7 @@ declare module 'proton-tsc/assembly/store/target/balance.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/store/target/base58' {
+declare module 'proton-tsc/store/target/base58' {
   /// <reference types="assembly" />
   /**
   * Encode Uint8Array as a base58 string.
@@ -9648,11 +9648,11 @@ declare module 'proton-tsc/assembly/store/target/base58' {
   export function decode(source: string): u8[];
 
 }
-declare module 'proton-tsc/assembly/store/target/escrow.inline' {
+declare module 'proton-tsc/store/target/escrow.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/store/index";
-  import { Escrow } from "proton-tsc/assembly/store/target/escrow.tables";
+  import { Name } from "proton-tsc/store";
+  import { Escrow } from "proton-tsc/store/target/escrow.tables";
   export class LogEscrow implements _chain.Packer {
       escrow: Escrow;
       status: string;
@@ -9670,10 +9670,10 @@ declare module 'proton-tsc/assembly/store/target/escrow.inline' {
   export function sendLogEscrow(contract: Name, escrow: Escrow, status: string): void;
 
 }
-declare module 'proton-tsc/assembly/store/target/escrow.tables' {
+declare module 'proton-tsc/store/target/escrow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/assembly/store/index";
+  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/store";
   export class escrowGlobalDB extends _chain.MultiIndex<escrowGlobal> {
   }
   export class escrowGlobal implements _chain.MultiIndexValue {
@@ -9727,11 +9727,11 @@ declare module 'proton-tsc/assembly/store/target/escrow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/store/target/kv.tables' {
+declare module 'proton-tsc/store/target/kv.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/store/index";
-  import { TableStore } from "proton-tsc/assembly/store/index";
+  import { Name } from "proton-tsc/store";
+  import { TableStore } from "proton-tsc/store";
   export class KV implements _chain.Packer {
       key: string;
       value: string;
@@ -9760,10 +9760,10 @@ declare module 'proton-tsc/assembly/store/target/kv.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/store/target/rng.inline' {
+declare module 'proton-tsc/store/target/rng.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/store/index";
+  import { Name } from "proton-tsc/store";
   export class RequestRandom implements _chain.Packer {
       customerId: u64;
       signingValue: u64;
@@ -9776,11 +9776,11 @@ declare module 'proton-tsc/assembly/store/target/rng.inline' {
   export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
-declare module 'proton-tsc/assembly/store/target/rng.tables' {
+declare module 'proton-tsc/store/target/rng.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/store/index";
-  import { TableStore } from "proton-tsc/assembly/store/index";
+  import { Name } from "proton-tsc/store";
+  import { TableStore } from "proton-tsc/store";
   export class ResultsTableDB extends _chain.MultiIndex<ResultsTable> {
   }
   export class ResultsTable implements _chain.MultiIndexValue {
@@ -9802,15 +9802,15 @@ declare module 'proton-tsc/assembly/store/target/rng.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/store/target/store.test' {
+declare module 'proton-tsc/store/target/store.test' {
   /// <reference types="assembly" />
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
-declare module 'proton-tsc/assembly/store/target/token.inline' {
+declare module 'proton-tsc/store/target/token.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, ExtendedAsset, Asset } from "proton-tsc/assembly/store/index";
+  import { Name, ExtendedAsset, Asset } from "proton-tsc/store";
   export const transfer: any;
   export class TokenTransfer implements _chain.Packer {
       from: Name;
@@ -9832,11 +9832,11 @@ declare module 'proton-tsc/assembly/store/target/token.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/store/target/token.tables' {
+declare module 'proton-tsc/store/target/token.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Asset, Name, Symbol } from "proton-tsc/assembly/store/index";
-  import { TableStore } from "proton-tsc/assembly/store/index";
+  import { Asset, Name, Symbol } from "proton-tsc/store";
+  import { TableStore } from "proton-tsc/store";
   /**
    * Tables
    */
@@ -9883,9 +9883,9 @@ declare module 'proton-tsc/assembly/store/target/token.tables' {
   export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
 
 }
-declare module 'proton-tsc/assembly/store/target/txid.contract' {
-  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/assembly/store/index';
-  import { AccountKV } from 'proton-tsc/assembly/store/kv/index';
+declare module 'proton-tsc/store/target/txid.contract' {
+  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/store';
+  import { AccountKV } from 'proton-tsc/store/kv';
   export class TxIdContract extends Contract {
       kvsTable: TableStore<AccountKV>;
       getsizeandid(actor: Name): void;
@@ -9894,17 +9894,17 @@ declare module 'proton-tsc/assembly/store/target/txid.contract' {
   }
 
 }
-declare module 'proton-tsc/assembly/token/index' {
-  export * from 'proton-tsc/assembly/token/token.contract';
-  export * from 'proton-tsc/assembly/token/token.tables';
-  export * from 'proton-tsc/assembly/token/token.inline';
+declare module 'proton-tsc/token' {
+  export * from 'proton-tsc/token/token.contract';
+  export * from 'proton-tsc/token/token.tables';
+  export * from 'proton-tsc/token/token.inline';
 
 }
-declare module 'proton-tsc/assembly/token/target/allow.tables' {
+declare module 'proton-tsc/token/target/allow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/assembly/token/index";
-  import { TableStore } from "proton-tsc/assembly/token/index";
+  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/token";
+  import { TableStore } from "proton-tsc/token";
   export class AllowGlobalsSingletonDB extends _chain.MultiIndex<AllowGlobalsSingleton> {
   }
   export class AllowGlobalsSingleton implements _chain.MultiIndexValue {
@@ -9968,11 +9968,11 @@ declare module 'proton-tsc/assembly/token/target/allow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/token/target/atomicassets.inline' {
+declare module 'proton-tsc/token/target/atomicassets.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Symbol, Asset } from "proton-tsc/assembly/token/index";
-  import { AtomicAttribute, AtomicFormat } from "proton-tsc/assembly/token/target/atomicdata";
+  import { Name, Symbol, Asset } from "proton-tsc/token";
+  import { AtomicAttribute, AtomicFormat } from "proton-tsc/token/target/atomicdata";
   export const ATOMICASSETS_CONTRACT: any;
   export class AdminColEdit implements _chain.Packer {
       collectionFormatExtension: AtomicFormat[];
@@ -10241,12 +10241,12 @@ declare module 'proton-tsc/assembly/token/target/atomicassets.inline' {
   export function sendPayOfferRam(contract: Name, payer: Name, offer_id: u64): void;
 
 }
-declare module 'proton-tsc/assembly/token/target/atomicassets.tables' {
+declare module 'proton-tsc/token/target/atomicassets.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/assembly/token/index";
-  import { AtomicFormat } from "proton-tsc/assembly/token/target/atomicdata";
-  import { TableStore } from "proton-tsc/assembly/token/index";
+  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/token";
+  import { AtomicFormat } from "proton-tsc/token/target/atomicdata";
+  import { TableStore } from "proton-tsc/token";
   export class CollectionsTableDB extends _chain.MultiIndex<CollectionsTable> {
   }
   export class CollectionsTable implements _chain.MultiIndexValue {
@@ -10388,7 +10388,7 @@ declare module 'proton-tsc/assembly/token/target/atomicassets.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/token/target/atomicdata' {
+declare module 'proton-tsc/token/target/atomicdata' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
   export class AtomicFormat implements _chain.Packer {
@@ -10480,10 +10480,10 @@ declare module 'proton-tsc/assembly/token/target/atomicdata' {
   export function deserialize(data: u8[], format_lines: AtomicFormat[]): AtomicAttribute[];
 
 }
-declare module 'proton-tsc/assembly/token/target/balance.inline' {
+declare module 'proton-tsc/token/target/balance.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Asset, ExtendedAsset } from "proton-tsc/assembly/token/index";
+  import { Name, Asset, ExtendedAsset } from "proton-tsc/token";
   export class TokenTransfer implements _chain.Packer {
       from: Name;
       to: Name;
@@ -10514,11 +10514,11 @@ declare module 'proton-tsc/assembly/token/target/balance.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/token/target/balance.tables' {
+declare module 'proton-tsc/token/target/balance.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name } from "proton-tsc/assembly/token/index";
-  import { TableStore } from "proton-tsc/assembly/token/index";
+  import { ExtendedAsset, Name } from "proton-tsc/token";
+  import { TableStore } from "proton-tsc/token";
   export class BalanceTableDB extends _chain.MultiIndex<BalanceTable> {
   }
   export class BalanceTable implements _chain.MultiIndexValue {
@@ -10540,7 +10540,7 @@ declare module 'proton-tsc/assembly/token/target/balance.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/token/target/base58' {
+declare module 'proton-tsc/token/target/base58' {
   /// <reference types="assembly" />
   /**
   * Encode Uint8Array as a base58 string.
@@ -10551,11 +10551,11 @@ declare module 'proton-tsc/assembly/token/target/base58' {
   export function decode(source: string): u8[];
 
 }
-declare module 'proton-tsc/assembly/token/target/escrow.inline' {
+declare module 'proton-tsc/token/target/escrow.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/token/index";
-  import { Escrow } from "proton-tsc/assembly/token/target/escrow.tables";
+  import { Name } from "proton-tsc/token";
+  import { Escrow } from "proton-tsc/token/target/escrow.tables";
   export class LogEscrow implements _chain.Packer {
       escrow: Escrow;
       status: string;
@@ -10573,10 +10573,10 @@ declare module 'proton-tsc/assembly/token/target/escrow.inline' {
   export function sendLogEscrow(contract: Name, escrow: Escrow, status: string): void;
 
 }
-declare module 'proton-tsc/assembly/token/target/escrow.tables' {
+declare module 'proton-tsc/token/target/escrow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/assembly/token/index";
+  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/token";
   export class escrowGlobalDB extends _chain.MultiIndex<escrowGlobal> {
   }
   export class escrowGlobal implements _chain.MultiIndexValue {
@@ -10630,11 +10630,11 @@ declare module 'proton-tsc/assembly/token/target/escrow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/token/target/kv.tables' {
+declare module 'proton-tsc/token/target/kv.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/token/index";
-  import { TableStore } from "proton-tsc/assembly/token/index";
+  import { Name } from "proton-tsc/token";
+  import { TableStore } from "proton-tsc/token";
   export class KV implements _chain.Packer {
       key: string;
       value: string;
@@ -10663,10 +10663,10 @@ declare module 'proton-tsc/assembly/token/target/kv.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/token/target/rng.inline' {
+declare module 'proton-tsc/token/target/rng.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/token/index";
+  import { Name } from "proton-tsc/token";
   export class RequestRandom implements _chain.Packer {
       customerId: u64;
       signingValue: u64;
@@ -10679,11 +10679,11 @@ declare module 'proton-tsc/assembly/token/target/rng.inline' {
   export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
-declare module 'proton-tsc/assembly/token/target/rng.tables' {
+declare module 'proton-tsc/token/target/rng.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/token/index";
-  import { TableStore } from "proton-tsc/assembly/token/index";
+  import { Name } from "proton-tsc/token";
+  import { TableStore } from "proton-tsc/token";
   export class ResultsTableDB extends _chain.MultiIndex<ResultsTable> {
   }
   export class ResultsTable implements _chain.MultiIndexValue {
@@ -10705,9 +10705,9 @@ declare module 'proton-tsc/assembly/token/target/rng.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/token/target/token.contract' {
+declare module 'proton-tsc/token/target/token.contract' {
   /// <reference types="assembly" />
-  import { Name, Asset, Symbol, Contract } from "proton-tsc/assembly/token/index";
+  import { Name, Asset, Symbol, Contract } from "proton-tsc/token";
   export class TokenContract extends Contract {
       /**
        * Allows `issuer` account to create a token in supply of `maximum_supply`. If validation is successful a new entry in statstable for token symbol scope gets created.
@@ -10774,10 +10774,10 @@ declare module 'proton-tsc/assembly/token/target/token.contract' {
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
-declare module 'proton-tsc/assembly/token/target/token.inline' {
+declare module 'proton-tsc/token/target/token.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, ExtendedAsset, Asset } from "proton-tsc/assembly/token/index";
+  import { Name, ExtendedAsset, Asset } from "proton-tsc/token";
   export const transfer: any;
   export class TokenTransfer implements _chain.Packer {
       from: Name;
@@ -10799,11 +10799,11 @@ declare module 'proton-tsc/assembly/token/target/token.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/token/target/token.tables' {
+declare module 'proton-tsc/token/target/token.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Asset, Name, Symbol } from "proton-tsc/assembly/token/index";
-  import { TableStore } from "proton-tsc/assembly/token/index";
+  import { Asset, Name, Symbol } from "proton-tsc/token";
+  import { TableStore } from "proton-tsc/token";
   /**
    * Tables
    */
@@ -10850,9 +10850,9 @@ declare module 'proton-tsc/assembly/token/target/token.tables' {
   export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
 
 }
-declare module 'proton-tsc/assembly/token/target/txid.contract' {
-  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/assembly/token/index';
-  import { AccountKV } from 'proton-tsc/assembly/token/kv/index';
+declare module 'proton-tsc/token/target/txid.contract' {
+  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/token';
+  import { AccountKV } from 'proton-tsc/token/kv';
   export class TxIdContract extends Contract {
       kvsTable: TableStore<AccountKV>;
       getsizeandid(actor: Name): void;
@@ -10861,8 +10861,8 @@ declare module 'proton-tsc/assembly/token/target/txid.contract' {
   }
 
 }
-declare module 'proton-tsc/assembly/token/token.contract' {
-  import { Name, Asset, Symbol, Contract } from "proton-tsc/assembly/index";
+declare module 'proton-tsc/token/token.contract' {
+  import { Name, Asset, Symbol, Contract } from "proton-tsc";
   export class TokenContract extends Contract {
       /**
        * Allows `issuer` account to create a token in supply of `maximum_supply`. If validation is successful a new entry in statstable for token symbol scope gets created.
@@ -10928,8 +10928,8 @@ declare module 'proton-tsc/assembly/token/token.contract' {
   }
 
 }
-declare module 'proton-tsc/assembly/token/token.inline' {
-  import { ActionWrapper, Name, ExtendedAsset, Asset, InlineAction } from "proton-tsc/assembly/index";
+declare module 'proton-tsc/token/token.inline' {
+  import { ActionWrapper, Name, ExtendedAsset, Asset, InlineAction } from "proton-tsc";
   export const transfer: ActionWrapper;
   export class TokenTransfer extends InlineAction {
       from: Name;
@@ -10948,14 +10948,14 @@ declare module 'proton-tsc/assembly/token/token.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/token/token.spec' {
+declare module 'proton-tsc/token/token.spec' {
   export {};
 
 }
-declare module 'proton-tsc/assembly/token/token.tables' {
+declare module 'proton-tsc/token/token.tables' {
   /// <reference types="assembly" />
-  import { Asset, Name, Table, Symbol } from "proton-tsc/assembly/index";
-  import { TableStore } from "proton-tsc/assembly/index";
+  import { Asset, Name, Table, Symbol } from "proton-tsc";
+  import { TableStore } from "proton-tsc";
   /**
    * Tables
    */
@@ -10984,15 +10984,15 @@ declare module 'proton-tsc/assembly/token/token.tables' {
   export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
 
 }
-declare module 'proton-tsc/assembly/txid/index' {
-  export * from 'proton-tsc/assembly/txid/txid.contract';
+declare module 'proton-tsc/txid' {
+  export * from 'proton-tsc/txid/txid.contract';
 
 }
-declare module 'proton-tsc/assembly/txid/target/allow.tables' {
+declare module 'proton-tsc/txid/target/allow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/assembly/txid/index";
-  import { TableStore } from "proton-tsc/assembly/txid/index";
+  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/txid";
+  import { TableStore } from "proton-tsc/txid";
   export class AllowGlobalsSingletonDB extends _chain.MultiIndex<AllowGlobalsSingleton> {
   }
   export class AllowGlobalsSingleton implements _chain.MultiIndexValue {
@@ -11056,11 +11056,11 @@ declare module 'proton-tsc/assembly/txid/target/allow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/txid/target/atomicassets.inline' {
+declare module 'proton-tsc/txid/target/atomicassets.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Symbol, Asset } from "proton-tsc/assembly/txid/index";
-  import { AtomicAttribute, AtomicFormat } from "proton-tsc/assembly/txid/target/atomicdata";
+  import { Name, Symbol, Asset } from "proton-tsc/txid";
+  import { AtomicAttribute, AtomicFormat } from "proton-tsc/txid/target/atomicdata";
   export const ATOMICASSETS_CONTRACT: any;
   export class AdminColEdit implements _chain.Packer {
       collectionFormatExtension: AtomicFormat[];
@@ -11329,12 +11329,12 @@ declare module 'proton-tsc/assembly/txid/target/atomicassets.inline' {
   export function sendPayOfferRam(contract: Name, payer: Name, offer_id: u64): void;
 
 }
-declare module 'proton-tsc/assembly/txid/target/atomicassets.tables' {
+declare module 'proton-tsc/txid/target/atomicassets.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/assembly/txid/index";
-  import { AtomicFormat } from "proton-tsc/assembly/txid/target/atomicdata";
-  import { TableStore } from "proton-tsc/assembly/txid/index";
+  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/txid";
+  import { AtomicFormat } from "proton-tsc/txid/target/atomicdata";
+  import { TableStore } from "proton-tsc/txid";
   export class CollectionsTableDB extends _chain.MultiIndex<CollectionsTable> {
   }
   export class CollectionsTable implements _chain.MultiIndexValue {
@@ -11476,7 +11476,7 @@ declare module 'proton-tsc/assembly/txid/target/atomicassets.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/txid/target/atomicdata' {
+declare module 'proton-tsc/txid/target/atomicdata' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
   export class AtomicFormat implements _chain.Packer {
@@ -11568,10 +11568,10 @@ declare module 'proton-tsc/assembly/txid/target/atomicdata' {
   export function deserialize(data: u8[], format_lines: AtomicFormat[]): AtomicAttribute[];
 
 }
-declare module 'proton-tsc/assembly/txid/target/balance.inline' {
+declare module 'proton-tsc/txid/target/balance.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, Asset, ExtendedAsset } from "proton-tsc/assembly/txid/index";
+  import { Name, Asset, ExtendedAsset } from "proton-tsc/txid";
   export class TokenTransfer implements _chain.Packer {
       from: Name;
       to: Name;
@@ -11602,11 +11602,11 @@ declare module 'proton-tsc/assembly/txid/target/balance.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/txid/target/balance.tables' {
+declare module 'proton-tsc/txid/target/balance.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name } from "proton-tsc/assembly/txid/index";
-  import { TableStore } from "proton-tsc/assembly/txid/index";
+  import { ExtendedAsset, Name } from "proton-tsc/txid";
+  import { TableStore } from "proton-tsc/txid";
   export class BalanceTableDB extends _chain.MultiIndex<BalanceTable> {
   }
   export class BalanceTable implements _chain.MultiIndexValue {
@@ -11628,7 +11628,7 @@ declare module 'proton-tsc/assembly/txid/target/balance.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/txid/target/base58' {
+declare module 'proton-tsc/txid/target/base58' {
   /// <reference types="assembly" />
   /**
   * Encode Uint8Array as a base58 string.
@@ -11639,11 +11639,11 @@ declare module 'proton-tsc/assembly/txid/target/base58' {
   export function decode(source: string): u8[];
 
 }
-declare module 'proton-tsc/assembly/txid/target/escrow.inline' {
+declare module 'proton-tsc/txid/target/escrow.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/txid/index";
-  import { Escrow } from "proton-tsc/assembly/txid/target/escrow.tables";
+  import { Name } from "proton-tsc/txid";
+  import { Escrow } from "proton-tsc/txid/target/escrow.tables";
   export class LogEscrow implements _chain.Packer {
       escrow: Escrow;
       status: string;
@@ -11661,10 +11661,10 @@ declare module 'proton-tsc/assembly/txid/target/escrow.inline' {
   export function sendLogEscrow(contract: Name, escrow: Escrow, status: string): void;
 
 }
-declare module 'proton-tsc/assembly/txid/target/escrow.tables' {
+declare module 'proton-tsc/txid/target/escrow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/assembly/txid/index";
+  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/txid";
   export class escrowGlobalDB extends _chain.MultiIndex<escrowGlobal> {
   }
   export class escrowGlobal implements _chain.MultiIndexValue {
@@ -11718,7 +11718,7 @@ declare module 'proton-tsc/assembly/txid/target/escrow.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/txid/target/kv.constants' {
+declare module 'proton-tsc/txid/target/kv.constants' {
   import * as _chain from "as-chain";
   export const kv: _chain.Name;
   export const kvs: _chain.Name;
@@ -11726,10 +11726,10 @@ declare module 'proton-tsc/assembly/txid/target/kv.constants' {
   export const removekeys: _chain.ActionWrapper;
 
 }
-declare module 'proton-tsc/assembly/txid/target/kv.contract' {
+declare module 'proton-tsc/txid/target/kv.contract' {
   /// <reference types="assembly" />
   import { Name, MultiIndex, Contract } from 'as-chain';
-  import { KV, AccountKV } from 'proton-tsc/assembly/txid/target/kv.tables';
+  import { KV, AccountKV } from 'proton-tsc/txid/target/kv.tables';
   export class KvContract extends Contract {
       kvsTable: MultiIndex<AccountKV>;
       updatevalues(actor: Name, values: KV[]): void;
@@ -11738,11 +11738,11 @@ declare module 'proton-tsc/assembly/txid/target/kv.contract' {
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
-declare module 'proton-tsc/assembly/txid/target/kv.tables' {
+declare module 'proton-tsc/txid/target/kv.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/txid/index";
-  import { TableStore } from "proton-tsc/assembly/txid/index";
+  import { Name } from "proton-tsc/txid";
+  import { TableStore } from "proton-tsc/txid";
   export class KV implements _chain.Packer {
       key: string;
       value: string;
@@ -11771,10 +11771,10 @@ declare module 'proton-tsc/assembly/txid/target/kv.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/txid/target/rng.inline' {
+declare module 'proton-tsc/txid/target/rng.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/txid/index";
+  import { Name } from "proton-tsc/txid";
   export class RequestRandom implements _chain.Packer {
       customerId: u64;
       signingValue: u64;
@@ -11787,11 +11787,11 @@ declare module 'proton-tsc/assembly/txid/target/rng.inline' {
   export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
-declare module 'proton-tsc/assembly/txid/target/rng.tables' {
+declare module 'proton-tsc/txid/target/rng.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/txid/index";
-  import { TableStore } from "proton-tsc/assembly/txid/index";
+  import { Name } from "proton-tsc/txid";
+  import { TableStore } from "proton-tsc/txid";
   export class ResultsTableDB extends _chain.MultiIndex<ResultsTable> {
   }
   export class ResultsTable implements _chain.MultiIndexValue {
@@ -11813,10 +11813,10 @@ declare module 'proton-tsc/assembly/txid/target/rng.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/txid/target/token.inline' {
+declare module 'proton-tsc/txid/target/token.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, ExtendedAsset, Asset } from "proton-tsc/assembly/txid/index";
+  import { Name, ExtendedAsset, Asset } from "proton-tsc/txid";
   export const transfer: any;
   export class TokenTransfer implements _chain.Packer {
       from: Name;
@@ -11838,11 +11838,11 @@ declare module 'proton-tsc/assembly/txid/target/token.inline' {
   export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
-declare module 'proton-tsc/assembly/txid/target/token.tables' {
+declare module 'proton-tsc/txid/target/token.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Asset, Name, Symbol } from "proton-tsc/assembly/txid/index";
-  import { TableStore } from "proton-tsc/assembly/txid/index";
+  import { Asset, Name, Symbol } from "proton-tsc/txid";
+  import { TableStore } from "proton-tsc/txid";
   /**
    * Tables
    */
@@ -11889,7 +11889,7 @@ declare module 'proton-tsc/assembly/txid/target/token.tables' {
   export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
 
 }
-declare module 'proton-tsc/assembly/txid/target/txid.constants' {
+declare module 'proton-tsc/txid/target/txid.constants' {
   import * as _chain from "as-chain";
   /**
    * The name of the constant and the string must be exactly the same
@@ -11901,10 +11901,10 @@ declare module 'proton-tsc/assembly/txid/target/txid.constants' {
   export const readaction: _chain.ActionWrapper;
 
 }
-declare module 'proton-tsc/assembly/txid/target/txid.contract' {
+declare module 'proton-tsc/txid/target/txid.contract' {
   /// <reference types="assembly" />
-  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/assembly/txid/index';
-  import { AccountKV } from 'proton-tsc/assembly/txid/kv/index';
+  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/txid';
+  import { AccountKV } from 'proton-tsc/txid/kv';
   export class TxIdContract extends Contract {
       kvsTable: TableStore<AccountKV>;
       getsizeandid(actor: Name): void;
@@ -11914,11 +11914,11 @@ declare module 'proton-tsc/assembly/txid/target/txid.contract' {
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
-declare module 'proton-tsc/assembly/txid/target/txid.tables' {
+declare module 'proton-tsc/txid/target/txid.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/assembly/assembly/index";
-  import { TableStore } from "proton-tsc/assembly/assembly/index";
+  import { Name } from "proton-tsc/assembly";
+  import { TableStore } from "proton-tsc/assembly";
   export class KV implements _chain.Packer {
       key: string;
       value: string;
@@ -11947,9 +11947,9 @@ declare module 'proton-tsc/assembly/txid/target/txid.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly/txid/txid.contract' {
-  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/assembly/index';
-  import { AccountKV } from 'proton-tsc/assembly/kv/index';
+declare module 'proton-tsc/txid/txid.contract' {
+  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc';
+  import { AccountKV } from 'proton-tsc/kv';
   export class TxIdContract extends Contract {
       kvsTable: TableStore<AccountKV>;
       getsizeandid(actor: Name): void;
@@ -11958,799 +11958,8 @@ declare module 'proton-tsc/assembly/txid/txid.contract' {
   }
 
 }
-declare module 'proton-tsc/assembly/txid/txid.spec' {
+declare module 'proton-tsc/txid/txid.spec' {
   export {};
-
-}
-declare module 'proton-tsc/ex/ex.contract' {
-  export {};
-
-}
-declare module 'proton-tsc/ex/playground' {
-  export {};
-
-}
-declare module 'proton-tsc/ex/target/allow.tables' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/ex/index";
-  import { TableStore } from "proton-tsc/ex/index";
-  export class AllowGlobalsSingletonDB extends _chain.MultiIndex<AllowGlobalsSingleton> {
-  }
-  export class AllowGlobalsSingleton implements _chain.MultiIndexValue {
-      isPaused: boolean;
-      isActorStrict: boolean;
-      isTokenStrict: boolean;
-      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean);
-      static getSingleton(code: Name): Singleton<AllowGlobals>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<AllowGlobalsSingleton>;
-  }
-  export class AllowGlobals extends AllowGlobalsSingleton {
-  }
-  export class AllowedActorTableDB extends _chain.MultiIndex<AllowedActorTable> {
-  }
-  export class AllowedActorTable implements _chain.MultiIndexValue {
-      actor: Name;
-      isAllowed: boolean;
-      isBlocked: boolean;
-      constructor(actor?: Name, isAllowed?: boolean, isBlocked?: boolean);
-      get primary(): u64;
-      static getTable(code: Name): TableStore<AllowedActor>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AllowedActorTableDB;
-  }
-  export class AllowedActor extends AllowedActorTable {
-  }
-  export class AllowedTokenTableDB extends _chain.MultiIndex<AllowedTokenTable> {
-      get byTokenDB(): _chain.IDX128;
-      updateByToken(idxIt: _chain.SecondaryIterator, value: U128, payer: Name): _chain.IDX128;
-  }
-  export class AllowedTokenTable implements _chain.MultiIndexValue {
-      index: u64;
-      token: ExtendedSymbol;
-      isAllowed: boolean;
-      isBlocked: boolean;
-      constructor(index?: u64, token?: ExtendedSymbol, isAllowed?: boolean, isBlocked?: boolean);
-      get primary(): u64;
-      get byToken(): U128;
-      set byToken(value: U128);
-      static getTable(code: Name): TableStore<AllowedToken>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AllowedTokenTableDB;
-  }
-  export class AllowedToken extends AllowedTokenTable {
-  }
-
-}
-declare module 'proton-tsc/ex/target/atomicassets.inline' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { Name, Symbol, Asset } from "proton-tsc/ex/index";
-  import { AtomicAttribute, AtomicFormat } from "proton-tsc/ex/target/atomicdata";
-  export const ATOMICASSETS_CONTRACT: any;
-  export class AdminColEdit implements _chain.Packer {
-      collectionFormatExtension: AtomicFormat[];
-      constructor(collectionFormatExtension?: AtomicFormat[]);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class SetVersion implements _chain.Packer {
-      newVersion: string;
-      constructor(newVersion?: string);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class AddConfigToken implements _chain.Packer {
-      tokenContract: Name;
-      tokenSymbol: Symbol;
-      constructor(tokenContract?: Name, tokenSymbol?: Symbol);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class TransferNfts implements _chain.Packer {
-      from: Name;
-      to: Name;
-      asset_ids: u64[];
-      memo: string;
-      constructor(from?: Name, to?: Name, asset_ids?: u64[], memo?: string);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class CreateCollection implements _chain.Packer {
-      author: Name;
-      collection_name: Name;
-      allow_notify: boolean;
-      authorized_accounts: Name[];
-      notify_accounts: Name[];
-      market_fee: f64;
-      data: AtomicAttribute[];
-      constructor(author?: Name, collection_name?: Name, allow_notify?: boolean, authorized_accounts?: Name[], notify_accounts?: Name[], market_fee?: f64, data?: AtomicAttribute[]);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class SetCollectionData implements _chain.Packer {
-      collection_name: Name;
-      data: AtomicAttribute[];
-      constructor(collection_name?: Name, data?: AtomicAttribute[]);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class AddCollectionAuth implements _chain.Packer {
-      collection_name: Name;
-      account_to_add: Name;
-      constructor(collection_name?: Name, account_to_add?: Name);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class RemoveCollectionAuth implements _chain.Packer {
-      collection_name: Name;
-      account_to_remove: Name;
-      constructor(collection_name?: Name, account_to_remove?: Name);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class AddNotifyAccount implements _chain.Packer {
-      collection_name: Name;
-      account_to_add: Name;
-      constructor(collection_name?: Name, account_to_add?: Name);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class RemoveNotifyAccount implements _chain.Packer {
-      collection_name: Name;
-      account_to_remove: Name;
-      constructor(collection_name?: Name, account_to_remove?: Name);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class Setmarket_fee implements _chain.Packer {
-      collection_name: Name;
-      market_fee: f64;
-      constructor(collection_name?: Name, market_fee?: f64);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class ForbidNotify implements _chain.Packer {
-      collection_name: Name;
-      constructor(collection_name?: Name);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class CreateSchema implements _chain.Packer {
-      authorized_creator: Name;
-      collection_name: Name;
-      schema_name: Name;
-      schema_format: AtomicFormat[];
-      constructor(authorized_creator?: Name, collection_name?: Name, schema_name?: Name, schema_format?: AtomicFormat[]);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class ExtendSchema implements _chain.Packer {
-      authorized_editor: Name;
-      collection_name: Name;
-      schema_name: Name;
-      schema_format_extension: AtomicFormat[];
-      constructor(authorized_editor?: Name, collection_name?: Name, schema_name?: Name, schema_format_extension?: AtomicFormat[]);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class CreateTemplate implements _chain.Packer {
-      authorized_creator: Name;
-      collection_name: Name;
-      schema_name: Name;
-      transferable: boolean;
-      burnable: boolean;
-      max_supply: u32;
-      immutable_data: AtomicAttribute[];
-      constructor(authorized_creator?: Name, collection_name?: Name, schema_name?: Name, transferable?: boolean, burnable?: boolean, max_supply?: u32, immutable_data?: AtomicAttribute[]);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class LockTemplate implements _chain.Packer {
-      authorized_editor: Name;
-      collection_name: Name;
-      template_id: i32;
-      constructor(authorized_editor?: Name, collection_name?: Name, template_id?: i32);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class MintAsset implements _chain.Packer {
-      authorized_minter: Name;
-      collection_name: Name;
-      schema_name: Name;
-      template_id: i32;
-      newasset_owner: Name;
-      immutable_data: AtomicAttribute[];
-      mutable_data: AtomicAttribute[];
-      tokens_to_back: Asset[];
-      constructor(authorized_minter?: Name, collection_name?: Name, schema_name?: Name, template_id?: i32, newasset_owner?: Name, immutable_data?: AtomicAttribute[], mutable_data?: AtomicAttribute[], tokens_to_back?: Asset[]);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class SetAssetData implements _chain.Packer {
-      authorized_editor: Name;
-      asset_owner: Name;
-      asset_id: u64;
-      new_mutable_data: AtomicAttribute[];
-      constructor(authorized_editor?: Name, asset_owner?: Name, asset_id?: u64, new_mutable_data?: AtomicAttribute[]);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class Withdraw implements _chain.Packer {
-      owner: Name;
-      token_to_withdraw: Asset;
-      constructor(owner?: Name, token_to_withdraw?: Asset);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class BackAsset implements _chain.Packer {
-      payer: Name;
-      asset_owner: Name;
-      asset_id: u64;
-      token_to_back: Asset;
-      constructor(payer?: Name, asset_owner?: Name, asset_id?: u64, token_to_back?: Asset);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class BurnAsset implements _chain.Packer {
-      asset_owner: Name;
-      asset_id: u64;
-      constructor(asset_owner?: Name, asset_id?: u64);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class CreateOffer implements _chain.Packer {
-      sender: Name;
-      recipient: Name;
-      sender_asset_ids: u64[];
-      recipient_asset_ids: u64[];
-      memo: string;
-      constructor(sender?: Name, recipient?: Name, sender_asset_ids?: u64[], recipient_asset_ids?: u64[], memo?: string);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class CancelOffer implements _chain.Packer {
-      offer_id: u64;
-      constructor(offer_id?: u64);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class AcceptOffer implements _chain.Packer {
-      offer_id: u64;
-      constructor(offer_id?: u64);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class DeclineOffer implements _chain.Packer {
-      offer_id: u64;
-      constructor(offer_id?: u64);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class PayOfferRam implements _chain.Packer {
-      payer: Name;
-      offer_id: u64;
-      constructor(payer?: Name, offer_id?: u64);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export function sendAdminCollectionEdit(contract: Name, collectionFormatExtension: AtomicFormat[]): void;
-  export function sendSetVersion(contract: Name, collectionFormatExtension: AtomicFormat[]): void;
-  export function sendAddConfigToken(contract: Name, tokenContract: Name, tokenSymbol: Symbol): void;
-  /**
-   * Send a transfer action to the contract with the given parameters
-   * @param {Name} from - Name of the account that is sending the NFTs
-   * @param {Name} to - Name of the account to transfer the NFTs to.
-   * @param {u64[]} nfts - An array of u64s representing the NFTs to transfer.
-   * @param {string} memo - A string that will be stored in the blockchain as the memo for this transfer.
-   */
-  export function sendTransferNfts(from: Name, to: Name, asset_ids: u64[], memo: string): void;
-  export function sendCreateColllection(contract: Name, author: Name, collection_name: Name, allow_notify: boolean, authorized_accounts: Name[], notify_accounts: Name[], market_fee: f64, data: AtomicAttribute[]): void;
-  export function sendSetCollectionData(contract: Name, collection_name: Name, data: AtomicAttribute[]): void;
-  export function sendAddCollectionAuth(contract: Name, collection_name: Name, account_to_add: Name): void;
-  export function sendRemoveCollectionAuth(contract: Name, collection_name: Name, account_to_remove: Name): void;
-  export function sendAddNotifyAccount(contract: Name, collection_name: Name, account_to_add: Name): void;
-  export function sendRemoveNotifyAccount(contract: Name, collection_name: Name, account_to_remove: Name): void;
-  export function sendSetmarket_fee(contract: Name, collection_name: Name, market_fee: f64): void;
-  export function sendForbidNotify(contract: Name, collection_name: Name): void;
-  export function sendCreateSchema(contract: Name, authorized_creator: Name, collection_name: Name, schema_name: Name, schema_format: AtomicFormat[]): void;
-  export function sendExtendSchema(contract: Name, authorized_editor: Name, collection_name: Name, schema_name: Name, schema_format_extension: AtomicFormat[]): void;
-  export function sendCreateTemplate(contract: Name, authorized_creator: Name, collection_name: Name, schema_name: Name, transferable: boolean, burnable: boolean, max_supply: u32, immutable_data: AtomicAttribute[]): void;
-  export function sendLockTemplate(contract: Name, authorized_editor: Name, collection_name: Name, template_id: i32): void;
-  export function sendMintAsset(contract: Name, authorized_minter: Name, collection_name: Name, schema_name: Name, template_id: i32, newasset_owner: Name, immutable_data: AtomicAttribute[], mutable_data: AtomicAttribute[], tokens_to_back: Asset[]): void;
-  export function sendSetAssetData(contract: Name, authorized_editor: Name, asset_owner: Name, asset_id: u64, new_mutable_data: AtomicAttribute[]): void;
-  export function sendWithdraw(contract: Name, owner: Name, token_to_withdraw: Asset): void;
-  export function sendBackAsset(contract: Name, payer: Name, asset_owner: Name, asset_id: u64, token_to_back: Asset): void;
-  export function sendBurnAsset(contract: Name, asset_owner: Name, asset_id: u64): void;
-  export function sendCreateOffer(contract: Name, sender: Name, recipient: Name, sender_asset_ids: u64[], recipient_asset_ids: u64[], memo: string): void;
-  export function sendCancelOffer(contract: Name, offer_id: u64): void;
-  export function sendAcceptOffer(contract: Name, offer_id: u64): void;
-  export function sendDeclineOffer(contract: Name, offer_id: u64): void;
-  export function sendPayOfferRam(contract: Name, payer: Name, offer_id: u64): void;
-
-}
-declare module 'proton-tsc/ex/target/atomicassets.tables' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/ex/index";
-  import { AtomicFormat } from "proton-tsc/ex/target/atomicdata";
-  import { TableStore } from "proton-tsc/ex/index";
-  export class CollectionsTableDB extends _chain.MultiIndex<CollectionsTable> {
-  }
-  export class CollectionsTable implements _chain.MultiIndexValue {
-      collection_name: Name;
-      author: Name;
-      allow_notify: boolean;
-      authorized_accounts: Name[];
-      notify_accounts: Name[];
-      market_fee: f64;
-      serialized_data: u8[];
-      constructor(collection_name?: Name, author?: Name, allow_notify?: boolean, authorized_accounts?: Name[], notify_accounts?: Name[], market_fee?: f64, serialized_data?: u8[]);
-      get primary(): u64;
-      static getTable(code: Name): TableStore<Collections>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): CollectionsTableDB;
-  }
-  export class Collections extends CollectionsTable {
-  }
-  export class SchemasTableDB extends _chain.MultiIndex<SchemasTable> {
-  }
-  export class SchemasTable implements _chain.MultiIndexValue {
-      schema_name: Name;
-      format: AtomicFormat[];
-      constructor(schema_name?: Name, format?: AtomicFormat[]);
-      get primary(): u64;
-      static getTable(code: Name, collection_name: Name): TableStore<Schemas>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): SchemasTableDB;
-  }
-  export class Schemas extends SchemasTable {
-  }
-  export class TemplatesTableDB extends _chain.MultiIndex<TemplatesTable> {
-  }
-  export class TemplatesTable implements _chain.MultiIndexValue {
-      template_id: i32;
-      schema_name: Name;
-      transferable: boolean;
-      burnable: boolean;
-      max_supply: u32;
-      issued_supply: u32;
-      immutable_serialized_data: u8[];
-      constructor(template_id?: i32, schema_name?: Name, transferable?: boolean, burnable?: boolean, max_supply?: u32, issued_supply?: u32, immutable_serialized_data?: u8[]);
-      get primary(): u64;
-      static getTable(code: Name, collection_name: Name): TableStore<Templates>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): TemplatesTableDB;
-  }
-  export class Templates extends TemplatesTable {
-  }
-  export class AssetsTableDB extends _chain.MultiIndex<AssetsTable> {
-  }
-  export class AssetsTable implements _chain.MultiIndexValue {
-      asset_id: u64;
-      collection_name: Name;
-      schema_name: Name;
-      template_id: i32;
-      ram_payer: Name;
-      backed_tokens: Asset[];
-      immutable_serialized_data: u8[];
-      mutable_serialized_data: u8[];
-      constructor(asset_id?: u64, collection_name?: Name, schema_name?: Name, template_id?: i32, ram_payer?: Name, backed_tokens?: Asset[], immutable_serialized_data?: u8[], mutable_serialized_data?: u8[]);
-      get primary(): u64;
-      static getTable(code: Name, owner: Name): TableStore<Assets>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AssetsTableDB;
-  }
-  export class Assets extends AssetsTable {
-  }
-  export class OffersTableDB extends _chain.MultiIndex<OffersTable> {
-      get by_senderDB(): _chain.IDX64;
-      get by_recipientDB(): _chain.IDX64;
-      updateBy_sender(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
-      updateBy_recipient(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
-  }
-  export class OffersTable implements _chain.MultiIndexValue {
-      offer_id: u64;
-      sender: Name;
-      recipient: Name;
-      sender_asset_ids: u64[];
-      recipient_asset_ids: u64[];
-      memo: string;
-      ram_payer: Name;
-      constructor(offer_id?: u64, sender?: Name, recipient?: Name, sender_asset_ids?: u64[], recipient_asset_ids?: u64[], memo?: string, ram_payer?: Name);
-      get primary(): u64;
-      get by_sender(): u64;
-      set by_sender(value: u64);
-      get by_recipient(): u64;
-      set by_recipient(value: u64);
-      static getTable(code: Name): TableStore<Offers>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): OffersTableDB;
-  }
-  export class Offers extends OffersTable {
-  }
-  export class ConfigSingletonDB extends _chain.MultiIndex<ConfigSingleton> {
-  }
-  export class ConfigSingleton implements _chain.MultiIndexValue {
-      asset_counter: u64;
-      template_counter: u32;
-      offer_counter: u64;
-      collection_format: AtomicFormat[];
-      supported_tokens: ExtendedSymbol[];
-      constructor(asset_counter?: u64, template_counter?: u32, offer_counter?: u64, collection_format?: AtomicFormat[], supported_tokens?: ExtendedSymbol[]);
-      static getSingleton(code: Name): Singleton<Config>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<ConfigSingleton>;
-  }
-  export class Config extends ConfigSingleton {
-  }
-
-}
-declare module 'proton-tsc/ex/target/atomicdata' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  export class AtomicFormat implements _chain.Packer {
-      name: string;
-      type: string;
-      constructor(name?: string, type?: string);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class AtomicAttribute implements _chain.Packer {
-      key: string;
-      value: AtomicValue;
-      constructor(key?: string, value?: AtomicValue);
-      static eq(a: AtomicAttribute, b: AtomicAttribute): bool;
-      static neq(a: AtomicAttribute, b: AtomicAttribute): bool;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class AtomicValue implements _chain.Packer {
-      _index: u8;
-      value: usize;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      static new<T>(value: T): AtomicValue;
-      isi8(): bool;
-      geti8(): i8;
-      isi16(): bool;
-      geti16(): i16;
-      isi32(): bool;
-      geti32(): i32;
-      isi64(): bool;
-      geti64(): i64;
-      isu8(): bool;
-      getu8(): u8;
-      isu16(): bool;
-      getu16(): u16;
-      isu32(): bool;
-      getu32(): u32;
-      isu64(): bool;
-      getu64(): u64;
-      isfloat(): bool;
-      getfloat(): f32;
-      isdouble(): bool;
-      getdouble(): f64;
-      isstring(): bool;
-      getstring(): string;
-      isINT8_VEC(): bool;
-      getINT8_VEC(): i8[];
-      isINT16_VEC(): bool;
-      getINT16_VEC(): i16[];
-      isINT32_VEC(): bool;
-      getINT32_VEC(): i32[];
-      isINT64_VEC(): bool;
-      getINT64_VEC(): i64[];
-      isUINT8_VEC(): bool;
-      getUINT8_VEC(): u8[];
-      isUINT16_VEC(): bool;
-      getUINT16_VEC(): u16[];
-      isUINT32_VEC(): bool;
-      getUINT32_VEC(): u32[];
-      isUINT64_VEC(): bool;
-      getUINT64_VEC(): u64[];
-      isFLOAT_VEC(): bool;
-      getFLOAT_VEC(): f32[];
-      isDOUBLE_VEC(): bool;
-      getDOUBLE_VEC(): f64[];
-      isSTRING_VEC(): bool;
-      getSTRING_VEC(): string[];
-      get<T>(): T;
-      is<T>(): bool;
-  }
-  export function unsignedFromVarintBytes(itr: u8[]): u64;
-  export function toIntBytes(number: u64, byte_amount: u64): u8[];
-  export function unsignedFromIntBytes(itr: u8[], original_bytes?: u64): u64;
-  export function zigzagEncode(value: i64): u64;
-  export function zigzagDecode(value: u64): i64;
-  export function eraseAttribute(attributes: AtomicAttribute[], toErase: AtomicAttribute): void;
-  export function toVarintBytes(number: u64, original_bytes?: u64): u8[];
-  export function findIndexOfAttribute(attributes: AtomicAttribute[], key: string): i32;
-  export function floatToBytes(float: f32): u8[];
-  export function doubleToBytes(float: f64): u8[];
-  export function stringToBytes(string: string): u8[];
-  export function serialize_attribute(type: string, attr: AtomicValue): u8[];
-  export function deserialize_attribute(type: string, itr: u8[]): AtomicValue;
-  export function serialize(attr_map: AtomicAttribute[], format_lines: AtomicFormat[]): u8[];
-  export function deserialize(data: u8[], format_lines: AtomicFormat[]): AtomicAttribute[];
-
-}
-declare module 'proton-tsc/ex/target/balance.tables' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { ExtendedAsset, Name } from "proton-tsc/ex/index";
-  import { TableStore } from "proton-tsc/ex/index";
-  export class BalanceTableDB extends _chain.MultiIndex<BalanceTable> {
-  }
-  export class BalanceTable implements _chain.MultiIndexValue {
-      account: Name;
-      tokens: ExtendedAsset[];
-      nfts: u64[];
-      constructor(account?: Name, tokens?: ExtendedAsset[], nfts?: u64[]);
-      get primary(): u64;
-      static getTable(code: Name): TableStore<Balance>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): BalanceTableDB;
-  }
-  export class Balance extends BalanceTable {
-  }
-
-}
-declare module 'proton-tsc/ex/target/base58' {
-  /// <reference types="assembly" />
-  /**
-  * Encode Uint8Array as a base58 string.
-  * @param bytes Byte array of type Uint8Array.
-  */
-  export function encode(source: Uint8Array): string;
-  export function decodeUnsafe(source: string): u8[] | null;
-  export function decode(source: string): u8[];
-
-}
-declare module 'proton-tsc/ex/target/escrow.tables' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/ex/index/index";
-  export class escrowGlobalDB extends _chain.MultiIndex<escrowGlobal> {
-  }
-  export class escrowGlobal implements _chain.MultiIndexValue {
-      escrowId: u64;
-      constructor(escrowId?: u64);
-      static getSingleton(code: Name): Singleton<EscrowGlobal>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<escrowGlobal>;
-  }
-  export class EscrowGlobal extends escrowGlobal {
-  }
-  export class escrowDB extends _chain.MultiIndex<escrow> {
-      get byFromDB(): _chain.IDX64;
-      get byToDB(): _chain.IDX64;
-      updateByFrom(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
-      updateByTo(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
-  }
-  export class escrow implements _chain.MultiIndexValue {
-      id: u64;
-      from: Name;
-      to: Name;
-      fromTokens: ExtendedAsset[];
-      fromNfts: u64[];
-      toTokens: ExtendedAsset[];
-      toNfts: u64[];
-      expiry: u32;
-      constructor(id?: u64, from?: Name, to?: Name, fromTokens?: ExtendedAsset[], fromNfts?: u64[], toTokens?: ExtendedAsset[], toNfts?: u64[], expiry?: u32);
-      get primary(): u64;
-      get byFrom(): u64;
-      set byFrom(value: u64);
-      get byTo(): u64;
-      set byTo(value: u64);
-      static getTable(code: Name): TableStore<Escrow>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): escrowDB;
-  }
-  export class Escrow extends escrow {
-  }
-
-}
-declare module 'proton-tsc/ex/target/ex.contract' {
-  /// <reference types="assembly" />
-  export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
-
-}
-declare module 'proton-tsc/ex/target/kv.tables' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/ex/index";
-  import { TableStore } from "proton-tsc/ex/index";
-  export class KV {
-      key: string;
-      value: string;
-      constructor(key?: string, value?: string);
-  }
-  export class AccountKVTableDB extends _chain.MultiIndex<AccountKVTable> {
-  }
-  export class AccountKVTable implements _chain.MultiIndexValue {
-      account: Name;
-      values: KV[];
-      constructor(account?: Name, values?: KV[]);
-      get primary(): u64;
-      static getTable(code: Name): TableStore<AccountKV>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AccountKVTableDB;
-  }
-  export class AccountKV extends AccountKVTable {
-  }
-
-}
-declare module 'proton-tsc/ex/target/rng.tables' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/ex/index";
-  import { TableStore } from "proton-tsc/ex/index";
-  export class ResultsTableDB extends _chain.MultiIndex<ResultsTable> {
-  }
-  export class ResultsTable implements _chain.MultiIndexValue {
-      customerId: u64;
-      account: Name;
-      randomValue: u64;
-      constructor(customerId?: u64, account?: Name, randomValue?: u64);
-      get primary(): u64;
-      static getTable(code: Name): TableStore<Results>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): ResultsTableDB;
-  }
-  export class Results extends ResultsTable {
-  }
-
-}
-declare module 'proton-tsc/ex/target/token.tables' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { Asset, Name, Symbol } from "proton-tsc/ex/index";
-  import { TableStore } from "proton-tsc/ex/index";
-  /**
-   * Tables
-   */
-  export class accountDB extends _chain.MultiIndex<account> {
-  }
-  export class account implements _chain.MultiIndexValue {
-      balance: Asset;
-      constructor(balance?: Asset);
-      get primary(): u64;
-      static getTable(code: Name, accountName: Name): TableStore<Account>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): accountDB;
-  }
-  export class currency_statsDB extends _chain.MultiIndex<currency_stats> {
-  }
-  export class currency_stats implements _chain.MultiIndexValue {
-      supply: Asset;
-      max_supply: Asset;
-      issuer: Name;
-      constructor(supply?: Asset, max_supply?: Asset, issuer?: Name);
-      get primary(): u64;
-      static getTable(code: Name, sym: Symbol): TableStore<Stat>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): currency_statsDB;
-  }
-  export class Account extends account {
-  }
-  export class Stat extends currency_stats {
-  }
-  /**
-   * Helpers
-   */
-  export function getSupply(tokenContractAccount: Name, sym: Symbol): Asset;
-  export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
 
 }
 declare module 'proton-tsc/external/rng/utils' {
@@ -12769,7 +11978,13 @@ declare module 'proton-tsc/playground' {
   export {};
 
 }
-declare module 'proton-tsc' {
-  import main = require('proton-tsc/assembly/index');
+declare module 'proton-tsc/replace.config' {
+  export const files: string;
+  export const from: RegExp[];
+  export const to: string[];
+
+}
+declare module 'proton-tsc/assembly' {
+  import main = require('proton-tsc');
   export = main;
 }
