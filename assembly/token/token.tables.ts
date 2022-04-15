@@ -5,7 +5,7 @@ import { TableStore } from ".."
  * Tables
  */
 @table("accounts")
-export class account extends Table {
+export class Account extends Table {
     constructor (
         public balance: Asset = new Asset()
     ) {
@@ -22,7 +22,7 @@ export class account extends Table {
     }
 }
 @table("stat")
-export class currency_stats extends Table {
+export class Stat extends Table {
     constructor (
        public supply: Asset = new Asset(),
        public max_supply: Asset =  new Asset(),
@@ -40,9 +40,6 @@ export class currency_stats extends Table {
         return new TableStore<Stat>(code, new Name(sym.code()), Name.fromString("stat"));
     }
 }
-
-export class Account extends account {}
-export class Stat extends currency_stats {}
 
 /**
  * Helpers

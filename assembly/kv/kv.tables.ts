@@ -10,7 +10,7 @@ export class KV {
 }
 
 @table("kvs")
-export class AccountKVTable extends Table {
+export class AccountKV extends Table {
     constructor (
         public account: Name = new Name(),
         public values: KV[] = [],
@@ -27,5 +27,3 @@ export class AccountKVTable extends Table {
         return new TableStore<AccountKV>(code, code, Name.fromString("kvs"));
     }
 }
-
-export class AccountKV extends AccountKVTable {}

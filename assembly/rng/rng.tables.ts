@@ -2,7 +2,7 @@ import { Name, Table } from "..";
 import { TableStore } from "..";
 
 @table("results")
-export class ResultsTable extends Table {
+export class Results extends Table {
     constructor (
         public customerId: u64 = 0,
         public account: Name = new Name(),
@@ -20,5 +20,3 @@ export class ResultsTable extends Table {
         return new TableStore<Results>(code, code, Name.fromString("results"));
     }
 }
-
-export class Results extends ResultsTable {}

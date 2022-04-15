@@ -4,7 +4,7 @@ import { extendedSymbolToU128, U128ToExtSym } from "./allow.utils";
 
 // scope: contract
 @table("allowglobals", singleton)
-export class AllowGlobalsSingleton extends Table {
+export class AllowGlobals extends Table {
     constructor (
         public isPaused: boolean = false,
         public isActorStrict: boolean = false,
@@ -18,11 +18,9 @@ export class AllowGlobalsSingleton extends Table {
     }
 }
 
-export class AllowGlobals extends AllowGlobalsSingleton {}
-
 // scope: contract
 @table("allowedactor")
-export class AllowedActorTable extends Table {
+export class AllowedActor extends Table {
     constructor (
         public actor: Name = new Name(),
         public isAllowed: boolean = false,
@@ -41,11 +39,9 @@ export class AllowedActorTable extends Table {
     }
 }
 
-export class AllowedActor extends AllowedActorTable {}
-
 // scope: contract
 @table("allowedtoken")
-export class AllowedTokenTable extends Table {
+export class AllowedToken extends Table {
     constructor (
         public index: u64 = 0,
         public token: ExtendedSymbol = new ExtendedSymbol(),
@@ -79,5 +75,3 @@ export class AllowedTokenTable extends Table {
         return new TableStore<AllowedToken>(code, code, tableName, indexes);
     }
 }
-
-export class AllowedToken extends AllowedTokenTable {}

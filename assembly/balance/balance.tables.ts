@@ -2,7 +2,7 @@ import { ExtendedAsset, Name, Table } from "..";
 import { TableStore } from "..";
 
 @table("balances")
-export class BalanceTable extends Table {
+export class Balance extends Table {
     constructor (
         public account: Name = new Name(),
         public tokens: ExtendedAsset[] = [],
@@ -20,5 +20,3 @@ export class BalanceTable extends Table {
         return new TableStore<Balance>(code, code, Name.fromString("balances"));
     }
 }
-
-export class Balance extends BalanceTable {}

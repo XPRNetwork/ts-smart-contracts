@@ -4,7 +4,7 @@ import { TableStore } from "..";
 
 // Scope: N/A
 @table("collections", noabigen)
-export class CollectionsTable extends Table {
+export class Collections extends Table {
     constructor (
         public collection_name: Name = new Name(),
         public author: Name = new Name(),
@@ -26,11 +26,10 @@ export class CollectionsTable extends Table {
         return new TableStore<Collections>(code, code, Name.fromString("collections"));
     }
 }
-export class Collections extends CollectionsTable {}
 
 //Scope: collection_name
 @table("schemas", noabigen)
-export class SchemasTable extends Table {
+export class Schemas extends Table {
     constructor (
         public schema_name: Name = new Name(),
         public format: AtomicFormat[] = [],
@@ -47,11 +46,10 @@ export class SchemasTable extends Table {
         return new TableStore<Schemas>(code, collection_name, Name.fromString("schemas"));
     }
 }
-export class Schemas extends SchemasTable {}
 
 //Scope: collection_name
 @table("templates", noabigen)
-export class TemplatesTable extends Table {
+export class Templates extends Table {
     constructor (
         public template_id: i32 = 0,
         public schema_name: Name = new Name(),
@@ -73,11 +71,10 @@ export class TemplatesTable extends Table {
         return new TableStore<Templates>(code, collection_name, Name.fromString("templates"));
     }
 }
-export class Templates extends TemplatesTable {}
 
 //Scope: owner
 @table("assets", noabigen)
-export class AssetsTable extends Table {
+export class Assets extends Table {
     constructor (
         public asset_id: u64 = 0,
         public collection_name: Name = new Name(),
@@ -100,11 +97,10 @@ export class AssetsTable extends Table {
         return new TableStore<Assets>(code, owner, Name.fromString("assets"));
     }
 }
-export class Assets extends AssetsTable {}
 
 // Scope: N/A
 @table("offers", noabigen)
-export class OffersTable extends Table {
+export class Offers extends Table {
     constructor (
         public offer_id: u64 = 0,
         public sender: Name = new Name(),
@@ -149,10 +145,9 @@ export class OffersTable extends Table {
         return new TableStore<Offers>(code, code, tableName, indexes);
     }
 }
-export class Offers extends OffersTable {}
 
 @table("config", singleton, noabigen)
-export class ConfigSingleton extends Table {
+export class Config extends Table {
     constructor (
         public asset_counter: u64 = 1099511627776,
         public template_counter: u32 = 1,
@@ -167,5 +162,3 @@ export class ConfigSingleton extends Table {
         return new Singleton<Config>(code, code, Name.fromString("config"));
     }
 }
-
-export class Config extends ConfigSingleton {}

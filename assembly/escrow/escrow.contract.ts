@@ -2,7 +2,7 @@ import { currentTimePoint, ExtendedAsset, Name, check, requireAuth, isAccount, T
 import { BalanceContract } from '../balance';
 import { ESCROW_STATUS } from './escrow.constants';
 import { sendLogEscrow } from './escrow.inline';
-import { EscrowGlobal, Escrow, escrow } from './escrow.tables';
+import { EscrowGlobal, Escrow } from './escrow.tables';
 
 @contract
 class EscrowContract extends BalanceContract {
@@ -148,7 +148,7 @@ class EscrowContract extends BalanceContract {
      */
     @action("logescrow")
     logescrow(
-        escrow: escrow,
+        escrow: Escrow,
         status: string
     ): void {
         requireAuth(this.contract)
