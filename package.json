@@ -1,10 +1,9 @@
 {
   "name": "proton-tsc",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "license": "MIT",
-  "main": "./assembly/index.ts",
   "exports": {
-    ".": "./assembly",
+    ".": "./assembly/index.ts",
     "./atomicassets": "./assembly/atomicassets/index.ts"
   },
   "scripts": {
