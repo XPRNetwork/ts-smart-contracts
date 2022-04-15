@@ -22,7 +22,7 @@
     "test:store": "mocha -s 250 ./assembly/store/store.spec.ts -r ts-node/register",
     "test:safemath": "mocha -s 250 ./assembly/safemath/safemath.spec.ts -r ts-node/register",
     "test:examples": "npm run --prefix examples test",
-    "test": "run-p test:*",
+    "test": "run-p test:* --max-parallel 3",
     "core:escrow": "cat ./assembly/escrow/target/escrow.contract.abi | abi2core > ./assembly/escrow/target/escrow.client-types.ts",
     "run:playground": "cross-env LOG_LEVEL=debug ts-node ./playground.ts",
     "prepublish": "npx npm-dts generate --entry ./assembly/index.ts --force && npx replace-in-file --configFile=./replace.config.js"
