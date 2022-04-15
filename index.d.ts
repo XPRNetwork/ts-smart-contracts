@@ -48,16 +48,14 @@ declare module 'proton-tsc/allow/allow.tables' {
   /// <reference types="assembly" />
   import { Name, Table, Singleton, U128, ExtendedSymbol } from "proton-tsc";
   import { TableStore } from "proton-tsc";
-  export class AllowGlobalsSingleton extends Table {
+  export class AllowGlobals extends Table {
       isPaused: boolean;
       isActorStrict: boolean;
       isTokenStrict: boolean;
       constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean);
       static getSingleton(code: Name): Singleton<AllowGlobals>;
   }
-  export class AllowGlobals extends AllowGlobalsSingleton {
-  }
-  export class AllowedActorTable extends Table {
+  export class AllowedActor extends Table {
       actor: Name;
       isAllowed: boolean;
       isBlocked: boolean;
@@ -65,9 +63,7 @@ declare module 'proton-tsc/allow/allow.tables' {
       get primary(): u64;
       static getTable(code: Name): TableStore<AllowedActor>;
   }
-  export class AllowedActor extends AllowedActorTable {
-  }
-  export class AllowedTokenTable extends Table {
+  export class AllowedToken extends Table {
       index: u64;
       token: ExtendedSymbol;
       isAllowed: boolean;
@@ -77,8 +73,6 @@ declare module 'proton-tsc/allow/allow.tables' {
       get byToken(): U128;
       set byToken(value: U128);
       static getTable(code: Name): TableStore<AllowedToken>;
-  }
-  export class AllowedToken extends AllowedTokenTable {
   }
 
 }
@@ -152,9 +146,9 @@ declare module 'proton-tsc/allow/target/allow.tables' {
   import * as _chain from "as-chain";
   import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/allow";
   import { TableStore } from "proton-tsc/allow";
-  export class AllowGlobalsSingletonDB extends _chain.MultiIndex<AllowGlobalsSingleton> {
+  export class AllowGlobalsDB extends _chain.MultiIndex<AllowGlobals> {
   }
-  export class AllowGlobalsSingleton implements _chain.MultiIndexValue {
+  export class AllowGlobals implements _chain.MultiIndexValue {
       isPaused: boolean;
       isActorStrict: boolean;
       isTokenStrict: boolean;
@@ -166,13 +160,11 @@ declare module 'proton-tsc/allow/target/allow.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<AllowGlobalsSingleton>;
+      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<AllowGlobals>;
   }
-  export class AllowGlobals extends AllowGlobalsSingleton {
+  export class AllowedActorDB extends _chain.MultiIndex<AllowedActor> {
   }
-  export class AllowedActorTableDB extends _chain.MultiIndex<AllowedActorTable> {
-  }
-  export class AllowedActorTable implements _chain.MultiIndexValue {
+  export class AllowedActor implements _chain.MultiIndexValue {
       actor: Name;
       isAllowed: boolean;
       isBlocked: boolean;
@@ -185,15 +177,13 @@ declare module 'proton-tsc/allow/target/allow.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AllowedActorTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): AllowedActorDB;
   }
-  export class AllowedActor extends AllowedActorTable {
-  }
-  export class AllowedTokenTableDB extends _chain.MultiIndex<AllowedTokenTable> {
+  export class AllowedTokenDB extends _chain.MultiIndex<AllowedToken> {
       get byTokenDB(): _chain.IDX128;
       updateByToken(idxIt: _chain.SecondaryIterator, value: U128, payer: Name): _chain.IDX128;
   }
-  export class AllowedTokenTable implements _chain.MultiIndexValue {
+  export class AllowedToken implements _chain.MultiIndexValue {
       index: u64;
       token: ExtendedSymbol;
       isAllowed: boolean;
@@ -209,9 +199,7 @@ declare module 'proton-tsc/allow/target/allow.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AllowedTokenTableDB;
-  }
-  export class AllowedToken extends AllowedTokenTable {
+      static new(code: _chain.Name, scope: _chain.Name): AllowedTokenDB;
   }
 
 }
@@ -1252,7 +1240,7 @@ declare module 'proton-tsc/atomicassets/atomicassets.tables' {
   import { Name, Table, Singleton, ExtendedSymbol, Asset } from "proton-tsc";
   import { AtomicFormat } from "proton-tsc/atomicassets/atomicdata";
   import { TableStore } from "proton-tsc";
-  export class CollectionsTable extends Table {
+  export class Collections extends Table {
       collection_name: Name;
       author: Name;
       allow_notify: boolean;
@@ -1264,18 +1252,14 @@ declare module 'proton-tsc/atomicassets/atomicassets.tables' {
       get primary(): u64;
       static getTable(code: Name): TableStore<Collections>;
   }
-  export class Collections extends CollectionsTable {
-  }
-  export class SchemasTable extends Table {
+  export class Schemas extends Table {
       schema_name: Name;
       format: AtomicFormat[];
       constructor(schema_name?: Name, format?: AtomicFormat[]);
       get primary(): u64;
       static getTable(code: Name, collection_name: Name): TableStore<Schemas>;
   }
-  export class Schemas extends SchemasTable {
-  }
-  export class TemplatesTable extends Table {
+  export class Templates extends Table {
       template_id: i32;
       schema_name: Name;
       transferable: boolean;
@@ -1287,9 +1271,7 @@ declare module 'proton-tsc/atomicassets/atomicassets.tables' {
       get primary(): u64;
       static getTable(code: Name, collection_name: Name): TableStore<Templates>;
   }
-  export class Templates extends TemplatesTable {
-  }
-  export class AssetsTable extends Table {
+  export class Assets extends Table {
       asset_id: u64;
       collection_name: Name;
       schema_name: Name;
@@ -1302,9 +1284,7 @@ declare module 'proton-tsc/atomicassets/atomicassets.tables' {
       get primary(): u64;
       static getTable(code: Name, owner: Name): TableStore<Assets>;
   }
-  export class Assets extends AssetsTable {
-  }
-  export class OffersTable extends Table {
+  export class Offers extends Table {
       offer_id: u64;
       sender: Name;
       recipient: Name;
@@ -1320,9 +1300,7 @@ declare module 'proton-tsc/atomicassets/atomicassets.tables' {
       set by_recipient(value: u64);
       static getTable(code: Name): TableStore<Offers>;
   }
-  export class Offers extends OffersTable {
-  }
-  export class ConfigSingleton extends Table {
+  export class Config extends Table {
       asset_counter: u64;
       template_counter: u32;
       offer_counter: u64;
@@ -1330,8 +1308,6 @@ declare module 'proton-tsc/atomicassets/atomicassets.tables' {
       supported_tokens: ExtendedSymbol[];
       constructor(asset_counter?: u64, template_counter?: u32, offer_counter?: u64, collection_format?: AtomicFormat[], supported_tokens?: ExtendedSymbol[]);
       static getSingleton(code: Name): Singleton<Config>;
-  }
-  export class Config extends ConfigSingleton {
   }
 
 }
@@ -1776,9 +1752,9 @@ declare module 'proton-tsc/atomicassets/target/atomicassets.tables' {
   import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/atomicassets";
   import { AtomicFormat } from "proton-tsc/atomicassets/target/atomicdata";
   import { TableStore } from "proton-tsc/atomicassets";
-  export class CollectionsTableDB extends _chain.MultiIndex<CollectionsTable> {
+  export class CollectionsDB extends _chain.MultiIndex<Collections> {
   }
-  export class CollectionsTable implements _chain.MultiIndexValue {
+  export class Collections implements _chain.MultiIndexValue {
       collection_name: Name;
       author: Name;
       allow_notify: boolean;
@@ -1795,13 +1771,11 @@ declare module 'proton-tsc/atomicassets/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): CollectionsTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): CollectionsDB;
   }
-  export class Collections extends CollectionsTable {
+  export class SchemasDB extends _chain.MultiIndex<Schemas> {
   }
-  export class SchemasTableDB extends _chain.MultiIndex<SchemasTable> {
-  }
-  export class SchemasTable implements _chain.MultiIndexValue {
+  export class Schemas implements _chain.MultiIndexValue {
       schema_name: Name;
       format: AtomicFormat[];
       constructor(schema_name?: Name, format?: AtomicFormat[]);
@@ -1813,13 +1787,11 @@ declare module 'proton-tsc/atomicassets/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): SchemasTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): SchemasDB;
   }
-  export class Schemas extends SchemasTable {
+  export class TemplatesDB extends _chain.MultiIndex<Templates> {
   }
-  export class TemplatesTableDB extends _chain.MultiIndex<TemplatesTable> {
-  }
-  export class TemplatesTable implements _chain.MultiIndexValue {
+  export class Templates implements _chain.MultiIndexValue {
       template_id: i32;
       schema_name: Name;
       transferable: boolean;
@@ -1836,13 +1808,11 @@ declare module 'proton-tsc/atomicassets/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): TemplatesTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): TemplatesDB;
   }
-  export class Templates extends TemplatesTable {
+  export class AssetsDB extends _chain.MultiIndex<Assets> {
   }
-  export class AssetsTableDB extends _chain.MultiIndex<AssetsTable> {
-  }
-  export class AssetsTable implements _chain.MultiIndexValue {
+  export class Assets implements _chain.MultiIndexValue {
       asset_id: u64;
       collection_name: Name;
       schema_name: Name;
@@ -1860,17 +1830,15 @@ declare module 'proton-tsc/atomicassets/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AssetsTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): AssetsDB;
   }
-  export class Assets extends AssetsTable {
-  }
-  export class OffersTableDB extends _chain.MultiIndex<OffersTable> {
+  export class OffersDB extends _chain.MultiIndex<Offers> {
       get by_senderDB(): _chain.IDX64;
       get by_recipientDB(): _chain.IDX64;
       updateBy_sender(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
       updateBy_recipient(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
   }
-  export class OffersTable implements _chain.MultiIndexValue {
+  export class Offers implements _chain.MultiIndexValue {
       offer_id: u64;
       sender: Name;
       recipient: Name;
@@ -1891,13 +1859,11 @@ declare module 'proton-tsc/atomicassets/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): OffersTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): OffersDB;
   }
-  export class Offers extends OffersTable {
+  export class ConfigDB extends _chain.MultiIndex<Config> {
   }
-  export class ConfigSingletonDB extends _chain.MultiIndex<ConfigSingleton> {
-  }
-  export class ConfigSingleton implements _chain.MultiIndexValue {
+  export class Config implements _chain.MultiIndexValue {
       asset_counter: u64;
       template_counter: u32;
       offer_counter: u64;
@@ -1911,9 +1877,7 @@ declare module 'proton-tsc/atomicassets/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<ConfigSingleton>;
-  }
-  export class Config extends ConfigSingleton {
+      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<Config>;
   }
 
 }
@@ -2334,9 +2298,9 @@ declare module 'proton-tsc/balance/balance.contract' {
   /// <reference types="assembly" />
   import { ExtendedAsset, Name, TableStore } from 'proton-tsc';
   import { AllowContract } from 'proton-tsc/allow';
-  import { BalanceTable } from 'proton-tsc/balance/balance.tables';
+  import { Balance } from 'proton-tsc/balance/balance.tables';
   export class BalanceContract extends AllowContract {
-      balancesTable: TableStore<BalanceTable>;
+      balancesTable: TableStore<Balance>;
       /**
        * Incoming notification of "transfer" action from any contract
        * - If the contract is the atomicassets contract, then the action data is an NFT transfer.
@@ -2389,20 +2353,20 @@ declare module 'proton-tsc/balance/balance.tables' {
   /// <reference types="assembly" />
   import { ExtendedAsset, Name, Table } from "proton-tsc";
   import { TableStore } from "proton-tsc";
-  export class BalanceTable extends Table {
+  export class Balance extends Table {
       account: Name;
       tokens: ExtendedAsset[];
       nfts: u64[];
       constructor(account?: Name, tokens?: ExtendedAsset[], nfts?: u64[]);
       get primary(): u64;
-      static getTable(code: Name): TableStore<BalanceTable>;
+      static getTable(code: Name): TableStore<Balance>;
   }
 
 }
 declare module 'proton-tsc/balance/balance.utils' {
   /// <reference types="assembly" />
   import { ExtendedAsset } from "proton-tsc";
-  import { BalanceTable } from "proton-tsc/balance/balance.tables";
+  import { Balance } from "proton-tsc/balance/balance.tables";
   /**
    * Find the index of an extended asset in an array of extended assets
    * @param {ExtendedAsset[]} tokens - The list of tokens to search through.
@@ -2415,13 +2379,13 @@ declare module 'proton-tsc/balance/balance.utils' {
    * @param {Balance} balance - Balance
    * @param {u64[]} nftsToRemove - u64[]
    */
-  export function substractNfts(balance: BalanceTable, nftsToRemove: u64[]): void;
+  export function substractNfts(balance: Balance, nftsToRemove: u64[]): void;
   /**
    * Add the given nfts to the account's nfts.
    * @param {Balance} balance - balance - The account to add the NFTs to.
    * @param {u64[]} nftsToAdd - u64[]
    */
-  export function addNfts(balance: BalanceTable, nftsToAdd: u64[]): void;
+  export function addNfts(balance: Balance, nftsToAdd: u64[]): void;
   /**
    * It finds the index of the token in the array of tokens,
    * and then it substracts the balance of the user.
@@ -2434,7 +2398,7 @@ declare module 'proton-tsc/balance/balance.utils' {
    * @param {Balance} balance - Account
    * @param {ExtendedAsset[]} tokensToSubtract - An array of ExtendedAsset objects.
    */
-  export function substractTokens(balance: BalanceTable, tokensToSubtract: ExtendedAsset[]): void;
+  export function substractTokens(balance: Balance, tokensToSubtract: ExtendedAsset[]): void;
   /**
    * If the token does not exist, add it. If the token exists, update the balance
    * @param {ExtendedAsset[]} tokens - The list of tokens that the user owns.
@@ -2446,7 +2410,7 @@ declare module 'proton-tsc/balance/balance.utils' {
    * @param {Balance} account - The balance to add the tokens to.
    * @param {ExtendedAsset[]} tokensToAdd - An array of ExtendedAsset objects.
    */
-  export function addTokens(balance: BalanceTable, tokensToAdd: ExtendedAsset[]): void;
+  export function addTokens(balance: Balance, tokensToAdd: ExtendedAsset[]): void;
 
 }
 declare module 'proton-tsc/balance' {
@@ -2461,9 +2425,9 @@ declare module 'proton-tsc/balance/target/allow.tables' {
   import * as _chain from "as-chain";
   import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/balance";
   import { TableStore } from "proton-tsc/balance";
-  export class AllowGlobalsSingletonDB extends _chain.MultiIndex<AllowGlobalsSingleton> {
+  export class AllowGlobalsDB extends _chain.MultiIndex<AllowGlobals> {
   }
-  export class AllowGlobalsSingleton implements _chain.MultiIndexValue {
+  export class AllowGlobals implements _chain.MultiIndexValue {
       isPaused: boolean;
       isActorStrict: boolean;
       isTokenStrict: boolean;
@@ -2475,13 +2439,11 @@ declare module 'proton-tsc/balance/target/allow.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<AllowGlobalsSingleton>;
+      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<AllowGlobals>;
   }
-  export class AllowGlobals extends AllowGlobalsSingleton {
+  export class AllowedActorDB extends _chain.MultiIndex<AllowedActor> {
   }
-  export class AllowedActorTableDB extends _chain.MultiIndex<AllowedActorTable> {
-  }
-  export class AllowedActorTable implements _chain.MultiIndexValue {
+  export class AllowedActor implements _chain.MultiIndexValue {
       actor: Name;
       isAllowed: boolean;
       isBlocked: boolean;
@@ -2494,15 +2456,13 @@ declare module 'proton-tsc/balance/target/allow.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AllowedActorTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): AllowedActorDB;
   }
-  export class AllowedActor extends AllowedActorTable {
-  }
-  export class AllowedTokenTableDB extends _chain.MultiIndex<AllowedTokenTable> {
+  export class AllowedTokenDB extends _chain.MultiIndex<AllowedToken> {
       get byTokenDB(): _chain.IDX128;
       updateByToken(idxIt: _chain.SecondaryIterator, value: U128, payer: Name): _chain.IDX128;
   }
-  export class AllowedTokenTable implements _chain.MultiIndexValue {
+  export class AllowedToken implements _chain.MultiIndexValue {
       index: u64;
       token: ExtendedSymbol;
       isAllowed: boolean;
@@ -2518,9 +2478,7 @@ declare module 'proton-tsc/balance/target/allow.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AllowedTokenTableDB;
-  }
-  export class AllowedToken extends AllowedTokenTable {
+      static new(code: _chain.Name, scope: _chain.Name): AllowedTokenDB;
   }
 
 }
@@ -2803,9 +2761,9 @@ declare module 'proton-tsc/balance/target/atomicassets.tables' {
   import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/balance";
   import { AtomicFormat } from "proton-tsc/balance/target/atomicdata";
   import { TableStore } from "proton-tsc/balance";
-  export class CollectionsTableDB extends _chain.MultiIndex<CollectionsTable> {
+  export class CollectionsDB extends _chain.MultiIndex<Collections> {
   }
-  export class CollectionsTable implements _chain.MultiIndexValue {
+  export class Collections implements _chain.MultiIndexValue {
       collection_name: Name;
       author: Name;
       allow_notify: boolean;
@@ -2822,13 +2780,11 @@ declare module 'proton-tsc/balance/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): CollectionsTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): CollectionsDB;
   }
-  export class Collections extends CollectionsTable {
+  export class SchemasDB extends _chain.MultiIndex<Schemas> {
   }
-  export class SchemasTableDB extends _chain.MultiIndex<SchemasTable> {
-  }
-  export class SchemasTable implements _chain.MultiIndexValue {
+  export class Schemas implements _chain.MultiIndexValue {
       schema_name: Name;
       format: AtomicFormat[];
       constructor(schema_name?: Name, format?: AtomicFormat[]);
@@ -2840,13 +2796,11 @@ declare module 'proton-tsc/balance/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): SchemasTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): SchemasDB;
   }
-  export class Schemas extends SchemasTable {
+  export class TemplatesDB extends _chain.MultiIndex<Templates> {
   }
-  export class TemplatesTableDB extends _chain.MultiIndex<TemplatesTable> {
-  }
-  export class TemplatesTable implements _chain.MultiIndexValue {
+  export class Templates implements _chain.MultiIndexValue {
       template_id: i32;
       schema_name: Name;
       transferable: boolean;
@@ -2863,13 +2817,11 @@ declare module 'proton-tsc/balance/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): TemplatesTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): TemplatesDB;
   }
-  export class Templates extends TemplatesTable {
+  export class AssetsDB extends _chain.MultiIndex<Assets> {
   }
-  export class AssetsTableDB extends _chain.MultiIndex<AssetsTable> {
-  }
-  export class AssetsTable implements _chain.MultiIndexValue {
+  export class Assets implements _chain.MultiIndexValue {
       asset_id: u64;
       collection_name: Name;
       schema_name: Name;
@@ -2887,17 +2839,15 @@ declare module 'proton-tsc/balance/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AssetsTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): AssetsDB;
   }
-  export class Assets extends AssetsTable {
-  }
-  export class OffersTableDB extends _chain.MultiIndex<OffersTable> {
+  export class OffersDB extends _chain.MultiIndex<Offers> {
       get by_senderDB(): _chain.IDX64;
       get by_recipientDB(): _chain.IDX64;
       updateBy_sender(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
       updateBy_recipient(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
   }
-  export class OffersTable implements _chain.MultiIndexValue {
+  export class Offers implements _chain.MultiIndexValue {
       offer_id: u64;
       sender: Name;
       recipient: Name;
@@ -2918,13 +2868,11 @@ declare module 'proton-tsc/balance/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): OffersTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): OffersDB;
   }
-  export class Offers extends OffersTable {
+  export class ConfigDB extends _chain.MultiIndex<Config> {
   }
-  export class ConfigSingletonDB extends _chain.MultiIndex<ConfigSingleton> {
-  }
-  export class ConfigSingleton implements _chain.MultiIndexValue {
+  export class Config implements _chain.MultiIndexValue {
       asset_counter: u64;
       template_counter: u32;
       offer_counter: u64;
@@ -2938,9 +2886,7 @@ declare module 'proton-tsc/balance/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<ConfigSingleton>;
-  }
-  export class Config extends ConfigSingleton {
+      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<Config>;
   }
 
 }
@@ -3040,9 +2986,9 @@ declare module 'proton-tsc/balance/target/balance.contract' {
   /// <reference types="assembly" />
   import { ExtendedAsset, Name, TableStore } from 'proton-tsc/balance';
   import { AllowContract } from 'proton-tsc/balance/allow';
-  import { BalanceTable } from 'proton-tsc/balance/target/balance.tables';
+  import { Balance } from 'proton-tsc/balance/target/balance.tables';
   export class BalanceContract extends AllowContract {
-      balancesTable: TableStore<BalanceTable>;
+      balancesTable: TableStore<Balance>;
       /**
        * Incoming notification of "transfer" action from any contract
        * - If the contract is the atomicassets contract, then the action data is an NFT transfer.
@@ -3093,22 +3039,22 @@ declare module 'proton-tsc/balance/target/balance.tables' {
   import * as _chain from "as-chain";
   import { ExtendedAsset, Name } from "proton-tsc/balance";
   import { TableStore } from "proton-tsc/balance";
-  export class BalanceTableDB extends _chain.MultiIndex<BalanceTable> {
+  export class BalanceDB extends _chain.MultiIndex<Balance> {
   }
-  export class BalanceTable implements _chain.MultiIndexValue {
+  export class Balance implements _chain.MultiIndexValue {
       account: Name;
       tokens: ExtendedAsset[];
       nfts: u64[];
       constructor(account?: Name, tokens?: ExtendedAsset[], nfts?: u64[]);
       get primary(): u64;
-      static getTable(code: Name): TableStore<BalanceTable>;
+      static getTable(code: Name): TableStore<Balance>;
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): BalanceTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): BalanceDB;
   }
 
 }
@@ -3156,9 +3102,9 @@ declare module 'proton-tsc/balance/target/token.tables' {
   /**
    * Tables
    */
-  export class accountDB extends _chain.MultiIndex<account> {
+  export class AccountDB extends _chain.MultiIndex<Account> {
   }
-  export class account implements _chain.MultiIndexValue {
+  export class Account implements _chain.MultiIndexValue {
       balance: Asset;
       constructor(balance?: Asset);
       get primary(): u64;
@@ -3169,11 +3115,11 @@ declare module 'proton-tsc/balance/target/token.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): accountDB;
+      static new(code: _chain.Name, scope: _chain.Name): AccountDB;
   }
-  export class currency_statsDB extends _chain.MultiIndex<currency_stats> {
+  export class StatDB extends _chain.MultiIndex<Stat> {
   }
-  export class currency_stats implements _chain.MultiIndexValue {
+  export class Stat implements _chain.MultiIndexValue {
       supply: Asset;
       max_supply: Asset;
       issuer: Name;
@@ -3186,11 +3132,7 @@ declare module 'proton-tsc/balance/target/token.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): currency_statsDB;
-  }
-  export class Account extends account {
-  }
-  export class Stat extends currency_stats {
+      static new(code: _chain.Name, scope: _chain.Name): StatDB;
   }
   /**
    * Helpers
@@ -3586,9 +3528,9 @@ declare module 'proton-tsc/createnft/target/atomicassets.tables' {
   import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/createnft";
   import { AtomicFormat } from "proton-tsc/createnft/target/atomicdata";
   import { TableStore } from "proton-tsc/createnft";
-  export class CollectionsTableDB extends _chain.MultiIndex<CollectionsTable> {
+  export class CollectionsDB extends _chain.MultiIndex<Collections> {
   }
-  export class CollectionsTable implements _chain.MultiIndexValue {
+  export class Collections implements _chain.MultiIndexValue {
       collection_name: Name;
       author: Name;
       allow_notify: boolean;
@@ -3605,13 +3547,11 @@ declare module 'proton-tsc/createnft/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): CollectionsTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): CollectionsDB;
   }
-  export class Collections extends CollectionsTable {
+  export class SchemasDB extends _chain.MultiIndex<Schemas> {
   }
-  export class SchemasTableDB extends _chain.MultiIndex<SchemasTable> {
-  }
-  export class SchemasTable implements _chain.MultiIndexValue {
+  export class Schemas implements _chain.MultiIndexValue {
       schema_name: Name;
       format: AtomicFormat[];
       constructor(schema_name?: Name, format?: AtomicFormat[]);
@@ -3623,13 +3563,11 @@ declare module 'proton-tsc/createnft/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): SchemasTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): SchemasDB;
   }
-  export class Schemas extends SchemasTable {
+  export class TemplatesDB extends _chain.MultiIndex<Templates> {
   }
-  export class TemplatesTableDB extends _chain.MultiIndex<TemplatesTable> {
-  }
-  export class TemplatesTable implements _chain.MultiIndexValue {
+  export class Templates implements _chain.MultiIndexValue {
       template_id: i32;
       schema_name: Name;
       transferable: boolean;
@@ -3646,13 +3584,11 @@ declare module 'proton-tsc/createnft/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): TemplatesTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): TemplatesDB;
   }
-  export class Templates extends TemplatesTable {
+  export class AssetsDB extends _chain.MultiIndex<Assets> {
   }
-  export class AssetsTableDB extends _chain.MultiIndex<AssetsTable> {
-  }
-  export class AssetsTable implements _chain.MultiIndexValue {
+  export class Assets implements _chain.MultiIndexValue {
       asset_id: u64;
       collection_name: Name;
       schema_name: Name;
@@ -3670,17 +3606,15 @@ declare module 'proton-tsc/createnft/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AssetsTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): AssetsDB;
   }
-  export class Assets extends AssetsTable {
-  }
-  export class OffersTableDB extends _chain.MultiIndex<OffersTable> {
+  export class OffersDB extends _chain.MultiIndex<Offers> {
       get by_senderDB(): _chain.IDX64;
       get by_recipientDB(): _chain.IDX64;
       updateBy_sender(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
       updateBy_recipient(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
   }
-  export class OffersTable implements _chain.MultiIndexValue {
+  export class Offers implements _chain.MultiIndexValue {
       offer_id: u64;
       sender: Name;
       recipient: Name;
@@ -3701,13 +3635,11 @@ declare module 'proton-tsc/createnft/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): OffersTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): OffersDB;
   }
-  export class Offers extends OffersTable {
+  export class ConfigDB extends _chain.MultiIndex<Config> {
   }
-  export class ConfigSingletonDB extends _chain.MultiIndex<ConfigSingleton> {
-  }
-  export class ConfigSingleton implements _chain.MultiIndexValue {
+  export class Config implements _chain.MultiIndexValue {
       asset_counter: u64;
       template_counter: u32;
       offer_counter: u64;
@@ -3721,9 +3653,7 @@ declare module 'proton-tsc/createnft/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<ConfigSingleton>;
-  }
-  export class Config extends ConfigSingleton {
+      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<Config>;
   }
 
 }
@@ -4173,14 +4103,12 @@ declare module 'proton-tsc/escrow/escrow.spec' {
 declare module 'proton-tsc/escrow/escrow.tables' {
   /// <reference types="assembly" />
   import { ExtendedAsset, Name, Table, Singleton, TableStore } from "proton-tsc";
-  export class escrowGlobal extends Table {
+  export class EscrowGlobal extends Table {
       escrowId: u64;
       constructor(escrowId?: u64);
       static getSingleton(code: Name): Singleton<EscrowGlobal>;
   }
-  export class EscrowGlobal extends escrowGlobal {
-  }
-  export class escrow extends Table {
+  export class Escrow extends Table {
       id: u64;
       from: Name;
       to: Name;
@@ -4197,8 +4125,6 @@ declare module 'proton-tsc/escrow/escrow.tables' {
       set byTo(value: u64);
       static getTable(code: Name): TableStore<Escrow>;
   }
-  export class Escrow extends escrow {
-  }
 
 }
 declare module 'proton-tsc/escrow' {
@@ -4213,9 +4139,9 @@ declare module 'proton-tsc/escrow/target/allow.tables' {
   import * as _chain from "as-chain";
   import { Name, Singleton, U128, ExtendedSymbol } from "proton-tsc/escrow";
   import { TableStore } from "proton-tsc/escrow";
-  export class AllowGlobalsSingletonDB extends _chain.MultiIndex<AllowGlobalsSingleton> {
+  export class AllowGlobalsDB extends _chain.MultiIndex<AllowGlobals> {
   }
-  export class AllowGlobalsSingleton implements _chain.MultiIndexValue {
+  export class AllowGlobals implements _chain.MultiIndexValue {
       isPaused: boolean;
       isActorStrict: boolean;
       isTokenStrict: boolean;
@@ -4227,13 +4153,11 @@ declare module 'proton-tsc/escrow/target/allow.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<AllowGlobalsSingleton>;
+      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<AllowGlobals>;
   }
-  export class AllowGlobals extends AllowGlobalsSingleton {
+  export class AllowedActorDB extends _chain.MultiIndex<AllowedActor> {
   }
-  export class AllowedActorTableDB extends _chain.MultiIndex<AllowedActorTable> {
-  }
-  export class AllowedActorTable implements _chain.MultiIndexValue {
+  export class AllowedActor implements _chain.MultiIndexValue {
       actor: Name;
       isAllowed: boolean;
       isBlocked: boolean;
@@ -4246,15 +4170,13 @@ declare module 'proton-tsc/escrow/target/allow.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AllowedActorTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): AllowedActorDB;
   }
-  export class AllowedActor extends AllowedActorTable {
-  }
-  export class AllowedTokenTableDB extends _chain.MultiIndex<AllowedTokenTable> {
+  export class AllowedTokenDB extends _chain.MultiIndex<AllowedToken> {
       get byTokenDB(): _chain.IDX128;
       updateByToken(idxIt: _chain.SecondaryIterator, value: U128, payer: Name): _chain.IDX128;
   }
-  export class AllowedTokenTable implements _chain.MultiIndexValue {
+  export class AllowedToken implements _chain.MultiIndexValue {
       index: u64;
       token: ExtendedSymbol;
       isAllowed: boolean;
@@ -4270,9 +4192,7 @@ declare module 'proton-tsc/escrow/target/allow.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AllowedTokenTableDB;
-  }
-  export class AllowedToken extends AllowedTokenTable {
+      static new(code: _chain.Name, scope: _chain.Name): AllowedTokenDB;
   }
 
 }
@@ -4555,9 +4475,9 @@ declare module 'proton-tsc/escrow/target/atomicassets.tables' {
   import { Name, Singleton, ExtendedSymbol, Asset } from "proton-tsc/escrow";
   import { AtomicFormat } from "proton-tsc/escrow/target/atomicdata";
   import { TableStore } from "proton-tsc/escrow";
-  export class CollectionsTableDB extends _chain.MultiIndex<CollectionsTable> {
+  export class CollectionsDB extends _chain.MultiIndex<Collections> {
   }
-  export class CollectionsTable implements _chain.MultiIndexValue {
+  export class Collections implements _chain.MultiIndexValue {
       collection_name: Name;
       author: Name;
       allow_notify: boolean;
@@ -4574,13 +4494,11 @@ declare module 'proton-tsc/escrow/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): CollectionsTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): CollectionsDB;
   }
-  export class Collections extends CollectionsTable {
+  export class SchemasDB extends _chain.MultiIndex<Schemas> {
   }
-  export class SchemasTableDB extends _chain.MultiIndex<SchemasTable> {
-  }
-  export class SchemasTable implements _chain.MultiIndexValue {
+  export class Schemas implements _chain.MultiIndexValue {
       schema_name: Name;
       format: AtomicFormat[];
       constructor(schema_name?: Name, format?: AtomicFormat[]);
@@ -4592,13 +4510,11 @@ declare module 'proton-tsc/escrow/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): SchemasTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): SchemasDB;
   }
-  export class Schemas extends SchemasTable {
+  export class TemplatesDB extends _chain.MultiIndex<Templates> {
   }
-  export class TemplatesTableDB extends _chain.MultiIndex<TemplatesTable> {
-  }
-  export class TemplatesTable implements _chain.MultiIndexValue {
+  export class Templates implements _chain.MultiIndexValue {
       template_id: i32;
       schema_name: Name;
       transferable: boolean;
@@ -4615,13 +4531,11 @@ declare module 'proton-tsc/escrow/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): TemplatesTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): TemplatesDB;
   }
-  export class Templates extends TemplatesTable {
+  export class AssetsDB extends _chain.MultiIndex<Assets> {
   }
-  export class AssetsTableDB extends _chain.MultiIndex<AssetsTable> {
-  }
-  export class AssetsTable implements _chain.MultiIndexValue {
+  export class Assets implements _chain.MultiIndexValue {
       asset_id: u64;
       collection_name: Name;
       schema_name: Name;
@@ -4639,17 +4553,15 @@ declare module 'proton-tsc/escrow/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AssetsTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): AssetsDB;
   }
-  export class Assets extends AssetsTable {
-  }
-  export class OffersTableDB extends _chain.MultiIndex<OffersTable> {
+  export class OffersDB extends _chain.MultiIndex<Offers> {
       get by_senderDB(): _chain.IDX64;
       get by_recipientDB(): _chain.IDX64;
       updateBy_sender(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
       updateBy_recipient(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
   }
-  export class OffersTable implements _chain.MultiIndexValue {
+  export class Offers implements _chain.MultiIndexValue {
       offer_id: u64;
       sender: Name;
       recipient: Name;
@@ -4670,13 +4582,11 @@ declare module 'proton-tsc/escrow/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): OffersTableDB;
+      static new(code: _chain.Name, scope: _chain.Name): OffersDB;
   }
-  export class Offers extends OffersTable {
+  export class ConfigDB extends _chain.MultiIndex<Config> {
   }
-  export class ConfigSingletonDB extends _chain.MultiIndex<ConfigSingleton> {
-  }
-  export class ConfigSingleton implements _chain.MultiIndexValue {
+  export class Config implements _chain.MultiIndexValue {
       asset_counter: u64;
       template_counter: u32;
       offer_counter: u64;
@@ -4690,9 +4600,7 @@ declare module 'proton-tsc/escrow/target/atomicassets.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<ConfigSingleton>;
-  }
-  export class Config extends ConfigSingleton {
+      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<Config>;
   }
 
 }
@@ -4793,9 +4701,9 @@ declare module 'proton-tsc/escrow/target/balance.tables' {
   import * as _chain from "as-chain";
   import { ExtendedAsset, Name } from "proton-tsc/escrow";
   import { TableStore } from "proton-tsc/escrow";
-  export class BalanceTableDB extends _chain.MultiIndex<BalanceTable> {
+  export class BalanceDB extends _chain.MultiIndex<Balance> {
   }
-  export class BalanceTable implements _chain.MultiIndexValue {
+  export class Balance implements _chain.MultiIndexValue {
       account: Name;
       tokens: ExtendedAsset[];
       nfts: u64[];
@@ -4808,9 +4716,7 @@ declare module 'proton-tsc/escrow/target/balance.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): BalanceTableDB;
-  }
-  export class Balance extends BalanceTable {
+      static new(code: _chain.Name, scope: _chain.Name): BalanceDB;
   }
 
 }
@@ -4856,9 +4762,9 @@ declare module 'proton-tsc/escrow/target/escrow.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
   import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/escrow";
-  export class escrowGlobalDB extends _chain.MultiIndex<escrowGlobal> {
+  export class EscrowGlobalDB extends _chain.MultiIndex<EscrowGlobal> {
   }
-  export class escrowGlobal implements _chain.MultiIndexValue {
+  export class EscrowGlobal implements _chain.MultiIndexValue {
       escrowId: u64;
       constructor(escrowId?: u64);
       static getSingleton(code: Name): Singleton<EscrowGlobal>;
@@ -4868,17 +4774,15 @@ declare module 'proton-tsc/escrow/target/escrow.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<escrowGlobal>;
+      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<EscrowGlobal>;
   }
-  export class EscrowGlobal extends escrowGlobal {
-  }
-  export class escrowDB extends _chain.MultiIndex<escrow> {
+  export class EscrowDB extends _chain.MultiIndex<Escrow> {
       get byFromDB(): _chain.IDX64;
       get byToDB(): _chain.IDX64;
       updateByFrom(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
       updateByTo(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
   }
-  export class escrow implements _chain.MultiIndexValue {
+  export class Escrow implements _chain.MultiIndexValue {
       id: u64;
       from: Name;
       to: Name;
@@ -4900,9 +4804,7 @@ declare module 'proton-tsc/escrow/target/escrow.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): escrowDB;
-  }
-  export class Escrow extends escrow {
+      static new(code: _chain.Name, scope: _chain.Name): EscrowDB;
   }
 
 }
@@ -4939,9 +4841,9 @@ declare module 'proton-tsc/escrow/target/token.tables' {
   /**
    * Tables
    */
-  export class accountDB extends _chain.MultiIndex<account> {
+  export class AccountDB extends _chain.MultiIndex<Account> {
   }
-  export class account implements _chain.MultiIndexValue {
+  export class Account implements _chain.MultiIndexValue {
       balance: Asset;
       constructor(balance?: Asset);
       get primary(): u64;
@@ -4952,11 +4854,11 @@ declare module 'proton-tsc/escrow/target/token.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): accountDB;
+      static new(code: _chain.Name, scope: _chain.Name): AccountDB;
   }
-  export class currency_statsDB extends _chain.MultiIndex<currency_stats> {
+  export class StatDB extends _chain.MultiIndex<Stat> {
   }
-  export class currency_stats implements _chain.MultiIndexValue {
+  export class Stat implements _chain.MultiIndexValue {
       supply: Asset;
       max_supply: Asset;
       issuer: Name;
@@ -4969,11 +4871,7 @@ declare module 'proton-tsc/escrow/target/token.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): currency_statsDB;
-  }
-  export class Account extends account {
-  }
-  export class Stat extends currency_stats {
+      static new(code: _chain.Name, scope: _chain.Name): StatDB;
   }
   /**
    * Helpers
@@ -5924,14 +5822,12 @@ declare module 'proton-tsc/kv/kv.tables' {
       value: string;
       constructor(key?: string, value?: string);
   }
-  export class AccountKVTable extends Table {
+  export class AccountKV extends Table {
       account: Name;
       values: KV[];
       constructor(account?: Name, values?: KV[]);
       get primary(): u64;
       static getTable(code: Name): TableStore<AccountKV>;
-  }
-  export class AccountKV extends AccountKVTable {
   }
 
 }
@@ -6690,9 +6586,9 @@ declare module 'proton-tsc/kv/target/kv.tables' {
       unpack(data: u8[]): usize;
       getSize(): usize;
   }
-  export class AccountKVTableDB extends _chain.MultiIndex<AccountKVTable> {
+  export class AccountKVDB extends _chain.MultiIndex<AccountKV> {
   }
-  export class AccountKVTable implements _chain.MultiIndexValue {
+  export class AccountKV implements _chain.MultiIndexValue {
       account: Name;
       values: KV[];
       constructor(account?: Name, values?: KV[]);
@@ -6704,9 +6600,7 @@ declare module 'proton-tsc/kv/target/kv.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AccountKVTableDB;
-  }
-  export class AccountKV extends AccountKVTable {
+      static new(code: _chain.Name, scope: _chain.Name): AccountKVDB;
   }
 
 }
@@ -6875,15 +6769,13 @@ declare module 'proton-tsc/rng/rng.tables' {
   /// <reference types="assembly" />
   import { Name, Table } from "proton-tsc";
   import { TableStore } from "proton-tsc";
-  export class ResultsTable extends Table {
+  export class Results extends Table {
       customerId: u64;
       account: Name;
       randomValue: u64;
       constructor(customerId?: u64, account?: Name, randomValue?: u64);
       get primary(): u64;
       static getTable(code: Name): TableStore<Results>;
-  }
-  export class Results extends ResultsTable {
   }
 
 }
@@ -7676,9 +7568,9 @@ declare module 'proton-tsc/rng/target/rng.tables' {
   import * as _chain from "as-chain";
   import { Name } from "proton-tsc/rng";
   import { TableStore } from "proton-tsc/rng";
-  export class ResultsTableDB extends _chain.MultiIndex<ResultsTable> {
+  export class ResultsDB extends _chain.MultiIndex<Results> {
   }
-  export class ResultsTable implements _chain.MultiIndexValue {
+  export class Results implements _chain.MultiIndexValue {
       customerId: u64;
       account: Name;
       randomValue: u64;
@@ -7691,9 +7583,7 @@ declare module 'proton-tsc/rng/target/rng.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): ResultsTableDB;
-  }
-  export class Results extends ResultsTable {
+      static new(code: _chain.Name, scope: _chain.Name): ResultsDB;
   }
 
 }
@@ -10604,9 +10494,9 @@ declare module 'proton-tsc/token/target/token.tables' {
   /**
    * Tables
    */
-  export class accountDB extends _chain.MultiIndex<account> {
+  export class AccountDB extends _chain.MultiIndex<Account> {
   }
-  export class account implements _chain.MultiIndexValue {
+  export class Account implements _chain.MultiIndexValue {
       balance: Asset;
       constructor(balance?: Asset);
       get primary(): u64;
@@ -10617,11 +10507,11 @@ declare module 'proton-tsc/token/target/token.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): accountDB;
+      static new(code: _chain.Name, scope: _chain.Name): AccountDB;
   }
-  export class currency_statsDB extends _chain.MultiIndex<currency_stats> {
+  export class StatDB extends _chain.MultiIndex<Stat> {
   }
-  export class currency_stats implements _chain.MultiIndexValue {
+  export class Stat implements _chain.MultiIndexValue {
       supply: Asset;
       max_supply: Asset;
       issuer: Name;
@@ -10634,11 +10524,7 @@ declare module 'proton-tsc/token/target/token.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): currency_statsDB;
-  }
-  export class Account extends account {
-  }
-  export class Stat extends currency_stats {
+      static new(code: _chain.Name, scope: _chain.Name): StatDB;
   }
   /**
    * Helpers
@@ -10756,23 +10642,19 @@ declare module 'proton-tsc/token/token.tables' {
   /**
    * Tables
    */
-  export class account extends Table {
+  export class Account extends Table {
       balance: Asset;
       constructor(balance?: Asset);
       get primary(): u64;
       static getTable(code: Name, accountName: Name): TableStore<Account>;
   }
-  export class currency_stats extends Table {
+  export class Stat extends Table {
       supply: Asset;
       max_supply: Asset;
       issuer: Name;
       constructor(supply?: Asset, max_supply?: Asset, issuer?: Name);
       get primary(): u64;
       static getTable(code: Name, sym: Symbol): TableStore<Stat>;
-  }
-  export class Account extends account {
-  }
-  export class Stat extends currency_stats {
   }
   /**
    * Helpers
@@ -11548,9 +11430,9 @@ declare module 'proton-tsc/txid/target/kv.tables' {
       unpack(data: u8[]): usize;
       getSize(): usize;
   }
-  export class AccountKVTableDB extends _chain.MultiIndex<AccountKVTable> {
+  export class AccountKVDB extends _chain.MultiIndex<AccountKV> {
   }
-  export class AccountKVTable implements _chain.MultiIndexValue {
+  export class AccountKV implements _chain.MultiIndexValue {
       account: Name;
       values: KV[];
       constructor(account?: Name, values?: KV[]);
@@ -11562,9 +11444,7 @@ declare module 'proton-tsc/txid/target/kv.tables' {
       getPrimaryValue(): u64;
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AccountKVTableDB;
-  }
-  export class AccountKV extends AccountKVTable {
+      static new(code: _chain.Name, scope: _chain.Name): AccountKVDB;
   }
 
 }
