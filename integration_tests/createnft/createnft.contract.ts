@@ -1,7 +1,7 @@
-import { Name, Contract, Asset, check, print, TableStore } from ".."
-import { AtomicValue, AtomicAttribute, deserialize, AtomicFormat } from '../atomicassets/atomicdata';
-import { sendCreateColllection, sendCreateTemplate, sendMintAsset, sendCreateSchema, ATOMICASSETS_CONTRACT, sendSetAssetData } from '../atomicassets/atomicassets.inline';
-import { Assets, Collections, Config, Schemas, Templates } from '../atomicassets/atomicassets.tables';
+import { Name, Contract, Asset, check, print, TableStore } from "proton-tsc"
+import { AtomicValue, AtomicAttribute, deserialize, AtomicFormat } from 'proton-tsc/atomicassets/atomicdata';
+import { sendCreateColllection, sendCreateTemplate, sendMintAsset, sendCreateSchema, ATOMICASSETS_CONTRACT, sendSetAssetData } from 'proton-tsc/atomicassets/atomicassets.inline';
+import { Assets, Collections, Config, Schemas, Templates } from 'proton-tsc/atomicassets/atomicassets.tables';
 
 @contract
 class CreateNftContract extends Contract {
