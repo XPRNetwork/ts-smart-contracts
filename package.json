@@ -1,11 +1,19 @@
 {
   "name": "proton-tsc",
-  "version": "0.1.17",
+  "version": "0.1.19",
   "license": "MIT",
   "exports": {
-    ".": "./assembly/index.ts",
-    "./atomicassets": "./assembly/atomicassets/index.ts",
-    "./*": "./assembly/*"
+    ".": {
+      "import": {
+        "types": "./assembly/index.ts",
+        "default": "./assembly/index.ts"
+      },
+      "require": {
+        "types": "./assembly/index.ts",
+        "default": "./assembly/index.ts"
+      },
+      "default": "./assembly/index.ts"
+    }
   },
   "scripts": {
     "build:token": "npx proton-asc ./assembly/token/token.contract.ts",
@@ -35,7 +43,8 @@
     "test:safemath": "mocha -s 250 ./assembly/safemath/safemath.spec.ts -r ts-node/register",
     "test": "run-p test:*",
     "core:escrow": "cat ./assembly/escrow/target/escrow.contract.abi | abi2core > ./assembly/escrow/target/escrow.client-types.ts",
-    "run:playground": "cross-env LOG_LEVEL=debug ts-node ./playground.ts"
+    "run:playground": "cross-env LOG_LEVEL=debug ts-node ./playground.ts",
+    "prepublish3": "npx npm-dts generate --entry ./assembly/index.ts --force && npx replace-in-file //assembly//g / ./index.d.ts --isRegex && npx replace-in-file //index/g '' ./index.d.ts --isRegex"
   },
   "dependencies": {
     "proton-asc": "^0.2.82"
