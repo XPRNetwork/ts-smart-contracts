@@ -1,7 +1,7 @@
 import { ExtendedAsset, Name, Table, Singleton, TableStore } from "../index";
 
 @table("escrowglobal", singleton)
-export class escrowGlobal extends Table {
+export class EscrowGlobal extends Table {
     constructor (
        public escrowId: u64 = 0
     ) {
@@ -12,10 +12,9 @@ export class escrowGlobal extends Table {
         return new Singleton<EscrowGlobal>(code, code, Name.fromString("escrowglobal"));
     }
 }
-export class EscrowGlobal extends escrowGlobal {}
 
 @table("escrows")
-export class escrow extends Table {
+export class Escrow extends Table {
     constructor (
        public id: u64 = 0,
        public from: Name = new Name(),
@@ -55,8 +54,4 @@ export class escrow extends Table {
     static getTable(code: Name): TableStore<Escrow> {
         return new TableStore<Escrow>(code, code, Name.fromString("escrows"));
     }
-}
-
-export class Escrow extends escrow {
-    
 }

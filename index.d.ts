@@ -2334,9 +2334,9 @@ declare module 'proton-tsc/balance/balance.contract' {
   /// <reference types="assembly" />
   import { ExtendedAsset, Name, TableStore } from 'proton-tsc';
   import { AllowContract } from 'proton-tsc/allow';
-  import { Balance } from 'proton-tsc/balance/balance.tables';
+  import { BalanceTable } from 'proton-tsc/balance/balance.tables';
   export class BalanceContract extends AllowContract {
-      balancesTable: TableStore<Balance>;
+      balancesTable: TableStore<BalanceTable>;
       /**
        * Incoming notification of "transfer" action from any contract
        * - If the contract is the atomicassets contract, then the action data is an NFT transfer.
@@ -2395,16 +2395,14 @@ declare module 'proton-tsc/balance/balance.tables' {
       nfts: u64[];
       constructor(account?: Name, tokens?: ExtendedAsset[], nfts?: u64[]);
       get primary(): u64;
-      static getTable(code: Name): TableStore<Balance>;
-  }
-  export class Balance extends BalanceTable {
+      static getTable(code: Name): TableStore<BalanceTable>;
   }
 
 }
 declare module 'proton-tsc/balance/balance.utils' {
   /// <reference types="assembly" />
   import { ExtendedAsset } from "proton-tsc";
-  import { Balance } from "proton-tsc/balance/balance.tables";
+  import { BalanceTable } from "proton-tsc/balance/balance.tables";
   /**
    * Find the index of an extended asset in an array of extended assets
    * @param {ExtendedAsset[]} tokens - The list of tokens to search through.
@@ -2417,13 +2415,13 @@ declare module 'proton-tsc/balance/balance.utils' {
    * @param {Balance} balance - Balance
    * @param {u64[]} nftsToRemove - u64[]
    */
-  export function substractNfts(balance: Balance, nftsToRemove: u64[]): void;
+  export function substractNfts(balance: BalanceTable, nftsToRemove: u64[]): void;
   /**
    * Add the given nfts to the account's nfts.
    * @param {Balance} balance - balance - The account to add the NFTs to.
    * @param {u64[]} nftsToAdd - u64[]
    */
-  export function addNfts(balance: Balance, nftsToAdd: u64[]): void;
+  export function addNfts(balance: BalanceTable, nftsToAdd: u64[]): void;
   /**
    * It finds the index of the token in the array of tokens,
    * and then it substracts the balance of the user.
@@ -2436,7 +2434,7 @@ declare module 'proton-tsc/balance/balance.utils' {
    * @param {Balance} balance - Account
    * @param {ExtendedAsset[]} tokensToSubtract - An array of ExtendedAsset objects.
    */
-  export function substractTokens(balance: Balance, tokensToSubtract: ExtendedAsset[]): void;
+  export function substractTokens(balance: BalanceTable, tokensToSubtract: ExtendedAsset[]): void;
   /**
    * If the token does not exist, add it. If the token exists, update the balance
    * @param {ExtendedAsset[]} tokens - The list of tokens that the user owns.
@@ -2448,7 +2446,7 @@ declare module 'proton-tsc/balance/balance.utils' {
    * @param {Balance} account - The balance to add the tokens to.
    * @param {ExtendedAsset[]} tokensToAdd - An array of ExtendedAsset objects.
    */
-  export function addTokens(balance: Balance, tokensToAdd: ExtendedAsset[]): void;
+  export function addTokens(balance: BalanceTable, tokensToAdd: ExtendedAsset[]): void;
 
 }
 declare module 'proton-tsc/balance' {
@@ -3042,9 +3040,9 @@ declare module 'proton-tsc/balance/target/balance.contract' {
   /// <reference types="assembly" />
   import { ExtendedAsset, Name, TableStore } from 'proton-tsc/balance';
   import { AllowContract } from 'proton-tsc/balance/allow';
-  import { Balance } from 'proton-tsc/balance/target/balance.tables';
+  import { BalanceTable } from 'proton-tsc/balance/target/balance.tables';
   export class BalanceContract extends AllowContract {
-      balancesTable: TableStore<Balance>;
+      balancesTable: TableStore<BalanceTable>;
       /**
        * Incoming notification of "transfer" action from any contract
        * - If the contract is the atomicassets contract, then the action data is an NFT transfer.
@@ -3090,40 +3088,6 @@ declare module 'proton-tsc/balance/target/balance.contract' {
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
-declare module 'proton-tsc/balance/target/balance.inline' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { Name, Asset, ExtendedAsset } from "proton-tsc/balance";
-  export class TokenTransfer implements _chain.Packer {
-      from: Name;
-      to: Name;
-      quantity: Asset;
-      memo: string;
-      constructor(from?: Name, to?: Name, quantity?: Asset, memo?: string);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class NftTransfer implements _chain.Packer {
-      from: Name;
-      to: Name;
-      asset_ids: u64[];
-      memo: string;
-      constructor(from?: Name, to?: Name, asset_ids?: u64[], memo?: string);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  /**
-   * Send tokens from one account to another
-   * @param {Name} from - Name of the account to transfer tokens from.
-   * @param {Name} to - The name of the account to transfer the tokens to.
-   * @param {ExtendedAsset[]} tokens - An array of ExtendedAsset objects.
-   * @param {string} memo - A string that is included in the transaction. This is optional.
-   */
-  export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
-
-}
 declare module 'proton-tsc/balance/target/balance.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
@@ -3137,7 +3101,7 @@ declare module 'proton-tsc/balance/target/balance.tables' {
       nfts: u64[];
       constructor(account?: Name, tokens?: ExtendedAsset[], nfts?: u64[]);
       get primary(): u64;
-      static getTable(code: Name): TableStore<Balance>;
+      static getTable(code: Name): TableStore<BalanceTable>;
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -3145,8 +3109,6 @@ declare module 'proton-tsc/balance/target/balance.tables' {
       getSecondaryValue(i: i32): _chain.SecondaryValue;
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
       static new(code: _chain.Name, scope: _chain.Name): BalanceTableDB;
-  }
-  export class Balance extends BalanceTable {
   }
 
 }
@@ -3159,160 +3121,6 @@ declare module 'proton-tsc/balance/target/base58' {
   export function encode(source: Uint8Array): string;
   export function decodeUnsafe(source: string): u8[] | null;
   export function decode(source: string): u8[];
-
-}
-declare module 'proton-tsc/balance/target/escrow.inline' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/balance";
-  import { Escrow } from "proton-tsc/balance/target/escrow.tables";
-  export class LogEscrow implements _chain.Packer {
-      escrow: Escrow;
-      status: string;
-      constructor(escrow?: Escrow, status?: string);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  /**
-   * Send a logescrow action to the blockchain
-   * @param {Name} contract - Name of the contract that is sending the log
-   * @param {Escrow} escrow - Escrow
-   * @param {string} status - The status of the escrow.
-   */
-  export function sendLogEscrow(contract: Name, escrow: Escrow, status: string): void;
-
-}
-declare module 'proton-tsc/balance/target/escrow.tables' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { ExtendedAsset, Name, Singleton, TableStore } from "proton-tsc/balance";
-  export class escrowGlobalDB extends _chain.MultiIndex<escrowGlobal> {
-  }
-  export class escrowGlobal implements _chain.MultiIndexValue {
-      escrowId: u64;
-      constructor(escrowId?: u64);
-      static getSingleton(code: Name): Singleton<EscrowGlobal>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<escrowGlobal>;
-  }
-  export class EscrowGlobal extends escrowGlobal {
-  }
-  export class escrowDB extends _chain.MultiIndex<escrow> {
-      get byFromDB(): _chain.IDX64;
-      get byToDB(): _chain.IDX64;
-      updateByFrom(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
-      updateByTo(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
-  }
-  export class escrow implements _chain.MultiIndexValue {
-      id: u64;
-      from: Name;
-      to: Name;
-      fromTokens: ExtendedAsset[];
-      fromNfts: u64[];
-      toTokens: ExtendedAsset[];
-      toNfts: u64[];
-      expiry: u32;
-      constructor(id?: u64, from?: Name, to?: Name, fromTokens?: ExtendedAsset[], fromNfts?: u64[], toTokens?: ExtendedAsset[], toNfts?: u64[], expiry?: u32);
-      get primary(): u64;
-      get byFrom(): u64;
-      set byFrom(value: u64);
-      get byTo(): u64;
-      set byTo(value: u64);
-      static getTable(code: Name): TableStore<Escrow>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): escrowDB;
-  }
-  export class Escrow implements _chain.Packer {
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-
-}
-declare module 'proton-tsc/balance/target/kv.tables' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/balance";
-  import { TableStore } from "proton-tsc/balance";
-  export class KV implements _chain.Packer {
-      key: string;
-      value: string;
-      constructor(key?: string, value?: string);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class AccountKVTableDB extends _chain.MultiIndex<AccountKVTable> {
-  }
-  export class AccountKVTable implements _chain.MultiIndexValue {
-      account: Name;
-      values: KV[];
-      constructor(account?: Name, values?: KV[]);
-      get primary(): u64;
-      static getTable(code: Name): TableStore<AccountKV>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AccountKVTableDB;
-  }
-  export class AccountKV extends AccountKVTable {
-  }
-
-}
-declare module 'proton-tsc/balance/target/rng.inline' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/balance";
-  export class RequestRandom implements _chain.Packer {
-      customerId: u64;
-      signingValue: u64;
-      contract: Name;
-      constructor(customerId?: u64, signingValue?: u64, contract?: Name);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
-
-}
-declare module 'proton-tsc/balance/target/rng.tables' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { Name } from "proton-tsc/balance";
-  import { TableStore } from "proton-tsc/balance";
-  export class ResultsTableDB extends _chain.MultiIndex<ResultsTable> {
-  }
-  export class ResultsTable implements _chain.MultiIndexValue {
-      customerId: u64;
-      account: Name;
-      randomValue: u64;
-      constructor(customerId?: u64, account?: Name, randomValue?: u64);
-      get primary(): u64;
-      static getTable(code: Name): TableStore<Results>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): ResultsTableDB;
-  }
-  export class Results extends ResultsTable {
-  }
 
 }
 declare module 'proton-tsc/balance/target/token.inline' {
@@ -3389,17 +3197,6 @@ declare module 'proton-tsc/balance/target/token.tables' {
    */
   export function getSupply(tokenContractAccount: Name, sym: Symbol): Asset;
   export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
-
-}
-declare module 'proton-tsc/balance/target/txid.contract' {
-  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc/balance';
-  import { AccountKV } from 'proton-tsc/balance/kv';
-  export class TxIdContract extends Contract {
-      kvsTable: TableStore<AccountKV>;
-      getsizeandid(actor: Name): void;
-      readaction(): void;
-      getTxid(): Checksum256;
-  }
 
 }
 declare module 'proton-tsc/chain' {

@@ -1,4 +1,4 @@
-import { ExtendedAsset, unpackActionData, Name, check, requireAuth, SAME_PAYER, ExtendedSymbol, TableStore } from '..'
+import { ExtendedAsset, unpackActionData, Name, check, requireAuth, SAME_PAYER, TableStore } from '..'
 import { TokenTransfer, sendTransferTokens } from '../token';
 import { AllowContract } from '../allow';
 import { sendTransferNfts, TransferNfts } from '../atomicassets'
