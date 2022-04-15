@@ -1,11 +1,11 @@
 {
   "name": "proton-tsc",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "license": "MIT",
   "main": "./assembly/index.ts",
   "exports": {
-    ".": "./assembly/index.ts",
-    "./*": "./assembly/*"
+    ".": "./assembly",
+    "./atomicassets": "./assembly/atomicassets/index.ts"
   },
   "scripts": {
     "build:token": "npx proton-asc ./assembly/token/token.contract.ts",
