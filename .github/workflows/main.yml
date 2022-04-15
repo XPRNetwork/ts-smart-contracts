@@ -21,8 +21,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
+      - name: Install dependencies root
         run: npm ci
+      - name: Install dependencies examples
+        run: npm ci
+        working-directory: ./examples
       - name: Build assembly
         run: npm run build
       - name: Test assembly
