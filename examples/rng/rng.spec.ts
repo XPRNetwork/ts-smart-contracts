@@ -6,8 +6,8 @@ import { pubKeyData, sign } from "../../external/rng/utils";
 const blockchain = new Blockchain()
 
 /* Create assembly and accounts */
-const rngContract = blockchain.createContract('rng', 'external/rng/rng', true)
-const receiverContract = blockchain.createContract('receiver', 'assembly/rng/target/rng.contract', true)
+const rngContract = blockchain.createContract('rng', '../external/rng/rng', true)
+const receiverContract = blockchain.createContract('receiver', 'rng/target/rng.contract', true)
 
 /* Runs before each test */
 beforeEach(async () => {
