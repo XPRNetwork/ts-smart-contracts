@@ -1,5 +1,4 @@
-import { Name, Table } from "..";
-import { TableStore } from "..";
+import { Name, Table, TableStore } from "proton-tsc";
 
 @table("results")
 export class Results extends Table {

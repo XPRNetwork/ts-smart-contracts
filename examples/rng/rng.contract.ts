@@ -1,5 +1,4 @@
-import { Name, check, requireAuth, Contract, Checksum256 } from '..'
-import { TableStore } from '..';
+import { Name, check, requireAuth, Contract, Checksum256, TableStore } from 'proton-tsc'
 import { sendRequestRandom } from './rng.inline';
 import { Results } from './rng.tables';
 

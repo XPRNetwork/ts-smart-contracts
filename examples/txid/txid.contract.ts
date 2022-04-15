@@ -1,4 +1,4 @@
-import { Action, Name, requireAuth, Contract, transactionSize, print, Checksum256, readTransaction, check, sha256,  getAction, Table, TableStore } from '..'
+import { Action, Name, requireAuth, Contract, transactionSize, print, Checksum256, readTransaction, check, sha256,  getAction, Table, TableStore } from 'proton-tsc'
 import { AccountKV, KV } from '../kv';
 
 @packer

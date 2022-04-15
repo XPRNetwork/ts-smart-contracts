@@ -1,5 +1,4 @@
-import { Name, Table } from "..";
-import { TableStore } from "..";
+import { Name, Table, TableStore } from "proton-tsc";
 
 @packer
 export class KV {

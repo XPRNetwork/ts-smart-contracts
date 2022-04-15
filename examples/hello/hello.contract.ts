@@ -1,4 +1,4 @@
-import { Contract, print } from ".."
+import { Contract, print } from "proton-tsc"
 
 @contract
 class HelloContract extends Contract {

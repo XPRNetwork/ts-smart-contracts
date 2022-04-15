@@ -1,5 +1,4 @@
-import { InlineAction } from "..";
-import { Name, PermissionLevel, ActionWrapper } from ".."
+import { InlineAction, Name, PermissionLevel, ActionWrapper } from "proton-tsc";
 
 const RNG_CONTRACT = Name.fromString("rng")
 const RNG_ACTION = ActionWrapper.fromString("requestrand");

@@ -1,4 +1,4 @@
-import { Name, check, requireAuth, Contract, TableStore } from '..'
+import { Name, check, requireAuth, Contract, TableStore } from 'proton-tsc'
 import { KV, AccountKV } from './kv.tables';
 
 @contract("kv")
