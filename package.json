@@ -1,20 +1,9 @@
 {
   "name": "proton-tsc",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "license": "MIT",
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./assembly/index.ts",
-        "default": "./assembly/index.ts"
-      },
-      "require": {
-        "types": "./assembly/index.ts",
-        "default": "./assembly/index.ts"
-      },
-      "default": "./assembly/index.ts"
-    }
-  },
+  "types": "./index.d.ts",
+  "main": "./assembly/index.ts",
   "scripts": {
     "build:token": "npx proton-asc ./assembly/token/token.contract.ts",
     "build:balance": "npx proton-asc ./assembly/balance/balance.contract.ts",
