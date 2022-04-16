@@ -2525,6 +2525,7 @@ declare module 'proton-tsc' {
 declare module 'proton-tsc/modules' {
   export { TableStore } from 'proton-tsc/store';
   export { SafeMath } from 'proton-tsc/safemath';
+  export { getTransactionId } from 'proton-tsc/txid';
 
 }
 declare module 'proton-tsc/safemath' {
@@ -2889,6 +2890,54 @@ declare module 'proton-tsc/token/token.tables' {
    */
   export function getSupply(tokenContractAccount: Name, sym: Symbol): Asset;
   export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
+
+}
+declare module 'proton-tsc/txid' {
+  import { Checksum256 } from "proton-tsc/chain";
+  export function getTransactionId(): Checksum256;
+
+}
+declare module 'proton-tsc/txid/target/kv.tables' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { Name, TableStore } from "proton-tsc";
+  export class KV implements _chain.Packer {
+      key: string;
+      value: string;
+      constructor(key?: string, value?: string);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class AccountKVDB extends _chain.MultiIndex<AccountKV> {
+  }
+  export class AccountKV implements _chain.MultiIndexValue {
+      account: Name;
+      values: KV[];
+      constructor(account?: Name, values?: KV[]);
+      get primary(): u64;
+      static getTable(code: Name): TableStore<AccountKV>;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): AccountKVDB;
+  }
+
+}
+declare module 'proton-tsc/txid/target/txid.contract' {
+  /// <reference types="assembly" />
+  import { Name, Contract, Checksum256, TableStore } from 'proton-tsc';
+  import { AccountKV } from 'proton-tsc/txid/kv';
+  export class TxIdContract extends Contract {
+      kvsTable: TableStore<AccountKV>;
+      getsizeandid(actor: Name): void;
+      readaction(): void;
+      getTxid(): Checksum256;
+  }
+  export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
 declare module 'proton-tsc/replace.config' {
