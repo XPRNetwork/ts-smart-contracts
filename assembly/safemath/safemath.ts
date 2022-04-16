@@ -2,13 +2,13 @@ import { u128 } from "as-bignum";
 import { check } from "../index";
 
 export class SafeMath {
-    static add (x: u64, y: u64): u64 {
+    static add(x: u64, y: u64): u64 {
         const z: u64 = x + y;
         check(z >= x, "SafeMath Add Overflow");
         return z;
     }
 
-    static sub (x: u64, y: u64): u64 {
+    static sub(x: u64, y: u64): u64 {
         const z: u64 = x - y;
         check(z <= x, "SafeMath Sub Overflow");
         return z;
