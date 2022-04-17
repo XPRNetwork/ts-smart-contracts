@@ -2526,6 +2526,7 @@ declare module 'proton-tsc/modules' {
   export { TableStore } from 'proton-tsc/store';
   export { SafeMath } from 'proton-tsc/safemath';
   export { getTransactionId } from 'proton-tsc/txid';
+  export { RNG_CONTRACT, sendRequestRandom, rngChecksumToU64 } from 'proton-tsc/rng';
 
 }
 declare module 'proton-tsc/rng' {
@@ -2535,14 +2536,8 @@ declare module 'proton-tsc/rng' {
 }
 declare module 'proton-tsc/rng/rng.inline' {
   /// <reference types="assembly" />
-  import { InlineAction, Name } from "proton-tsc";
+  import { Name } from "proton-tsc";
   export const RNG_CONTRACT: Name;
-  export class RequestRandom extends InlineAction {
-      customerId: u64;
-      signingValue: u64;
-      contract: Name;
-      constructor(customerId?: u64, signingValue?: u64, contract?: Name);
-  }
   export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
