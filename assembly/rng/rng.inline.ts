@@ -4,7 +4,7 @@ export const RNG_CONTRACT = Name.fromString("rng")
 const RNG_ACTION = ActionWrapper.fromString("requestrand");
 
 @packer
-export class RequestRandom extends InlineAction {
+class RequestRandom extends InlineAction {
     constructor (
         public customerId: u64 = 0,
         public signingValue: u64 = 0,
