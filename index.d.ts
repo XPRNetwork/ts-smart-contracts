@@ -2528,6 +2528,126 @@ declare module 'proton-tsc/modules' {
   export { getTransactionId } from 'proton-tsc/txid';
 
 }
+declare module 'proton-tsc/rng' {
+  export * from 'proton-tsc/rng/rng.inline';
+  export * from 'proton-tsc/rng/rng.utils';
+
+}
+declare module 'proton-tsc/rng/rng.inline' {
+  /// <reference types="assembly" />
+  import { InlineAction, Name } from "proton-tsc";
+  export const RNG_CONTRACT: Name;
+  export class RequestRandom extends InlineAction {
+      customerId: u64;
+      signingValue: u64;
+      contract: Name;
+      constructor(customerId?: u64, signingValue?: u64, contract?: Name);
+  }
+  export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
+
+}
+declare module 'proton-tsc/rng/rng.utils' {
+  /// <reference types="assembly" />
+  import { Checksum256 } from "proton-tsc";
+  export function rngChecksumToU64(randomChecksum: Checksum256, maxValue: u64): u64;
+
+}
+declare module 'proton-tsc/rng/target/rng.contract' {
+  /// <reference types="assembly" />
+  export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
+
+}
+declare module 'proton-tsc/rng/target/rng.inline' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { Name } from "proton-tsc";
+  export class RequestRandom implements _chain.Packer {
+      customerId: u64;
+      signingValue: u64;
+      contract: Name;
+      constructor(customerId?: u64, signingValue?: u64, contract?: Name);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
+
+}
+declare module 'proton-tsc/rng/target/rng.tables' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { Name, TableStore } from "proton-tsc";
+  export class ResultsDB extends _chain.MultiIndex<Results> {
+  }
+  export class Results implements _chain.MultiIndexValue {
+      customerId: u64;
+      account: Name;
+      randomValue: u64;
+      constructor(customerId?: u64, account?: Name, randomValue?: u64);
+      get primary(): u64;
+      static getTable(code: Name): TableStore<Results>;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): ResultsDB;
+  }
+
+}
+declare module 'proton-tsc/rsa' {
+  export * from 'proton-tsc/rsa/safemath';
+
+}
+declare module 'proton-tsc/rsa/rsa' {
+  /// <reference types="assembly" />
+  class RSAKey {
+      n: null;
+      e: i64;
+      d: null;
+      p: null;
+      q: null;
+      dmp1: null;
+      dmq1: null;
+      coeff: null;
+      isPublic: boolean;
+      isPrivate: boolean;
+      setPublic(N: string, E: string): void;
+      doPublic(x: any): any;
+      verify(sMsg: string, hSig: string): boolean;
+  }
+  function RSASetPublic(N: any, E: any): void;
+
+}
+declare module 'proton-tsc/rsa/rsa2' {
+  export {};
+
+}
+declare module 'proton-tsc/rsa/safemath' {
+  /// <reference types="assembly" />
+  import { u128 } from "as-bignum";
+  export class SafeMath {
+      static add(x: u64, y: u64): u64;
+      static sub(x: u64, y: u64): u64;
+      static mul(_x: u64, _y: u64): u128;
+      static div(x: u64, y: u64): u64;
+  }
+
+}
+declare module 'proton-tsc/rsa/safemath.spec' {
+  export {};
+
+}
+declare module 'proton-tsc/rsa/safemath.test' {
+  export {};
+
+}
+declare module 'proton-tsc/rsa/target/safemath.test' {
+  /// <reference types="assembly" />
+  export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
+
+}
 declare module 'proton-tsc/safemath' {
   export * from 'proton-tsc/safemath/safemath';
 

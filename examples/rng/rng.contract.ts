@@ -1,5 +1,5 @@
 import { Name, check, requireAuth, Contract, Checksum256, TableStore } from 'proton-tsc'
-import { sendRequestRandom } from './rng.inline';
+import { sendRequestRandom, rngChecksumToU64, RNG_CONTRACT } from 'proton-tsc/rng';
 import { Results } from './rng.tables';
 
 @contract
@@ -32,21 +32,14 @@ class RequestRng extends Contract {
         customerId: u64,
         randomChecksum: Checksum256,
     ): void {
-        // Calculate random (can change this)
-        const maxValue: u64 = 100;
-        const byteArray: u8[] = randomChecksum.data;
-
-        let randomInt: u64 = 0;
-        for (let i = 0; i < 8; i++) {
-            randomInt <<= 8;
-            randomInt |= <u64>(byteArray[i]);
-        }
+        // Authenticate
+        requireAuth(RNG_CONTRACT);
 
         // Check customer exists
         const customer = this.resultsTable.requireGet(customerId, `Customer ID ${customerId} does not exist`)
 
         // Set random value
-        customer.randomValue = randomInt % maxValue;
+        customer.randomValue = rngChecksumToU64(randomChecksum, 100);
 
         // Save (contract pays for storage)
         this.resultsTable.set(customer, this.contract)
