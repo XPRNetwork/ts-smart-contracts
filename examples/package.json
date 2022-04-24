@@ -5,7 +5,7 @@
     "build:kv": "npx proton-asc ./kv/kv.contract.ts",
     "build:rng": "npx proton-asc ./rng/rng.contract.ts",
     "build:txid": "npx proton-asc ./txid/txid.contract.ts",
-    "build:forwarder": "blanc++ ./forwarder/forwarder.cpp -o ./forwarder/forwarder.wasm",
+    "buildcpp:forwarder": "blanc++ ./forwarder/forwarder.cpp -o ./forwarder/forwarder.wasm",
     "build": "run-p build:*",
     "test:kv": "mocha -s 250 ./kv/*.spec.ts -r ts-node/register",
     "test:rng": "mocha -s 250 ./rng/*.spec.ts -r ts-node/register",
