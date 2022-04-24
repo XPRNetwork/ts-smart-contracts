@@ -1,6 +1,6 @@
 {
   "name": "proton-tsc",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "license": "MIT",
   "types": "./index.d.ts",
   "main": "./assembly/index.ts",
@@ -12,7 +12,6 @@
     "build:atomicassets": "npx proton-asc ./assembly/atomicassets/atomicassets.contract.ts --debug --sourceMap --target release",
     "build:store": "npx proton-asc ./assembly/modules/store/store.test.ts",
     "build:safemath": "npx proton-asc ./assembly/modules/safemath/safemath.test.ts",
-    "build:examples": "npm run --prefix examples build",
     "build": "run-p build:*",
     "test:token": "mocha -s 250 ./assembly/token/*.spec.ts -r ts-node/register",
     "test:balance": "mocha -s 250 ./assembly/balance/*.spec.ts -r ts-node/register",
@@ -21,8 +20,9 @@
     "test:atomicassets": "mocha -s 250 ./assembly/atomicassets/*.spec.ts -r ts-node/register",
     "test:store": "mocha -s 250 ./assembly/modules/store/store.spec.ts -r ts-node/register",
     "test:safemath": "mocha -s 250 ./assembly/modules/safemath/safemath.spec.ts -r ts-node/register",
-    "test:examples": "npm run --prefix examples test",
     "test": "run-p test:* --max-parallel 3",
+    "buildexamples": "npm run --prefix examples build",
+    "testexamples": "npm run --prefix examples test",
     "core:escrow": "cat ./assembly/escrow/target/escrow.contract.abi | abi2core > ./assembly/escrow/target/escrow.client-types.ts",
     "run:playground": "cross-env LOG_LEVEL=debug ts-node ./playground.ts",
     "prepublish": "npx npm-dts generate --entry ./assembly/index.ts --force && npx replace-in-file --configFile=./replace.config.js"
