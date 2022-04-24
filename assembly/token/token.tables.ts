@@ -1,5 +1,4 @@
-import { Asset, Name, Table, Symbol } from "..";
-import { TableStore } from ".."
+import { Asset, Name, Table, Symbol, TableStore } from "..";
 
 /**
  * Tables

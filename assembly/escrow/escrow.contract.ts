@@ -1,7 +1,6 @@
 import { currentTimePoint, ExtendedAsset, Name, check, requireAuth, isAccount, TableStore } from ".."
 import { BalanceContract } from '../balance';
-import { ESCROW_STATUS } from './escrow.constants';
-import { sendLogEscrow } from './escrow.inline';
+import { ESCROW_STATUS, sendLogEscrow } from './escrow.inline';
 import { EscrowGlobal, Escrow } from './escrow.tables';
 
 @contract

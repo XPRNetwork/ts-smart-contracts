@@ -1,5 +1,4 @@
-import { Name, Singleton, Contract, check, requireAuth, ExtendedSymbol } from '..'
-import { TableStore } from '..';
+import { Name, Singleton, Contract, check, requireAuth, ExtendedSymbol, TableStore } from '..'
 import { AllowedActor, AllowedToken, AllowGlobals } from './allow.tables';
 import { extendedSymbolToU128 } from './allow.utils';
 

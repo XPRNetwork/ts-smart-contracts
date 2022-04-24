@@ -1,5 +1,8 @@
 import { InlineAction, Name, PermissionLevel, ActionWrapper, Asset, Authority } from "..";
-import { PROTON_USER_CONTRACT, SYSTEM_CONTRACT } from "./system.constants";
+
+//------------------- Constants ------------------------------//
+export const SYSTEM_CONTRACT = Name.fromString("eosio")
+export const PROTON_USER_CONTRACT = Name.fromString("eosio.proton")
 
 //------------------- Action Names ------------------------------//
 

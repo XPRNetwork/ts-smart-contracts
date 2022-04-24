@@ -1,6 +1,10 @@
 import { Name, InlineAction, Symbol, Asset, ActionWrapper, PermissionLevel } from "..";
-import { ATOMICASSETS_CONTRACT } from "./atomicassets.constants";
 import { AtomicAttribute, AtomicFormat } from "./atomicdata";
+
+//------------------- Constants ------------------------------//
+export const MAX_MARKET_FEE: f64 = 0.15;
+export const RESERVED: u64 = 4;
+export const ATOMICASSETS_CONTRACT = Name.fromString("atomicassets")
 
 //------------------- Action Names ------------------------------//
 const ADMINCOLEDIT_ACTION = new ActionWrapper(Name.fromString("admincoledit"))

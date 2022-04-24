@@ -30,3 +30,7 @@ jobs:
         run: npm run build
       - name: Test assembly
         run: npm run test
+      - name: Build examples
+        run: npm run buildexamples
+      - name: Test examples
+        run: npm run testexamples

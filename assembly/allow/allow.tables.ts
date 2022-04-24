@@ -1,5 +1,4 @@
-import { Name, Table, Singleton, U128, ExtendedSymbol, IDXDB, IDX128 } from "..";
-import { TableStore } from "..";
+import { Name, Table, Singleton, U128, ExtendedSymbol, IDXDB, IDX128, TableStore } from "..";
 import { extendedSymbolToU128, U128ToExtSym } from "./allow.utils";
 
 // scope: contract
