@@ -1,6 +1,13 @@
 import { Name, Table, PermissionLevel, ActionWrapper } from ".."
 import { Escrow } from "./escrow.tables";
 
+export namespace ESCROW_STATUS {
+    export const START = 'start';
+    export const FILL = 'fill';
+    export const CANCEL = 'cancel';
+}
+export type ESCROW_STATUS = string;
+
 /* LogEscrow is a table that contains a single escrow and its status */
 @packer
 export class LogEscrow extends Table {

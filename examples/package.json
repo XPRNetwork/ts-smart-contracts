@@ -16,7 +16,7 @@
     "test": "run-p test:*"
   },
   "dependencies": {
-    "proton-tsc": "^0.2.6"
+    "proton-tsc": "^0.2.8"
   },
   "devDependencies": {
     "@proton/vert": "^0.2.4",

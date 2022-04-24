@@ -1,4 +1,4 @@
-import { Checksum256, transactionSize, readTransaction, check, sha256 } from "../chain";
+import { Checksum256, transactionSize, readTransaction, check, sha256 } from "../..";
 
 export function getTransactionId(): Checksum256 {
     const size = transactionSize()
