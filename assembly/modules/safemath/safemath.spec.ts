@@ -5,7 +5,7 @@ import { expect } from "chai"
 const blockchain = new Blockchain()
 
 /* Create assembly and accounts */
-const safemathContract = blockchain.createContract('safemath', 'assembly/safemath/target/safemath.test')
+const safemathContract = blockchain.createContract('safemath', 'assembly/modules/safemath/target/safemath.test')
 
 /* Runs before each test */
 beforeEach(async () => {
