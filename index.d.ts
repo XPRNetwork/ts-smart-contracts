@@ -203,10 +203,59 @@ declare module 'proton-tsc/allow/target/allow.tables' {
   }
 
 }
+declare module 'proton-tsc/allow/target' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { PermissionLevel, PublicKey } from "proton-tsc";
+  export class KeyWeight implements _chain.Packer {
+      key: PublicKey;
+      weight: u16;
+      constructor(key?: PublicKey, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class PermissionLevelWeight implements _chain.Packer {
+      permission: PermissionLevel;
+      weight: u16;
+      constructor(permission?: PermissionLevel, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class WaitWeight implements _chain.Packer {
+      waitSec: u16;
+      weight: u16;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class Authority implements _chain.Packer {
+      threshold: u32;
+      keys: KeyWeight[];
+      accounts: PermissionLevelWeight[];
+      waits: WaitWeight[];
+      constructor(threshold?: u32, keys?: KeyWeight[], accounts?: PermissionLevelWeight[], waits?: WaitWeight[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+
+}
+declare module 'proton-tsc/allow/target/rng.inline' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { Name } from "proton-tsc";
+  export const RNG_CONTRACT: _chain.Name;
+  export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
+
+}
 declare module 'proton-tsc/atomicassets/atomicassets.constants' {
   /// <reference types="assembly" />
+  import { Name } from "proton-tsc";
   export const MAX_MARKET_FEE: f64;
   export const RESERVED: u64;
+  export const ATOMICASSETS_CONTRACT: Name;
 
 }
 declare module 'proton-tsc/atomicassets/atomicassets.contract' {
@@ -217,7 +266,6 @@ declare module 'proton-tsc/atomicassets/atomicassets.inline' {
   /// <reference types="assembly" />
   import { Name, InlineAction, Symbol, Asset } from "proton-tsc";
   import { AtomicAttribute, AtomicFormat } from "proton-tsc/atomicassets/atomicdata";
-  export const ATOMICASSETS_CONTRACT: Name;
   export class AdminColEdit extends InlineAction {
       collectionFormatExtension: AtomicFormat[];
       constructor(collectionFormatExtension?: AtomicFormat[]);
@@ -819,6 +867,53 @@ declare module 'proton-tsc/atomicassets/target/base58' {
   export function decode(source: string): u8[];
 
 }
+declare module 'proton-tsc/atomicassets/target' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { PermissionLevel, PublicKey } from "proton-tsc";
+  export class KeyWeight implements _chain.Packer {
+      key: PublicKey;
+      weight: u16;
+      constructor(key?: PublicKey, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class PermissionLevelWeight implements _chain.Packer {
+      permission: PermissionLevel;
+      weight: u16;
+      constructor(permission?: PermissionLevel, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class WaitWeight implements _chain.Packer {
+      waitSec: u16;
+      weight: u16;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class Authority implements _chain.Packer {
+      threshold: u32;
+      keys: KeyWeight[];
+      accounts: PermissionLevelWeight[];
+      waits: WaitWeight[];
+      constructor(threshold?: u32, keys?: KeyWeight[], accounts?: PermissionLevelWeight[], waits?: WaitWeight[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+
+}
+declare module 'proton-tsc/atomicassets/target/rng.inline' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { Name } from "proton-tsc";
+  export const RNG_CONTRACT: _chain.Name;
+  export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
+
+}
 declare module 'proton-tsc/balance/balance.constants' {
   import { Name } from "proton-tsc";
   /**
@@ -1021,7 +1116,6 @@ declare module 'proton-tsc/balance/target/atomicassets.inline' {
   import * as _chain from "as-chain";
   import { Name, Symbol, Asset } from "proton-tsc/balance";
   import { AtomicAttribute, AtomicFormat } from "proton-tsc/balance/target/atomicdata";
-  export const ATOMICASSETS_CONTRACT: any;
   export class AdminColEdit implements _chain.Packer {
       collectionFormatExtension: AtomicFormat[];
       constructor(collectionFormatExtension?: AtomicFormat[]);
@@ -1603,6 +1697,53 @@ declare module 'proton-tsc/balance/target/base58' {
   export function decode(source: string): u8[];
 
 }
+declare module 'proton-tsc/balance/target' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { PermissionLevel, PublicKey } from "proton-tsc";
+  export class KeyWeight implements _chain.Packer {
+      key: PublicKey;
+      weight: u16;
+      constructor(key?: PublicKey, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class PermissionLevelWeight implements _chain.Packer {
+      permission: PermissionLevel;
+      weight: u16;
+      constructor(permission?: PermissionLevel, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class WaitWeight implements _chain.Packer {
+      waitSec: u16;
+      weight: u16;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class Authority implements _chain.Packer {
+      threshold: u32;
+      keys: KeyWeight[];
+      accounts: PermissionLevelWeight[];
+      waits: WaitWeight[];
+      constructor(threshold?: u32, keys?: KeyWeight[], accounts?: PermissionLevelWeight[], waits?: WaitWeight[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+
+}
+declare module 'proton-tsc/balance/target/rng.inline' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { Name } from "proton-tsc";
+  export const RNG_CONTRACT: _chain.Name;
+  export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
+
+}
 declare module 'proton-tsc/balance/target/token.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
@@ -1838,7 +1979,6 @@ declare module 'proton-tsc/escrow/target/atomicassets.inline' {
   import * as _chain from "as-chain";
   import { Name, Symbol, Asset } from "proton-tsc/escrow";
   import { AtomicAttribute, AtomicFormat } from "proton-tsc/escrow/target/atomicdata";
-  export const ATOMICASSETS_CONTRACT: any;
   export class AdminColEdit implements _chain.Packer {
       collectionFormatExtension: AtomicFormat[];
       constructor(collectionFormatExtension?: AtomicFormat[]);
@@ -2445,6 +2585,53 @@ declare module 'proton-tsc/escrow/target/escrow.tables' {
   }
 
 }
+declare module 'proton-tsc/escrow/target' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { PermissionLevel, PublicKey } from "proton-tsc";
+  export class KeyWeight implements _chain.Packer {
+      key: PublicKey;
+      weight: u16;
+      constructor(key?: PublicKey, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class PermissionLevelWeight implements _chain.Packer {
+      permission: PermissionLevel;
+      weight: u16;
+      constructor(permission?: PermissionLevel, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class WaitWeight implements _chain.Packer {
+      waitSec: u16;
+      weight: u16;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class Authority implements _chain.Packer {
+      threshold: u32;
+      keys: KeyWeight[];
+      accounts: PermissionLevelWeight[];
+      waits: WaitWeight[];
+      constructor(threshold?: u32, keys?: KeyWeight[], accounts?: PermissionLevelWeight[], waits?: WaitWeight[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+
+}
+declare module 'proton-tsc/escrow/target/rng.inline' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { Name } from "proton-tsc";
+  export const RNG_CONTRACT: _chain.Name;
+  export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
+
+}
 declare module 'proton-tsc/escrow/target/token.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
@@ -2522,37 +2709,64 @@ declare module 'proton-tsc' {
   export * from 'proton-tsc/modules';
 
 }
+declare module 'proton-tsc/modules/authority' {
+  /// <reference types="assembly" />
+  import { PermissionLevel, PublicKey } from "proton-tsc";
+  export class KeyWeight {
+      key: PublicKey;
+      weight: u16;
+      constructor(key?: PublicKey, weight?: u16);
+  }
+  export class PermissionLevelWeight {
+      permission: PermissionLevel;
+      weight: u16;
+      constructor(permission?: PermissionLevel, weight?: u16);
+  }
+  export class WaitWeight {
+      waitSec: u16;
+      weight: u16;
+  }
+  export class Authority {
+      threshold: u32;
+      keys: KeyWeight[];
+      accounts: PermissionLevelWeight[];
+      waits: WaitWeight[];
+      constructor(threshold?: u32, keys?: KeyWeight[], accounts?: PermissionLevelWeight[], waits?: WaitWeight[]);
+  }
+
+}
 declare module 'proton-tsc/modules' {
-  export { TableStore } from 'proton-tsc/store';
-  export { SafeMath } from 'proton-tsc/safemath';
+  export { TableStore } from 'proton-tsc/modules/store';
+  export { SafeMath } from 'proton-tsc/modules/safemath';
   export { getTransactionId } from 'proton-tsc/txid';
-  export { RNG_CONTRACT, sendRequestRandom, rngChecksumToU64 } from 'proton-tsc/rng';
+  export { RNG_CONTRACT, sendRequestRandom, rngChecksumToU64 } from 'proton-tsc/modules/rng';
+  export { KeyWeight, PermissionLevelWeight, WaitWeight, Authority } from 'proton-tsc/modules/authority';
 
 }
-declare module 'proton-tsc/rng' {
-  export * from 'proton-tsc/rng/rng.inline';
-  export * from 'proton-tsc/rng/rng.utils';
+declare module 'proton-tsc/modules/rng' {
+  export * from 'proton-tsc/modules/rng/rng.inline';
+  export * from 'proton-tsc/modules/rng/rng.utils';
 
 }
-declare module 'proton-tsc/rng/rng.inline' {
+declare module 'proton-tsc/modules/rng/rng.inline' {
   /// <reference types="assembly" />
   import { Name } from "proton-tsc";
   export const RNG_CONTRACT: Name;
   export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
-declare module 'proton-tsc/rng/rng.utils' {
+declare module 'proton-tsc/modules/rng/rng.utils' {
   /// <reference types="assembly" />
   import { Checksum256 } from "proton-tsc";
   export function rngChecksumToU64(randomChecksum: Checksum256, maxValue: u64): u64;
 
 }
-declare module 'proton-tsc/rng/target/rng.contract' {
+declare module 'proton-tsc/modules/rng/target/rng.contract' {
   /// <reference types="assembly" />
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
-declare module 'proton-tsc/rng/target/rng.inline' {
+declare module 'proton-tsc/modules/rng/target/rng.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
   import { Name } from "proton-tsc";
@@ -2568,7 +2782,7 @@ declare module 'proton-tsc/rng/target/rng.inline' {
   export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
-declare module 'proton-tsc/rng/target/rng.tables' {
+declare module 'proton-tsc/modules/rng/target/rng.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
   import { Name, TableStore } from "proton-tsc";
@@ -2591,35 +2805,11 @@ declare module 'proton-tsc/rng/target/rng.tables' {
   }
 
 }
-declare module 'proton-tsc/rsa' {
-  export * from 'proton-tsc/rsa/safemath';
+declare module 'proton-tsc/modules/safemath' {
+  export * from 'proton-tsc/modules/safemath/safemath';
 
 }
-declare module 'proton-tsc/rsa/rsa' {
-  /// <reference types="assembly" />
-  class RSAKey {
-      n: null;
-      e: i64;
-      d: null;
-      p: null;
-      q: null;
-      dmp1: null;
-      dmq1: null;
-      coeff: null;
-      isPublic: boolean;
-      isPrivate: boolean;
-      setPublic(N: string, E: string): void;
-      doPublic(x: any): any;
-      verify(sMsg: string, hSig: string): boolean;
-  }
-  function RSASetPublic(N: any, E: any): void;
-
-}
-declare module 'proton-tsc/rsa/rsa2' {
-  export {};
-
-}
-declare module 'proton-tsc/rsa/safemath' {
+declare module 'proton-tsc/modules/safemath/safemath' {
   /// <reference types="assembly" />
   import { u128 } from "as-bignum";
   export class SafeMath {
@@ -2630,52 +2820,70 @@ declare module 'proton-tsc/rsa/safemath' {
   }
 
 }
-declare module 'proton-tsc/rsa/safemath.spec' {
+declare module 'proton-tsc/modules/safemath/safemath.spec' {
   export {};
 
 }
-declare module 'proton-tsc/rsa/safemath.test' {
+declare module 'proton-tsc/modules/safemath/safemath.test' {
   export {};
 
 }
-declare module 'proton-tsc/rsa/target/safemath.test' {
+declare module 'proton-tsc/modules/safemath/target' {
   /// <reference types="assembly" />
-  export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
-
-}
-declare module 'proton-tsc/safemath' {
-  export * from 'proton-tsc/safemath/safemath';
-
-}
-declare module 'proton-tsc/safemath/safemath' {
-  /// <reference types="assembly" />
-  import { u128 } from "as-bignum";
-  export class SafeMath {
-      static add(x: u64, y: u64): u64;
-      static sub(x: u64, y: u64): u64;
-      static mul(_x: u64, _y: u64): u128;
-      static div(x: u64, y: u64): u64;
+  import * as _chain from "as-chain";
+  import { PermissionLevel, PublicKey } from "proton-tsc/modules";
+  export class KeyWeight implements _chain.Packer {
+      key: PublicKey;
+      weight: u16;
+      constructor(key?: PublicKey, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class PermissionLevelWeight implements _chain.Packer {
+      permission: PermissionLevel;
+      weight: u16;
+      constructor(permission?: PermissionLevel, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class WaitWeight implements _chain.Packer {
+      waitSec: u16;
+      weight: u16;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class Authority implements _chain.Packer {
+      threshold: u32;
+      keys: KeyWeight[];
+      accounts: PermissionLevelWeight[];
+      waits: WaitWeight[];
+      constructor(threshold?: u32, keys?: KeyWeight[], accounts?: PermissionLevelWeight[], waits?: WaitWeight[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
   }
 
 }
-declare module 'proton-tsc/safemath/safemath.spec' {
-  export {};
+declare module 'proton-tsc/modules/safemath/target/rng.inline' {
+  /// <reference types="assembly" />
+  import { Name } from "proton-tsc/modules";
+  export const RNG_CONTRACT: any;
+  export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
-declare module 'proton-tsc/safemath/safemath.test' {
-  export {};
-
-}
-declare module 'proton-tsc/safemath/target/safemath.test' {
+declare module 'proton-tsc/modules/safemath/target/safemath.test' {
   /// <reference types="assembly" />
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
-declare module 'proton-tsc/store' {
-  export * from 'proton-tsc/store/store';
+declare module 'proton-tsc/modules/store' {
+  export * from 'proton-tsc/modules/store/store';
 
 }
-declare module 'proton-tsc/store/store' {
+declare module 'proton-tsc/modules/store/store' {
   /// <reference types="assembly" />
   import { Name, IDXDB, MultiIndexValue, U128, U256, Float128 } from "proton-tsc";
   export const NO_AVAILABLE_PRIMARY_KEY: number;
@@ -2753,23 +2961,214 @@ declare module 'proton-tsc/store/store' {
   }
 
 }
-declare module 'proton-tsc/store/store.spec' {
+declare module 'proton-tsc/modules/store/store.spec' {
   export {};
 
 }
-declare module 'proton-tsc/store/store.test' {
+declare module 'proton-tsc/modules/store/store.test' {
   export {};
 
 }
-declare module 'proton-tsc/store/target/store.test' {
+declare module 'proton-tsc/modules/store/target' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { PermissionLevel, PublicKey } from "proton-tsc/modules";
+  export class KeyWeight implements _chain.Packer {
+      key: PublicKey;
+      weight: u16;
+      constructor(key?: PublicKey, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class PermissionLevelWeight implements _chain.Packer {
+      permission: PermissionLevel;
+      weight: u16;
+      constructor(permission?: PermissionLevel, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class WaitWeight implements _chain.Packer {
+      waitSec: u16;
+      weight: u16;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class Authority implements _chain.Packer {
+      threshold: u32;
+      keys: KeyWeight[];
+      accounts: PermissionLevelWeight[];
+      waits: WaitWeight[];
+      constructor(threshold?: u32, keys?: KeyWeight[], accounts?: PermissionLevelWeight[], waits?: WaitWeight[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+
+}
+declare module 'proton-tsc/modules/store/target/rng.inline' {
+  /// <reference types="assembly" />
+  import { Name } from "proton-tsc/modules";
+  export const RNG_CONTRACT: any;
+  export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
+
+}
+declare module 'proton-tsc/modules/store/target/store.test' {
   /// <reference types="assembly" />
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
+
+}
+declare module 'proton-tsc/rsa' {
+  export * from 'proton-tsc/rsa/safemath';
+
+}
+declare module 'proton-tsc/rsa/rsa' {
+  /// <reference types="assembly" />
+  class RSAKey {
+      n: null;
+      e: i64;
+      d: null;
+      p: null;
+      q: null;
+      dmp1: null;
+      dmq1: null;
+      coeff: null;
+      isPublic: boolean;
+      isPrivate: boolean;
+      setPublic(N: string, E: string): void;
+      doPublic(x: any): any;
+      verify(sMsg: string, hSig: string): boolean;
+  }
+  function RSASetPublic(N: any, E: any): void;
+
+}
+declare module 'proton-tsc/rsa/rsa2' {
+  export {};
+
+}
+declare module 'proton-tsc/rsa/safemath' {
+  /// <reference types="assembly" />
+  import { u128 } from "as-bignum";
+  export class SafeMath {
+      static add(x: u64, y: u64): u64;
+      static sub(x: u64, y: u64): u64;
+      static mul(_x: u64, _y: u64): u128;
+      static div(x: u64, y: u64): u64;
+  }
+
+}
+declare module 'proton-tsc/rsa/safemath.spec' {
+  export {};
+
+}
+declare module 'proton-tsc/rsa/safemath.test' {
+  export {};
+
+}
+declare module 'proton-tsc/rsa/target/safemath.test' {
+  /// <reference types="assembly" />
+  export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
+
+}
+declare module 'proton-tsc/system' {
+  export * from 'proton-tsc/system/system.inline';
+  export * from 'proton-tsc/system/system.constants';
+
+}
+declare module 'proton-tsc/system/system.constants' {
+  import { Name } from "proton-tsc";
+  export const SYSTEM_CONTRACT: Name;
+  export const PROTON_USER_CONTRACT: Name;
+
+}
+declare module 'proton-tsc/system/system.inline' {
+  /// <reference types="assembly" />
+  import { InlineAction, Name, Asset, Authority } from "proton-tsc";
+  export class NewAccount extends InlineAction {
+      creator: Name;
+      name: Name;
+      owner: Authority;
+      active: Authority;
+      constructor(creator?: Name, name?: Name, owner?: Authority, active?: Authority);
+  }
+  export class BuyRamBytes extends InlineAction {
+      payer: Name;
+      receiver: Name;
+      bytes: u32;
+      constructor(payer?: Name, receiver?: Name, bytes?: u32);
+  }
+  export class BuyRam extends InlineAction {
+      payer: Name;
+      receiver: Name;
+      quantity: Asset;
+      constructor(payer?: Name, receiver?: Name, quantity?: Asset);
+  }
+  export class SellRam extends InlineAction {
+      account: Name;
+      bytes: i64;
+      constructor(account?: Name, bytes?: i64);
+  }
+  export function sendNewAccount(contract: Name, creator: Name, name: Name, owner: Authority, active: Authority): void;
+  export function sendBuyRamBytes(contract: Name, payer: Name, receiver: Name, bytes: u32): void;
+  export function sendBuyRam(contract: Name, payer: Name, receiver: Name, quantity: Asset): void;
+  export function sendSellRam(contract: Name, owner: Name, bytes: i64): void;
+  export function sendVoteProducer(contract: Name, voter: Name, proxy: Name, producers: Name[]): void;
+  export function createNewAccount(contract: Name, creator: Name, name: Name, owner: Authority, active: Authority, ramBytes: u32): void;
 
 }
 declare module 'proton-tsc/token' {
   export * from 'proton-tsc/token/token.contract';
   export * from 'proton-tsc/token/token.tables';
   export * from 'proton-tsc/token/token.inline';
+
+}
+declare module 'proton-tsc/token/target' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { PermissionLevel, PublicKey } from "proton-tsc";
+  export class KeyWeight implements _chain.Packer {
+      key: PublicKey;
+      weight: u16;
+      constructor(key?: PublicKey, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class PermissionLevelWeight implements _chain.Packer {
+      permission: PermissionLevel;
+      weight: u16;
+      constructor(permission?: PermissionLevel, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class WaitWeight implements _chain.Packer {
+      waitSec: u16;
+      weight: u16;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class Authority implements _chain.Packer {
+      threshold: u32;
+      keys: KeyWeight[];
+      accounts: PermissionLevelWeight[];
+      waits: WaitWeight[];
+      constructor(threshold?: u32, keys?: KeyWeight[], accounts?: PermissionLevelWeight[], waits?: WaitWeight[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+
+}
+declare module 'proton-tsc/token/target/rng.inline' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { Name } from "proton-tsc";
+  export const RNG_CONTRACT: _chain.Name;
+  export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
 declare module 'proton-tsc/token/target/token.contract' {
@@ -3053,6 +3452,294 @@ declare module 'proton-tsc/txid/target/txid.contract' {
       getTxid(): Checksum256;
   }
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
+
+}
+declare module 'proton-tsc/vault' {
+  export * from 'proton-tsc/vault/token.contract';
+  export * from 'proton-tsc/vault/token.tables';
+  export * from 'proton-tsc/vault/token.inline';
+
+}
+declare module 'proton-tsc/vault/target' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { PermissionLevel, PublicKey } from "proton-tsc";
+  export class KeyWeight implements _chain.Packer {
+      key: PublicKey;
+      weight: u16;
+      constructor(key?: PublicKey, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class PermissionLevelWeight implements _chain.Packer {
+      permission: PermissionLevel;
+      weight: u16;
+      constructor(permission?: PermissionLevel, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class WaitWeight implements _chain.Packer {
+      waitSec: u16;
+      weight: u16;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class Authority implements _chain.Packer {
+      threshold: u32;
+      keys: KeyWeight[];
+      accounts: PermissionLevelWeight[];
+      waits: WaitWeight[];
+      constructor(threshold?: u32, keys?: KeyWeight[], accounts?: PermissionLevelWeight[], waits?: WaitWeight[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+
+}
+declare module 'proton-tsc/vault/target/rng.inline' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { Name } from "proton-tsc";
+  export const RNG_CONTRACT: _chain.Name;
+  export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
+
+}
+declare module 'proton-tsc/vault/target/token.contract' {
+  /// <reference types="assembly" />
+  import { Name, Asset, Symbol, Contract } from "proton-tsc/vault";
+  export class TokenContract extends Contract {
+      /**
+       * Allows `issuer` account to create a token in supply of `maximum_supply`. If validation is successful a new entry in statstable for token symbol scope gets created.
+       *
+       * @param issuer - the account that creates the token,
+       * @param maximum_supply - the maximum supply set for the token created.
+       *
+       * @pre Token symbol has to be valid,
+       * @pre Token symbol must not be already created,
+       * @pre maximum_supply has to be smaller than the maximum supply allowed by the system: 1^62 - 1.
+       * @pre Maximum supply must be positive;
+       */
+      create(issuer: Name, maximum_supply: Asset): void;
+      /**
+       *  This action issues to `to` account a `quantity` of tokens.
+       *
+       * @param to - the account to issue tokens to, it must be the same as the issuer,
+       * @param quantity - the amount of tokens to be issued,
+       * @memo - the memo string that accompanies the token issue transaction.
+       */
+      issue(to: Name, quantity: Asset, memo: string): void;
+      /**
+       * The opposite for create action, if all validations succeed,
+       * it debits the statstable.supply amount.
+       *
+       * @param quantity - the quantity of tokens to retire,
+       * @param memo - the memo string to accompany the transaction.
+       */
+      retire(quantity: Asset, memo: string): void;
+      /**
+       * Allows `from` account to transfer to `to` account the `quantity` tokens.
+       * One account is debited and the other is credited with quantity tokens.
+       *
+       * @param from - the account to transfer from,
+       * @param to - the account to be transferred to,
+       * @param quantity - the quantity of tokens to be transferred,
+       * @param memo - the memo string to accompany the transaction.
+       */
+      transfer(from: Name, to: Name, quantity: Asset, memo: string): void;
+      /**
+       * Allows `ram_payer` to create an account `owner` with zero balance for
+       * token `symbol` at the expense of `ram_payer`.
+       *
+       * @param owner - the account to be created,
+       * @param symbol - the token to be payed with by `ram_payer`,
+       * @param ram_payer - the account that supports the cost of this action.
+       *
+       */
+      open(owner: Name, symbol: Symbol, ram_payer: Name): void;
+      /**
+       * This action is the opposite for open, it closes the account `owner`
+       * for token `symbol`.
+       *
+       * @param owner - the owner account to execute the close action for,
+       * @param symbol - the symbol of the token to execute the close action for.
+       *
+       * @pre The pair of owner plus symbol has to exist otherwise no action is executed,
+       * @pre If the pair of owner plus symbol exists, the balance has to be zero.
+       */
+      close(owner: Name, symbol: Symbol): void;
+      subBalance(owner: Name, value: Asset): void;
+      addBalance(owner: Name, value: Asset, ramPayer: Name): void;
+  }
+  export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
+
+}
+declare module 'proton-tsc/vault/target/token.tables' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { Asset, Name, Symbol } from "proton-tsc/vault";
+  import { TableStore } from "proton-tsc/vault";
+  /**
+   * Tables
+   */
+  export class AccountDB extends _chain.MultiIndex<Account> {
+  }
+  export class Account implements _chain.MultiIndexValue {
+      balance: Asset;
+      constructor(balance?: Asset);
+      get primary(): u64;
+      static getTable(code: Name, accountName: Name): TableStore<Account>;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): AccountDB;
+  }
+  export class StatDB extends _chain.MultiIndex<Stat> {
+  }
+  export class Stat implements _chain.MultiIndexValue {
+      supply: Asset;
+      max_supply: Asset;
+      issuer: Name;
+      constructor(supply?: Asset, max_supply?: Asset, issuer?: Name);
+      get primary(): u64;
+      static getTable(code: Name, sym: Symbol): TableStore<Stat>;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): StatDB;
+  }
+  /**
+   * Helpers
+   */
+  export function getSupply(tokenContractAccount: Name, sym: Symbol): Asset;
+  export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
+
+}
+declare module 'proton-tsc/vault/token.contract' {
+  import { Name, Asset, Symbol, Contract } from "proton-tsc";
+  export class TokenContract extends Contract {
+      /**
+       * Allows `issuer` account to create a token in supply of `maximum_supply`. If validation is successful a new entry in statstable for token symbol scope gets created.
+       *
+       * @param issuer - the account that creates the token,
+       * @param maximum_supply - the maximum supply set for the token created.
+       *
+       * @pre Token symbol has to be valid,
+       * @pre Token symbol must not be already created,
+       * @pre maximum_supply has to be smaller than the maximum supply allowed by the system: 1^62 - 1.
+       * @pre Maximum supply must be positive;
+       */
+      create(issuer: Name, maximum_supply: Asset): void;
+      /**
+       *  This action issues to `to` account a `quantity` of tokens.
+       *
+       * @param to - the account to issue tokens to, it must be the same as the issuer,
+       * @param quantity - the amount of tokens to be issued,
+       * @memo - the memo string that accompanies the token issue transaction.
+       */
+      issue(to: Name, quantity: Asset, memo: string): void;
+      /**
+       * The opposite for create action, if all validations succeed,
+       * it debits the statstable.supply amount.
+       *
+       * @param quantity - the quantity of tokens to retire,
+       * @param memo - the memo string to accompany the transaction.
+       */
+      retire(quantity: Asset, memo: string): void;
+      /**
+       * Allows `from` account to transfer to `to` account the `quantity` tokens.
+       * One account is debited and the other is credited with quantity tokens.
+       *
+       * @param from - the account to transfer from,
+       * @param to - the account to be transferred to,
+       * @param quantity - the quantity of tokens to be transferred,
+       * @param memo - the memo string to accompany the transaction.
+       */
+      transfer(from: Name, to: Name, quantity: Asset, memo: string): void;
+      /**
+       * Allows `ram_payer` to create an account `owner` with zero balance for
+       * token `symbol` at the expense of `ram_payer`.
+       *
+       * @param owner - the account to be created,
+       * @param symbol - the token to be payed with by `ram_payer`,
+       * @param ram_payer - the account that supports the cost of this action.
+       *
+       */
+      open(owner: Name, symbol: Symbol, ram_payer: Name): void;
+      /**
+       * This action is the opposite for open, it closes the account `owner`
+       * for token `symbol`.
+       *
+       * @param owner - the owner account to execute the close action for,
+       * @param symbol - the symbol of the token to execute the close action for.
+       *
+       * @pre The pair of owner plus symbol has to exist otherwise no action is executed,
+       * @pre If the pair of owner plus symbol exists, the balance has to be zero.
+       */
+      close(owner: Name, symbol: Symbol): void;
+      subBalance(owner: Name, value: Asset): void;
+      addBalance(owner: Name, value: Asset, ramPayer: Name): void;
+  }
+
+}
+declare module 'proton-tsc/vault/token.inline' {
+  import { ActionWrapper, Name, ExtendedAsset, Asset, InlineAction } from "proton-tsc";
+  export const transfer: ActionWrapper;
+  export class TokenTransfer extends InlineAction {
+      from: Name;
+      to: Name;
+      quantity: Asset;
+      memo: string;
+      constructor(from?: Name, to?: Name, quantity?: Asset, memo?: string);
+  }
+  /**
+   * Send tokens from one account to another
+   * @param {Name} from - Name of the account to transfer tokens from.
+   * @param {Name} to - The name of the account to transfer the tokens to.
+   * @param {ExtendedAsset[]} tokens - An array of ExtendedAsset objects.
+   * @param {string} memo - A string that is included in the transaction. This is optional.
+   */
+  export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
+
+}
+declare module 'proton-tsc/vault/token.spec' {
+  export {};
+
+}
+declare module 'proton-tsc/vault/token.tables' {
+  /// <reference types="assembly" />
+  import { Asset, Name, Table, Symbol } from "proton-tsc";
+  import { TableStore } from "proton-tsc";
+  /**
+   * Tables
+   */
+  export class Account extends Table {
+      balance: Asset;
+      constructor(balance?: Asset);
+      get primary(): u64;
+      static getTable(code: Name, accountName: Name): TableStore<Account>;
+  }
+  export class Stat extends Table {
+      supply: Asset;
+      max_supply: Asset;
+      issuer: Name;
+      constructor(supply?: Asset, max_supply?: Asset, issuer?: Name);
+      get primary(): u64;
+      static getTable(code: Name, sym: Symbol): TableStore<Stat>;
+  }
+  /**
+   * Helpers
+   */
+  export function getSupply(tokenContractAccount: Name, sym: Symbol): Asset;
+  export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
 
 }
 declare module 'proton-tsc/replace.config' {

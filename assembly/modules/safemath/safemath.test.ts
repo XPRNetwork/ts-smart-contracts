@@ -2,7 +2,7 @@ import {
     Contract,
     print,
     SafeMath,
-} from ".."
+} from "../.."
 
 @contract
 class MyContract extends Contract{

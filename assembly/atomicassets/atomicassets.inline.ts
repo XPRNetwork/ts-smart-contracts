@@ -1,8 +1,6 @@
 import { Name, InlineAction, Symbol, Asset, ActionWrapper, PermissionLevel } from "..";
+import { ATOMICASSETS_CONTRACT } from "./atomicassets.constants";
 import { AtomicAttribute, AtomicFormat } from "./atomicdata";
-
-//------------------- Contract Names ------------------------------//
-export const ATOMICASSETS_CONTRACT = Name.fromString("atomicassets")
 
 //------------------- Action Names ------------------------------//
 const ADMINCOLEDIT_ACTION = new ActionWrapper(Name.fromString("admincoledit"))

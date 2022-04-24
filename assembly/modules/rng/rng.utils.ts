@@ -1,4 +1,4 @@
-import { Checksum256 } from "..";
+import { Checksum256 } from "../..";
 
 export function rngChecksumToU64(randomChecksum: Checksum256, maxValue: u64): u64 {
     const byteArray: u8[] = randomChecksum.data;

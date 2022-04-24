@@ -1,5 +1,5 @@
 import { u128 } from "as-bignum";
-import { check } from "../index";
+import { check } from "../..";
 
 export class SafeMath {
     static add(x: u64, y: u64): u64 {
