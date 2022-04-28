@@ -2963,22 +2963,25 @@ declare module 'proton-tsc' {
 }
 declare module 'proton-tsc/modules/authority' {
   /// <reference types="assembly" />
-  import { PermissionLevel, PublicKey } from "proton-tsc";
-  export class KeyWeight {
+  import { PermissionLevel, PublicKey, Table, Name } from "proton-tsc";
+  export class KeyWeight extends Table {
       key: PublicKey;
       weight: u16;
       constructor(key?: PublicKey, weight?: u16);
   }
-  export class PermissionLevelWeight {
+  export class PermissionLevelWeight extends Table {
       permission: PermissionLevel;
       weight: u16;
       constructor(permission?: PermissionLevel, weight?: u16);
+      static from(actor: Name, permission: string, weight: u16): PermissionLevelWeight;
+      toAuthority(): Authority;
   }
-  export class WaitWeight {
+  export class WaitWeight extends Table {
       waitSec: u16;
       weight: u16;
+      constructor(waitSec?: u16, weight?: u16);
   }
-  export class Authority {
+  export class Authority extends Table {
       threshold: u32;
       keys: KeyWeight[];
       accounts: PermissionLevelWeight[];
@@ -3422,6 +3425,10 @@ declare module 'proton-tsc/system/system.inline' {
   export function sendBuyRam(contract: Name, payer: Name, receiver: Name, quantity: Asset): void;
   export function sendSellRam(contract: Name, owner: Name, bytes: i64): void;
   export function sendVoteProducer(contract: Name, voter: Name, proxy: Name, producers: Name[]): void;
+  export function sendUpdateAuth(contract: Name, account: Name, permission: string, parent: string, auth: Authority): void;
+  export function sendDeleteAuth(contract: Name, account: Name, permission: string): void;
+  export function sendLinkAuth(contract: Name, account: Name, code: Name, type: Name, requirement: Name): void;
+  export function sendUnlinkAuth(contract: Name, account: Name, code: Name, type: Name): void;
   export function createNewAccount(contract: Name, creator: Name, name: Name, owner: Authority, active: Authority, ramBytes: u32): void;
 
 }
@@ -3687,294 +3694,6 @@ declare module 'proton-tsc/token/token.spec' {
 declare module 'proton-tsc/token/token.tables' {
   /// <reference types="assembly" />
   import { Asset, Name, Table, Symbol, TableStore } from "proton-tsc";
-  /**
-   * Tables
-   */
-  export class Account extends Table {
-      balance: Asset;
-      constructor(balance?: Asset);
-      get primary(): u64;
-      static getTable(code: Name, accountName: Name): TableStore<Account>;
-  }
-  export class Stat extends Table {
-      supply: Asset;
-      max_supply: Asset;
-      issuer: Name;
-      constructor(supply?: Asset, max_supply?: Asset, issuer?: Name);
-      get primary(): u64;
-      static getTable(code: Name, sym: Symbol): TableStore<Stat>;
-  }
-  /**
-   * Helpers
-   */
-  export function getSupply(tokenContractAccount: Name, sym: Symbol): Asset;
-  export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
-
-}
-declare module 'proton-tsc/vault' {
-  export * from 'proton-tsc/vault/token.contract';
-  export * from 'proton-tsc/vault/token.tables';
-  export * from 'proton-tsc/vault/token.inline';
-
-}
-declare module 'proton-tsc/vault/target' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { PermissionLevel, PublicKey } from "proton-tsc";
-  export class KeyWeight implements _chain.Packer {
-      key: PublicKey;
-      weight: u16;
-      constructor(key?: PublicKey, weight?: u16);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class PermissionLevelWeight implements _chain.Packer {
-      permission: PermissionLevel;
-      weight: u16;
-      constructor(permission?: PermissionLevel, weight?: u16);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class WaitWeight implements _chain.Packer {
-      waitSec: u16;
-      weight: u16;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class Authority implements _chain.Packer {
-      threshold: u32;
-      keys: KeyWeight[];
-      accounts: PermissionLevelWeight[];
-      waits: WaitWeight[];
-      constructor(threshold?: u32, keys?: KeyWeight[], accounts?: PermissionLevelWeight[], waits?: WaitWeight[]);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-
-}
-declare module 'proton-tsc/vault/target/rng.inline' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { Name } from "proton-tsc";
-  export const RNG_CONTRACT: _chain.Name;
-  export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
-
-}
-declare module 'proton-tsc/vault/target/token.contract' {
-  /// <reference types="assembly" />
-  import { Name, Asset, Symbol, Contract } from "proton-tsc/vault";
-  export class TokenContract extends Contract {
-      /**
-       * Allows `issuer` account to create a token in supply of `maximum_supply`. If validation is successful a new entry in statstable for token symbol scope gets created.
-       *
-       * @param issuer - the account that creates the token,
-       * @param maximum_supply - the maximum supply set for the token created.
-       *
-       * @pre Token symbol has to be valid,
-       * @pre Token symbol must not be already created,
-       * @pre maximum_supply has to be smaller than the maximum supply allowed by the system: 1^62 - 1.
-       * @pre Maximum supply must be positive;
-       */
-      create(issuer: Name, maximum_supply: Asset): void;
-      /**
-       *  This action issues to `to` account a `quantity` of tokens.
-       *
-       * @param to - the account to issue tokens to, it must be the same as the issuer,
-       * @param quantity - the amount of tokens to be issued,
-       * @memo - the memo string that accompanies the token issue transaction.
-       */
-      issue(to: Name, quantity: Asset, memo: string): void;
-      /**
-       * The opposite for create action, if all validations succeed,
-       * it debits the statstable.supply amount.
-       *
-       * @param quantity - the quantity of tokens to retire,
-       * @param memo - the memo string to accompany the transaction.
-       */
-      retire(quantity: Asset, memo: string): void;
-      /**
-       * Allows `from` account to transfer to `to` account the `quantity` tokens.
-       * One account is debited and the other is credited with quantity tokens.
-       *
-       * @param from - the account to transfer from,
-       * @param to - the account to be transferred to,
-       * @param quantity - the quantity of tokens to be transferred,
-       * @param memo - the memo string to accompany the transaction.
-       */
-      transfer(from: Name, to: Name, quantity: Asset, memo: string): void;
-      /**
-       * Allows `ram_payer` to create an account `owner` with zero balance for
-       * token `symbol` at the expense of `ram_payer`.
-       *
-       * @param owner - the account to be created,
-       * @param symbol - the token to be payed with by `ram_payer`,
-       * @param ram_payer - the account that supports the cost of this action.
-       *
-       */
-      open(owner: Name, symbol: Symbol, ram_payer: Name): void;
-      /**
-       * This action is the opposite for open, it closes the account `owner`
-       * for token `symbol`.
-       *
-       * @param owner - the owner account to execute the close action for,
-       * @param symbol - the symbol of the token to execute the close action for.
-       *
-       * @pre The pair of owner plus symbol has to exist otherwise no action is executed,
-       * @pre If the pair of owner plus symbol exists, the balance has to be zero.
-       */
-      close(owner: Name, symbol: Symbol): void;
-      subBalance(owner: Name, value: Asset): void;
-      addBalance(owner: Name, value: Asset, ramPayer: Name): void;
-  }
-  export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
-
-}
-declare module 'proton-tsc/vault/target/token.tables' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { Asset, Name, Symbol } from "proton-tsc/vault";
-  import { TableStore } from "proton-tsc/vault";
-  /**
-   * Tables
-   */
-  export class AccountDB extends _chain.MultiIndex<Account> {
-  }
-  export class Account implements _chain.MultiIndexValue {
-      balance: Asset;
-      constructor(balance?: Asset);
-      get primary(): u64;
-      static getTable(code: Name, accountName: Name): TableStore<Account>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): AccountDB;
-  }
-  export class StatDB extends _chain.MultiIndex<Stat> {
-  }
-  export class Stat implements _chain.MultiIndexValue {
-      supply: Asset;
-      max_supply: Asset;
-      issuer: Name;
-      constructor(supply?: Asset, max_supply?: Asset, issuer?: Name);
-      get primary(): u64;
-      static getTable(code: Name, sym: Symbol): TableStore<Stat>;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-      getPrimaryValue(): u64;
-      getSecondaryValue(i: i32): _chain.SecondaryValue;
-      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
-      static new(code: _chain.Name, scope: _chain.Name): StatDB;
-  }
-  /**
-   * Helpers
-   */
-  export function getSupply(tokenContractAccount: Name, sym: Symbol): Asset;
-  export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
-
-}
-declare module 'proton-tsc/vault/token.contract' {
-  import { Name, Asset, Symbol, Contract } from "proton-tsc";
-  export class TokenContract extends Contract {
-      /**
-       * Allows `issuer` account to create a token in supply of `maximum_supply`. If validation is successful a new entry in statstable for token symbol scope gets created.
-       *
-       * @param issuer - the account that creates the token,
-       * @param maximum_supply - the maximum supply set for the token created.
-       *
-       * @pre Token symbol has to be valid,
-       * @pre Token symbol must not be already created,
-       * @pre maximum_supply has to be smaller than the maximum supply allowed by the system: 1^62 - 1.
-       * @pre Maximum supply must be positive;
-       */
-      create(issuer: Name, maximum_supply: Asset): void;
-      /**
-       *  This action issues to `to` account a `quantity` of tokens.
-       *
-       * @param to - the account to issue tokens to, it must be the same as the issuer,
-       * @param quantity - the amount of tokens to be issued,
-       * @memo - the memo string that accompanies the token issue transaction.
-       */
-      issue(to: Name, quantity: Asset, memo: string): void;
-      /**
-       * The opposite for create action, if all validations succeed,
-       * it debits the statstable.supply amount.
-       *
-       * @param quantity - the quantity of tokens to retire,
-       * @param memo - the memo string to accompany the transaction.
-       */
-      retire(quantity: Asset, memo: string): void;
-      /**
-       * Allows `from` account to transfer to `to` account the `quantity` tokens.
-       * One account is debited and the other is credited with quantity tokens.
-       *
-       * @param from - the account to transfer from,
-       * @param to - the account to be transferred to,
-       * @param quantity - the quantity of tokens to be transferred,
-       * @param memo - the memo string to accompany the transaction.
-       */
-      transfer(from: Name, to: Name, quantity: Asset, memo: string): void;
-      /**
-       * Allows `ram_payer` to create an account `owner` with zero balance for
-       * token `symbol` at the expense of `ram_payer`.
-       *
-       * @param owner - the account to be created,
-       * @param symbol - the token to be payed with by `ram_payer`,
-       * @param ram_payer - the account that supports the cost of this action.
-       *
-       */
-      open(owner: Name, symbol: Symbol, ram_payer: Name): void;
-      /**
-       * This action is the opposite for open, it closes the account `owner`
-       * for token `symbol`.
-       *
-       * @param owner - the owner account to execute the close action for,
-       * @param symbol - the symbol of the token to execute the close action for.
-       *
-       * @pre The pair of owner plus symbol has to exist otherwise no action is executed,
-       * @pre If the pair of owner plus symbol exists, the balance has to be zero.
-       */
-      close(owner: Name, symbol: Symbol): void;
-      subBalance(owner: Name, value: Asset): void;
-      addBalance(owner: Name, value: Asset, ramPayer: Name): void;
-  }
-
-}
-declare module 'proton-tsc/vault/token.inline' {
-  import { ActionWrapper, Name, ExtendedAsset, Asset, InlineAction } from "proton-tsc";
-  export const transfer: ActionWrapper;
-  export class TokenTransfer extends InlineAction {
-      from: Name;
-      to: Name;
-      quantity: Asset;
-      memo: string;
-      constructor(from?: Name, to?: Name, quantity?: Asset, memo?: string);
-  }
-  /**
-   * Send tokens from one account to another
-   * @param {Name} from - Name of the account to transfer tokens from.
-   * @param {Name} to - The name of the account to transfer the tokens to.
-   * @param {ExtendedAsset[]} tokens - An array of ExtendedAsset objects.
-   * @param {string} memo - A string that is included in the transaction. This is optional.
-   */
-  export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
-
-}
-declare module 'proton-tsc/vault/token.spec' {
-  export {};
-
-}
-declare module 'proton-tsc/vault/token.tables' {
-  /// <reference types="assembly" />
-  import { Asset, Name, Table, Symbol } from "proton-tsc";
-  import { TableStore } from "proton-tsc";
   /**
    * Tables
    */
