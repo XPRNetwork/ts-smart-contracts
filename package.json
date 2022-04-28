@@ -1,6 +1,6 @@
 {
   "name": "proton-tsc",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "license": "MIT",
   "types": "./index.d.ts",
   "main": "./assembly/index.ts",
@@ -20,6 +20,8 @@
     "test:atomicassets": "mocha -s 250 ./assembly/atomicassets/*.spec.ts -r ts-node/register",
     "test:store": "mocha -s 250 ./assembly/modules/store/store.spec.ts -r ts-node/register",
     "test:safemath": "mocha -s 250 ./assembly/modules/safemath/safemath.spec.ts -r ts-node/register",
+    "build:vault": "npx proton-asc ./assembly/vault/vault.contract.ts",
+    "test:vault": "mocha -s 250 ./assembly/vault/vault.spec.ts -r ts-node/register",
     "test": "run-p test:* --max-parallel 3",
     "buildexamples": "npm run --prefix examples build",
     "testexamples": "npm run --prefix examples test",

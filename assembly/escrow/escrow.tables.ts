@@ -1,4 +1,4 @@
-import { ExtendedAsset, Name, Table, Singleton, TableStore } from "../index";
+import { ExtendedAsset, Name, Table, Singleton, TableStore, IDX64, IDXDB } from "../index";
 
 @table("escrowglobal", singleton)
 export class EscrowGlobal extends Table {
@@ -52,6 +52,13 @@ export class Escrow extends Table {
     }
    
     static getTable(code: Name): TableStore<Escrow> {
-        return new TableStore<Escrow>(code, code, Name.fromString("escrows"));
+        const scope = code
+        const tableName = Name.fromString("escrows")
+        const idxTableBase: u64 = (tableName.N & 0xfffffffffffffff0);
+        const indexes: IDXDB[] = [
+            new IDX64(code.N, scope.N, idxTableBase + 0, 0),
+            new IDX64(code.N, scope.N, idxTableBase + 1, 0),
+        ];
+        return new TableStore<Escrow>(code, code, tableName, indexes);
     }
 }
