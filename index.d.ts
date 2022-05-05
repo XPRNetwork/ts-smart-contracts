@@ -2078,6 +2078,8 @@ declare module 'proton-tsc/chain' {
   export { IDX128 } from "as-chain";
   export { IDX256 } from "as-chain";
   export { VariantValue } from "as-chain";
+  export { Optional } from "as-chain";
+  export { BinaryExtension } from "as-chain";
   export { assert, check, currentTimePoint, currentTime, currentTimeMs, currentTimeSec, } from "as-chain";
   export { Microseconds, TimePoint, TimePointSec, BlockTimestamp } from "as-chain";
   export { prints, printui, print, printString, printArray, printHex, printi, printI128, printU128, printsf, printdf, printqf, printn, } from "as-chain";
