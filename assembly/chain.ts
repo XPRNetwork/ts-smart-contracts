@@ -10,6 +10,8 @@ export { IDXF128 } from "as-chain";
 export { IDX128 } from "as-chain";
 export { IDX256 } from "as-chain";
 export { VariantValue } from "as-chain";
+export { Optional } from "as-chain";
+export { BinaryExtension } from "as-chain";
 
 export {
     assert,
