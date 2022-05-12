@@ -2843,7 +2843,7 @@ declare module 'proton-tsc/escrow/target/escrow.tables' {
 declare module 'proton-tsc/escrow/target' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { PermissionLevel, PublicKey } from "proton-tsc";
+  import { PermissionLevel, PublicKey, Name } from "proton-tsc";
   export class KeyWeight implements _chain.Packer {
       key: PublicKey;
       weight: u16;
@@ -2856,6 +2856,8 @@ declare module 'proton-tsc/escrow/target' {
       permission: PermissionLevel;
       weight: u16;
       constructor(permission?: PermissionLevel, weight?: u16);
+      static from(actor: Name, permission: string, weight: u16): PermissionLevelWeight;
+      toAuthority(): Authority;
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -2863,6 +2865,7 @@ declare module 'proton-tsc/escrow/target' {
   export class WaitWeight implements _chain.Packer {
       waitSec: u16;
       weight: u16;
+      constructor(waitSec?: u16, weight?: u16);
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
