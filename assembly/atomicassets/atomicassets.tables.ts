@@ -139,7 +139,7 @@ export class Offers extends Table {
         const idxTableBase: u64 = (tableName.N & 0xfffffffffffffff0);
         const indexes: IDXDB[] = [
             new IDX64(code.N, scope.N, idxTableBase + 0, 0),
-            new IDX64(code.N, scope.N, idxTableBase + 1, 0),
+            new IDX64(code.N, scope.N, idxTableBase + 1, 1),
         ];
         return new TableStore<Offers>(code, code, tableName, indexes);
     }
