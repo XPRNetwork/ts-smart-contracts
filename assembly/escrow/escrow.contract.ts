@@ -93,6 +93,7 @@ class EscrowContract extends BalanceContract {
 
         // Validation
         check(escrow.to == actor, `only ${escrow.to} can fill this escrow`);
+        check(escrow.expiry >= currentTimePoint().secSinceEpoch(), "escrow expired");
 
         // Substract balances
         this.substractBalance(escrow.to, escrow.toTokens, escrow.toNfts)
