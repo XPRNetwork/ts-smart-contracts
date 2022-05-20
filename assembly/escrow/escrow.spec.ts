@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Account, Blockchain, protonAssert,  expectToThrow, createDummyNfts, mintTokens, nameToBigInt, symbolCodeToBigInt } from "@proton/vert"
+import { Account, Blockchain, protonAssert, expectToThrow, createDummyNfts, mintTokens, nameToBigInt, symbolCodeToBigInt } from "@proton/vert"
 import { TimePointSec, Name, Asset } from "@greymass/eosio";
 
 /* Create Blockchain */
@@ -57,7 +57,7 @@ describe('Escrow', () => {
   }
 
   describe('Start Escrow (startescrow)', () => {
-    it('Fails if called with non-actor', async () => { 
+    it('Fails if called with non-actor', async () => {
       // Valid
       let escrow = await generateSingleEscrowDeposit()
       await escrowContract.actions.startescrow(escrow).send('collector@active')
@@ -75,8 +75,8 @@ describe('Escrow', () => {
       let escrow = await generateSingleEscrowDeposit()
       await escrowContract.actions.startescrow(escrow).send('collector@active'),
 
-      // Invalid
-      escrow = await generateSingleEscrowDeposit()
+        // Invalid
+        escrow = await generateSingleEscrowDeposit()
       await escrowContract.actions.setglobals([true, false, false]).send()
       await expectToThrow(
         escrowContract.actions.startescrow(escrow).send('collector@active'),
@@ -85,7 +85,7 @@ describe('Escrow', () => {
     });
 
     it("Fails if 'to' account is invalid", async () => {
-      const startAndCancelEscrow = async (escrowId: number, to: string, ) => {
+      const startAndCancelEscrow = async (escrowId: number, to: string) => {
         const escrow = await generateSingleEscrowDeposit()
         escrow.to = to
         await escrowContract.actions.startescrow(escrow).send('collector@active')
@@ -186,7 +186,7 @@ describe('Escrow', () => {
       }
     });
 
-    it('Saves 1 escrow to table', async () => { 
+    it('Saves 1 escrow to table', async () => {
       const escrow = await generateSingleEscrowDeposit()
       await escrowContract.actions.startescrow(escrow).send('collector@active')
       expect(getEscrowRows()).to.be.deep.equal([{
@@ -197,7 +197,7 @@ describe('Escrow', () => {
   })
 
   describe('Fill Escrow (fillescrow)', () => {
-    it('Fails if called with non-actor', async () => { 
+    it('Fails if called with non-actor', async () => {
       let escrow = await generateSingleEscrowDeposit()
       await escrowContract.actions.startescrow(escrow).send('collector@active')
       await escrowContract.actions.fillescrow(['trader', 0]).send('trader@active')
@@ -208,6 +208,29 @@ describe('Escrow', () => {
         escrowContract.actions.fillescrow(['trader', 0]).send('collector@active'),
         'missing required authority trader'
       )
+    });
+
+    it('Fails if contract expired', async () => {
+      const startFillAndCancelEscrow = async (escrowId: number, currentTime: number) => {
+        blockchain.setTime(TimePointSec.from(1))
+        const escrow = await generateSingleEscrowDeposit()
+        escrow.expiry = 10
+        await escrowContract.actions.startescrow(escrow).send('collector@active')
+        blockchain.setTime(TimePointSec.from(currentTime))
+        await escrowContract.actions.fillescrow(['trader', escrowId]).send('trader@active')
+      }
+
+      // Valid -> Escrow expires in future
+      await startFillAndCancelEscrow(0, 9);
+
+      // Valid -> Escrow expires exactly at the moment
+      await startFillAndCancelEscrow(1, 10);
+
+      // Invalid -> Escrow already expired
+      await expectToThrow(
+        startFillAndCancelEscrow(2, 11),
+        protonAssert('escrow expired')
+      );
     });
 
     it('Fails if contract is paused', async () => {
@@ -231,7 +254,7 @@ describe('Escrow', () => {
     });
 
     it("Fails if 'to' does not match specific", async () => {
-      const startFillAndCancelEscrow = async (escrowId: number, to: string, ) => {
+      const startFillAndCancelEscrow = async (escrowId: number, to: string) => {
         const escrow = await generateSingleEscrowDeposit()
         escrow.to = to
         await escrowContract.actions.startescrow(escrow).send('collector@active')
@@ -297,7 +320,7 @@ describe('Escrow', () => {
   })
 
   describe('Cancel Escrow (cancelescrow)', () => {
-    it('Fails if called with non-actor', async () => { 
+    it('Fails if called with non-actor', async () => {
       let escrow = await generateSingleEscrowDeposit()
       await escrowContract.actions.startescrow(escrow).send('collector@active')
       await escrowContract.actions.cancelescrow(['trader', 0]).send('trader@active')
@@ -330,7 +353,7 @@ describe('Escrow', () => {
       )
     });
 
-    it("Fails if called by not 'from' or 'to'", async () => { 
+    it("Fails if called by not 'from' or 'to'", async () => {
       // Valid -> By to
       let escrow = await generateSingleEscrowDeposit()
       await escrowContract.actions.startescrow(escrow).send('collector@active')
@@ -377,7 +400,7 @@ describe('Escrow', () => {
   })
 
   describe('Log Escrow (logescrow)', () => {
-    it('Fails if called by other than owner', async () => { 
+    it('Fails if called by other than owner', async () => {
       const escrow = await generateSingleEscrowDeposit()
       const action = escrowContract.actions.logescrow([{ ...escrow, id: 0 }, "start"])
       await action.send('escrow@active')
