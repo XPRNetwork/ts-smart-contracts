@@ -202,7 +202,7 @@ declare module 'proton-tsc/allow/target/allow.tables' {
 declare module 'proton-tsc/allow/target' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { PermissionLevel, PublicKey } from "proton-tsc";
+  import { PermissionLevel, PublicKey, Name } from "proton-tsc";
   export class KeyWeight implements _chain.Packer {
       key: PublicKey;
       weight: u16;
@@ -215,6 +215,8 @@ declare module 'proton-tsc/allow/target' {
       permission: PermissionLevel;
       weight: u16;
       constructor(permission?: PermissionLevel, weight?: u16);
+      static from(actor: Name, permission: string, weight: u16): PermissionLevelWeight;
+      toAuthority(): Authority;
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -222,6 +224,7 @@ declare module 'proton-tsc/allow/target' {
   export class WaitWeight implements _chain.Packer {
       waitSec: u16;
       weight: u16;
+      constructor(waitSec?: u16, weight?: u16);
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -1133,7 +1136,7 @@ declare module 'proton-tsc/atomicassets/target/base58' {
 declare module 'proton-tsc/atomicassets/target' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { PermissionLevel, PublicKey } from "proton-tsc";
+  import { PermissionLevel, PublicKey, Name } from "proton-tsc";
   export class KeyWeight implements _chain.Packer {
       key: PublicKey;
       weight: u16;
@@ -1146,6 +1149,8 @@ declare module 'proton-tsc/atomicassets/target' {
       permission: PermissionLevel;
       weight: u16;
       constructor(permission?: PermissionLevel, weight?: u16);
+      static from(actor: Name, permission: string, weight: u16): PermissionLevelWeight;
+      toAuthority(): Authority;
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -1153,6 +1158,7 @@ declare module 'proton-tsc/atomicassets/target' {
   export class WaitWeight implements _chain.Packer {
       waitSec: u16;
       weight: u16;
+      constructor(waitSec?: u16, weight?: u16);
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -1952,7 +1958,7 @@ declare module 'proton-tsc/balance/target/base58' {
 declare module 'proton-tsc/balance/target' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { PermissionLevel, PublicKey } from "proton-tsc";
+  import { PermissionLevel, PublicKey, Name } from "proton-tsc";
   export class KeyWeight implements _chain.Packer {
       key: PublicKey;
       weight: u16;
@@ -1965,6 +1971,8 @@ declare module 'proton-tsc/balance/target' {
       permission: PermissionLevel;
       weight: u16;
       constructor(permission?: PermissionLevel, weight?: u16);
+      static from(actor: Name, permission: string, weight: u16): PermissionLevelWeight;
+      toAuthority(): Authority;
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -1972,6 +1980,7 @@ declare module 'proton-tsc/balance/target' {
   export class WaitWeight implements _chain.Packer {
       waitSec: u16;
       weight: u16;
+      constructor(waitSec?: u16, weight?: u16);
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -2001,7 +2010,7 @@ declare module 'proton-tsc/balance/target/token.inline' {
   import * as _chain from "as-chain";
   import { Name, ExtendedAsset, Asset } from "proton-tsc/balance";
   export const transfer: any;
-  export class TokenTransfer implements _chain.Packer {
+  export class Transfer implements _chain.Packer {
       from: Name;
       to: Name;
       quantity: Asset;
@@ -2011,6 +2020,44 @@ declare module 'proton-tsc/balance/target/token.inline' {
       unpack(data: u8[]): usize;
       getSize(): usize;
   }
+  export class Issue implements _chain.Packer {
+      to: Name;
+      quantity: Asset;
+      memo: string;
+      constructor(to?: Name, quantity?: Asset, memo?: string);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class Retire implements _chain.Packer {
+      quantity: Asset;
+      memo: string;
+      constructor(quantity?: Asset, memo?: string);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  /**
+   * Issue token
+   * @param {Name} to - The name of the account to transfer the tokens to.
+   * @param {ExtendedAsset} quantity - Quantity
+   * @param {string} memo - A string that is included in the transaction. This is optional.
+   */
+  export function sendIssue(tokenContract: Name, issuer: Name, to: Name, quantity: Asset, memo: string): void;
+  /**
+   * Retire token
+   * @param {ExtendedAsset} quantity - Quantity
+   * @param {string} memo - A string that is included in the transaction. This is optional.
+   */
+  export function sendRetire(tokenContract: Name, retiree: Name, quantity: Asset, memo: string): void;
+  /**
+   * Send token from one account to another
+   * @param {Name} from - Name of the account to transfer tokens from.
+   * @param {Name} to - The name of the account to transfer the tokens to.
+   * @param {ExtendedAsset} quantity - Quantity
+   * @param {string} memo - A string that is included in the transaction. This is optional.
+   */
+  export function sendTransferToken(tokenContract: Name, from: Name, to: Name, quantity: Asset, memo: string): void;
   /**
    * Send tokens from one account to another
    * @param {Name} from - Name of the account to transfer tokens from.
@@ -2895,7 +2942,7 @@ declare module 'proton-tsc/escrow/target/token.inline' {
   import * as _chain from "as-chain";
   import { Name, ExtendedAsset, Asset } from "proton-tsc/escrow";
   export const transfer: any;
-  export class TokenTransfer implements _chain.Packer {
+  export class Transfer implements _chain.Packer {
       from: Name;
       to: Name;
       quantity: Asset;
@@ -2905,6 +2952,44 @@ declare module 'proton-tsc/escrow/target/token.inline' {
       unpack(data: u8[]): usize;
       getSize(): usize;
   }
+  export class Issue implements _chain.Packer {
+      to: Name;
+      quantity: Asset;
+      memo: string;
+      constructor(to?: Name, quantity?: Asset, memo?: string);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class Retire implements _chain.Packer {
+      quantity: Asset;
+      memo: string;
+      constructor(quantity?: Asset, memo?: string);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  /**
+   * Issue token
+   * @param {Name} to - The name of the account to transfer the tokens to.
+   * @param {ExtendedAsset} quantity - Quantity
+   * @param {string} memo - A string that is included in the transaction. This is optional.
+   */
+  export function sendIssue(tokenContract: Name, issuer: Name, to: Name, quantity: Asset, memo: string): void;
+  /**
+   * Retire token
+   * @param {ExtendedAsset} quantity - Quantity
+   * @param {string} memo - A string that is included in the transaction. This is optional.
+   */
+  export function sendRetire(tokenContract: Name, retiree: Name, quantity: Asset, memo: string): void;
+  /**
+   * Send token from one account to another
+   * @param {Name} from - Name of the account to transfer tokens from.
+   * @param {Name} to - The name of the account to transfer the tokens to.
+   * @param {ExtendedAsset} quantity - Quantity
+   * @param {string} memo - A string that is included in the transaction. This is optional.
+   */
+  export function sendTransferToken(tokenContract: Name, from: Name, to: Name, quantity: Asset, memo: string): void;
   /**
    * Send tokens from one account to another
    * @param {Name} from - Name of the account to transfer tokens from.
@@ -3041,7 +3126,7 @@ declare module 'proton-tsc/modules/safemath/safemath.test' {
 declare module 'proton-tsc/modules/safemath/target' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { PermissionLevel, PublicKey } from "proton-tsc/modules";
+  import { PermissionLevel, PublicKey, Name } from "proton-tsc/modules";
   export class KeyWeight implements _chain.Packer {
       key: PublicKey;
       weight: u16;
@@ -3054,6 +3139,8 @@ declare module 'proton-tsc/modules/safemath/target' {
       permission: PermissionLevel;
       weight: u16;
       constructor(permission?: PermissionLevel, weight?: u16);
+      static from(actor: Name, permission: string, weight: u16): PermissionLevelWeight;
+      toAuthority(): Authority;
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -3061,6 +3148,7 @@ declare module 'proton-tsc/modules/safemath/target' {
   export class WaitWeight implements _chain.Packer {
       waitSec: u16;
       weight: u16;
+      constructor(waitSec?: u16, weight?: u16);
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -3182,7 +3270,7 @@ declare module 'proton-tsc/modules/store/store.test' {
 declare module 'proton-tsc/modules/store/target' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { PermissionLevel, PublicKey } from "proton-tsc/modules";
+  import { PermissionLevel, PublicKey, Name } from "proton-tsc/modules";
   export class KeyWeight implements _chain.Packer {
       key: PublicKey;
       weight: u16;
@@ -3195,6 +3283,8 @@ declare module 'proton-tsc/modules/store/target' {
       permission: PermissionLevel;
       weight: u16;
       constructor(permission?: PermissionLevel, weight?: u16);
+      static from(actor: Name, permission: string, weight: u16): PermissionLevelWeight;
+      toAuthority(): Authority;
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -3202,6 +3292,7 @@ declare module 'proton-tsc/modules/store/target' {
   export class WaitWeight implements _chain.Packer {
       waitSec: u16;
       weight: u16;
+      constructor(waitSec?: u16, weight?: u16);
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -3446,7 +3537,7 @@ declare module 'proton-tsc/token' {
 declare module 'proton-tsc/token/target' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { PermissionLevel, PublicKey } from "proton-tsc";
+  import { PermissionLevel, PublicKey, Name } from "proton-tsc";
   export class KeyWeight implements _chain.Packer {
       key: PublicKey;
       weight: u16;
@@ -3459,6 +3550,8 @@ declare module 'proton-tsc/token/target' {
       permission: PermissionLevel;
       weight: u16;
       constructor(permission?: PermissionLevel, weight?: u16);
+      static from(actor: Name, permission: string, weight: u16): PermissionLevelWeight;
+      toAuthority(): Authority;
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -3466,6 +3559,7 @@ declare module 'proton-tsc/token/target' {
   export class WaitWeight implements _chain.Packer {
       waitSec: u16;
       weight: u16;
+      constructor(waitSec?: u16, weight?: u16);
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -3675,13 +3769,45 @@ declare module 'proton-tsc/token/token.contract' {
 declare module 'proton-tsc/token/token.inline' {
   import { ActionWrapper, Name, ExtendedAsset, Asset, InlineAction } from "proton-tsc";
   export const transfer: ActionWrapper;
-  export class TokenTransfer extends InlineAction {
+  export class Transfer extends InlineAction {
       from: Name;
       to: Name;
       quantity: Asset;
       memo: string;
       constructor(from?: Name, to?: Name, quantity?: Asset, memo?: string);
   }
+  export class Issue extends InlineAction {
+      to: Name;
+      quantity: Asset;
+      memo: string;
+      constructor(to?: Name, quantity?: Asset, memo?: string);
+  }
+  export class Retire extends InlineAction {
+      quantity: Asset;
+      memo: string;
+      constructor(quantity?: Asset, memo?: string);
+  }
+  /**
+   * Issue token
+   * @param {Name} to - The name of the account to transfer the tokens to.
+   * @param {ExtendedAsset} quantity - Quantity
+   * @param {string} memo - A string that is included in the transaction. This is optional.
+   */
+  export function sendIssue(tokenContract: Name, issuer: Name, to: Name, quantity: Asset, memo: string): void;
+  /**
+   * Retire token
+   * @param {ExtendedAsset} quantity - Quantity
+   * @param {string} memo - A string that is included in the transaction. This is optional.
+   */
+  export function sendRetire(tokenContract: Name, retiree: Name, quantity: Asset, memo: string): void;
+  /**
+   * Send token from one account to another
+   * @param {Name} from - Name of the account to transfer tokens from.
+   * @param {Name} to - The name of the account to transfer the tokens to.
+   * @param {ExtendedAsset} quantity - Quantity
+   * @param {string} memo - A string that is included in the transaction. This is optional.
+   */
+  export function sendTransferToken(tokenContract: Name, from: Name, to: Name, quantity: Asset, memo: string): void;
   /**
    * Send tokens from one account to another
    * @param {Name} from - Name of the account to transfer tokens from.
