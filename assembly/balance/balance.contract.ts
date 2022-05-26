@@ -1,5 +1,5 @@
 import { ExtendedAsset, unpackActionData, Name, check, requireAuth, SAME_PAYER, TableStore } from '..'
-import { TokenTransfer, sendTransferTokens } from '../token';
+import { Transfer, sendTransferTokens } from '../token';
 import { AllowContract } from '../allow';
 import { ATOMICASSETS_CONTRACT, sendTransferNfts, TransferNfts } from '../atomicassets'
 import { Balance } from './balance.tables';
@@ -36,7 +36,7 @@ export class BalanceContract extends AllowContract {
             this.addBalance(t.from, [], t.asset_ids, this.contract)
         } else {
             // Unpack token transfer
-            let t = unpackActionData<TokenTransfer>()
+            let t = unpackActionData<Transfer>()
 
             // Skip if outgoing
             if (t.from == this.contract) {
