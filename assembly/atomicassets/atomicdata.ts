@@ -1,6 +1,6 @@
-import { decode, encode } from "./base58";
 import { check, Encoder, Utils, Decoder, Variant } from "..";
-import { RESERVED } from "./atomicassets.inline";
+import { decode, encode } from "./base58";
+import { RESERVED } from "./atomicassets.constants";
 
 @packer
 export class AtomicFormat {

@@ -1,5 +1,4 @@
-import { u128 } from "as-bignum";
-import { check } from "../..";
+import { check, U128 } from "../..";
 
 export class SafeMath {
     static add(x: u64, y: u64): u64 {
@@ -14,11 +13,11 @@ export class SafeMath {
         return z;
     }
 
-    static mul(_x: u64, _y: u64): u128 {
-        const x = new u128(_x)
-        const y = new u128(_y)
-        const z: u128 = u128.mul(x, y);
-        check(_y == 0 || u128.eq(u128.div(z, y), x), "SafeMath Mul Overflow");
+    static mul(_x: u64, _y: u64): U128 {
+        const x = new U128(_x)
+        const y = new U128(_y)
+        const z: U128 = U128.mul(x, y);
+        check(_y == 0 || U128.eq(U128.div(z, y), x), "SafeMath Mul Overflow");
         return z;
     }
     

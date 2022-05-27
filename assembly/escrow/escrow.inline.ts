@@ -1,4 +1,4 @@
-import { Name, Table, PermissionLevel, ActionWrapper } from ".."
+import { Name, Table, PermissionLevel, InlineAction } from ".."
 import { Escrow } from "./escrow.tables";
 
 export namespace ESCROW_STATUS {
@@ -26,8 +26,8 @@ export class LogEscrow extends Table {
  * @param {string} status - The status of the escrow.
  */
 export function sendLogEscrow(contract: Name, escrow: Escrow, status: string): void {
-    const logescrow = ActionWrapper.fromString("logescrow");
-    const action = logescrow.act(contract, new PermissionLevel(contract))
+    const LOGESCROW = new InlineAction<LogEscrow>("logescrow")
+    const action = LOGESCROW.act(contract, new PermissionLevel(contract))
     const actionParams = new LogEscrow(escrow, status)
     action.send(actionParams)
 }

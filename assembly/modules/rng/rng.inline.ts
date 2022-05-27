@@ -1,10 +1,9 @@
-import { InlineAction, Name, PermissionLevel, ActionWrapper } from "../..";
+import { Name, PermissionLevel, InlineAction, ActionData } from "../..";
 
 export const RNG_CONTRACT = Name.fromString("rng")
-const RNG_ACTION = ActionWrapper.fromString("requestrand");
 
 @packer
-class RequestRandom extends InlineAction {
+class RequestRandom extends ActionData {
     constructor (
         public customerId: u64 = 0,
         public signingValue: u64 = 0,
@@ -16,7 +15,8 @@ class RequestRandom extends InlineAction {
 
 // Inline action
 export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void {
-    const action = RNG_ACTION.act(RNG_CONTRACT, new PermissionLevel(contract))
+    const REQUESTRANDOM = new InlineAction<RequestRandom>("requestrand");
+    const action = REQUESTRANDOM.act(RNG_CONTRACT, new PermissionLevel(contract))
     const actionParams = new RequestRandom(customerId, signingValue, contract)
     action.send(actionParams)
 }
