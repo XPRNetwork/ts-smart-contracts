@@ -2,7 +2,7 @@ import { Name, check, requireAuth, Contract, hasAuth, isAccount, Singleton, prin
 import { Collections, Config } from './atomicassets.tables';
 import { AtomicAttribute, serialize, AtomicFormat, deserialize } from './atomicdata';
 import { check_name_length } from './checkformat';
-import { MAX_MARKET_FEE } from "./atomicassets.inline";
+import { MAX_MARKET_FEE } from "./atomicassets.constants";
 
 @contract
 class AtomicAssetsContract extends Contract {

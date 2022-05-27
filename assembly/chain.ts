@@ -61,7 +61,7 @@ export {
 export { MultiIndex, MultiIndexValue, SAME_PAYER } from "as-chain";
 export { Singleton } from "as-chain";
 
-export {Contract, ActionWrapper, Table, InlineAction, Variant} from "as-chain"
+export {Contract, Table, InlineAction, ActionData, Variant} from "as-chain"
 
 export {
     getSender,

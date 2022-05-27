@@ -1,10 +1,7 @@
-import { ActionWrapper, Name, ExtendedAsset, PermissionLevel, Asset, InlineAction } from ".."
-
-// Actions
-export const transfer = ActionWrapper.fromString("transfer")
+import { Name, ExtendedAsset, PermissionLevel, Asset, InlineAction, ActionData } from ".."
 
 @packer
-export class Transfer extends InlineAction {
+export class Transfer extends ActionData {
     constructor (
         public from: Name = new Name(),
         public to: Name = new Name(),
@@ -16,7 +13,7 @@ export class Transfer extends InlineAction {
 }
 
 @packer
-export class Issue extends InlineAction {
+export class Issue extends ActionData {
     constructor (
         public to: Name = new Name(),
         public quantity: Asset = new Asset(),
@@ -27,7 +24,7 @@ export class Issue extends InlineAction {
 }
 
 @packer
-export class Retire extends InlineAction {
+export class Retire extends ActionData {
     constructor (
         public quantity: Asset = new Asset(),
         public memo: string = "",
@@ -43,7 +40,8 @@ export class Retire extends InlineAction {
  * @param {string} memo - A string that is included in the transaction. This is optional.
  */
 export function sendIssue(tokenContract: Name, issuer: Name, to: Name, quantity: Asset, memo: string): void {
-    const action = transfer.act(tokenContract, new PermissionLevel(issuer))
+    const ISSUE = new InlineAction<Issue>("issue")
+    const action = ISSUE.act(tokenContract, new PermissionLevel(issuer))
     const actionParams = new Issue(to, quantity, memo)
     action.send(actionParams)
 }
@@ -54,7 +52,8 @@ export function sendIssue(tokenContract: Name, issuer: Name, to: Name, quantity:
  * @param {string} memo - A string that is included in the transaction. This is optional.
  */
  export function sendRetire(tokenContract: Name, retiree: Name, quantity: Asset, memo: string): void {
-    const action = transfer.act(tokenContract, new PermissionLevel(retiree))
+    const RETIRE = new InlineAction<Retire>("retire")
+    const action = RETIRE.act(tokenContract, new PermissionLevel(retiree))
     const actionParams = new Retire(quantity, memo)
     action.send(actionParams)
 }
@@ -67,7 +66,8 @@ export function sendIssue(tokenContract: Name, issuer: Name, to: Name, quantity:
  * @param {string} memo - A string that is included in the transaction. This is optional.
  */
 export function sendTransferToken(tokenContract: Name, from: Name, to: Name, quantity: Asset, memo: string): void {
-    const action = transfer.act(tokenContract, new PermissionLevel(from))
+    const TRANSFER = new InlineAction<Transfer>("transfer")
+    const action = TRANSFER.act(tokenContract, new PermissionLevel(from))
     const actionParams = new Transfer(from, to, quantity, memo)
     action.send(actionParams)
 }
