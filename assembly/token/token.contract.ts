@@ -16,13 +16,15 @@ export class TokenContract extends Contract {
      * @pre Maximum supply must be positive;
      */
     @action("create")
-    create(issuer: Name, maximum_supply: Asset): void {
+    create(
+        issuer: Name,
+        maximum_supply: Asset
+    ): void {
         requireAuth(this.receiver);
 
-        const sym = maximum_supply.symbol;
-        check(maximum_supply.isValid(), "invalid supply");
         check(maximum_supply.amount > 0, "max-supply must be positive");
 
+        const sym = maximum_supply.symbol;
         const statstable = Stat.getTable(this.receiver, sym);
         check(!statstable.exists(sym.code()), "token with symbol already exists")
 
@@ -39,20 +41,26 @@ export class TokenContract extends Contract {
      * @memo - the memo string that accompanies the token issue transaction.
      */
     @action("issue")
-    issue(to: Name, quantity: Asset, memo: string): void {
-        const sym = quantity.symbol;
-        check(sym.isValid(), "invalid symbol name");
+    issue(
+        to: Name,
+        quantity: Asset,
+        memo: string
+    ): void {
         check(memo.length <= 256, "memo has more than 256 bytes");
 
+        const sym = quantity.symbol;
         const statstable = Stat.getTable(this.receiver, sym);
         const st = statstable.requireGet(sym.code(), "token with symbol does not exist, create token before issue");
-        check(to == st.issuer,  "tokens can only be issued to issuer account");
 
         requireAuth(st.issuer);
-        check(quantity.isValid(), "invalid quantity");
+
+        check(to == st.issuer, "tokens can only be issued to issuer account");
+
         check(quantity.amount > 0, "must issue positive quantity");
 
+        // ? This check makes no sense. It is impossible to get different symbols for quantity and supply, because we get supply from quantity symbol
         check(quantity.symbol == st.supply.symbol, "symbol precision mismatch");
+
         check(quantity.amount <= st.max_supply.amount - st.supply.amount, "quantity exceeds available supply");
 
         st.supply = Asset.add(st.supply, quantity);
@@ -69,7 +77,10 @@ export class TokenContract extends Contract {
      * @param memo - the memo string to accompany the transaction.
      */
     @action("retire")
-    retire(quantity: Asset, memo: string): void {
+    retire(
+        quantity: Asset,
+        memo: string
+    ): void {
         const sym = quantity.symbol;
         check(sym.isValid(), "invalid symbol name");
         check(memo.length <= 256, "memo has more than 256 bytes");
@@ -162,8 +173,14 @@ export class TokenContract extends Contract {
     close(owner: Name, symbol: Symbol): void {
         requireAuth(owner);
         const acnts = Account.getTable(this.receiver, owner)
-        const account = acnts.requireGet(symbol.code(), "Balance row already deleted or never existed. Action won't have any effect.");
-        check(account.balance.amount == 0, "Cannot close because the balance is not zero.");
+        const account = acnts.requireGet(
+            symbol.code(),
+            "Balance row already deleted or never existed. Action won't have any effect."
+        );
+        check(
+            account.balance.amount == 0,
+            "Cannot close because the balance is not zero."
+        );
         acnts.remove(account);
     }
 
