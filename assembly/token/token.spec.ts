@@ -6,7 +6,7 @@ import { Blockchain, nameToBigInt, symbolCodeToBigInt, protonAssert, expectToThr
  * Initialize
  */
 const blockchain = new Blockchain()
-const eosioToken = blockchain.createContract('eosio.token', 'assembly/token/target/token.contract');
+const eosioToken = blockchain.createContract('token', 'assembly/token/target/token.contract');
 blockchain.createAccounts('alice', 'bob')
 
 beforeEach(() => {
@@ -42,25 +42,34 @@ function account(balance: string) {
 /**
  * Tests
  */
-describe('eos-vm', () => {
-  describe('eosio.token', () => {
-    it('create', async () => {
+describe('Token', () => {
+  describe('create', () => {
+    it('Success', async () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
-      expect(getStat(symcode)).to.be.deep.equal(currency_stats('0.000 TKN', '1000.000 TKN', 'alice'))
+      expect(getStat(symcode)).to.be.deep.equal(currency_stats(`0.000 ${symcode}`, `1000.000 ${symcode}`, 'alice'))
     });
 
-    it('create: negative_max_supply', async () => {
+    it('Authentication is required', async () => {
+      const symcode = 'TKN';
+
+      await expectToThrow(
+        eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send('alice@active'),
+        'missing required authority token'
+      );
+    });
+
+    it('Negative max supply must fail', async () => {
       await expectToThrow(
         eosioToken.actions.create(['alice', '-1000.000 TKN']).send(),
         protonAssert('max-supply must be positive')
       )
     });
 
-    it('create: symbol_already_exists', async () => {
+    it('Symbol already exists must fail', async () => {
       const action = eosioToken.actions.create(['alice', '100 TKN'])
-      
+
       await action.send();
 
       await expectToThrow(
@@ -69,7 +78,7 @@ describe('eos-vm', () => {
       )
     });
 
-    it('create: max_supply', async () => {
+    it('Max supply must fail', async () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `4611686018427387903 ${symcode}`]).send();
@@ -81,7 +90,7 @@ describe('eos-vm', () => {
       )
     });
 
-    it('create: max_decimals', async () => {
+    it('max_decimals must fail', async () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1.000000000000000000 ${symcode}`]).send();
@@ -94,30 +103,83 @@ describe('eos-vm', () => {
         expect(e.message).to.be.deep.eq('Encoding error at root<create>.maximum_supply<asset>: Invalid asset symbol, precision too large')
       }
     });
+  })
 
-    it('issue', async () => {
+  describe('issue', () => {
+    it('success', async () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
       await eosioToken.actions.issue(['alice', `500.000 ${symcode}`, 'hola']).send('alice@active');
-      
+
       expect(getStat(symcode)).to.be.deep.equal(currency_stats('500.000 TKN', '1000.000 TKN', 'alice'))
       expect(getAccount('alice', symcode)).to.be.deep.equal(account('500.000 TKN'))
-
-      await expectToThrow(
-        eosioToken.actions.issue(['alice', '500.001 TKN', 'hola']).send('alice@active'),
-        protonAssert('quantity exceeds available supply')
-      )
-
-      await expectToThrow(
-        eosioToken.actions.issue(['alice', '-1.000 TKN', 'hola']).send('alice@active'),
-        protonAssert('must issue positive quantity')
-      )
-
-      // Check whether action succeeds without exceptions
-      await eosioToken.actions.issue(['alice', '1.000 TKN', 'hola']).send('alice@active');
     });
 
+    it('Invalid symbol must fail', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+
+      await expectToThrow(
+        eosioToken.actions.issue(['alice', `500.000 ${symcode}N`, 'hola']).send('alice@active'),
+        protonAssert('token with symbol does not exist, create token before issue')
+      );
+    });
+
+    it('Long memo should fail', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+
+      const long_memo = '256symbols-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+
+      eosioToken.actions.issue(['alice', `500.000 ${symcode}`, `${long_memo}`]).send('alice@active');
+
+      await expectToThrow(
+        eosioToken.actions.issue(['alice', `500.000 ${symcode}`, `more ${long_memo}`]).send('alice@active'),
+        protonAssert('memo has more than 256 bytes')
+      );
+    });
+
+    it('Issue to another account should fail', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+
+      eosioToken.actions.issue(['alice', `500.000 ${symcode}`, `hola`]).send('alice@active');
+
+      await expectToThrow(
+        eosioToken.actions.issue(['bob', `500.000 ${symcode}`, `hola`]).send('alice@active'),
+        protonAssert('tokens can only be issued to issuer account')
+      );
+    });
+
+    it('Negative issue quantity should fail', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+
+      await expectToThrow(
+        eosioToken.actions.issue(['alice', '-500.000 TKN', 'hola']).send('alice@active'),
+        protonAssert('must issue positive quantity')
+      )
+    });
+
+    it('Issue quantity more than available should fail', async () => {
+      const symcode = 'TKN';
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+
+      await eosioToken.actions.issue(['alice', '1000.000 TKN', 'hola']).send('alice@active');
+
+      await expectToThrow(
+        eosioToken.actions.issue(['alice', '1.000 TKN', 'hola']).send('alice@active'),
+        protonAssert('quantity exceeds available supply')
+      );
+    });
+  });
+
+  describe('transfer', () => {
     it('transfer', async () => {
       const symcode = 'CERO';
 
