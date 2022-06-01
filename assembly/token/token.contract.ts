@@ -34,18 +34,17 @@ export class TokenContract extends Contract {
     }
 
     /**
-     *  This action issues to `to` account a `quantity` of tokens.
+     *  This action issues to account a `quantity` of tokens.
      *
-     * @param to - the account to issue tokens to, it must be the same as the issuer,
      * @param quantity - the amount of tokens to be issued,
      * @memo - the memo string that accompanies the token issue transaction.
      */
     @action("issue")
     issue(
-        to: Name,
         quantity: Asset,
         memo: string
     ): void {
+        // ? Why do we need memo here if it is not used anywhere in the code?
         check(memo.length <= 256, "memo has more than 256 bytes");
 
         const sym = quantity.symbol;
@@ -53,8 +52,6 @@ export class TokenContract extends Contract {
         const st = statstable.requireGet(sym.code(), "token with symbol does not exist, create token before issue");
 
         requireAuth(st.issuer);
-
-        check(to == st.issuer, "tokens can only be issued to issuer account");
 
         check(quantity.amount > 0, "must issue positive quantity");
 
@@ -70,7 +67,7 @@ export class TokenContract extends Contract {
     }
 
     /**
-     * The opposite for create action, if all validations succeed,
+     * The opposite for issue action, if all validations succeed,
      * it debits the statstable.supply amount.
      *
      * @param quantity - the quantity of tokens to retire,
@@ -81,17 +78,18 @@ export class TokenContract extends Contract {
         quantity: Asset,
         memo: string
     ): void {
-        const sym = quantity.symbol;
-        check(sym.isValid(), "invalid symbol name");
+        // ? Why do we need memo here if it is not used anywhere in the code? 
         check(memo.length <= 256, "memo has more than 256 bytes");
 
+        const sym = quantity.symbol;
         const statstable = Stat.getTable(this.receiver, sym);
         const st = statstable.requireGet(sym.code(), "token with symbol does not exist");
 
         requireAuth(st.issuer);
-        check(quantity.isValid(), "invalid quantity");
+
         check(quantity.amount > 0, "must retire positive quantity");
 
+        // ? This check makes no sense. It is impossible to get different symbols for quantity and supply, because we get supply from quantity symbol
         check(quantity.symbol == st.supply.symbol, "symbol precision mismatch");
 
         st.supply = Asset.sub(st.supply, quantity);
@@ -101,34 +99,44 @@ export class TokenContract extends Contract {
     }
 
     /**
-     * Allows `from` account to transfer to `to` account the `quantity` tokens.
+     * Allows account to transfer to `to` account the `quantity` tokens.
      * One account is debited and the other is credited with quantity tokens.
      *
-     * @param from - the account to transfer from,
      * @param to - the account to be transferred to,
      * @param quantity - the quantity of tokens to be transferred,
      * @param memo - the memo string to accompany the transaction.
      */
     @action("transfer")
-    transfer(from: Name, to: Name, quantity: Asset, memo: string): void {
-        check(from != to, "cannot transfer to self");
-        requireAuth(from);
+    transfer(
+        to: Name,
+        quantity: Asset,
+        memo: string
+    ): void {
+        // ? Why do we need memo here if it is not used anywhere in the code? 
+        check(memo.length <= 256, "memo has more than 256 bytes");
+
         check(isAccount(to), "to account does not exist");
+
         const sym = quantity.symbol;
         const statstable = Stat.getTable(this.receiver, sym);
         const st = statstable.requireGet(sym.code(), "token with symbol does not exist");
 
-        requireRecipient(from);
+        check(st.issuer != to, "cannot transfer to self");
+
+        requireAuth(st.issuer);
+
+        requireRecipient(st.issuer);
         requireRecipient(to);
 
-        check(quantity.isValid(), "invalid quantity");
         check(quantity.amount > 0, "must transfer positive quantity");
+
+        // ? This check makes no sense. It is impossible to get different symbols for quantity and supply, because we get supply from quantity symbol
         check(quantity.symbol == st.supply.symbol, "symbol precision mismatch");
-        check(memo.length <= 256, "memo has more than 256 bytes");
 
-        const payer = hasAuth(to) ? to : from;
+        // ? Do we need this check is we already checked to account with requireRecipient
+        const payer = hasAuth(to) ? to : st.issuer;
 
-        this.subBalance(from, quantity);
+        this.subBalance(st.issuer, quantity);
         this.addBalance(to, quantity, payer);
     }
 
@@ -142,7 +150,11 @@ export class TokenContract extends Contract {
      *
      */
     @action("open")
-    open(owner: Name, symbol: Symbol, ram_payer: Name): void {
+    open(
+        owner: Name,
+        symbol: Symbol,
+        ram_payer: Name
+    ): void {
         requireAuth(ram_payer);
 
         check(isAccount(owner), "owner account does not exist");
@@ -170,7 +182,10 @@ export class TokenContract extends Contract {
      * @pre If the pair of owner plus symbol exists, the balance has to be zero.
      */
     @action("close")
-    close(owner: Name, symbol: Symbol): void {
+    close(
+        owner: Name,
+        symbol: Symbol
+    ): void {
         requireAuth(owner);
         const acnts = Account.getTable(this.receiver, owner)
         const account = acnts.requireGet(
@@ -184,7 +199,7 @@ export class TokenContract extends Contract {
         acnts.remove(account);
     }
 
-    subBalance(owner: Name, value: Asset): void {
+    private subBalance(owner: Name, value: Asset): void {
         const fromAcnts = Account.getTable(this.receiver, owner)
 
         const account = fromAcnts.requireGet(value.symbol.code(), "no balance object found");
@@ -194,7 +209,11 @@ export class TokenContract extends Contract {
         fromAcnts.update(account, owner);
     }
 
-    addBalance(owner: Name, value: Asset, ramPayer: Name): void {
+    private addBalance(
+        owner: Name,
+        value: Asset,
+        ramPayer: Name
+    ): void {
         const toAcnts = Account.getTable(this.receiver, owner)
         const to = toAcnts.get(value.symbol.code());
         if (!to) {
