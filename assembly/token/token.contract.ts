@@ -121,19 +121,17 @@ export class TokenContract extends Contract {
         // ? Why do we need memo here if it is not used anywhere in the code? 
         check(memo.length <= 256, "memo has more than 256 bytes");
 
+        requireAuth(from);
+
+        check(from != to, "cannot transfer to self");
+
         check(isAccount(to), "to account does not exist");
 
         const sym = quantity.symbol;
         const statstable = Stat.getTable(this.receiver, sym);
         const st = statstable.requireGet(sym.code(), "token with symbol does not exist");
 
-        check(from == st.issuer, "tokens can only be transfered from issuer account");
-
-        check(st.issuer != to, "cannot transfer to self");
-
-        requireAuth(st.issuer);
-
-        requireRecipient(st.issuer);
+        requireRecipient(from);
         requireRecipient(to);
 
         check(quantity.amount > 0, "must transfer positive quantity");
@@ -142,9 +140,9 @@ export class TokenContract extends Contract {
         check(quantity.symbol == st.supply.symbol, "symbol precision mismatch");
 
         // ? Do we need this check is we already checked to account with requireRecipient and isAccount
-        const payer = hasAuth(to) ? to : st.issuer;
+        const payer = hasAuth(to) ? to : from;
 
-        this.subBalance(st.issuer, quantity);
+        this.subBalance(from, quantity);
         this.addBalance(to, quantity, payer);
     }
 
