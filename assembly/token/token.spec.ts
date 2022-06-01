@@ -360,5 +360,153 @@ describe('Token', () => {
         protonAssert('to account does not exist')
       )
     });
+
+    it('Invalid symbol must fail', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.issue(['alice', `1000.000 ${symcode}`, 'hola']).send('alice@active');
+
+      await expectToThrow(
+        eosioToken.actions.transfer(['alice', 'bob', `500.000 ${symcode}N`, `hola`]).send('alice@active'),
+        protonAssert('token with symbol does not exist')
+      );
+    });
+
+  });
+
+  describe('open', () => {
+    it('success', async () => {
+      const symcode = 'TKN';
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+
+      expect(getAccount('bob', symcode)).to.be.undefined;
+
+      await eosioToken.actions.open(['bob', '3,TKN', 'alice']).send('alice@active');
+
+      expect(getAccount('bob', symcode)).to.be.deep.equal(account('0.000 TKN'));
+    });
+
+    it('self open should work', async () => {
+      const symcode = 'TKN';
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+
+      expect(getAccount('alice', symcode)).to.be.undefined;
+
+      await eosioToken.actions.open(['alice', '3,TKN', 'alice']).send('alice@active');
+
+      expect(getAccount('alice', symcode)).to.be.deep.equal(account('0.000 TKN'));
+    });
+
+    it('Authentication is required', async () => {
+      const symcode = 'TKN';
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+
+      await expectToThrow(
+        eosioToken.actions.open(['bob', '3,TKN', 'alice']).send(),
+        'missing required authority alice'
+      );
+
+      await expectToThrow(
+        eosioToken.actions.open(['bob', '3,TKN', 'alice']).send('bob@active'),
+        'missing required authority alice'
+      );
+    });
+
+    it('Open for non-existent account should fail', async () => {
+      const symcode = 'TKN';
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+
+      await expectToThrow(
+        eosioToken.actions.open(['tom', '3,TKN', 'alice']).send('alice@active'),
+        protonAssert('owner account does not exist')
+      )
+    });
+
+    it('Invalid symbol must fail', async () => {
+      const symcode = 'TKN';
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+
+      await expectToThrow(
+        eosioToken.actions.open(['bob', `3,${symcode}N`, 'alice']).send('alice@active'),
+        protonAssert('symbol does not exist')
+      );
+    });
+
+  });
+
+  describe('close', () => {
+    it('success', async () => {
+      const symcode = 'TKN';
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+
+      expect(getAccount('bob', symcode)).to.be.undefined;
+
+      await eosioToken.actions.open(['bob', '3,TKN', 'alice']).send('alice@active');
+
+      expect(getAccount('bob', symcode)).to.be.deep.equal(account('0.000 TKN'));
+
+      await eosioToken.actions.close(['bob', '3,TKN']).send('bob@active');
+
+      expect(getAccount('bob', symcode)).to.be.undefined;
+    });
+
+    it('self close should work', async () => {
+      const symcode = 'TKN';
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+
+      expect(getAccount('alice', symcode)).to.be.undefined;
+
+      await eosioToken.actions.open(['alice', '3,TKN', 'alice']).send('alice@active');
+
+      expect(getAccount('alice', symcode)).to.be.deep.equal(account('0.000 TKN'));
+
+      await eosioToken.actions.close(['alice', '3,TKN']).send('alice@active');
+
+      expect(getAccount('alice', symcode)).to.be.undefined;
+    });
+
+    it('Authentication is required', async () => {
+      const symcode = 'TKN';
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.open(['bob', '3,TKN', 'alice']).send('alice@active');
+
+      await expectToThrow(
+        eosioToken.actions.close(['bob', '3,TKN']).send(),
+        'missing required authority bob'
+      );
+
+      await expectToThrow(
+        eosioToken.actions.close(['bob', '3,TKN']).send('alice@active'),
+        'missing required authority bob'
+      );
+    });
+
+    it('Invalid symbol must fail', async () => {
+      const symcode = 'TKN';
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.open(['bob', '3,TKN', 'alice']).send('alice@active');
+
+      await expectToThrow(
+        eosioToken.actions.close(['bob', `3,${symcode}N`]).send('bob@active'),
+        protonAssert("Balance row already deleted or never existed. Action won't have any effect.")
+      );
+    });
+
+    it('Non empty balance must fail', async () => {
+      const symcode = 'TKN';
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.issue(['alice', `1000.000 ${symcode}`, 'hola']).send('alice@active');
+
+      await eosioToken.actions.open(['bob', '3,TKN', 'alice']).send('alice@active');
+      await eosioToken.actions.transfer(['alice', 'bob', '500.000 TKN', 'hola']).send('alice@active');
+
+      expect(getAccount('bob', symcode)).to.be.deep.equal(account('500.000 TKN'));
+
+      await expectToThrow(
+        eosioToken.actions.close(['bob', `3,${symcode}`]).send('bob@active'),
+        protonAssert("Cannot close because the balance is not zero.")
+      );
+    });
   });
 });

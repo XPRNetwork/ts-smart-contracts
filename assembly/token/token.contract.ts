@@ -167,6 +167,8 @@ export class TokenContract extends Contract {
 
         const statstable = Stat.getTable(this.receiver, symbol);
         const st = statstable.requireGet(symbol.code(), "symbol does not exist");
+
+        // ? This check makes no sense. It is impossible to get different symbols for incoming symbol and supply, because we get supply from incoming symbol
         check(st.supply.symbol == symbol, "symbol precision mismatch");
 
         const acnts = Account.getTable(this.receiver, owner)
