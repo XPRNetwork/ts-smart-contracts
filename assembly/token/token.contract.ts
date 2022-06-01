@@ -34,13 +34,15 @@ export class TokenContract extends Contract {
     }
 
     /**
-     *  This action issues to account a `quantity` of tokens.
+     *  This action issues to `to` account a `quantity` of tokens.
      *
+     * @param to - the account to issue tokens to, it must be the same as the issuer,
      * @param quantity - the amount of tokens to be issued,
      * @memo - the memo string that accompanies the token issue transaction.
      */
     @action("issue")
     issue(
+        to: Name,
         quantity: Asset,
         memo: string
     ): void {
@@ -52,6 +54,8 @@ export class TokenContract extends Contract {
         const st = statstable.requireGet(sym.code(), "token with symbol does not exist, create token before issue");
 
         requireAuth(st.issuer);
+
+        check(to == st.issuer, "tokens can only be issued to issuer account");
 
         check(quantity.amount > 0, "must issue positive quantity");
 
@@ -99,15 +103,17 @@ export class TokenContract extends Contract {
     }
 
     /**
-     * Allows account to transfer to `to` account the `quantity` tokens.
+     * Allows `from` account to transfer to `to` account the `quantity` tokens.
      * One account is debited and the other is credited with quantity tokens.
      *
+     * @param from - the account to transfer from,
      * @param to - the account to be transferred to,
      * @param quantity - the quantity of tokens to be transferred,
      * @param memo - the memo string to accompany the transaction.
      */
     @action("transfer")
     transfer(
+        from: Name,
         to: Name,
         quantity: Asset,
         memo: string
@@ -121,6 +127,8 @@ export class TokenContract extends Contract {
         const statstable = Stat.getTable(this.receiver, sym);
         const st = statstable.requireGet(sym.code(), "token with symbol does not exist");
 
+        check(from == st.issuer, "tokens can only be transfered from issuer account");
+
         check(st.issuer != to, "cannot transfer to self");
 
         requireAuth(st.issuer);
@@ -133,7 +141,7 @@ export class TokenContract extends Contract {
         // ? This check makes no sense. It is impossible to get different symbols for quantity and supply, because we get supply from quantity symbol
         check(quantity.symbol == st.supply.symbol, "symbol precision mismatch");
 
-        // ? Do we need this check is we already checked to account with requireRecipient
+        // ? Do we need this check is we already checked to account with requireRecipient and isAccount
         const payer = hasAuth(to) ? to : st.issuer;
 
         this.subBalance(st.issuer, quantity);

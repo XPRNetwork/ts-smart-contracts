@@ -116,7 +116,7 @@ describe('Token', () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
-      await eosioToken.actions.issue([`500.000 ${symcode}`, 'hola']).send('alice@active');
+      await eosioToken.actions.issue(['alice', `500.000 ${symcode}`, 'hola']).send('alice@active');
 
       expect(getStat(symcode)).to.be.deep.equal(currency_stats('500.000 TKN', '1000.000 TKN', 'alice'))
       expect(getAccount('alice', symcode)).to.be.deep.equal(account('500.000 TKN'))
@@ -127,12 +127,12 @@ describe('Token', () => {
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
       await expectToThrow(
-        eosioToken.actions.issue([`500.000 ${symcode}`, `hola`]).send(),
+        eosioToken.actions.issue(['alice', `500.000 ${symcode}`, `hola`]).send(),
         'missing required authority alice'
       );
 
       await expectToThrow(
-        eosioToken.actions.issue([`500.000 ${symcode}`, `hola`]).send('bob@active'),
+        eosioToken.actions.issue(['alice', `500.000 ${symcode}`, `hola`]).send('bob@active'),
         'missing required authority alice'
       );
     });
@@ -144,10 +144,10 @@ describe('Token', () => {
 
       const long_memo = '256symbols-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
 
-      await eosioToken.actions.issue([`500.000 ${symcode}`, `${long_memo}`]).send('alice@active');
+      await eosioToken.actions.issue(['alice', `500.000 ${symcode}`, `${long_memo}`]).send('alice@active');
 
       await expectToThrow(
-        eosioToken.actions.issue([`500.000 ${symcode}`, `more ${long_memo}`]).send('alice@active'),
+        eosioToken.actions.issue(['alice', `500.000 ${symcode}`, `more ${long_memo}`]).send('alice@active'),
         protonAssert('memo has more than 256 bytes')
       );
     });
@@ -158,8 +158,19 @@ describe('Token', () => {
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
 
       await expectToThrow(
-        eosioToken.actions.issue([`500.000 ${symcode}N`, 'hola']).send('alice@active'),
+        eosioToken.actions.issue(['alice', `500.000 ${symcode}N`, 'hola']).send('alice@active'),
         protonAssert('token with symbol does not exist, create token before issue')
+      );
+    });
+
+    it('Issue to non issuer account should fail', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+
+      await expectToThrow(
+        eosioToken.actions.issue(['bob', `500.000 ${symcode}`, `hola`]).send('alice@active'),
+        protonAssert('tokens can only be issued to issuer account')
       );
     });
 
@@ -169,7 +180,7 @@ describe('Token', () => {
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
 
       await expectToThrow(
-        eosioToken.actions.issue(['-500.000 TKN', 'hola']).send('alice@active'),
+        eosioToken.actions.issue(['alice', '-500.000 TKN', 'hola']).send('alice@active'),
         protonAssert('must issue positive quantity')
       )
     });
@@ -178,10 +189,10 @@ describe('Token', () => {
       const symcode = 'TKN';
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
 
-      await eosioToken.actions.issue(['1000.000 TKN', 'hola']).send('alice@active');
+      await eosioToken.actions.issue(['alice', '1000.000 TKN', 'hola']).send('alice@active');
 
       await expectToThrow(
-        eosioToken.actions.issue(['1.000 TKN', 'hola']).send('alice@active'),
+        eosioToken.actions.issue(['alice', '1.000 TKN', 'hola']).send('alice@active'),
         protonAssert('quantity exceeds available supply')
       );
     });
@@ -192,7 +203,7 @@ describe('Token', () => {
       const symcode = 'TKN';
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
 
-      await eosioToken.actions.issue([`500.000 ${symcode}`, 'hola']).send('alice@active');
+      await eosioToken.actions.issue(['alice', `500.000 ${symcode}`, 'hola']).send('alice@active');
       expect(getStat(symcode)).to.be.deep.equal(currency_stats(`500.000 ${symcode}`, `1000.000 ${symcode}`, 'alice'))
 
       await eosioToken.actions.retire([`500.000 ${symcode}`, 'hola']).send('alice@active');
@@ -203,7 +214,7 @@ describe('Token', () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
-      await eosioToken.actions.issue([`1000.000 ${symcode}`, `hola`]).send('alice@active');
+      await eosioToken.actions.issue(['alice', `1000.000 ${symcode}`, `hola`]).send('alice@active');
 
       await expectToThrow(
         eosioToken.actions.retire([`500.000 ${symcode}`, `hola`]).send(),
@@ -220,7 +231,7 @@ describe('Token', () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
-      await eosioToken.actions.issue([`1000.000 ${symcode}`, `hola`]).send('alice@active');
+      await eosioToken.actions.issue(['alice', `1000.000 ${symcode}`, `hola`]).send('alice@active');
 
       const long_memo = '256symbols-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
 
@@ -236,7 +247,7 @@ describe('Token', () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
-      await eosioToken.actions.issue([`1000.000 ${symcode}`, `hola`]).send('alice@active');
+      await eosioToken.actions.issue(['alice', `1000.000 ${symcode}`, `hola`]).send('alice@active');
 
       await expectToThrow(
         eosioToken.actions.retire([`500.000 ${symcode}N`, 'hola']).send('alice@active'),
@@ -248,7 +259,7 @@ describe('Token', () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
-      await eosioToken.actions.issue([`1000.000 ${symcode}`, `hola`]).send('alice@active');
+      await eosioToken.actions.issue(['alice', `1000.000 ${symcode}`, `hola`]).send('alice@active');
 
       await expectToThrow(
         eosioToken.actions.retire(['-500.000 TKN', 'hola']).send('alice@active'),
@@ -260,7 +271,7 @@ describe('Token', () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
-      await eosioToken.actions.issue([`1000.000 ${symcode}`, `hola`]).send('alice@active');
+      await eosioToken.actions.issue(['alice', `1000.000 ${symcode}`, `hola`]).send('alice@active');
 
       await expectToThrow(
         eosioToken.actions.retire(['1001.000 TKN', 'hola']).send('alice@active'),
@@ -274,9 +285,9 @@ describe('Token', () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
-      await eosioToken.actions.issue([`1000.000 ${symcode}`, 'hola']).send('alice@active');
+      await eosioToken.actions.issue(['alice', `1000.000 ${symcode}`, 'hola']).send('alice@active');
 
-      await eosioToken.actions.transfer(['bob', `300.000 ${symcode}`, 'hola']).send('alice@active');
+      await eosioToken.actions.transfer(['alice', 'bob', `300.000 ${symcode}`, 'hola']).send('alice@active');
       expect(getAccount('alice', symcode)).to.be.deep.equal(account(`700.000 ${symcode}`))
       expect(getAccount('bob', symcode)).to.be.deep.equal(account(`300.000 ${symcode}`))
     });
@@ -285,15 +296,15 @@ describe('Token', () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
-      await eosioToken.actions.issue([`1000.000 ${symcode}`, 'hola']).send('alice@active');
+      await eosioToken.actions.issue(['alice', `1000.000 ${symcode}`, 'hola']).send('alice@active');
 
       await expectToThrow(
-        eosioToken.actions.transfer(['bob', `500.000 ${symcode}`, `hola`]).send(),
+        eosioToken.actions.transfer(['alice', 'bob', `500.000 ${symcode}`, `hola`]).send(),
         'missing required authority alice'
       );
 
       await expectToThrow(
-        eosioToken.actions.transfer(['bob', `500.000 ${symcode}`, `hola`]).send('bob@active'),
+        eosioToken.actions.transfer(['alice', 'bob', `500.000 ${symcode}`, `hola`]).send('bob@active'),
         'missing required authority alice'
       );
     });
@@ -302,14 +313,14 @@ describe('Token', () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
-      await eosioToken.actions.issue([`1000.000 ${symcode}`, 'hola']).send('alice@active');
+      await eosioToken.actions.issue(['alice', `1000.000 ${symcode}`, 'hola']).send('alice@active');
 
       const long_memo = '256symbols-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
 
-      await eosioToken.actions.transfer(['bob', `500.000 ${symcode}`, `${long_memo}`]).send('alice@active');
+      await eosioToken.actions.transfer(['alice', 'bob', `500.000 ${symcode}`, `${long_memo}`]).send('alice@active');
 
       await expectToThrow(
-        eosioToken.actions.transfer(['bob', `500.000 ${symcode}`, `more ${long_memo}`]).send('alice@active'),
+        eosioToken.actions.transfer(['alice', 'bob', `500.000 ${symcode}`, `more ${long_memo}`]).send('alice@active'),
         protonAssert('memo has more than 256 bytes')
       );
     });
@@ -318,11 +329,23 @@ describe('Token', () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
-      await eosioToken.actions.issue([`1000.000 ${symcode}`, 'hola']).send('alice@active');
+      await eosioToken.actions.issue(['alice', `1000.000 ${symcode}`, 'hola']).send('alice@active');
 
       await expectToThrow(
-        eosioToken.actions.transfer(['alice', `500.000 ${symcode}`, `hola`]).send('alice@active'),
+        eosioToken.actions.transfer(['alice', 'alice', `500.000 ${symcode}`, `hola`]).send('alice@active'),
         protonAssert('cannot transfer to self')
+      );
+    });
+
+    it('Transfer from non issuer account should fail', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.issue(['alice', `1000.000 ${symcode}`, 'hola']).send('alice@active');
+
+      await expectToThrow(
+        eosioToken.actions.transfer(['bob', 'bob', `500.000 ${symcode}`, `hola`]).send('alice@active'),
+        protonAssert('tokens can only be transfered from issuer account')
       );
     });
 
@@ -330,10 +353,10 @@ describe('Token', () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
-      await eosioToken.actions.issue([`1000.000 ${symcode}`, 'hola']).send('alice@active');
+      await eosioToken.actions.issue(['alice', `1000.000 ${symcode}`, 'hola']).send('alice@active');
 
       await expectToThrow(
-        eosioToken.actions.transfer(['bob', '-500.000 TKN', 'hola']).send('alice@active'),
+        eosioToken.actions.transfer(['alice', 'bob', '-500.000 TKN', 'hola']).send('alice@active'),
         protonAssert('must transfer positive quantity')
       )
     });
@@ -342,10 +365,10 @@ describe('Token', () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
-      await eosioToken.actions.issue([`1000.000 ${symcode}`, 'hola']).send('alice@active');
+      await eosioToken.actions.issue(['alice', `1000.000 ${symcode}`, 'hola']).send('alice@active');
 
       await expectToThrow(
-        eosioToken.actions.transfer(['tom', '500.000 TKN', 'hola']).send('alice@active'),
+        eosioToken.actions.transfer(['alice', 'tom', '500.000 TKN', 'hola']).send('alice@active'),
         protonAssert('to account does not exist')
       )
     });
