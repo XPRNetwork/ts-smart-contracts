@@ -76,6 +76,12 @@ describe('Token', () => {
         action.send(),
         protonAssert('token with symbol already exists')
       )
+
+      // The case when we try to create the same token for another account
+      await expectToThrow(
+        eosioToken.actions.create(['bob', '100 TKN']).send(),
+        protonAssert('token with symbol already exists')
+      )
     });
 
     it('Max supply must fail', async () => {
@@ -110,20 +116,24 @@ describe('Token', () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
-      await eosioToken.actions.issue(['alice', `500.000 ${symcode}`, 'hola']).send('alice@active');
+      await eosioToken.actions.issue([`500.000 ${symcode}`, 'hola']).send('alice@active');
 
       expect(getStat(symcode)).to.be.deep.equal(currency_stats('500.000 TKN', '1000.000 TKN', 'alice'))
       expect(getAccount('alice', symcode)).to.be.deep.equal(account('500.000 TKN'))
     });
 
-    it('Invalid symbol must fail', async () => {
+    it('Authentication is required', async () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await expectToThrow(
+        eosioToken.actions.issue([`500.000 ${symcode}`, `hola`]).send(),
+        'missing required authority alice'
+      );
 
       await expectToThrow(
-        eosioToken.actions.issue(['alice', `500.000 ${symcode}N`, 'hola']).send('alice@active'),
-        protonAssert('token with symbol does not exist, create token before issue')
+        eosioToken.actions.issue([`500.000 ${symcode}`, `hola`]).send('bob@active'),
+        'missing required authority alice'
       );
     });
 
@@ -134,24 +144,22 @@ describe('Token', () => {
 
       const long_memo = '256symbols-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
 
-      eosioToken.actions.issue(['alice', `500.000 ${symcode}`, `${long_memo}`]).send('alice@active');
+      await eosioToken.actions.issue([`500.000 ${symcode}`, `${long_memo}`]).send('alice@active');
 
       await expectToThrow(
-        eosioToken.actions.issue(['alice', `500.000 ${symcode}`, `more ${long_memo}`]).send('alice@active'),
+        eosioToken.actions.issue([`500.000 ${symcode}`, `more ${long_memo}`]).send('alice@active'),
         protonAssert('memo has more than 256 bytes')
       );
     });
 
-    it('Issue to another account should fail', async () => {
+    it('Invalid symbol must fail', async () => {
       const symcode = 'TKN';
 
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
 
-      eosioToken.actions.issue(['alice', `500.000 ${symcode}`, `hola`]).send('alice@active');
-
       await expectToThrow(
-        eosioToken.actions.issue(['bob', `500.000 ${symcode}`, `hola`]).send('alice@active'),
-        protonAssert('tokens can only be issued to issuer account')
+        eosioToken.actions.issue([`500.000 ${symcode}N`, 'hola']).send('alice@active'),
+        protonAssert('token with symbol does not exist, create token before issue')
       );
     });
 
@@ -161,7 +169,7 @@ describe('Token', () => {
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
 
       await expectToThrow(
-        eosioToken.actions.issue(['alice', '-500.000 TKN', 'hola']).send('alice@active'),
+        eosioToken.actions.issue(['-500.000 TKN', 'hola']).send('alice@active'),
         protonAssert('must issue positive quantity')
       )
     });
@@ -170,36 +178,175 @@ describe('Token', () => {
       const symcode = 'TKN';
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
 
-      await eosioToken.actions.issue(['alice', '1000.000 TKN', 'hola']).send('alice@active');
+      await eosioToken.actions.issue(['1000.000 TKN', 'hola']).send('alice@active');
 
       await expectToThrow(
-        eosioToken.actions.issue(['alice', '1.000 TKN', 'hola']).send('alice@active'),
+        eosioToken.actions.issue(['1.000 TKN', 'hola']).send('alice@active'),
         protonAssert('quantity exceeds available supply')
       );
     });
   });
 
-  describe('transfer', () => {
-    it('transfer', async () => {
-      const symcode = 'CERO';
+  describe('retire', () => {
+    it('success', async () => {
+      const symcode = 'TKN';
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
 
-      await eosioToken.actions.create(['alice', `1000 ${symcode}`]).send();
-      await eosioToken.actions.issue(['alice', `1000 ${symcode}`, 'hola']).send('alice@active');
-      expect(getStat(symcode)).to.be.deep.equal(currency_stats('1000 CERO', '1000 CERO', 'alice'))
-      expect(getAccount('alice', symcode)).to.be.deep.equal(account('1000 CERO'))
+      await eosioToken.actions.issue([`500.000 ${symcode}`, 'hola']).send('alice@active');
+      expect(getStat(symcode)).to.be.deep.equal(currency_stats(`500.000 ${symcode}`, `1000.000 ${symcode}`, 'alice'))
 
-      await eosioToken.actions.transfer(['alice', 'bob', '300 CERO', 'hola']).send('alice@active');
-      expect(getAccount('alice', symcode)).to.be.deep.equal(account('700 CERO'))
-      expect(getAccount('bob', symcode)).to.be.deep.equal(account('300 CERO'))
+      await eosioToken.actions.retire([`500.000 ${symcode}`, 'hola']).send('alice@active');
+      expect(getStat(symcode)).to.be.deep.equal(currency_stats(`0.000 ${symcode}`, `1000.000 ${symcode}`, 'alice'))
+    });
+
+    it('Authentication is required', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.issue([`1000.000 ${symcode}`, `hola`]).send('alice@active');
 
       await expectToThrow(
-        eosioToken.actions.transfer(['alice', 'bob', '701 CERO', 'hola']).send('alice@active'),
+        eosioToken.actions.retire([`500.000 ${symcode}`, `hola`]).send(),
+        'missing required authority alice'
+      );
+
+      await expectToThrow(
+        eosioToken.actions.retire([`500.000 ${symcode}`, `hola`]).send('bob@active'),
+        'missing required authority alice'
+      );
+    });
+
+    it('Long memo should fail', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.issue([`1000.000 ${symcode}`, `hola`]).send('alice@active');
+
+      const long_memo = '256symbols-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+
+      await eosioToken.actions.retire([`500.000 ${symcode}`, `${long_memo}`]).send('alice@active');
+
+      await expectToThrow(
+        eosioToken.actions.retire([`500.000 ${symcode}`, `more ${long_memo}`]).send('alice@active'),
+        protonAssert('memo has more than 256 bytes')
+      );
+    });
+
+    it('Invalid symbol must fail', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.issue([`1000.000 ${symcode}`, `hola`]).send('alice@active');
+
+      await expectToThrow(
+        eosioToken.actions.retire([`500.000 ${symcode}N`, 'hola']).send('alice@active'),
+        protonAssert('token with symbol does not exist')
+      );
+    });
+
+    it('Negative retire quantity should fail', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.issue([`1000.000 ${symcode}`, `hola`]).send('alice@active');
+
+      await expectToThrow(
+        eosioToken.actions.retire(['-500.000 TKN', 'hola']).send('alice@active'),
+        protonAssert('must retire positive quantity')
+      )
+    });
+
+    it('Balance overdrawn', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.issue([`1000.000 ${symcode}`, `hola`]).send('alice@active');
+
+      await expectToThrow(
+        eosioToken.actions.retire(['1001.000 TKN', 'hola']).send('alice@active'),
         protonAssert('overdrawn balance')
       )
+    });
+  })
+
+  describe('transfer', () => {
+    it('success', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.issue([`1000.000 ${symcode}`, 'hola']).send('alice@active');
+
+      await eosioToken.actions.transfer(['bob', `300.000 ${symcode}`, 'hola']).send('alice@active');
+      expect(getAccount('alice', symcode)).to.be.deep.equal(account(`700.000 ${symcode}`))
+      expect(getAccount('bob', symcode)).to.be.deep.equal(account(`300.000 ${symcode}`))
+    });
+
+    it('Authentication is required', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.issue([`1000.000 ${symcode}`, 'hola']).send('alice@active');
 
       await expectToThrow(
-        eosioToken.actions.transfer(['alice', 'bob', '-1000 CERO', 'hola']).send('alice@active'),
+        eosioToken.actions.transfer(['bob', `500.000 ${symcode}`, `hola`]).send(),
+        'missing required authority alice'
+      );
+
+      await expectToThrow(
+        eosioToken.actions.transfer(['bob', `500.000 ${symcode}`, `hola`]).send('bob@active'),
+        'missing required authority alice'
+      );
+    });
+
+    it('Long memo should fail', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.issue([`1000.000 ${symcode}`, 'hola']).send('alice@active');
+
+      const long_memo = '256symbols-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+
+      await eosioToken.actions.transfer(['bob', `500.000 ${symcode}`, `${long_memo}`]).send('alice@active');
+
+      await expectToThrow(
+        eosioToken.actions.transfer(['bob', `500.000 ${symcode}`, `more ${long_memo}`]).send('alice@active'),
+        protonAssert('memo has more than 256 bytes')
+      );
+    });
+
+    it('Cannot transfer to self', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.issue([`1000.000 ${symcode}`, 'hola']).send('alice@active');
+
+      await expectToThrow(
+        eosioToken.actions.transfer(['alice', `500.000 ${symcode}`, `hola`]).send('alice@active'),
+        protonAssert('cannot transfer to self')
+      );
+    });
+
+    it('Negative transfer quantity should fail', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.issue([`1000.000 ${symcode}`, 'hola']).send('alice@active');
+
+      await expectToThrow(
+        eosioToken.actions.transfer(['bob', '-500.000 TKN', 'hola']).send('alice@active'),
         protonAssert('must transfer positive quantity')
+      )
+    });
+
+    it('Transfer to non-existent recipient should fail', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.issue([`1000.000 ${symcode}`, 'hola']).send('alice@active');
+
+      await expectToThrow(
+        eosioToken.actions.transfer(['tom', '500.000 TKN', 'hola']).send('alice@active'),
+        protonAssert('to account does not exist')
       )
     });
   });
