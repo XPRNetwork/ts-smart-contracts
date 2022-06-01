@@ -337,18 +337,6 @@ describe('Token', () => {
       );
     });
 
-    it('Transfer from non issuer account should fail', async () => {
-      const symcode = 'TKN';
-
-      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
-      await eosioToken.actions.issue(['alice', `1000.000 ${symcode}`, 'hola']).send('alice@active');
-
-      await expectToThrow(
-        eosioToken.actions.transfer(['bob', 'bob', `500.000 ${symcode}`, `hola`]).send('alice@active'),
-        protonAssert('tokens can only be transfered from issuer account')
-      );
-    });
-
     it('Negative transfer quantity should fail', async () => {
       const symcode = 'TKN';
 
