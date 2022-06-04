@@ -136,18 +136,12 @@ describe('Escrow', () => {
       let escrow = await generateSingleEscrowDeposit()
       escrow.fromNfts = []
       escrow.fromTokens = []
-      await expectToThrow(
-        escrowContract.actions.startescrow(escrow).send('collector@active'),
-        protonAssert('must escrow atleast one token or NFT on from side')
-      )
-
-      // Empty 'to' side
-      escrow = await generateSingleEscrowDeposit()
       escrow.toNfts = []
       escrow.toTokens = []
+
       await expectToThrow(
         escrowContract.actions.startescrow(escrow).send('collector@active'),
-        protonAssert('must escrow atleast one token or NFT on to side')
+        protonAssert('must escrow atleast one token or NFT on a side')
       )
     });
 

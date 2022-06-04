@@ -1498,7 +1498,7 @@ declare module 'proton-tsc/balance/balance.contract' {
        * @param {u64[]} nfts - u64[]
        * @param {string} memo - string
        */
-      withdrawadmin(actor: Name, tokens: ExtendedAsset[], nfts: u64[], memo: string): void;
+      withdrawAdmin(actor: Name, tokens: ExtendedAsset[], nfts: u64[], memo: string): void;
       /**
        * It substracts tokens and/or NFTs from an actor.
        * @param {Name} actor - The actor for which to modify balances
@@ -2181,7 +2181,7 @@ declare module 'proton-tsc/balance/target/balance.contract' {
        * @param {u64[]} nfts - u64[]
        * @param {string} memo - string
        */
-      withdrawadmin(actor: Name, tokens: ExtendedAsset[], nfts: u64[], memo: string): void;
+      withdrawAdmin(actor: Name, tokens: ExtendedAsset[], nfts: u64[], memo: string): void;
       /**
        * It substracts tokens and/or NFTs from an actor.
        * @param {Name} actor - The actor for which to modify balances

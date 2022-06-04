@@ -36,8 +36,7 @@ class EscrowContract extends BalanceContract {
         // Validation
         check(to == new Name() || isAccount(to), "to must be empty or a valid account");
         check(expiry > currentTimePoint().secSinceEpoch(), "expiry must be in future");
-        check(fromTokens.length || fromNfts.length, "must escrow atleast one token or NFT on from side");
-        check(toTokens.length || toNfts.length, "must escrow atleast one token or NFT on to side");
+        check(fromTokens.length || fromNfts.length || toTokens.length || toNfts.length, "must escrow atleast one token or NFT on a side");
 
         // Substract balances
         this.substractBalance(from, fromTokens, fromNfts)
@@ -103,8 +102,8 @@ class EscrowContract extends BalanceContract {
         
         // Send out
         const memo = `escrow ${id} completed!`
-        this.withdrawadmin(escrow.from, escrow.toTokens, escrow.toNfts, memo)
-        this.withdrawadmin(escrow.to, escrow.fromTokens, escrow.fromNfts, memo)
+        this.withdrawAdmin(escrow.from, escrow.toTokens, escrow.toNfts, memo)
+        this.withdrawAdmin(escrow.to, escrow.fromTokens, escrow.fromNfts, memo)
   
         // Log
         sendLogEscrow(this.contract, escrow, ESCROW_STATUS.FILL);
@@ -135,7 +134,7 @@ class EscrowContract extends BalanceContract {
         this.escrowsTable.remove(escrow);
 
         // Send out
-        this.withdrawadmin(escrow.from, escrow.fromTokens, escrow.fromNfts, `escrow ${id} cancelled!`)
+        this.withdrawAdmin(escrow.from, escrow.fromTokens, escrow.fromNfts, `escrow ${id} cancelled!`)
   
         // Log
         sendLogEscrow(this.contract, escrow, ESCROW_STATUS.CANCEL);
