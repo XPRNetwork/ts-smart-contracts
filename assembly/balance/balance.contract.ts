@@ -103,7 +103,7 @@ export class BalanceContract extends AllowContract {
      * @param {u64[]} nfts - u64[]
      * @param {string} memo - string
      */
-    withdrawadmin(
+    withdrawAdmin(
         actor: Name,
         tokens: ExtendedAsset[],
         nfts: u64[],
