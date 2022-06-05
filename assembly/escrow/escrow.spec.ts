@@ -30,7 +30,7 @@ const getEscrowRows = () => escrowContract.tables.escrows().getTableRows()
 const getAccount = (contract: Account, accountName: string, symcode: string) => {
   const accountBigInt = nameToBigInt(Name.from(accountName));
   const symcodeBigInt = symbolCodeToBigInt(Asset.SymbolCode.from(symcode));
-  return contract.tables!.accounts(accountBigInt).getTableRow(symcodeBigInt)
+  return contract.tables.accounts(accountBigInt).getTableRow(symcodeBigInt)
 }
 const getNftAssetIds = (account: Account) => atomicassetsContract.tables.assets(account.toBigInt()).getTableRows().map((_: any) => _.asset_id)
 const getXUSDCBalance = (accountName: string) => getAccount(xtokensContract, accountName, 'XUSDC')
