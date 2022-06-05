@@ -28,7 +28,7 @@ const getBalanceRows = () => balanceContract.tables.balances().getTableRows()
 const getAccount = (contract: Account, accountName: string, symcode: string) => {
   const accountBigInt = nameToBigInt(Name.from(accountName));
   const symcodeBigInt = symbolCodeToBigInt(Asset.SymbolCode.from(symcode));
-  return contract.tables!.accounts(accountBigInt).getTableRow(symcodeBigInt)
+  return contract.tables.accounts(accountBigInt).getTableRow(symcodeBigInt)
 }
 const getXUSDCBalance = (accountName: string) => getAccount(xtokensContract, accountName, 'XUSDC')
 const getXETHBalance = (accountName: string) => getAccount(xtokensContract, accountName, 'XETH')
