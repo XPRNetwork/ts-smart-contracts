@@ -92,10 +92,30 @@ export class AllowContract extends Contract {
     /**
      * Helper functions
      */
-    findAllowedToken(token: ExtendedSymbol): AllowedToken | null {
+
+    protected checkContractIsNotPaused(): void {
+        check(!this.isContractPaused(), `Contract ${this.contract} is paused`)
+    }
+
+    protected checkActorIsAllowed(actor: Name, message: string): void {
+        if (!message) {
+            message = `Actor '${actor}' is not allowed to use contract '${this.contract}'`;
+        }
+        check(this.isActorAllowed(actor), message);
+    }
+
+    protected checkTokenIsAllowed(token: ExtendedSymbol, message: string): void {
+        if (!message) {
+            message = `Token '${token}' is not allowed to use contract '${this.contract}'`;
+        }
+        check(this.isTokenAllowed(token), message);
+    }
+
+    private findAllowedToken(token: ExtendedSymbol): AllowedToken | null {
         return this.allowedTokenTable.getBySecondaryIDX128(extendedSymbolToU128(token), 0)
     }
-    isTokenAllowed(token: ExtendedSymbol): boolean {
+
+    private isTokenAllowed(token: ExtendedSymbol): boolean {
         // Check stricst
         const isTokenStrict = this.allowGlobalsSingleton.get().isTokenStrict
 
@@ -110,11 +130,8 @@ export class AllowContract extends Contract {
         // Check is blocked
         return allowedToken.isAllowed || (!isTokenStrict && !allowedToken.isBlocked)
     }
-    checkTokenIsAllowed(token: ExtendedSymbol): void {
-        check(this.isTokenAllowed(token), `Token ${token} is now allowed to use ${this.contract}`)
-    }
 
-    isActorAllowed(actor: Name): boolean {
+    private isActorAllowed(actor: Name): boolean {
         // Check stricst
         const isActorStrict = this.allowGlobalsSingleton.get().isActorStrict
 
@@ -129,14 +146,8 @@ export class AllowContract extends Contract {
         // Check is blocked
         return allowedActor.isAllowed || (!isActorStrict && !allowedActor.isBlocked)
     }
-    checkActorIsAllowed(actor: Name): void {
-        check(this.isActorAllowed(actor), `Actor ${actor} is now allowed to use ${this.contract}`)
-    }
 
-    isContractPaused(): boolean {
+    private isContractPaused(): boolean {
         return this.allowGlobalsSingleton.get().isPaused
-    }
-    checkContractIsNotPaused(): void {
-        check(!this.isContractPaused(), `Contract ${this.contract} is paused`)
     }
 }
