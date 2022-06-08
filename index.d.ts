@@ -3742,13 +3742,13 @@ declare module 'proton-tsc/modules/store' {
 }
 declare module 'proton-tsc/modules/store/store' {
   /// <reference types="assembly" />
-  import { Name, IDXDB, MultiIndexValue, U128, U256, Float128 } from "proton-tsc";
+  import { Name, MultiIndexValue, U128, U256 } from "proton-tsc";
   export const NO_AVAILABLE_PRIMARY_KEY: number;
   export const UNSET_NEXT_PRIMARY_KEY: number;
   export class TableStore<T extends MultiIndexValue> {
       private mi;
       nextPrimaryKey: u64;
-      constructor(code: Name, scope: Name, table: Name, indexes?: Array<IDXDB>);
+      constructor(code: Name, scope: Name, table: Name, indexes?: Array<string>);
       /**
        * CRUD
        */
@@ -3808,13 +3808,6 @@ declare module 'proton-tsc/modules/store/store' {
        * @returns The table element.
        */
       getBySecondaryIDXDouble(secondaryValue: f64, index: u8): T | null;
-      /**
-       * Given a secondary key, find the first table element that matches secondary value
-       * @param {Float128} secondaryValue - double - the secondary value to search for
-       * @param {u8} index - The index to search in.
-       * @returns The table element..
-       */
-      getBySecondaryIDXLongDouble(secondaryValue: Float128, index: u8): T | null;
   }
 
 }

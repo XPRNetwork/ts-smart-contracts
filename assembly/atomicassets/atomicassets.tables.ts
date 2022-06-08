@@ -1,4 +1,4 @@
-import { Name, Table, Singleton, ExtendedSymbol, Asset, IDX64, IDXDB, TableStore } from "..";
+import { Name, Table, Singleton, ExtendedSymbol, Asset, TableStore } from "..";
 import { AtomicFormat } from "./atomicdata";
 
 // Scope: N/A
@@ -134,13 +134,8 @@ export class Offers extends Table {
     }
 
     static getTable(code: Name): TableStore<Offers> {
-        const scope = code
         const tableName = Name.fromString("offers")
-        const idxTableBase: u64 = (tableName.N & 0xfffffffffffffff0);
-        const indexes: IDXDB[] = [
-            new IDX64(code.N, scope.N, idxTableBase + 0, 0),
-            new IDX64(code.N, scope.N, idxTableBase + 1, 1),
-        ];
+        const indexes: string[] = ["u64", "u64"]
         return new TableStore<Offers>(code, code, tableName, indexes);
     }
 }

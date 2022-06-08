@@ -1,4 +1,4 @@
-import { Name, Table, Singleton, U128, ExtendedSymbol, IDXDB, IDX128, TableStore } from "..";
+import { Name, Table, Singleton, U128, ExtendedSymbol, TableStore } from "..";
 import { extendedSymbolToU128, U128ToExtSym } from "./allow.utils";
 
 // scope: contract
@@ -65,12 +65,8 @@ export class AllowedToken extends Table {
     }
 
     static getTable(code: Name): TableStore<AllowedToken> {
-        const scope = code
         const tableName = Name.fromString("allowedtoken")
-        const idxTableBase: u64 = (tableName.N & 0xfffffffffffffff0);
-        const indexes: IDXDB[] = [
-            new IDX128(code.N, scope.N, idxTableBase + 0, 0),
-        ];
+        const indexes: string[] = ["u128"]
         return new TableStore<AllowedToken>(code, code, tableName, indexes);
     }
 }
