@@ -1,4 +1,4 @@
-import { Name, Asset, Symbol, check, requireAuth, hasAuth, isAccount, requireRecipient, SAME_PAYER, Contract } from ".."
+import { Name, Asset, Symbol, check, requireAuth, hasAuth, isAccount, requireRecipient, SAME_PAYER, Contract, TableStore } from ".."
 import { Account, Stat } from './token.tables';
 
 @contract
@@ -23,7 +23,7 @@ export class TokenContract extends Contract {
         check(maximum_supply.isValid(), "invalid supply");
         check(maximum_supply.amount > 0, "max-supply must be positive");
 
-        const statstable = Stat.getTable(this.receiver, sym);
+        const statstable = new TableStore<Stat>(this.receiver, new Name(sym.code()));
         check(!statstable.exists(sym.code()), "token with symbol already exists")
 
         const zeroSupply = new Asset(0, maximum_supply.symbol);
@@ -44,7 +44,7 @@ export class TokenContract extends Contract {
         check(sym.isValid(), "invalid symbol name");
         check(memo.length <= 256, "memo has more than 256 bytes");
 
-        const statstable = Stat.getTable(this.receiver, sym);
+        const statstable = new TableStore<Stat>(this.receiver, new Name(sym.code()));
         const st = statstable.requireGet(sym.code(), "token with symbol does not exist, create token before issue");
         check(to == st.issuer,  "tokens can only be issued to issuer account");
 
@@ -74,7 +74,7 @@ export class TokenContract extends Contract {
         check(sym.isValid(), "invalid symbol name");
         check(memo.length <= 256, "memo has more than 256 bytes");
 
-        const statstable = Stat.getTable(this.receiver, sym);
+        const statstable = new TableStore<Stat>(this.receiver, new Name(sym.code()));
         const st = statstable.requireGet(sym.code(), "token with symbol does not exist");
 
         requireAuth(st.issuer);
@@ -104,7 +104,7 @@ export class TokenContract extends Contract {
         requireAuth(from);
         check(isAccount(to), "to account does not exist");
         const sym = quantity.symbol;
-        const statstable = Stat.getTable(this.receiver, sym);
+        const statstable = new TableStore<Stat>(this.receiver, new Name(sym.code()));
         const st = statstable.requireGet(sym.code(), "token with symbol does not exist");
 
         requireRecipient(from);
@@ -136,11 +136,11 @@ export class TokenContract extends Contract {
 
         check(isAccount(owner), "owner account does not exist");
 
-        const statstable = Stat.getTable(this.receiver, symbol);
+        const statstable = new TableStore<Stat>(this.receiver, new Name(symbol.code()));
         const st = statstable.requireGet(symbol.code(), "symbol does not exist");
         check(st.supply.symbol == symbol, "symbol precision mismatch");
 
-        const acnts = Account.getTable(this.receiver, owner)
+        const acnts = new TableStore<Account>(this.receiver, owner)
         const it = acnts.get(symbol.code());
         if (!it) {
             const account = new Account(new Asset(0, symbol));
@@ -161,14 +161,14 @@ export class TokenContract extends Contract {
     @action("close")
     close(owner: Name, symbol: Symbol): void {
         requireAuth(owner);
-        const acnts = Account.getTable(this.receiver, owner)
+        const acnts = new TableStore<Account>(this.receiver, owner)
         const account = acnts.requireGet(symbol.code(), "Balance row already deleted or never existed. Action won't have any effect.");
         check(account.balance.amount == 0, "Cannot close because the balance is not zero.");
         acnts.remove(account);
     }
 
     subBalance(owner: Name, value: Asset): void {
-        const fromAcnts = Account.getTable(this.receiver, owner)
+        const fromAcnts = new TableStore<Account>(this.receiver, owner)
 
         const account = fromAcnts.requireGet(value.symbol.code(), "no balance object found");
         check(account.balance.amount >= value.amount, "overdrawn balance");
@@ -178,7 +178,7 @@ export class TokenContract extends Contract {
     }
 
     addBalance(owner: Name, value: Asset, ramPayer: Name): void {
-        const toAcnts = Account.getTable(this.receiver, owner)
+        const toAcnts = new TableStore<Account>(this.receiver, owner)
         const to = toAcnts.get(value.symbol.code());
         if (!to) {
             const account = new Account(value);

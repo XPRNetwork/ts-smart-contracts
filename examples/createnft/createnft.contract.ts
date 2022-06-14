@@ -1,7 +1,6 @@
-import { Name, Contract, Asset, check, print, TableStore } from "proton-tsc"
-import { AtomicValue, AtomicAttribute, deserialize, AtomicFormat } from 'proton-tsc/atomicassets/atomicdata';
-import { sendCreateColllection, sendCreateTemplate, sendMintAsset, sendCreateSchema, ATOMICASSETS_CONTRACT, sendSetAssetData } from 'proton-tsc/atomicassets/atomicassets.inline';
-import { Assets, Collections, Config, Schemas, Templates } from 'proton-tsc/atomicassets/atomicassets.tables';
+import { Name, Contract, Asset, check, print, TableStore, Singleton } from "proton-tsc"
+import { AtomicValue, AtomicAttribute, deserialize, AtomicFormat, ATOMICASSETS_CONTRACT, Assets, Collections, Config, Schemas, Templates } from 'proton-tsc/atomicassets';
+import { sendCreateColllection, sendCreateTemplate, sendMintAsset, sendCreateSchema, sendSetAssetData } from 'proton-tsc/atomicassets/atomicassets.inline';
 
 @contract
 class CreateNftContract extends Contract {
@@ -78,7 +77,7 @@ class CreateNftContract extends Contract {
     setassetdata(): void {
         const author = Name.fromString("createnft")
         const owner = Name.fromString("createnft")
-        const assetTable = Assets.getTable(ATOMICASSETS_CONTRACT, owner)
+        const assetTable = new TableStore<Assets>(ATOMICASSETS_CONTRACT, owner)
         const asset = assetTable.first()
         if (asset == null) {
             check(false, "asset not found")
@@ -98,11 +97,11 @@ class CreateNftContract extends Contract {
         const templateId = 1
 
         // Tables
-        const configSingleton = Config.getSingleton(ATOMICASSETS_CONTRACT)
-        const collectionTable = Collections.getTable(ATOMICASSETS_CONTRACT)
-        const schemaTable = Schemas.getTable(ATOMICASSETS_CONTRACT, collectionName)
-        const templateTable: TableStore<Templates> = Templates.getTable(ATOMICASSETS_CONTRACT, collectionName)
-        const assetTable = Assets.getTable(ATOMICASSETS_CONTRACT, owner)
+        const configSingleton = new Singleton<Config>(ATOMICASSETS_CONTRACT)
+        const collectionTable = new TableStore<Collections>(ATOMICASSETS_CONTRACT)
+        const schemaTable = new TableStore<Schemas>(ATOMICASSETS_CONTRACT, collectionName)
+        const templateTable = new TableStore<Templates>(ATOMICASSETS_CONTRACT, collectionName)
+        const assetTable = new TableStore<Assets>(ATOMICASSETS_CONTRACT, collectionName)
 
         // Get by name
         const config = configSingleton.get()

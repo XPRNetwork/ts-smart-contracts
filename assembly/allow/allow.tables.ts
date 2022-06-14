@@ -11,10 +11,6 @@ export class AllowGlobals extends Table {
     ) {
         super();
     }
-
-    static getSingleton(code: Name): Singleton<AllowGlobals> {
-        return new Singleton<AllowGlobals>(code, code, Name.fromString("allowglobals"));
-    }
 }
 
 // scope: contract
@@ -31,10 +27,6 @@ export class AllowedActor extends Table {
     @primary
     get primary(): u64 {
         return this.actor.N;
-    }
-
-    static getTable(code: Name): TableStore<AllowedActor> {
-        return new TableStore<AllowedActor>(code, code, Name.fromString("allowedactor"));
     }
 }
 
@@ -62,11 +54,5 @@ export class AllowedToken extends Table {
 
     set byToken(value: U128) {
        this.token = U128ToExtSym(value)
-    }
-
-    static getTable(code: Name): TableStore<AllowedToken> {
-        const tableName = Name.fromString("allowedtoken")
-        const indexes: string[] = ["u128"]
-        return new TableStore<AllowedToken>(code, code, tableName, indexes);
     }
 }

@@ -1,5 +1,5 @@
 export { U128, U256, I128 } from "as-chain";
-export { Float128 } from "as-chain"
+// export { Float128 } from "as-chain"
 
 export { VarInt32, VarUint32, calcPackedVarUint32Length } from "as-chain";
 
@@ -50,16 +50,16 @@ export {
     newSecondaryValue_U128,
     newSecondaryValue_U256,
     newSecondaryValue_f64,
-    newSecondaryValue_Float128,
+    // newSecondaryValue_Float128,
     getSecondaryValue_u64,
     getSecondaryValue_U128,
     getSecondaryValue_U256,
     getSecondaryValue_f64,
-    getSecondaryValue_Float128,
+    // getSecondaryValue_Float128,
 } from "as-chain";
 
 export { MultiIndex, MultiIndexValue, SAME_PAYER } from "as-chain";
-export { Singleton } from "as-chain";
+// export { Singleton } from "as-chain";
 
 export {Contract, Table, InlineAction, ActionData, Variant} from "as-chain"
 

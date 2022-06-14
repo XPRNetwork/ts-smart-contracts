@@ -7,10 +7,6 @@ export class EscrowGlobal extends Table {
     ) {
         super();
     }
-
-    static getSingleton(code: Name): Singleton<EscrowGlobal> {
-        return new Singleton<EscrowGlobal>(code, code, Name.fromString("escrowglobal"));
-    }
 }
 
 @table("escrows")
@@ -49,11 +45,5 @@ export class Escrow extends Table {
 
     set byTo(value: u64) {
         this.to.N = value;
-    }
-   
-    static getTable(code: Name): TableStore<Escrow> {
-        const tableName = Name.fromString("escrows")
-        const indexes: string[] = ["u64", "u64"]
-        return new TableStore<Escrow>(code, code, tableName, indexes);
     }
 }

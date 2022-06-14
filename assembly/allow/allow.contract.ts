@@ -7,9 +7,9 @@ export class AllowContract extends Contract {
     contract: Name = this.receiver
     parentContract: Name = this.firstReceiver
 
-    allowedActorTable: TableStore<AllowedActor> = AllowedActor.getTable(this.receiver)
-    allowedTokenTable: TableStore<AllowedToken> = AllowedToken.getTable(this.receiver)
-    allowGlobalsSingleton: Singleton<AllowGlobals> = AllowGlobals.getSingleton(this.receiver)
+    allowedActorTable: TableStore<AllowedActor> = new TableStore<AllowedActor>(this.receiver)
+    allowedTokenTable: TableStore<AllowedToken> = new TableStore<AllowedToken>(this.receiver)
+    allowGlobalsSingleton: Singleton<AllowGlobals> = new Singleton<AllowGlobals>(this.receiver)
 
     /**
      * Set the global variables

@@ -3,7 +3,7 @@ import { KV, AccountKV } from './kv.tables';
 
 @contract("kv")
 export class KvContract extends Contract {
-    kvsTable: TableStore<AccountKV> = AccountKV.getTable(this.receiver)
+    kvsTable: TableStore<AccountKV> = new TableStore<AccountKV>(this.receiver)
 
     @action("updatevalues")
     updatevalues(

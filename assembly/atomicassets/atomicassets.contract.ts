@@ -6,8 +6,8 @@ import { MAX_MARKET_FEE } from "./atomicassets.constants";
 
 @contract
 class AtomicAssetsContract extends Contract {
-    collectionsTable: TableStore<Collections> = Collections.getTable(this.receiver)
-    configSingleton: Singleton<Config> = Config.getSingleton(this.receiver)
+    collectionsTable: TableStore<Collections> = new TableStore<Collections>(this.receiver)
+    configSingleton: Singleton<Config> = new Singleton<Config>(this.receiver)
 
     @action("setcolformat")
     colformat(
