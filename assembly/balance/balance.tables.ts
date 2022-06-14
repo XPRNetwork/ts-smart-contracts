@@ -14,8 +14,4 @@ export class Balance extends Table {
     get primary(): u64 {
         return this.account.N;
     }
-
-    static getTable(code: Name): TableStore<Balance> {
-        return new TableStore<Balance>(code, code, Name.fromString("balances"));
-    }
 }

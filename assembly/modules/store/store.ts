@@ -1,4 +1,4 @@
-import { Name, IDXDB, check, MultiIndex, MultiIndexValue, IDX128, U128, IDX256, U256, IDX64, IDXF64 } from "../..";
+import { Name, IDXDB, check, MultiIndex, MultiIndexValue, IDX128, U128, IDX256, U256, IDX64, IDXF64, Table } from "../..";
 
 export const NO_AVAILABLE_PRIMARY_KEY = <u64>(-2) // Must be the smallest uint64_t value compared to all other tags
 export const UNSET_NEXT_PRIMARY_KEY = <u64>(-1) // No table
@@ -10,41 +10,18 @@ const FAIL_NEXT = "Failed to find 'next' value as current item does not exist"
 const FAIL_PREVIOUS = "Failed to find 'previous' value as current item does not exist"
 const FAIL_AVAILABLE_PRIMARY_KEY = "next primary key in table is at autoincrement limit"
 
-function secondaryIndexToIDXDB (indexType: string, index: i32, code: Name, scope: Name, table: Name): IDXDB {
-    const idxTableBase: u64 = (table.N & 0xfffffffffffffff0);
-
-    if (indexType == "u64") {
-        return new IDX64(code.N, scope.N, idxTableBase + index, index)
-    } else if (indexType == "u128") {
-        return new IDX128(code.N, scope.N, idxTableBase + index, index)
-    } else if (indexType == "u256") {
-        return new IDX256(code.N, scope.N, idxTableBase + index, index)
-    } else if (indexType == "f64") {
-        return new IDXF64(code.N, scope.N, idxTableBase + index, index)
-    // } else if (indexType == "f128") {
-    //     return new IDXF128(code.N, scope.N, idxTableBase + index, index)
-    } else {
-        check(false, "Secondary index must be of type u64, u128, u256 or f64")
-        return new IDX64(code.N, scope.N, idxTableBase + index, index)
-    }
-}
-
-export class TableStore<T extends MultiIndexValue> {
+export class TableStore<T extends Table> {
     private mi: MultiIndex<T>;
     nextPrimaryKey: u64 = UNSET_NEXT_PRIMARY_KEY;
 
     constructor(
-        code: Name,
-        scope: Name,
-        table: Name,
-        indexes: Array<string> = []
+        contract: Name,
+        scope: Name = contract
     ) {
-        const realIndexes: IDXDB[] = []
-        for (let i: i32 = 0; i < indexes.length; i++) {
-            realIndexes.push(secondaryIndexToIDXDB(indexes[i], i, code, scope, table))
-        }
-
-        this.mi = new MultiIndex<T>(code, scope, table, realIndexes)
+        const obj = instantiate<T>()
+        const tableName = obj.getTableName()
+        const indexes: IDXDB[] = obj.getTableIndexes(contract, scope)
+        this.mi = new MultiIndex<T>(contract, scope, tableName, indexes)
     }
 
     /**

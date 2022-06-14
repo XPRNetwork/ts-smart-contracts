@@ -1,11 +1,12 @@
-import { currentTimePoint, ExtendedAsset, Name, check, requireAuth, isAccount, TableStore } from ".."
+import { currentTimePoint, ExtendedAsset, Name, check, requireAuth, isAccount, TableStore, Singleton } from ".."
 import { BalanceContract } from '../balance';
 import { ESCROW_STATUS, sendLogEscrow } from './escrow.inline';
 import { EscrowGlobal, Escrow } from './escrow.tables';
 
 @contract
 class EscrowContract extends BalanceContract {
-    escrowsTable: TableStore<Escrow> = Escrow.getTable(this.receiver)
+    escrowsTable: TableStore<Escrow> = new TableStore<Escrow>(this.receiver)
+    escrowGlobalSingleton: Singleton<EscrowGlobal> = new Singleton<EscrowGlobal>(this.receiver)
 
     /**
      * It creates an escrow.
@@ -42,10 +43,9 @@ class EscrowContract extends BalanceContract {
         this.substractBalance(from, fromTokens, fromNfts)
       
         // Get and update config
-        const escrowGlobalSingleton = EscrowGlobal.getSingleton(this.contract)
-        const escrowGlobal = escrowGlobalSingleton.get()
+        const escrowGlobal = this.escrowGlobalSingleton.get()
         const escrowId = escrowGlobal.escrowId++;
-        escrowGlobalSingleton.set(escrowGlobal, this.contract);
+        this.escrowGlobalSingleton.set(escrowGlobal, this.contract);
 
         // Create escrow object
         const escrow = new Escrow(

@@ -1,4 +1,4 @@
-import { Name, PermissionLevel, InlineAction, ActionData } from "../..";
+import { Name, PermissionLevel, InlineAction, ActionData } from "..";
 
 export const RNG_CONTRACT = Name.fromString("rng")
 
