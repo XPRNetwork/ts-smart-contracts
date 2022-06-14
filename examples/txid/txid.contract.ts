@@ -1,5 +1,5 @@
 import { Name, getTransactionId, requireAuth, Contract, transactionSize, print, getAction, ActionData, TableStore } from 'proton-tsc'
-import { AccountKV, KV } from '../kv';
+import { AccountKV, KV } from '../kv/kv.tables';
 
 @packer
 class GetSizeAndId extends ActionData {
