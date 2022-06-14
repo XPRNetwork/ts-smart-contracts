@@ -8,7 +8,7 @@
     "build:token": "npx proton-asc ./assembly/token/token.contract.ts",
     "build:balance": "npx proton-asc ./assembly/balance/balance.contract.ts",
     "build:escrow": "npx proton-asc ./assembly/escrow/escrow.contract.ts",
-    "build:allow": "npx proton-asc ./assembly/allow/allow.contract.ts",
+    "build:allow": "npx proton-asc ./assembly/allow/allow.contract.ts && npx proton-asc ./assembly/allow/allow_test.contract.ts",
     "build:atomicassets": "npx proton-asc ./assembly/atomicassets/atomicassets.contract.ts --debug --sourceMap --target release",
     "build:store": "npx proton-asc ./assembly/modules/store/store.test.ts",
     "build:safemath": "npx proton-asc ./assembly/modules/safemath/safemath.test.ts",
