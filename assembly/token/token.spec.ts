@@ -185,6 +185,17 @@ describe('Token', () => {
       )
     });
 
+    it('Symbol precision mismatch should fail', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+
+      await expectToThrow(
+        eosioToken.actions.issue(['alice', '500.00 TKN', 'hola']).send('alice@active'),
+        protonAssert('symbol precision mismatch')
+      )
+    });
+
     it('Issue quantity more than available should fail', async () => {
       const symcode = 'TKN';
       await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
@@ -264,6 +275,18 @@ describe('Token', () => {
       await expectToThrow(
         eosioToken.actions.retire(['-500.000 TKN', 'hola']).send('alice@active'),
         protonAssert('must retire positive quantity')
+      )
+    });
+
+    it('Symbol precision mismatch should fail', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.issue(['alice', `1000.000 ${symcode}`, `hola`]).send('alice@active');
+
+      await expectToThrow(
+        eosioToken.actions.retire(['500.0 TKN', 'hola']).send('alice@active'),
+        protonAssert('symbol precision mismatch')
       )
     });
 
@@ -349,6 +372,18 @@ describe('Token', () => {
       )
     });
 
+    it('Symbol precision mismatch should fail', async () => {
+      const symcode = 'TKN';
+
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+      await eosioToken.actions.issue(['alice', `1000.000 ${symcode}`, 'hola']).send('alice@active');
+
+      await expectToThrow(
+        eosioToken.actions.transfer(['alice', 'bob', '500.0 TKN', 'hola']).send('alice@active'),
+        protonAssert('symbol precision mismatch')
+      )
+    });
+
     it('Transfer to non-existent recipient should fail', async () => {
       const symcode = 'TKN';
 
@@ -430,6 +465,16 @@ describe('Token', () => {
       await expectToThrow(
         eosioToken.actions.open(['bob', `3,${symcode}N`, 'alice']).send('alice@active'),
         protonAssert('symbol does not exist')
+      );
+    });
+
+    it('Symbol precision mismatch must fail', async () => {
+      const symcode = 'TKN';
+      await eosioToken.actions.create(['alice', `1000.000 ${symcode}`]).send();
+
+      await expectToThrow(
+        eosioToken.actions.open(['bob', `2,TKN`, 'alice']).send('alice@active'),
+        protonAssert('symbol precision mismatch')
       );
     });
 
