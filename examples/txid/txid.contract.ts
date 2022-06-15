@@ -1,8 +1,8 @@
-import { Name, getTransactionId, requireAuth, Contract, transactionSize, print, getAction, Table, TableStore } from 'proton-tsc'
-import { AccountKV, KV } from '../kv';
+import { Name, getTransactionId, requireAuth, Contract, transactionSize, print, getAction, ActionData, TableStore } from 'proton-tsc'
+import { AccountKV, KV } from '../kv/kv.tables';
 
 @packer
-class GetSizeAndId extends Table {
+class GetSizeAndId extends ActionData {
     constructor (
         public actor: Name = new Name(),
     ) {
@@ -12,7 +12,7 @@ class GetSizeAndId extends Table {
 
 @contract
 export class TxIdContract extends Contract {
-    kvsTable: TableStore<AccountKV> = AccountKV.getTable(this.receiver)
+    kvsTable: TableStore<AccountKV> = new TableStore<AccountKV>(this.receiver)
 
     @action("getsizeandid")
     getsizeandid(

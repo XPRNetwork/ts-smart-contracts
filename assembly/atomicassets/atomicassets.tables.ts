@@ -1,4 +1,4 @@
-import { Name, Table, Singleton, ExtendedSymbol, Asset, IDX64, IDXDB, TableStore } from "..";
+import { Name, Table, Singleton, ExtendedSymbol, Asset, TableStore } from "..";
 import { AtomicFormat } from "./atomicdata";
 
 // Scope: N/A
@@ -20,10 +20,6 @@ export class Collections extends Table {
     get primary(): u64 {
         return this.collection_name.N;
     }
-
-    static getTable(code: Name): TableStore<Collections> {
-        return new TableStore<Collections>(code, code, Name.fromString("collections"));
-    }
 }
 
 //Scope: collection_name
@@ -39,10 +35,6 @@ export class Schemas extends Table {
     @primary
     get primary(): u64 {
         return this.schema_name.N;
-    }
-
-    static getTable(code: Name, collection_name: Name): TableStore<Schemas> {
-        return new TableStore<Schemas>(code, collection_name, Name.fromString("schemas"));
     }
 }
 
@@ -65,10 +57,6 @@ export class Templates extends Table {
     get primary(): u64 {
         return <u64>(this.template_id);
     }
-
-    static getTable(code: Name, collection_name: Name): TableStore<Templates> {
-        return new TableStore<Templates>(code, collection_name, Name.fromString("templates"));
-    }
 }
 
 //Scope: owner
@@ -90,10 +78,6 @@ export class Assets extends Table {
     @primary
     get primary(): u64 {
         return this.asset_id;
-    }
-
-    static getTable(code: Name, owner: Name): TableStore<Assets> {
-        return new TableStore<Assets>(code, owner, Name.fromString("assets"));
     }
 }
 
@@ -132,17 +116,6 @@ export class Offers extends Table {
     set by_recipient(value: u64) {
         this.recipient = Name.fromU64(value)
     }
-
-    static getTable(code: Name): TableStore<Offers> {
-        const scope = code
-        const tableName = Name.fromString("offers")
-        const idxTableBase: u64 = (tableName.N & 0xfffffffffffffff0);
-        const indexes: IDXDB[] = [
-            new IDX64(code.N, scope.N, idxTableBase + 0, 0),
-            new IDX64(code.N, scope.N, idxTableBase + 1, 1),
-        ];
-        return new TableStore<Offers>(code, code, tableName, indexes);
-    }
 }
 
 @table("config", singleton, noabigen)
@@ -155,9 +128,5 @@ export class Config extends Table {
         public supported_tokens: ExtendedSymbol[] = [],
     ) {
         super();
-    }
-
-    static getSingleton(code: Name): Singleton<Config> {
-        return new Singleton<Config>(code, code, Name.fromString("config"));
     }
 }

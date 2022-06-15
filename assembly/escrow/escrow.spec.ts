@@ -30,7 +30,7 @@ const getEscrowRows = () => escrowContract.tables.escrows().getTableRows()
 const getAccount = (contract: Account, accountName: string, symcode: string) => {
   const accountBigInt = nameToBigInt(Name.from(accountName));
   const symcodeBigInt = symbolCodeToBigInt(Asset.SymbolCode.from(symcode));
-  return contract.tables!.accounts(accountBigInt).getTableRow(symcodeBigInt)
+  return contract.tables.accounts(accountBigInt).getTableRow(symcodeBigInt)
 }
 const getNftAssetIds = (account: Account) => atomicassetsContract.tables.assets(account.toBigInt()).getTableRows().map((_: any) => _.asset_id)
 const getXUSDCBalance = (accountName: string) => getAccount(xtokensContract, accountName, 'XUSDC')
@@ -136,18 +136,12 @@ describe('Escrow', () => {
       let escrow = await generateSingleEscrowDeposit()
       escrow.fromNfts = []
       escrow.fromTokens = []
-      await expectToThrow(
-        escrowContract.actions.startescrow(escrow).send('collector@active'),
-        protonAssert('must escrow atleast one token or NFT on from side')
-      )
-
-      // Empty 'to' side
-      escrow = await generateSingleEscrowDeposit()
       escrow.toNfts = []
       escrow.toTokens = []
+
       await expectToThrow(
         escrowContract.actions.startescrow(escrow).send('collector@active'),
-        protonAssert('must escrow atleast one token or NFT on to side')
+        protonAssert('must escrow atleast one token or NFT on a side')
       )
     });
 

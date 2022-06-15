@@ -4,7 +4,7 @@ import { Results } from './rng.tables';
 
 @contract
 class RequestRng extends Contract {
-    resultsTable: TableStore<Results> = Results.getTable(this.receiver)
+    resultsTable: TableStore<Results> = new TableStore<Results>(this.receiver)
     contract: Name = this.receiver
 
     @action("getrandom")

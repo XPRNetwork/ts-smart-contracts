@@ -21,8 +21,4 @@ export class AccountKV extends Table {
     get primary(): u64 {
         return this.account.N;
     }
-
-    static getTable(code: Name): TableStore<AccountKV> {
-        return new TableStore<AccountKV>(code, code, Name.fromString("kvs"));
-    }
 }

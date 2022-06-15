@@ -2,7 +2,6 @@ import {
     U128,
     U256,
     check,
-    Float128,
     Contract,
     Table,
     Name,
@@ -16,8 +15,7 @@ class MyData extends Table {
         public b: u64=0,
         public c: U128=new U128(),
         public d: f64=0.0,
-        public e: U256=new U256(),
-        public f: Float128=new Float128(),
+        public e: U256=new U256()
     ) {
         super();
     }
@@ -58,18 +56,6 @@ class MyData extends Table {
     set evalue(value: U256) {
         this.e = value;
     }
-
-    @secondary
-    get fvalue(): Float128 {
-        return this.f;
-    }
-    set fvalue(value: Float128) {
-        this.f = value;
-    }
-
-    static getTable(code: Name): TableStore<MyData> {
-        return new TableStore<MyData>(code, code, Name.fromString("mydata"));
-    }
 }
 
 function checkAvailablePrimaryKey (table: TableStore<MyData>, expected: u64): void {
@@ -78,7 +64,7 @@ function checkAvailablePrimaryKey (table: TableStore<MyData>, expected: u64): vo
 
 @contract
 class MyContract extends Contract{
-    mdTable: TableStore<MyData> = MyData.getTable(this.receiver)
+    mdTable: TableStore<MyData> = new TableStore<MyData>(this.receiver)
 
     @action("teststore")
     teststore(): void {
@@ -87,25 +73,25 @@ class MyContract extends Contract{
 
         // Is empty
         check(this.mdTable.isEmpty(), "is not empty")
-        value = new MyData(1, 2, new U128(3), 3.3, new U256(11), new Float128(0xaa));
+        value = new MyData(1, 2, new U128(3), 3.3, new U256(11));
         this.mdTable.store(value, this.receiver);
         check(!this.mdTable.isEmpty(), "is empty")
         this.mdTable.remove(value);
         check(this.mdTable.isEmpty(), "is not empty")
 
         // Set & Remove
-        value = new MyData(8, 8, new U128(9), 9.9, new U256(77), new Float128(0xcc));
+        value = new MyData(8, 8, new U128(9), 9.9, new U256(77));
         this.mdTable.set(value, this.receiver);
-        value = new MyData(8, 0, new U128(0), 0, new U256(0), new Float128(0x0));
+        value = new MyData(8, 0, new U128(0), 0, new U256(0));
         this.mdTable.set(value, this.receiver);
         value = this.mdTable.requireGet(8, "set bad value")
         check(value.a == 8 && value.b == 0 && value.c == new U128(0) && value.d == 0, "get bad value: pk 8");
         this.mdTable.remove(value);
 
         // Update & Remove
-        value = new MyData(8, 8, new U128(9), 9.9, new U256(77), new Float128(0xcc));
+        value = new MyData(8, 8, new U128(9), 9.9, new U256(77));
         this.mdTable.store(value, this.receiver);
-        value = new MyData(8, 0, new U128(0), 0, new U256(0), new Float128(0x0));
+        value = new MyData(8, 0, new U128(0), 0, new U256(0));
         this.mdTable.update(value, this.receiver);
         value = this.mdTable.requireGet(8, "set bad value")
         check(value.a == 8 && value.b == 0 && value.c == new U128(0) && value.d == 0, "get bad value: pk 8");
@@ -114,19 +100,19 @@ class MyContract extends Contract{
         // Available primary key & Store
         checkAvailablePrimaryKey(this.mdTable, 0)
 
-        value = new MyData(1, 2, new U128(3), 3.3, new U256(11), new Float128(0xaa));
+        value = new MyData(1, 2, new U128(3), 3.3, new U256(11));
         this.mdTable.store(value, this.receiver);
         checkAvailablePrimaryKey(this.mdTable, 2)
 
-        value = new MyData(4, 5, new U128(6), 6.6, new U256(44), new Float128(0xbb));
+        value = new MyData(4, 5, new U128(6), 6.6, new U256(44));
         this.mdTable.store(value, this.receiver);
         checkAvailablePrimaryKey(this.mdTable, 5)
 
-        value = new MyData(this.mdTable.availablePrimaryKey, 5, new U128(6), 6.6, new U256(44), new Float128(0xbb));
+        value = new MyData(this.mdTable.availablePrimaryKey, 5, new U128(6), 6.6, new U256(44));
         this.mdTable.store(value, this.receiver);
         checkAvailablePrimaryKey(this.mdTable, 6)
 
-        value = new MyData(7, 8, new U128(9), 9.9, new U256(77), new Float128(0xcc));
+        value = new MyData(7, 8, new U128(9), 9.9, new U256(77));
         this.mdTable.store(value, this.receiver);
         checkAvailablePrimaryKey(this.mdTable, 8)
 
@@ -136,7 +122,7 @@ class MyContract extends Contract{
         // Get
         let getValue = this.mdTable.get(4);
         if (getValue == null) {
-            check(false, "value 4 not found!")
+            check(false, "value 4 not found !")
             return
         }
         check(getValue.a == 4 && getValue.b == 5 && getValue.c == new U128(6) && getValue.d == 6.6, "get bad value: pk 4");
@@ -153,7 +139,7 @@ class MyContract extends Contract{
         check(!this.mdTable.exists(10), "pk 4 exists")
 
         check(this.mdTable.existsValue(value), "value 4 does not exist")
-        const randomValue = new MyData(20, 8, new U128(9), 9.9, new U256(77), new Float128(0xcc));
+        const randomValue = new MyData(20, 8, new U128(9), 9.9, new U256(77));
         check(!this.mdTable.existsValue(randomValue), "value 20 exists")
 
         // Next

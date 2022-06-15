@@ -1,6 +1,6 @@
 {
   "name": "proton-tsc",
-  "version": "0.3.0",
+  "version": "0.3.7",
   "license": "MIT",
   "types": "./index.d.ts",
   "main": "./assembly/index.ts",
@@ -8,7 +8,7 @@
     "build:token": "npx proton-asc ./assembly/token/token.contract.ts",
     "build:balance": "npx proton-asc ./assembly/balance/balance.contract.ts",
     "build:escrow": "npx proton-asc ./assembly/escrow/escrow.contract.ts",
-    "build:allow": "npx proton-asc ./assembly/allow/allow.contract.ts",
+    "build:allow": "npx proton-asc ./assembly/allow/allow.contract.ts && npx proton-asc ./assembly/allow/allow_test.contract.ts",
     "build:atomicassets": "npx proton-asc ./assembly/atomicassets/atomicassets.contract.ts --debug --sourceMap --target release",
     "build:store": "npx proton-asc ./assembly/modules/store/store.test.ts",
     "build:safemath": "npx proton-asc ./assembly/modules/safemath/safemath.test.ts",
@@ -28,7 +28,7 @@
     "prepublish": "npx npm-dts generate --entry ./assembly/index.ts --force && npx replace-in-file --configFile=./replace.config.js"
   },
   "dependencies": {
-    "proton-asc": "^0.2.98"
+    "proton-asc": "^0.2.103"
   },
   "engines": {
     "npm": ">=7.0.0",
@@ -40,7 +40,7 @@
     "@greymass/abi2core": "^1.1.0",
     "@greymass/eosio": "^0.5.5",
     "@proton/js": "^26.1.2",
-    "@proton/vert": "^0.2.8",
+    "@proton/vert": "^0.2.14",
     "@types/chai": "^4.3.0",
     "@types/mocha": "^9.1.0",
     "@types/node": "^17.0.22",

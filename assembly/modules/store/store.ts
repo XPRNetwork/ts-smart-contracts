@@ -1,4 +1,4 @@
-import { Name, IDXDB, check, MultiIndex, MultiIndexValue, IDX128, U128, IDX256, U256, IDX64, IDXF64, IDXF128, Float128 } from "../..";
+import { Name, IDXDB, check, MultiIndex, MultiIndexValue, IDX128, U128, IDX256, U256, IDX64, IDXF64, Table } from "../..";
 
 export const NO_AVAILABLE_PRIMARY_KEY = <u64>(-2) // Must be the smallest uint64_t value compared to all other tags
 export const UNSET_NEXT_PRIMARY_KEY = <u64>(-1) // No table
@@ -10,12 +10,18 @@ const FAIL_NEXT = "Failed to find 'next' value as current item does not exist"
 const FAIL_PREVIOUS = "Failed to find 'previous' value as current item does not exist"
 const FAIL_AVAILABLE_PRIMARY_KEY = "next primary key in table is at autoincrement limit"
 
-export class TableStore<T extends MultiIndexValue> {
+export class TableStore<T extends Table> {
     private mi: MultiIndex<T>;
     nextPrimaryKey: u64 = UNSET_NEXT_PRIMARY_KEY;
 
-    constructor(code: Name, scope: Name, table: Name, indexes: Array<IDXDB> = []) {
-        this.mi = new MultiIndex<T>(code, scope, table, indexes)
+    constructor(
+        contract: Name,
+        scope: Name = contract
+    ) {
+        const obj = instantiate<T>()
+        const tableName = obj.getTableName()
+        const indexes: IDXDB[] = obj.getTableIndexes(contract, scope)
+        this.mi = new MultiIndex<T>(contract, scope, tableName, indexes)
     }
 
     /**
@@ -228,18 +234,18 @@ export class TableStore<T extends MultiIndexValue> {
      * @param {u8} index - The index to search in.
      * @returns The table element..
      */
-    getBySecondaryIDXLongDouble(secondaryValue: Float128, index: u8): T | null {
-        const idx = <IDXF128>this.mi.idxdbs[index]
-        const secondaryIt = idx.find(secondaryValue);
-        if (!secondaryIt.isOk()) {
-            return null
-        }
+    // getBySecondaryIDXLongDouble(secondaryValue: Float128, index: u8): T | null {
+    //     const idx = <IDXF128>this.mi.idxdbs[index]
+    //     const secondaryIt = idx.find(secondaryValue);
+    //     if (!secondaryIt.isOk()) {
+    //         return null
+    //     }
 
-        const found = idx.findPrimary(secondaryIt.primary)
-        if (found.value != secondaryValue) {
-            return null
-        }
+    //     const found = idx.findPrimary(secondaryIt.primary)
+    //     if (found.value != secondaryValue) {
+    //         return null
+    //     }
 
-        return this.get(secondaryIt.primary)
-    }
+    //     return this.get(secondaryIt.primary)
+    // }
 }
