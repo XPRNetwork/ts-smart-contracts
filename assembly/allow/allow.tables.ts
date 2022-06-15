@@ -1,4 +1,4 @@
-import { Name, Table, Singleton, U128, ExtendedSymbol, IDXDB, IDX128, TableStore } from "..";
+import { Name, Table, Singleton, U128, ExtendedSymbol, TableStore } from "..";
 import { extendedSymbolToU128, U128ToExtSym } from "./allow.utils";
 
 // scope: contract
@@ -10,10 +10,6 @@ export class AllowGlobals extends Table {
         public isTokenStrict: boolean = false,
     ) {
         super();
-    }
-
-    static getSingleton(code: Name): Singleton<AllowGlobals> {
-        return new Singleton<AllowGlobals>(code, code, Name.fromString("allowglobals"));
     }
 }
 
@@ -31,10 +27,6 @@ export class AllowedActor extends Table {
     @primary
     get primary(): u64 {
         return this.actor.N;
-    }
-
-    static getTable(code: Name): TableStore<AllowedActor> {
-        return new TableStore<AllowedActor>(code, code, Name.fromString("allowedactor"));
     }
 }
 
@@ -62,15 +54,5 @@ export class AllowedToken extends Table {
 
     set byToken(value: U128) {
        this.token = U128ToExtSym(value)
-    }
-
-    static getTable(code: Name): TableStore<AllowedToken> {
-        const scope = code
-        const tableName = Name.fromString("allowedtoken")
-        const idxTableBase: u64 = (tableName.N & 0xfffffffffffffff0);
-        const indexes: IDXDB[] = [
-            new IDX128(code.N, scope.N, idxTableBase + 0, 0),
-        ];
-        return new TableStore<AllowedToken>(code, code, tableName, indexes);
     }
 }

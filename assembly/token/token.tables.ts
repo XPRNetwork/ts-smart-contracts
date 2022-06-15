@@ -15,10 +15,6 @@ export class Account extends Table {
     get primary(): u64 {
         return this.balance.symbol.code();
     }
-
-    static getTable(code: Name, accountName: Name): TableStore<Account>  {
-        return new TableStore<Account>(code, accountName, Name.fromString("accounts"));
-    }
 }
 @table("stat")
 export class Stat extends Table {
@@ -34,23 +30,19 @@ export class Stat extends Table {
     get primary(): u64 {
         return this.supply.symbol.code();
     }
-
-    static getTable(code: Name, sym: Symbol): TableStore<Stat>  {
-        return new TableStore<Stat>(code, new Name(sym.code()), Name.fromString("stat"));
-    }
 }
 
 /**
  * Helpers
  */
 export function getSupply(tokenContractAccount: Name, sym: Symbol): Asset {
-    const statstable = Stat.getTable(tokenContractAccount, sym);
+    const statstable = new TableStore<Stat>(tokenContractAccount, new Name(sym.code()));
     const st = statstable.requireGet(sym.code(), "token with symbol does not exist");
     return st.supply;
 }
 
 export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset {
-    const acnts = Account.getTable(tokenContractAccount, owner)
+    const acnts = new TableStore<Account>(tokenContractAccount, owner)
     const ac = acnts.requireGet(sym.code(), "no balance object found");
     return ac.balance;
 }

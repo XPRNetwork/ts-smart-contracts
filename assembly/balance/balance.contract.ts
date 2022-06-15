@@ -7,7 +7,7 @@ import { addNfts, addTokens, substractNfts, substractTokens } from './balance.ut
 
 @contract
 export class BalanceContract extends AllowContract {
-    balancesTable: TableStore<Balance> = Balance.getTable(this.receiver)
+    balancesTable: TableStore<Balance> = new TableStore<Balance>(this.receiver)
 
     /**
      * Incoming notification of "transfer" action from any contract
@@ -103,7 +103,7 @@ export class BalanceContract extends AllowContract {
      * @param {u64[]} nfts - u64[]
      * @param {string} memo - string
      */
-    withdrawadmin(
+    withdrawAdmin(
         actor: Name,
         tokens: ExtendedAsset[],
         nfts: u64[],

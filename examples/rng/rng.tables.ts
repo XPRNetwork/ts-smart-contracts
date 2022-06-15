@@ -1,4 +1,4 @@
-import { Name, Table, TableStore } from "proton-tsc";
+import { Name, Table } from "proton-tsc";
 
 @table("results")
 export class Results extends Table {
@@ -13,9 +13,5 @@ export class Results extends Table {
     @primary
     get primary(): u64 {
         return this.customerId;
-    }
-
-    static getTable(code: Name): TableStore<Results> {
-        return new TableStore<Results>(code, code, Name.fromString("results"));
     }
 }

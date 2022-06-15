@@ -18,13 +18,13 @@ beforeEach(() => {
  */
 const getStat = (symcode: string) => {
   const symcodeBigInt = symbolCodeToBigInt(Asset.SymbolCode.from(symcode));
-  return eosioToken.tables!.stat(symcodeBigInt).getTableRow(symcodeBigInt)
+  return eosioToken.tables.stat(symcodeBigInt).getTableRow(symcodeBigInt)
 }
 
 const getAccount = (accountName: string, symcode: string) => {
   const accountBigInt = nameToBigInt(Name.from(accountName));
   const symcodeBigInt = symbolCodeToBigInt(Asset.SymbolCode.from(symcode));
-  return eosioToken.tables!.accounts(accountBigInt).getTableRow(symcodeBigInt)
+  return eosioToken.tables.accounts(accountBigInt).getTableRow(symcodeBigInt)
 }
 
 function currency_stats(supply: string, max_supply: string, issuer: string) {

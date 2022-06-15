@@ -1,11 +1,12 @@
-import { currentTimePoint, ExtendedAsset, Name, check, requireAuth, isAccount, TableStore } from ".."
+import { currentTimePoint, ExtendedAsset, Name, check, requireAuth, isAccount, TableStore, Singleton } from ".."
 import { BalanceContract } from '../balance';
 import { ESCROW_STATUS, sendLogEscrow } from './escrow.inline';
 import { EscrowGlobal, Escrow } from './escrow.tables';
 
 @contract
 class EscrowContract extends BalanceContract {
-    escrowsTable: TableStore<Escrow> = Escrow.getTable(this.receiver)
+    escrowsTable: TableStore<Escrow> = new TableStore<Escrow>(this.receiver)
+    escrowGlobalSingleton: Singleton<EscrowGlobal> = new Singleton<EscrowGlobal>(this.receiver)
 
     /**
      * It creates an escrow.
@@ -36,17 +37,15 @@ class EscrowContract extends BalanceContract {
         // Validation
         check(to == new Name() || isAccount(to), "to must be empty or a valid account");
         check(expiry > currentTimePoint().secSinceEpoch(), "expiry must be in future");
-        check(fromTokens.length || fromNfts.length, "must escrow atleast one token or NFT on from side");
-        check(toTokens.length || toNfts.length, "must escrow atleast one token or NFT on to side");
+        check(fromTokens.length || fromNfts.length || toTokens.length || toNfts.length, "must escrow atleast one token or NFT on a side");
 
         // Substract balances
         this.substractBalance(from, fromTokens, fromNfts)
       
         // Get and update config
-        const escrowGlobalSingleton = EscrowGlobal.getSingleton(this.contract)
-        const escrowGlobal = escrowGlobalSingleton.get()
+        const escrowGlobal = this.escrowGlobalSingleton.get()
         const escrowId = escrowGlobal.escrowId++;
-        escrowGlobalSingleton.set(escrowGlobal, this.contract);
+        this.escrowGlobalSingleton.set(escrowGlobal, this.contract);
 
         // Create escrow object
         const escrow = new Escrow(
@@ -103,8 +102,8 @@ class EscrowContract extends BalanceContract {
         
         // Send out
         const memo = `escrow ${id} completed!`
-        this.withdrawadmin(escrow.from, escrow.toTokens, escrow.toNfts, memo)
-        this.withdrawadmin(escrow.to, escrow.fromTokens, escrow.fromNfts, memo)
+        this.withdrawAdmin(escrow.from, escrow.toTokens, escrow.toNfts, memo)
+        this.withdrawAdmin(escrow.to, escrow.fromTokens, escrow.fromNfts, memo)
   
         // Log
         sendLogEscrow(this.contract, escrow, ESCROW_STATUS.FILL);
@@ -135,7 +134,7 @@ class EscrowContract extends BalanceContract {
         this.escrowsTable.remove(escrow);
 
         // Send out
-        this.withdrawadmin(escrow.from, escrow.fromTokens, escrow.fromNfts, `escrow ${id} cancelled!`)
+        this.withdrawAdmin(escrow.from, escrow.fromTokens, escrow.fromNfts, `escrow ${id} cancelled!`)
   
         // Log
         sendLogEscrow(this.contract, escrow, ESCROW_STATUS.CANCEL);

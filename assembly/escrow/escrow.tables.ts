@@ -1,4 +1,4 @@
-import { ExtendedAsset, Name, Table, Singleton, TableStore, IDX64, IDXDB } from "../index";
+import { ExtendedAsset, Name, Table, Singleton, TableStore } from "../index";
 
 @table("escrowglobal", singleton)
 export class EscrowGlobal extends Table {
@@ -6,10 +6,6 @@ export class EscrowGlobal extends Table {
        public escrowId: u64 = 0
     ) {
         super();
-    }
-
-    static getSingleton(code: Name): Singleton<EscrowGlobal> {
-        return new Singleton<EscrowGlobal>(code, code, Name.fromString("escrowglobal"));
     }
 }
 
@@ -49,16 +45,5 @@ export class Escrow extends Table {
 
     set byTo(value: u64) {
         this.to.N = value;
-    }
-   
-    static getTable(code: Name): TableStore<Escrow> {
-        const scope = code
-        const tableName = Name.fromString("escrows")
-        const idxTableBase: u64 = (tableName.N & 0xfffffffffffffff0);
-        const indexes: IDXDB[] = [
-            new IDX64(code.N, scope.N, idxTableBase + 0, 0),
-            new IDX64(code.N, scope.N, idxTableBase + 1, 1),
-        ];
-        return new TableStore<Escrow>(code, code, tableName, indexes);
     }
 }
