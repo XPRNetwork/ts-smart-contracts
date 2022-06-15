@@ -22,9 +22,10 @@ export class TokenContract extends Contract {
     ): void {
         requireAuth(this.receiver);
 
+        const sym = maximum_supply.symbol;
+        check(maximum_supply.isValid(), "invalid supply");
         check(maximum_supply.amount > 0, "max-supply must be positive");
 
-        const sym = maximum_supply.symbol;
         const statstable = Stat.getTable(this.receiver, sym);
         check(!statstable.exists(sym.code()), "token with symbol already exists")
 
