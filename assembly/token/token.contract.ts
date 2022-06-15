@@ -46,7 +46,6 @@ export class TokenContract extends Contract {
         quantity: Asset,
         memo: string
     ): void {
-        // ? Why do we need memo here if it is not used anywhere in the code?
         check(memo.length <= 256, "memo has more than 256 bytes");
 
         const sym = quantity.symbol;
@@ -54,12 +53,11 @@ export class TokenContract extends Contract {
         const st = statstable.requireGet(sym.code(), "token with symbol does not exist, create token before issue");
 
         requireAuth(st.issuer);
-
+        check(quantity.isValid(), "invalid quantity");
         check(to == st.issuer, "tokens can only be issued to issuer account");
 
         check(quantity.amount > 0, "must issue positive quantity");
 
-        // ? This check makes no sense. It is impossible to get different symbols for quantity and supply, because we get supply from quantity symbol
         check(quantity.symbol == st.supply.symbol, "symbol precision mismatch");
 
         check(quantity.amount <= st.max_supply.amount - st.supply.amount, "quantity exceeds available supply");
@@ -82,7 +80,6 @@ export class TokenContract extends Contract {
         quantity: Asset,
         memo: string
     ): void {
-        // ? Why do we need memo here if it is not used anywhere in the code? 
         check(memo.length <= 256, "memo has more than 256 bytes");
 
         const sym = quantity.symbol;
@@ -90,10 +87,9 @@ export class TokenContract extends Contract {
         const st = statstable.requireGet(sym.code(), "token with symbol does not exist");
 
         requireAuth(st.issuer);
-
+        check(quantity.isValid(), "invalid quantity");
         check(quantity.amount > 0, "must retire positive quantity");
 
-        // ? This check makes no sense. It is impossible to get different symbols for quantity and supply, because we get supply from quantity symbol
         check(quantity.symbol == st.supply.symbol, "symbol precision mismatch");
 
         st.supply = Asset.sub(st.supply, quantity);
@@ -118,12 +114,8 @@ export class TokenContract extends Contract {
         quantity: Asset,
         memo: string
     ): void {
-        // ? Why do we need memo here if it is not used anywhere in the code? 
-        check(memo.length <= 256, "memo has more than 256 bytes");
-
-        requireAuth(from);
-
         check(from != to, "cannot transfer to self");
+        requireAuth(from);
 
         check(isAccount(to), "to account does not exist");
 
@@ -134,12 +126,12 @@ export class TokenContract extends Contract {
         requireRecipient(from);
         requireRecipient(to);
 
+        check(quantity.isValid(), "invalid quantity");
         check(quantity.amount > 0, "must transfer positive quantity");
 
-        // ? This check makes no sense. It is impossible to get different symbols for quantity and supply, because we get supply from quantity symbol
         check(quantity.symbol == st.supply.symbol, "symbol precision mismatch");
+        check(memo.length <= 256, "memo has more than 256 bytes");
 
-        // ? Do we need this check is we already checked to account with requireRecipient and isAccount
         const payer = hasAuth(to) ? to : from;
 
         this.subBalance(from, quantity);
@@ -168,7 +160,6 @@ export class TokenContract extends Contract {
         const statstable = Stat.getTable(this.receiver, symbol);
         const st = statstable.requireGet(symbol.code(), "symbol does not exist");
 
-        // ? This check makes no sense. It is impossible to get different symbols for incoming symbol and supply, because we get supply from incoming symbol
         check(st.supply.symbol == symbol, "symbol precision mismatch");
 
         const acnts = Account.getTable(this.receiver, owner)
