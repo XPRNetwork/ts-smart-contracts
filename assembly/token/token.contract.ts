@@ -46,15 +46,17 @@ export class TokenContract extends Contract {
         quantity: Asset,
         memo: string
     ): void {
+        const sym = quantity.symbol;
+        check(sym.isValid(), "invalid symbol name");
+
         check(memo.length <= 256, "memo has more than 256 bytes");
 
-        const sym = quantity.symbol;
         const statstable = Stat.getTable(this.receiver, sym);
         const st = statstable.requireGet(sym.code(), "token with symbol does not exist, create token before issue");
+        check(to == st.issuer, "tokens can only be issued to issuer account");
 
         requireAuth(st.issuer);
         check(quantity.isValid(), "invalid quantity");
-        check(to == st.issuer, "tokens can only be issued to issuer account");
 
         check(quantity.amount > 0, "must issue positive quantity");
 
@@ -80,9 +82,11 @@ export class TokenContract extends Contract {
         quantity: Asset,
         memo: string
     ): void {
+        const sym = quantity.symbol;
+        check(sym.isValid(), "invalid symbol name");
+
         check(memo.length <= 256, "memo has more than 256 bytes");
 
-        const sym = quantity.symbol;
         const statstable = Stat.getTable(this.receiver, sym);
         const st = statstable.requireGet(sym.code(), "token with symbol does not exist");
 
