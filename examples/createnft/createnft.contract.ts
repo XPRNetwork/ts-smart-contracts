@@ -101,7 +101,7 @@ class CreateNftContract extends Contract {
         const collectionTable = new TableStore<Collections>(ATOMICASSETS_CONTRACT)
         const schemaTable = new TableStore<Schemas>(ATOMICASSETS_CONTRACT, collectionName)
         const templateTable = new TableStore<Templates>(ATOMICASSETS_CONTRACT, collectionName)
-        const assetTable = new TableStore<Assets>(ATOMICASSETS_CONTRACT, collectionName)
+        const assetTable = new TableStore<Assets>(ATOMICASSETS_CONTRACT, owner)
 
         // Get by name
         const config = configSingleton.get()
