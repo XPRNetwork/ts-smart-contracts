@@ -1,4 +1,4 @@
-import { Name, IDXDB, check, MultiIndex, MultiIndexValue, IDX128, U128, IDX256, U256, IDX64, IDXF64, Table } from "../..";
+import { Name, IDXDB, check, MultiIndex, IDX128, U128, IDX256, U256, IDX64, IDXF64, Table, print } from "../..";
 
 export const NO_AVAILABLE_PRIMARY_KEY = <u64>(-2) // Must be the smallest uint64_t value compared to all other tags
 export const UNSET_NEXT_PRIMARY_KEY = <u64>(-1) // No table
@@ -144,25 +144,57 @@ export class TableStore<T extends Table> {
     /**
      * Secondary indexes
      */
+    
     /**
      * Given a secondary key, find the first table element that matches secondary value
      * @param {u64} secondaryValue - u64 - the secondary value to search for
      * @param {u8} index - The index to search in.
      * @returns The table element.
      */
-    getBySecondaryIDX64(secondaryValue: u64, index: u8): T | null {
+    getBySecondaryU64(secondaryValue: u64, index: u8): T | null {
+        // Find index
         const idx = <IDX64>this.mi.idxdbs[index]
+
+        // Find by secondary value in index
         const secondaryIt = idx.find(secondaryValue);
         if (!secondaryIt.isOk()) {
             return null
         }
 
-        const found = idx.findPrimary(secondaryIt.primary)
-        if (found.value != secondaryValue) {
+        // Check that it exists in the index
+        return this.get(secondaryIt.primary)
+    }
+
+    nextBySecondaryU64(value: T, index: u8): T | null {
+        const idx = <IDX64>this.mi.idxdbs[index]
+
+        const currentIt = idx.findPrimaryEx(value.getPrimaryValue());
+        if (!currentIt.i.isOk()) {
             return null
         }
 
-        return this.get(secondaryIt.primary)
+        const nextIt = idx.next(currentIt.i);
+        if (!nextIt.isOk()) {
+            return null
+        }
+
+        return this.get(nextIt.primary)
+    }
+
+    previousBySecondaryU64(value: T, index: u8): T | null {
+        const idx = <IDX64>this.mi.idxdbs[index]
+
+        const currentIt = idx.findPrimaryEx(value.getPrimaryValue());
+        if (!currentIt.i.isOk()) {
+            return null
+        }
+
+        const nextIt = idx.previous(currentIt.i);
+        if (!nextIt.isOk()) {
+            return null
+        }
+
+        return this.get(nextIt.primary)
     }
 
     /**
@@ -171,39 +203,27 @@ export class TableStore<T extends Table> {
      * @param {u8} index - The index to search in.
      * @returns The table element.
      */
-    getBySecondaryIDX128(secondaryValue: U128, index: u8): T | null {
+    getBySecondaryU128(secondaryValue: U128, index: u8): T | null {
         const idx = <IDX128>this.mi.idxdbs[index]
         const secondaryIt = idx.find(secondaryValue);
         if (!secondaryIt.isOk()) {
             return null
         }
-
-        const found = idx.findPrimary(secondaryIt.primary)
-        if (found.value != secondaryValue) {
-            return null
-        }
-
         return this.get(secondaryIt.primary)
     }
 
     /**
      * Given a secondary key, find the first table element that matches secondary value
-     * @param {U256} secondaryValue - U256 - the secondary value to search for
+     * @param {u256} secondaryValue - u256 - the secondary value to search for
      * @param {u8} index - The index to search in.
      * @returns The table element.
      */
-    getBySecondaryIDX256(secondaryValue: U256, index: u8): T | null {
+    getBySecondaryU256(secondaryValue: U256, index: u8): T | null {
         const idx = <IDX256>this.mi.idxdbs[index]
         const secondaryIt = idx.find(secondaryValue);
         if (!secondaryIt.isOk()) {
             return null
         }
-
-        const found = idx.findPrimary(secondaryIt.primary)
-        if (found.value != secondaryValue) {
-            return null
-        }
-
         return this.get(secondaryIt.primary)
     }
 
@@ -213,18 +233,12 @@ export class TableStore<T extends Table> {
      * @param {u8} index - The index to search in.
      * @returns The table element.
      */
-    getBySecondaryIDXDouble(secondaryValue: f64, index: u8): T | null {
+    getBySecondaryF64(secondaryValue: f64, index: u8): T | null {
         const idx = <IDXF64>this.mi.idxdbs[index]
         const secondaryIt = idx.find(secondaryValue);
         if (!secondaryIt.isOk()) {
             return null
         }
-
-        const found = idx.findPrimary(secondaryIt.primary)
-        if (found.value != secondaryValue) {
-            return null
-        }
-
         return this.get(secondaryIt.primary)
     }
 
@@ -234,18 +248,12 @@ export class TableStore<T extends Table> {
      * @param {u8} index - The index to search in.
      * @returns The table element..
      */
-    // getBySecondaryIDXLongDouble(secondaryValue: Float128, index: u8): T | null {
+    // getSecondaryF128(secondaryValue: Float128, index: u8): T | null {
     //     const idx = <IDXF128>this.mi.idxdbs[index]
     //     const secondaryIt = idx.find(secondaryValue);
     //     if (!secondaryIt.isOk()) {
     //         return null
     //     }
-
-    //     const found = idx.findPrimary(secondaryIt.primary)
-    //     if (found.value != secondaryValue) {
-    //         return null
-    //     }
-
     //     return this.get(secondaryIt.primary)
     // }
 }

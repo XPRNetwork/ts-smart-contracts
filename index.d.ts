@@ -29,13 +29,13 @@ declare module 'proton-tsc/allow/allow.contract' {
       /**
        * Helper functions
        */
-      findAllowedToken(token: ExtendedSymbol): AllowedToken | null;
-      isTokenAllowed(token: ExtendedSymbol): boolean;
-      checkTokenIsAllowed(token: ExtendedSymbol): void;
-      isActorAllowed(actor: Name): boolean;
-      checkActorIsAllowed(actor: Name): void;
-      isContractPaused(): boolean;
-      checkContractIsNotPaused(): void;
+      protected checkContractIsNotPaused(): void;
+      protected checkActorIsAllowed(actor: Name, message: string): void;
+      protected checkTokenIsAllowed(token: ExtendedSymbol, message: string): void;
+      private findAllowedToken;
+      private isTokenAllowed;
+      private isActorAllowed;
+      private isContractPaused;
   }
 
 }
@@ -75,6 +75,19 @@ declare module 'proton-tsc/allow/allow.utils' {
   import { ExtendedSymbol, U128 } from "proton-tsc";
   export const extendedSymbolToU128: (extSym: ExtendedSymbol) => U128;
   export const U128ToExtSym: (value: U128) => ExtendedSymbol;
+
+}
+declare module 'proton-tsc/allow/allow_test.contract' {
+  import { Name, ExtendedSymbol } from 'proton-tsc';
+  import { AllowContract } from 'proton-tsc/allow';
+  export class AllowTestContract extends AllowContract {
+      /**
+       * Helper actions
+       */
+      testpaused(): void;
+      testactor(actor: Name, message: string): void;
+      testtoken(token: ExtendedSymbol, message: string): void;
+  }
 
 }
 declare module 'proton-tsc/allow/fixtures/allowed-fixtures.spec' {
@@ -124,13 +137,13 @@ declare module 'proton-tsc/allow/target/allow.contract' {
       /**
        * Helper functions
        */
-      findAllowedToken(token: ExtendedSymbol): AllowedToken | null;
-      isTokenAllowed(token: ExtendedSymbol): boolean;
-      checkTokenIsAllowed(token: ExtendedSymbol): void;
-      isActorAllowed(actor: Name): boolean;
-      checkActorIsAllowed(actor: Name): void;
-      isContractPaused(): boolean;
-      checkContractIsNotPaused(): void;
+      protected checkContractIsNotPaused(): void;
+      protected checkActorIsAllowed(actor: Name, message: string): void;
+      protected checkTokenIsAllowed(token: ExtendedSymbol, message: string): void;
+      private findAllowedToken;
+      private isTokenAllowed;
+      private isActorAllowed;
+      private isContractPaused;
   }
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
@@ -203,6 +216,21 @@ declare module 'proton-tsc/allow/target/allow.tables' {
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
       static new(code: _chain.Name, scope: _chain.Name): AllowedTokenDB;
   }
+
+}
+declare module 'proton-tsc/allow/target/allow_test.contract' {
+  /// <reference types="assembly" />
+  import { Name, ExtendedSymbol } from 'proton-tsc/allow';
+  import { AllowContract } from 'proton-tsc/allow/target';
+  export class AllowTestContract extends AllowContract {
+      /**
+       * Helper actions
+       */
+      testpaused(): void;
+      testactor(actor: Name, message: string): void;
+      testtoken(token: ExtendedSymbol, message: string): void;
+  }
+  export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
 declare module 'proton-tsc/allow/target' {
@@ -3730,6 +3758,7 @@ declare module 'proton-tsc/modules' {
   export { SafeMath } from 'proton-tsc/modules/safemath';
   export { getTransactionId } from 'proton-tsc/modules/txid';
   export { KeyWeight, PermissionLevelWeight, WaitWeight, Authority } from 'proton-tsc/modules/authority';
+  export { printStorage } from 'proton-tsc/modules/vert';
 
 }
 declare module 'proton-tsc/modules/safemath' {
@@ -3874,28 +3903,30 @@ declare module 'proton-tsc/modules/store/store' {
        * @param {u8} index - The index to search in.
        * @returns The table element.
        */
-      getBySecondaryIDX64(secondaryValue: u64, index: u8): T | null;
+      getBySecondaryU64(secondaryValue: u64, index: u8): T | null;
+      nextBySecondaryU64(value: T, index: u8): T | null;
+      previousBySecondaryU64(value: T, index: u8): T | null;
       /**
        * Given a secondary key, find the first table element that matches secondary value
        * @param {U128} secondaryValue - U128 - the secondary value to search for
        * @param {u8} index - The index to search in.
        * @returns The table element.
        */
-      getBySecondaryIDX128(secondaryValue: U128, index: u8): T | null;
+      getBySecondaryU128(secondaryValue: U128, index: u8): T | null;
       /**
        * Given a secondary key, find the first table element that matches secondary value
-       * @param {U256} secondaryValue - U256 - the secondary value to search for
+       * @param {u256} secondaryValue - u256 - the secondary value to search for
        * @param {u8} index - The index to search in.
        * @returns The table element.
        */
-      getBySecondaryIDX256(secondaryValue: U256, index: u8): T | null;
+      getBySecondaryU256(secondaryValue: U256, index: u8): T | null;
       /**
        * Given a secondary key, find the first table element that matches secondary value
        * @param {f64} secondaryValue - f64 - the secondary value to search for
        * @param {u8} index - The index to search in.
        * @returns The table element.
        */
-      getBySecondaryIDXDouble(secondaryValue: f64, index: u8): T | null;
+      getBySecondaryF64(secondaryValue: f64, index: u8): T | null;
   }
 
 }
@@ -4007,6 +4038,10 @@ declare module 'proton-tsc/modules/txid/target/txid.contract' {
       getTxid(): Checksum256;
   }
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
+
+}
+declare module 'proton-tsc/modules/vert' {
+  export function printStorage(): void;
 
 }
 declare module 'proton-tsc/rng' {

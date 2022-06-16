@@ -112,7 +112,7 @@ export class AllowContract extends Contract {
     }
 
     private findAllowedToken(token: ExtendedSymbol): AllowedToken | null {
-        return this.allowedTokenTable.getBySecondaryIDX128(extendedSymbolToU128(token), 0)
+        return this.allowedTokenTable.getBySecondaryU128(extendedSymbolToU128(token), 0)
     }
 
     private isTokenAllowed(token: ExtendedSymbol): boolean {
