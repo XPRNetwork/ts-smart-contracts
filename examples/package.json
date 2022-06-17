@@ -14,10 +14,10 @@
     "test": "run-p test:*"
   },
   "dependencies": {
-    "proton-tsc": "^0.3.7"
+    "proton-tsc": "latest"
   },
   "devDependencies": {
-    "@proton/vert": "^0.2.8",
+    "@proton/vert": "latest",
     "chai": "^4.3.6",
     "mocha": "^9.2.2",
     "npm-run-all": "^4.1.5",

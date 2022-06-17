@@ -26,18 +26,20 @@
     "hash.js" "^1.0.0"
     "tslib" "^2.0.3"
 
-"@proton/vert@^0.2.8":
-  "integrity" "sha512-rj1Amjmhapu3+QF5OQ1UVEM2JncCfxTRstz+VeHZ6AhcvNRLjB+VQTx4cjnrTBb+G2tzY2UJ67YDZOZZGETxZA=="
-  "resolved" "https://registry.npmjs.org/@proton/vert/-/vert-0.2.8.tgz"
-  "version" "0.2.8"
+"@proton/vert@^0.3.2":
+  "integrity" "sha512-76BYaINUoy2ewrf8Zihet/xK11jPn/sBsfPkbdUEZ8Ch14oiaKCTJvAa9B6fdVYdhds+AGb4cqBNP/aMvaHFXw=="
+  "resolved" "https://registry.npmjs.org/@proton/vert/-/vert-0.3.2.tgz"
+  "version" "0.3.2"
   dependencies:
     "@greymass/eosio" "^0.5.5"
     "bn.js" "^5.2.0"
     "brorand" "^1.1.0"
+    "chai" "^4.3.6"
     "colors" "^1.4.0"
     "cross-fetch" "^3.1.5"
     "elliptic" "^6.5.4"
     "hash.js" "^1.1.7"
+    "lodash.set" "^4.3.2"
     "loglevel" "^1.8.0"
     "loglevel-plugin-prefix" "^0.8.4"
     "sorted-btree" "^1.6.0"
@@ -766,6 +768,11 @@
   dependencies:
     "p-locate" "^5.0.0"
 
+"lodash.set@^4.3.2":
+  "integrity" "sha512-4hNPN5jlm/N/HLMCO43v8BXKq9Z7QdAGc/VGrRD61w8gN9g/6jF9A4L1pbUgBLCffi0w9VsXfTOij5x8iTyFvg=="
+  "resolved" "https://registry.npmjs.org/lodash.set/-/lodash.set-4.3.2.tgz"
+  "version" "4.3.2"
+
 "log-symbols@4.1.0":
   "integrity" "sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg=="
   "resolved" "https://registry.npmjs.org/log-symbols/-/log-symbols-4.1.0.tgz"
@@ -1032,10 +1039,10 @@
     "ts-dedent" "^2.2.0"
     "yargs" "^17.4.1"
 
-"proton-tsc@^0.3.7":
-  "integrity" "sha512-w1nhei/5nv1pYMrf07fBfmEGPSRcQqi+uY2Sq2Jne2Dz89YDhyWQpZqXys67UMFhjRPtb59vOeO2eL0ZsNxPFA=="
-  "resolved" "https://registry.npmjs.org/proton-tsc/-/proton-tsc-0.3.7.tgz"
-  "version" "0.3.7"
+"proton-tsc@^0.3.8":
+  "integrity" "sha512-wOECOIX/BlVD3ZL+Alf14LrE4dkos3XQNFE+xrQNpFNZNlNWvUHEbw2ow2FkZUuCjxEyC/sUDciOwSwl18G4/Q=="
+  "resolved" "https://registry.npmjs.org/proton-tsc/-/proton-tsc-0.3.8.tgz"
+  "version" "0.3.8"
   dependencies:
     "proton-asc" "^0.2.103"
 
