@@ -5,19 +5,21 @@
     "build:kv": "npx proton-asc ./kv/kv.contract.ts",
     "build:rng": "npx proton-asc ./rng/rng.contract.ts",
     "build:txid": "npx proton-asc ./txid/txid.contract.ts",
+    "build:oracles": "npx proton-asc ./oracles/oracles.contract.ts",
     "build": "run-p build:*",
     "test:kv": "mocha -s 250 ./kv/*.spec.ts -r ts-node/register",
     "test:rng": "mocha -s 250 ./rng/*.spec.ts -r ts-node/register",
     "test:txid": "mocha -s 250 ./txid/*.spec.ts -r ts-node/register",
     "test:hello": "mocha -s 250 ./hello/*.spec.ts -r ts-node/register",
     "test:createnft": "mocha -s 250 ./createnft/*.spec.ts -r ts-node/register",
+    "test:oracles": "mocha -s 250 ./oracles/*.spec.ts -r ts-node/register",
     "test": "run-p test:*"
   },
   "dependencies": {
-    "proton-tsc": "latest"
+    "proton-tsc": "0.3.14"
   },
   "devDependencies": {
-    "@proton/vert": "latest",
+    "@proton/vert": "^0.3.2",
     "chai": "^4.3.6",
     "mocha": "^9.2.2",
     "npm-run-all": "^4.1.5",

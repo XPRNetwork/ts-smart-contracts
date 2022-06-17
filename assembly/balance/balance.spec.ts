@@ -6,10 +6,10 @@ import { Asset, Name } from '@greymass/eosio'
 const blockchain = new Blockchain()
 
 /* Create assembly and accounts */
-const balanceContract = blockchain.createContract('balance', 'assembly/balance/target/balance.contract', true)
+const balanceContract = blockchain.createContract('balance', 'assembly/balance/target/balance.contract')
 const xtokensContract = blockchain.createContract('xtokens', 'external/xtokens/xtokens')
 const eosioTokenContract = blockchain.createContract('eosio.token', 'assembly/token/target/token.contract')
-const atomicassetsContract = blockchain.createContract('atomicassets', 'external/atomicassets/atomicassets', true)
+const atomicassetsContract = blockchain.createContract('atomicassets', 'external/atomicassets/atomicassets')
 const [collector, trader, artist] = blockchain.createAccounts('collector', 'trader', 'artist')
 
 /* Runs before each test */

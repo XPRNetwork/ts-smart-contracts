@@ -5,7 +5,7 @@ import { Blockchain, expectToThrow } from "@proton/vert"
 const blockchain = new Blockchain()
 
 /* Create assembly and accounts */
-const kvContract = blockchain.createContract('kv', 'kv/target/kv.contract', true)
+const kvContract = blockchain.createContract('kv', 'kv/target/kv.contract')
 blockchain.createAccounts('account1', 'account2', 'account3')
 
 /* Runs before each test */

@@ -1,7 +1,7 @@
 import { Name, check, requireAuth, Contract, TableStore } from 'proton-tsc'
 import { KV, AccountKV } from './kv.tables';
 
-@contract("kv")
+@contract
 export class KvContract extends Contract {
     kvsTable: TableStore<AccountKV> = new TableStore<AccountKV>(this.receiver)
 

@@ -6,7 +6,7 @@ import { Transaction, PermissionLevel, Serializer } from "@greymass/eosio";
 const blockchain = new Blockchain()
 
 /* Create assembly and accounts */
-const txidContract = blockchain.createContract('txid', 'txid/target/txid.contract', true)
+const txidContract = blockchain.createContract('txid', 'txid/target/txid.contract')
 const [account1] = blockchain.createAccounts('account1', 'account2', 'account3')
 
 /* Runs before each test */

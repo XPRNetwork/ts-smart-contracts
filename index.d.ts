@@ -2763,7 +2763,7 @@ declare module 'proton-tsc/chain' {
   export { IDX128 } from "as-chain";
   export { IDX256 } from "as-chain";
   export { VariantValue } from "as-chain";
-  export { Optional } from "as-chain";
+  export { Optional, OptionalNumber, OptionalString } from "as-chain";
   export { BinaryExtension } from "as-chain";
   export { assert, check, currentTimePoint, currentTime, currentTimeMs, currentTimeSec, } from "as-chain";
   export { Microseconds, TimePoint, TimePointSec, BlockTimestamp } from "as-chain";
@@ -4044,6 +4044,78 @@ declare module 'proton-tsc/modules/vert' {
   export function printStorage(): void;
 
 }
+declare module 'proton-tsc/oracles' {
+  export * from 'proton-tsc/oracles/oracles.tables';
+  export * from 'proton-tsc/oracles/oracles.inline';
+
+}
+declare module 'proton-tsc/oracles/oracles.inline' {
+  import { Name } from "proton-tsc";
+  export const ORACLES_CONTRACT: Name;
+
+}
+declare module 'proton-tsc/oracles/oracles.tables' {
+  /// <reference types="assembly" />
+  import { Name, Table, TimePoint } from "proton-tsc";
+  export class DataVariant extends Table {
+      private d_string;
+      private d_uint64_t;
+      private d_double;
+      constructor(d_string?: string | null, d_uint64_t?: u64, d_double?: f64);
+      get dataType(): string;
+      get stringValue(): string;
+      get u64Value(): u64;
+      get f64Value(): f64;
+  }
+  export class ProviderPoint extends Table {
+      provider: Name;
+      time: TimePoint;
+      data: DataVariant;
+      constructor(provider?: Name, time?: TimePoint, data?: DataVariant);
+  }
+  export class ConfigSingle extends Table {
+      key: string;
+      value: u64;
+      constructor(key?: string, value?: u64);
+  }
+  export class Feed extends Table {
+      index: u64;
+      name: string;
+      description: string;
+      aggregate_function: string;
+      data_type: string;
+      config: ConfigSingle[];
+      providers: ProviderSingle[];
+      constructor(index?: u64, name?: string, description?: string, aggregate_function?: string, data_type?: string, config?: ConfigSingle[], providers?: ProviderSingle[]);
+      get primaryKey(): u64;
+  }
+  export class ProviderSingle extends Table {
+      key: Name;
+      value: TimePoint;
+      constructor(key?: Name, value?: TimePoint);
+  }
+  export class Data extends Table {
+      feed_index: u64;
+      aggregate: DataVariant;
+      points: ProviderPoint[];
+      constructor(feed_index?: u64, aggregate?: DataVariant, points?: ProviderPoint[]);
+      get primaryKey(): u64;
+  }
+  export class VoteSingle extends Table {
+      key: Name;
+      value: boolean;
+      constructor(key?: Name, value?: boolean);
+  }
+  export class Msig extends Table {
+      index: u64;
+      proposer: Name;
+      new_feed: Feed;
+      votes: VoteSingle[];
+      constructor(index?: u64, proposer?: Name, new_feed?: Feed, votes?: VoteSingle[]);
+      get primaryKey(): u64;
+  }
+
+}
 declare module 'proton-tsc/rng' {
   export * from 'proton-tsc/rng/rng.inline';
   export * from 'proton-tsc/rng/rng.utils';
@@ -4240,7 +4312,7 @@ declare module 'proton-tsc/token/target/token.contract' {
        */
       issue(to: Name, quantity: Asset, memo: string): void;
       /**
-       * The opposite for create action, if all validations succeed,
+       * The opposite for issue action, if all validations succeed,
        * it debits the statstable.supply amount.
        *
        * @param quantity - the quantity of tokens to retire,
@@ -4278,8 +4350,8 @@ declare module 'proton-tsc/token/target/token.contract' {
        * @pre If the pair of owner plus symbol exists, the balance has to be zero.
        */
       close(owner: Name, symbol: Symbol): void;
-      subBalance(owner: Name, value: Asset): void;
-      addBalance(owner: Name, value: Asset, ramPayer: Name): void;
+      private subBalance;
+      private addBalance;
   }
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
@@ -4360,7 +4432,7 @@ declare module 'proton-tsc/token/token.contract' {
        */
       issue(to: Name, quantity: Asset, memo: string): void;
       /**
-       * The opposite for create action, if all validations succeed,
+       * The opposite for issue action, if all validations succeed,
        * it debits the statstable.supply amount.
        *
        * @param quantity - the quantity of tokens to retire,
@@ -4398,8 +4470,8 @@ declare module 'proton-tsc/token/token.contract' {
        * @pre If the pair of owner plus symbol exists, the balance has to be zero.
        */
       close(owner: Name, symbol: Symbol): void;
-      subBalance(owner: Name, value: Asset): void;
-      addBalance(owner: Name, value: Asset, ramPayer: Name): void;
+      private subBalance;
+      private addBalance;
   }
 
 }
