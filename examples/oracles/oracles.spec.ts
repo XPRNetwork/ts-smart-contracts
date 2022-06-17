@@ -1,11 +1,10 @@
-import { expect } from "chai";
-import { Blockchain, expectToThrow } from "@proton/vert"
+import { Blockchain } from "@proton/vert"
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
 
 /* Create assembly and accounts */
-const oraclesContract = blockchain.createContract('oracles', '../external/oracles/oracles')
+const oraclesContract = blockchain.createContract('oracles', 'node_modules/proton-tsc/external/oracles/oracles')
 
 const testContract = blockchain.createContract('test', 'oracles/target/oracles.contract')
 blockchain.createAccounts('account1', 'account2', 'account3')
