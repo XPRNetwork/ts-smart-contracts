@@ -1,0 +1,390 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.1",
+    "types": [],
+    "structs": [
+        {
+            "name": "Data",
+            "base": "",
+            "fields": [
+                {
+                    "name": "feed_index",
+                    "type": "uint64"
+                },
+                {
+                    "name": "aggregate",
+                    "type": "data_variant"
+                },
+                {
+                    "name": "points",
+                    "type": "ProviderPoint[]"
+                }
+            ]
+        },
+        {
+            "name": "Feed",
+            "base": "",
+            "fields": [
+                {
+                    "name": "index",
+                    "type": "uint64"
+                },
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "name": "aggregate_function",
+                    "type": "string"
+                },
+                {
+                    "name": "data_type",
+                    "type": "string"
+                },
+                {
+                    "name": "config",
+                    "type": "pair_string_uint64[]"
+                },
+                {
+                    "name": "providers",
+                    "type": "pair_name_time_point[]"
+                }
+            ]
+        },
+        {
+            "name": "Msig",
+            "base": "",
+            "fields": [
+                {
+                    "name": "index",
+                    "type": "uint64"
+                },
+                {
+                    "name": "proposer",
+                    "type": "name"
+                },
+                {
+                    "name": "new_feed",
+                    "type": "Feed"
+                },
+                {
+                    "name": "votes",
+                    "type": "pair_name_bool[]"
+                }
+            ]
+        },
+        {
+            "name": "ProviderPoint",
+            "base": "",
+            "fields": [
+                {
+                    "name": "provider",
+                    "type": "name"
+                },
+                {
+                    "name": "time",
+                    "type": "time_point"
+                },
+                {
+                    "name": "data",
+                    "type": "data_variant"
+                }
+            ]
+        },
+        {
+            "name": "cancelmsig",
+            "base": "",
+            "fields": [
+                {
+                    "name": "proposer",
+                    "type": "name"
+                },
+                {
+                    "name": "msig_index",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "cleanup",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "createmsig",
+            "base": "",
+            "fields": [
+                {
+                    "name": "proposer",
+                    "type": "name"
+                },
+                {
+                    "name": "feed",
+                    "type": "Feed"
+                }
+            ]
+        },
+        {
+            "name": "data_variant",
+            "base": "",
+            "fields": [
+                {
+                    "name": "d_string",
+                    "type": "string?"
+                },
+                {
+                    "name": "d_uint64_t",
+                    "type": "uint64?"
+                },
+                {
+                    "name": "d_double",
+                    "type": "float64?"
+                }
+            ]
+        },
+        {
+            "name": "executemsig",
+            "base": "",
+            "fields": [
+                {
+                    "name": "executor",
+                    "type": "name"
+                },
+                {
+                    "name": "msig_index",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "feed",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "feed_index",
+                    "type": "uint64"
+                },
+                {
+                    "name": "data",
+                    "type": "data_variant"
+                }
+            ]
+        },
+        {
+            "name": "hydraload",
+            "base": "",
+            "fields": [
+                {
+                    "name": "payload",
+                    "type": "hydraload_payload[]"
+                }
+            ]
+        },
+        {
+            "name": "hydraload_payload",
+            "base": "",
+            "fields": [
+                {
+                    "name": "table_name",
+                    "type": "name"
+                },
+                {
+                    "name": "scope",
+                    "type": "name"
+                },
+                {
+                    "name": "row_data",
+                    "type": "bytes"
+                }
+            ]
+        },
+        {
+            "name": "pair_name_bool",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "value",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "pair_name_time_point",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "value",
+                    "type": "time_point"
+                }
+            ]
+        },
+        {
+            "name": "pair_string_uint64",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "string"
+                },
+                {
+                    "name": "value",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "removefeed",
+            "base": "",
+            "fields": [
+                {
+                    "name": "index",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "setfeed",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "index",
+                    "type": "uint64?"
+                },
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "name": "aggregate_function",
+                    "type": "string"
+                },
+                {
+                    "name": "data_type",
+                    "type": "string"
+                },
+                {
+                    "name": "config",
+                    "type": "pair_string_uint64[]"
+                },
+                {
+                    "name": "providers",
+                    "type": "name[]"
+                }
+            ]
+        },
+        {
+            "name": "votemsig",
+            "base": "",
+            "fields": [
+                {
+                    "name": "provider",
+                    "type": "name"
+                },
+                {
+                    "name": "msig_index",
+                    "type": "uint64"
+                },
+                {
+                    "name": "approve",
+                    "type": "bool"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "cancelmsig",
+            "type": "cancelmsig",
+            "ricardian_contract": "---\nspec_version: \"0.2.0\"\ntitle: Cancel Msig\nsummary: 'Cancel Msig'\nicon:\n---\n."
+        },
+        {
+            "name": "cleanup",
+            "type": "cleanup",
+            "ricardian_contract": "---\nspec_version: \"0.2.0\"\ntitle: Cleanup\nsummary: 'Cleanup'\nicon:\n---\n."
+        },
+        {
+            "name": "createmsig",
+            "type": "createmsig",
+            "ricardian_contract": "---\nspec_version: \"0.2.0\"\ntitle: Create Msig\nsummary: 'Create Msig'\nicon:\n---\n."
+        },
+        {
+            "name": "executemsig",
+            "type": "executemsig",
+            "ricardian_contract": "---\nspec_version: \"0.2.0\"\ntitle: Execute Msig\nsummary: 'Execute Msig'\nicon:\n---\n."
+        },
+        {
+            "name": "feed",
+            "type": "feed",
+            "ricardian_contract": "---\nspec_version: \"0.2.0\"\ntitle: Feed\nsummary: 'Feed'\nicon:\n---\n."
+        },
+        {
+            "name": "hydraload",
+            "type": "hydraload",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "removefeed",
+            "type": "removefeed",
+            "ricardian_contract": "---\nspec_version: \"0.2.0\"\ntitle: Remove Feed\nsummary: 'Remove Feed'\nicon:\n---\n."
+        },
+        {
+            "name": "setfeed",
+            "type": "setfeed",
+            "ricardian_contract": "---\nspec_version: \"0.2.0\"\ntitle: Set Feed\nsummary: 'Set Feed'\nicon:\n---\n."
+        },
+        {
+            "name": "votemsig",
+            "type": "votemsig",
+            "ricardian_contract": "---\nspec_version: \"0.2.0\"\ntitle: Approve Msig\nsummary: 'Approve Msig'\nicon:\n---\n."
+        }
+    ],
+    "tables": [
+        {
+            "name": "data",
+            "type": "Data",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "feeds",
+            "type": "Feed",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "msigs",
+            "type": "Msig",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "variants": []
+}
