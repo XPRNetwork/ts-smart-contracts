@@ -16,7 +16,10 @@ export class TokenContract extends Contract {
      * @pre Maximum supply must be positive;
      */
     @action("create")
-    create(issuer: Name, maximum_supply: Asset): void {
+    create(
+        issuer: Name,
+        maximum_supply: Asset
+    ): void {
         requireAuth(this.receiver);
 
         const sym = maximum_supply.symbol;
@@ -39,20 +42,27 @@ export class TokenContract extends Contract {
      * @memo - the memo string that accompanies the token issue transaction.
      */
     @action("issue")
-    issue(to: Name, quantity: Asset, memo: string): void {
+    issue(
+        to: Name,
+        quantity: Asset,
+        memo: string
+    ): void {
         const sym = quantity.symbol;
         check(sym.isValid(), "invalid symbol name");
+
         check(memo.length <= 256, "memo has more than 256 bytes");
 
         const statstable = new TableStore<Stat>(this.receiver, new Name(sym.code()));
         const st = statstable.requireGet(sym.code(), "token with symbol does not exist, create token before issue");
-        check(to == st.issuer,  "tokens can only be issued to issuer account");
+        check(to == st.issuer, "tokens can only be issued to issuer account");
 
         requireAuth(st.issuer);
         check(quantity.isValid(), "invalid quantity");
+
         check(quantity.amount > 0, "must issue positive quantity");
 
         check(quantity.symbol == st.supply.symbol, "symbol precision mismatch");
+
         check(quantity.amount <= st.max_supply.amount - st.supply.amount, "quantity exceeds available supply");
 
         st.supply = Asset.add(st.supply, quantity);
@@ -62,16 +72,20 @@ export class TokenContract extends Contract {
     }
 
     /**
-     * The opposite for create action, if all validations succeed,
+     * The opposite for issue action, if all validations succeed,
      * it debits the statstable.supply amount.
      *
      * @param quantity - the quantity of tokens to retire,
      * @param memo - the memo string to accompany the transaction.
      */
     @action("retire")
-    retire(quantity: Asset, memo: string): void {
+    retire(
+        quantity: Asset,
+        memo: string
+    ): void {
         const sym = quantity.symbol;
         check(sym.isValid(), "invalid symbol name");
+
         check(memo.length <= 256, "memo has more than 256 bytes");
 
         const statstable = new TableStore<Stat>(this.receiver, new Name(sym.code()));
@@ -99,10 +113,17 @@ export class TokenContract extends Contract {
      * @param memo - the memo string to accompany the transaction.
      */
     @action("transfer")
-    transfer(from: Name, to: Name, quantity: Asset, memo: string): void {
+    transfer(
+        from: Name,
+        to: Name,
+        quantity: Asset,
+        memo: string
+    ): void {
         check(from != to, "cannot transfer to self");
         requireAuth(from);
+
         check(isAccount(to), "to account does not exist");
+
         const sym = quantity.symbol;
         const statstable = new TableStore<Stat>(this.receiver, new Name(sym.code()));
         const st = statstable.requireGet(sym.code(), "token with symbol does not exist");
@@ -112,6 +133,7 @@ export class TokenContract extends Contract {
 
         check(quantity.isValid(), "invalid quantity");
         check(quantity.amount > 0, "must transfer positive quantity");
+
         check(quantity.symbol == st.supply.symbol, "symbol precision mismatch");
         check(memo.length <= 256, "memo has more than 256 bytes");
 
@@ -131,13 +153,18 @@ export class TokenContract extends Contract {
      *
      */
     @action("open")
-    open(owner: Name, symbol: Symbol, ram_payer: Name): void {
+    open(
+        owner: Name,
+        symbol: Symbol,
+        ram_payer: Name
+    ): void {
         requireAuth(ram_payer);
 
         check(isAccount(owner), "owner account does not exist");
 
         const statstable = new TableStore<Stat>(this.receiver, new Name(symbol.code()));
         const st = statstable.requireGet(symbol.code(), "symbol does not exist");
+
         check(st.supply.symbol == symbol, "symbol precision mismatch");
 
         const acnts = new TableStore<Account>(this.receiver, owner)
@@ -159,15 +186,24 @@ export class TokenContract extends Contract {
      * @pre If the pair of owner plus symbol exists, the balance has to be zero.
      */
     @action("close")
-    close(owner: Name, symbol: Symbol): void {
+    close(
+        owner: Name,
+        symbol: Symbol
+    ): void {
         requireAuth(owner);
         const acnts = new TableStore<Account>(this.receiver, owner)
-        const account = acnts.requireGet(symbol.code(), "Balance row already deleted or never existed. Action won't have any effect.");
-        check(account.balance.amount == 0, "Cannot close because the balance is not zero.");
+        const account = acnts.requireGet(
+            symbol.code(),
+            "Balance row already deleted or never existed. Action won't have any effect."
+        );
+        check(
+            account.balance.amount == 0,
+            "Cannot close because the balance is not zero."
+        );
         acnts.remove(account);
     }
 
-    subBalance(owner: Name, value: Asset): void {
+    private subBalance(owner: Name, value: Asset): void {
         const fromAcnts = new TableStore<Account>(this.receiver, owner)
 
         const account = fromAcnts.requireGet(value.symbol.code(), "no balance object found");
@@ -177,7 +213,11 @@ export class TokenContract extends Contract {
         fromAcnts.update(account, owner);
     }
 
-    addBalance(owner: Name, value: Asset, ramPayer: Name): void {
+    private addBalance(
+        owner: Name,
+        value: Asset,
+        ramPayer: Name
+    ): void {
         const toAcnts = new TableStore<Account>(this.receiver, owner)
         const to = toAcnts.get(value.symbol.code());
         if (!to) {
