@@ -52,7 +52,7 @@ export class PixelContract extends BalanceContract {
         // Charge amount
         this.substractBalance(newOwner, [newPriceQuantity], [])
         if (pixel) {
-            this.addBalance(pixel.owner, [newPriceQuantity], [])
+            this.addBalance(pixel.owner, [newPriceQuantity], [], this.contract)
         } else {
             sendBuyRamBytes(this.contract, this.contract, this.contract, 136)
         }
