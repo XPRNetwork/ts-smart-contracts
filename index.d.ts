@@ -193,7 +193,7 @@ declare module 'proton-tsc/allow/target/allow.tables' {
   }
   export class AllowedTokenDB extends _chain.MultiIndex<AllowedToken> {
       get byTokenDB(): _chain.IDX128;
-      updateByToken(idxIt: _chain.SecondaryIterator, value: U128, payer: Name): _chain.IDX128;
+      updateByToken(idxIt: _chain.SecondaryIterator, value: U128, payer: Name): void;
   }
   export class AllowedToken implements _chain.MultiIndexValue {
       index: u64;
@@ -1030,8 +1030,8 @@ declare module 'proton-tsc/atomicassets/target/atomicassets.tables' {
   export class OffersDB extends _chain.MultiIndex<Offers> {
       get by_senderDB(): _chain.IDX64;
       get by_recipientDB(): _chain.IDX64;
-      updateBy_sender(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
-      updateBy_recipient(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
+      updateBy_sender(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): void;
+      updateBy_recipient(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): void;
   }
   export class Offers implements _chain.MultiIndexValue {
       offer_id: u64;
@@ -1681,7 +1681,7 @@ declare module 'proton-tsc/balance/target/allow.tables' {
   }
   export class AllowedTokenDB extends _chain.MultiIndex<AllowedToken> {
       get byTokenDB(): _chain.IDX128;
-      updateByToken(idxIt: _chain.SecondaryIterator, value: U128, payer: Name): _chain.IDX128;
+      updateByToken(idxIt: _chain.SecondaryIterator, value: U128, payer: Name): void;
   }
   export class AllowedToken implements _chain.MultiIndexValue {
       index: u64;
@@ -2078,8 +2078,8 @@ declare module 'proton-tsc/balance/target/atomicassets.tables' {
   export class OffersDB extends _chain.MultiIndex<Offers> {
       get by_senderDB(): _chain.IDX64;
       get by_recipientDB(): _chain.IDX64;
-      updateBy_sender(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
-      updateBy_recipient(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
+      updateBy_sender(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): void;
+      updateBy_recipient(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): void;
   }
   export class Offers implements _chain.MultiIndexValue {
       offer_id: u64;
@@ -2888,7 +2888,7 @@ declare module 'proton-tsc/escrow/target/allow.tables' {
   }
   export class AllowedTokenDB extends _chain.MultiIndex<AllowedToken> {
       get byTokenDB(): _chain.IDX128;
-      updateByToken(idxIt: _chain.SecondaryIterator, value: U128, payer: Name): _chain.IDX128;
+      updateByToken(idxIt: _chain.SecondaryIterator, value: U128, payer: Name): void;
   }
   export class AllowedToken implements _chain.MultiIndexValue {
       index: u64;
@@ -3285,8 +3285,8 @@ declare module 'proton-tsc/escrow/target/atomicassets.tables' {
   export class OffersDB extends _chain.MultiIndex<Offers> {
       get by_senderDB(): _chain.IDX64;
       get by_recipientDB(): _chain.IDX64;
-      updateBy_sender(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
-      updateBy_recipient(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
+      updateBy_sender(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): void;
+      updateBy_recipient(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): void;
   }
   export class Offers implements _chain.MultiIndexValue {
       offer_id: u64;
@@ -3523,8 +3523,8 @@ declare module 'proton-tsc/escrow/target/escrow.tables' {
   export class EscrowDB extends _chain.MultiIndex<Escrow> {
       get byFromDB(): _chain.IDX64;
       get byToDB(): _chain.IDX64;
-      updateByFrom(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
-      updateByTo(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): _chain.IDX64;
+      updateByFrom(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): void;
+      updateByTo(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): void;
   }
   export class Escrow implements _chain.MultiIndexValue {
       id: u64;
@@ -3978,13 +3978,6 @@ declare module 'proton-tsc/modules/store/target' {
       unpack(data: u8[]): usize;
       getSize(): usize;
   }
-
-}
-declare module 'proton-tsc/modules/store/target/rng.inline' {
-  /// <reference types="assembly" />
-  import { Name } from "proton-tsc/modules";
-  export const RNG_CONTRACT: any;
-  export function sendRequestRandom(contract: Name, customerId: u64, signingValue: u64): void;
 
 }
 declare module 'proton-tsc/modules/store/target/store.test' {
