@@ -1,9 +1,9 @@
 import { Name, Table, check, ExtendedSymbol, Symbol, requireAuth, TableStore, ExtendedAsset, Utils } from 'proton-tsc'
 import { BalanceContract } from 'proton-tsc/balance';
-import { sendBuyRamBytes } from 'proton-tsc/system';
+import { estimateBuyRamCost, sendBuyRamBytes } from 'proton-tsc/system/modules/ram';
 
 const MULTIPLIER: f64 = 1.5
-const INITIAL_PRICE: u64 = 2992
+const ROW_RAM_COST: u8 = 136
 const TOKEN = new ExtendedSymbol(new Symbol("XPR", 4), Name.fromString("eosio.token"))
 
 @table("pixels")
@@ -11,7 +11,7 @@ export class Pixels extends Table {
     constructor (
         public id: u64 = 0,
         public owner: Name = new Name(),
-        public price: u64 = INITIAL_PRICE,
+        public price: u64 = 0,
         public color: u8[] = []
     ) {
         super();
@@ -46,7 +46,7 @@ export class PixelContract extends BalanceContract {
         // Determine price
         const newPriceAmount = pixel
             ? <u64>(Math.ceil(<f64>pixel.price * MULTIPLIER))
-            : INITIAL_PRICE
+            : estimateBuyRamCost(ROW_RAM_COST).amount
         const newPriceQuantity = ExtendedAsset.fromInteger(newPriceAmount, TOKEN)
 
         // Charge amount
