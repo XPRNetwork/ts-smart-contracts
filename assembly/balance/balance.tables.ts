@@ -1,4 +1,4 @@
-import { ExtendedAsset, Name, Table, TableStore } from "..";
+import { ExtendedAsset, Name, Table } from "..";
 
 @table("balances")
 export class Balance extends Table {

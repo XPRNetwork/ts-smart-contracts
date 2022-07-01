@@ -1,4 +1,4 @@
-import { Name, Table, Singleton, U128, ExtendedSymbol, TableStore } from "..";
+import { Name, Table, U128, ExtendedSymbol } from "..";
 import { extendedSymbolToU128, U128ToExtSym } from "./allow.utils";
 
 // scope: contract
@@ -8,6 +8,8 @@ export class AllowGlobals extends Table {
         public isPaused: boolean = false,
         public isActorStrict: boolean = false,
         public isTokenStrict: boolean = false,
+        public isTokensEnabled: boolean = true,
+        public isNftsEnabled: boolean = true,
     ) {
         super();
     }

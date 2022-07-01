@@ -31,6 +31,9 @@ export class BalanceContract extends AllowContract {
         
             // Validate transfer
             check(t.to == this.contract, "Invalid Deposit");
+
+            // Check allowed
+            this.checkNftsAreEnabled()
         
             // Add nfts
             this.addBalance(t.from, [], t.asset_ids, this.contract)
@@ -57,6 +60,9 @@ export class BalanceContract extends AllowContract {
 
             // Balance
             const tokens = [new ExtendedAsset(t.quantity, this.parentContract)]
+
+            // Check allowed
+            this.checkTokensAreEnabled()
 
             // Allow deposits
             check(this.isActorAllowed(this.parentContract), `Tokens from contract ${this.parentContract} are not enabled for deposits`)

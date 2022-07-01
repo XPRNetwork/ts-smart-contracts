@@ -22,15 +22,14 @@ export class AllowContract extends Contract {
         isPaused: boolean,
         isActorStrict: boolean,
         isTokenStrict: boolean,
+        isTokensEnabled: boolean,
+        isNftsEnabled: boolean,
     ): void {
         // Authorization
         requireAuth(this.contract)
 
-        // Logic
-        const globals = this.allowGlobalsSingleton.get()
-        globals.isPaused = isPaused
-        globals.isActorStrict = isActorStrict
-        globals.isTokenStrict = isTokenStrict
+        // Save
+        const globals = new AllowGlobals(isPaused, isActorStrict, isTokenStrict, isTokensEnabled, isNftsEnabled)
         this.allowGlobalsSingleton.set(globals, this.contract);
     }
 
@@ -97,18 +96,33 @@ export class AllowContract extends Contract {
         check(!this.isContractPaused(), `Contract ${this.contract} is paused`)
     }
 
-    protected checkActorIsAllowed(actor: Name, message: string): void {
+    protected checkActorIsAllowed(actor: Name, message: string = ''): void {
         if (!message) {
             message = `Actor '${actor}' is not allowed to use contract '${this.contract}'`;
         }
         check(this.isActorAllowed(actor), message);
     }
 
-    protected checkTokenIsAllowed(token: ExtendedSymbol, message: string): void {
+    protected checkTokenIsAllowed(token: ExtendedSymbol, message: string = ''): void {
         if (!message) {
             message = `Token '${token}' is not allowed to use contract '${this.contract}'`;
         }
         check(this.isTokenAllowed(token), message);
+    }
+
+
+    protected checkNftsAreEnabled(message: string = ''): void {
+        if (!message) {
+            message = 'NFTs are not enabled';
+        }
+        check(this.isNftsEnabled(), message);
+    }
+
+    protected checkTokensAreEnabled(message: string = ''): void {
+        if (!message) {
+            message = 'Tokens are not enabled';
+        }
+        check(this.isTokensEnabled(), message);
     }
 
     protected findAllowedToken(token: ExtendedSymbol): AllowedToken | null {
@@ -145,6 +159,14 @@ export class AllowContract extends Contract {
 
         // Check is blocked
         return allowedActor.isAllowed || (!isActorStrict && !allowedActor.isBlocked)
+    }
+
+    protected isTokensEnabled(): boolean {
+        return this.allowGlobalsSingleton.get().isTokensEnabled
+    }
+
+    protected isNftsEnabled(): boolean {
+        return this.allowGlobalsSingleton.get().isNftsEnabled
     }
 
     protected isContractPaused(): boolean {

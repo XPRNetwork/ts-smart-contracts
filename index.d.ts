@@ -13,7 +13,7 @@ declare module 'proton-tsc/allow/allow.contract' {
        * @param {boolean} isActorStrict - If true, then actors must be registered with the system.
        * @param {boolean} isTokenStrict - boolean
        */
-      setglobals(isPaused: boolean, isActorStrict: boolean, isTokenStrict: boolean): void;
+      setglobals(isPaused: boolean, isActorStrict: boolean, isTokenStrict: boolean, isTokensEnabled: boolean, isNftsEnabled: boolean): void;
       /**
        * It updates the isAllowed field of the token.
        * @param {ExtendedSymbol} token - The token to be updated.
@@ -30,11 +30,15 @@ declare module 'proton-tsc/allow/allow.contract' {
        * Helper functions
        */
       protected checkContractIsNotPaused(): void;
-      protected checkActorIsAllowed(actor: Name, message: string): void;
-      protected checkTokenIsAllowed(token: ExtendedSymbol, message: string): void;
+      protected checkActorIsAllowed(actor: Name, message?: string): void;
+      protected checkTokenIsAllowed(token: ExtendedSymbol, message?: string): void;
+      protected checkNftsAreEnabled(message?: string): void;
+      protected checkTokensAreEnabled(message?: string): void;
       protected findAllowedToken(token: ExtendedSymbol): AllowedToken | null;
       protected isTokenAllowed(token: ExtendedSymbol): boolean;
       protected isActorAllowed(actor: Name): boolean;
+      protected isTokensEnabled(): boolean;
+      protected isNftsEnabled(): boolean;
       protected isContractPaused(): boolean;
   }
 
@@ -50,7 +54,9 @@ declare module 'proton-tsc/allow/allow.tables' {
       isPaused: boolean;
       isActorStrict: boolean;
       isTokenStrict: boolean;
-      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean);
+      isTokensEnabled: boolean;
+      isNftsEnabled: boolean;
+      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean, isTokensEnabled?: boolean, isNftsEnabled?: boolean);
   }
   export class AllowedActor extends Table {
       actor: Name;
@@ -121,7 +127,7 @@ declare module 'proton-tsc/allow/target/allow.contract' {
        * @param {boolean} isActorStrict - If true, then actors must be registered with the system.
        * @param {boolean} isTokenStrict - boolean
        */
-      setglobals(isPaused: boolean, isActorStrict: boolean, isTokenStrict: boolean): void;
+      setglobals(isPaused: boolean, isActorStrict: boolean, isTokenStrict: boolean, isTokensEnabled: boolean, isNftsEnabled: boolean): void;
       /**
        * It updates the isAllowed field of the token.
        * @param {ExtendedSymbol} token - The token to be updated.
@@ -138,11 +144,15 @@ declare module 'proton-tsc/allow/target/allow.contract' {
        * Helper functions
        */
       protected checkContractIsNotPaused(): void;
-      protected checkActorIsAllowed(actor: Name, message: string): void;
-      protected checkTokenIsAllowed(token: ExtendedSymbol, message: string): void;
+      protected checkActorIsAllowed(actor: Name, message?: string): void;
+      protected checkTokenIsAllowed(token: ExtendedSymbol, message?: string): void;
+      protected checkNftsAreEnabled(message?: string): void;
+      protected checkTokensAreEnabled(message?: string): void;
       protected findAllowedToken(token: ExtendedSymbol): AllowedToken | null;
       protected isTokenAllowed(token: ExtendedSymbol): boolean;
       protected isActorAllowed(actor: Name): boolean;
+      protected isTokensEnabled(): boolean;
+      protected isNftsEnabled(): boolean;
       protected isContractPaused(): boolean;
   }
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
@@ -158,7 +168,9 @@ declare module 'proton-tsc/allow/target/allow.tables' {
       isPaused: boolean;
       isActorStrict: boolean;
       isTokenStrict: boolean;
-      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean);
+      isTokensEnabled: boolean;
+      isNftsEnabled: boolean;
+      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean, isTokensEnabled?: boolean, isNftsEnabled?: boolean);
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -1228,8 +1240,8 @@ declare module 'proton-tsc/atomicassets/target' {
 }
 declare module 'proton-tsc/atomicassets/target/pixel/pixel.contract' {
   /// <reference types="assembly" />
-  import { Name, Table, TableStore } from 'proton-tsc/atomicassets/target';
-  import { BalanceContract } from 'proton-tsc/atomicassets/target/balance';
+  import { Name, Table, TableStore } from 'proton-tsc';
+  import { BalanceContract } from 'proton-tsc/balance';
   export class Pixels extends Table {
       id: u64;
       owner: Name;
@@ -2579,7 +2591,9 @@ declare module 'proton-tsc/balance/target/allow.tables' {
       isPaused: boolean;
       isActorStrict: boolean;
       isTokenStrict: boolean;
-      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean);
+      isTokensEnabled: boolean;
+      isNftsEnabled: boolean;
+      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean, isTokensEnabled?: boolean, isNftsEnabled?: boolean);
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -3832,7 +3846,9 @@ declare module 'proton-tsc/escrow/target/allow.tables' {
       isPaused: boolean;
       isActorStrict: boolean;
       isTokenStrict: boolean;
-      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean);
+      isTokensEnabled: boolean;
+      isNftsEnabled: boolean;
+      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean, isTokensEnabled?: boolean, isNftsEnabled?: boolean);
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;

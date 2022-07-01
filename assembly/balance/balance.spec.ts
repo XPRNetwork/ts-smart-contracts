@@ -52,7 +52,7 @@ describe('Balance', () => {
 
   describe('Paused', () => {
     it('isPaused: Incoming token deposits do not work (transfer)', async () => {
-      await balanceContract.actions.setglobals([true, false, false]).send()
+      await balanceContract.actions.setglobals([true, false, false, true, true]).send()
       await expectToThrow(
         xtokensContract.actions.transfer(['trader', 'balance', '1000.000000 XUSDC', 'deposit']).send('trader@active'),
         protonAssert('Contract balance is paused')
@@ -60,7 +60,7 @@ describe('Balance', () => {
     });
 
     it('isPaused: Incoming NFT deposits do not work (transfer)', async () => {
-      await balanceContract.actions.setglobals([true, false, false]).send()
+      await balanceContract.actions.setglobals([true, false, false, true, true]).send()
       const nfts = getNftAssetIds(collector)
       await expectToThrow(
         atomicassetsContract.actions.transfer(['collector', 'balance', nfts.slice(0, 1), 'deposit']).send('collector@active'),
@@ -69,7 +69,7 @@ describe('Balance', () => {
     });
 
     it('isPaused: Withdrawals do not work (withdraw)', async () => {
-      await balanceContract.actions.setglobals([true, false, false]).send()
+      await balanceContract.actions.setglobals([true, false, false, true, true]).send()
       await expectToThrow(
         balanceContract.actions.withdraw(['trader', [{ quantity: '1000.000000 XUSDC', contract: 'xtokens' }], []]).send('trader@active'),
         protonAssert('Contract balance is paused')
