@@ -140,10 +140,10 @@ declare module 'proton-tsc/allow/target/allow.contract' {
       protected checkContractIsNotPaused(): void;
       protected checkActorIsAllowed(actor: Name, message: string): void;
       protected checkTokenIsAllowed(token: ExtendedSymbol, message: string): void;
-      private findAllowedToken;
-      private isTokenAllowed;
-      private isActorAllowed;
-      private isContractPaused;
+      protected findAllowedToken(token: ExtendedSymbol): AllowedToken | null;
+      protected isTokenAllowed(token: ExtendedSymbol): boolean;
+      protected isActorAllowed(actor: Name): boolean;
+      protected isContractPaused(): boolean;
   }
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
@@ -1224,6 +1224,940 @@ declare module 'proton-tsc/atomicassets/target' {
       unpack(data: u8[]): usize;
       getSize(): usize;
   }
+
+}
+declare module 'proton-tsc/atomicassets/target/pixel/pixel.contract' {
+  /// <reference types="assembly" />
+  import { Name, Table, TableStore } from 'proton-tsc/atomicassets/target';
+  import { BalanceContract } from 'proton-tsc/atomicassets/target/balance';
+  export class Pixels extends Table {
+      id: u64;
+      owner: Name;
+      price: u64;
+      color: u8[];
+      constructor(id?: u64, owner?: Name, price?: u64, color?: u8[]);
+      get primary(): u64;
+  }
+  export class PixelContract extends BalanceContract {
+      pixelsTable: TableStore<Pixels>;
+      buypixel(newOwner: Name, pixelId: u64, pixelColor: string): void;
+  }
+
+}
+declare module 'proton-tsc/atomicassets/target/pixel/target/allow.tables' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { Name, U128, ExtendedSymbol } from "proton-tsc/atomicassets/target/pixel";
+  export class AllowGlobalsDB extends _chain.MultiIndex<AllowGlobals> {
+  }
+  export class AllowGlobals implements _chain.MultiIndexValue {
+      isPaused: boolean;
+      isActorStrict: boolean;
+      isTokenStrict: boolean;
+      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<AllowGlobals>;
+  }
+  export class AllowedActorDB extends _chain.MultiIndex<AllowedActor> {
+  }
+  export class AllowedActor implements _chain.MultiIndexValue {
+      actor: Name;
+      isAllowed: boolean;
+      isBlocked: boolean;
+      constructor(actor?: Name, isAllowed?: boolean, isBlocked?: boolean);
+      get primary(): u64;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): AllowedActorDB;
+  }
+  export class AllowedTokenDB extends _chain.MultiIndex<AllowedToken> {
+      get byTokenDB(): _chain.IDX128;
+      updateByToken(idxIt: _chain.SecondaryIterator, value: U128, payer: Name): void;
+  }
+  export class AllowedToken implements _chain.MultiIndexValue {
+      index: u64;
+      token: ExtendedSymbol;
+      isAllowed: boolean;
+      isBlocked: boolean;
+      constructor(index?: u64, token?: ExtendedSymbol, isAllowed?: boolean, isBlocked?: boolean);
+      get primary(): u64;
+      get byToken(): U128;
+      set byToken(value: U128);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): AllowedTokenDB;
+  }
+
+}
+declare module 'proton-tsc/atomicassets/target/pixel/target/atomicassets.inline' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { Name, Symbol, Asset } from "proton-tsc/atomicassets/target/pixel";
+  import { AtomicAttribute, AtomicFormat } from "proton-tsc/atomicassets/target/pixel/target/atomicdata";
+  export class TransferNfts implements _chain.Packer {
+      from: Name;
+      to: Name;
+      asset_ids: u64[];
+      memo: string;
+      constructor(from?: Name, to?: Name, asset_ids?: u64[], memo?: string);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class AdminColEdit implements _chain.Packer {
+      collectionFormatExtension: AtomicFormat[];
+      constructor(collectionFormatExtension?: AtomicFormat[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class SetVersion implements _chain.Packer {
+      newVersion: string;
+      constructor(newVersion?: string);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class AddConfigToken implements _chain.Packer {
+      tokenContract: Name;
+      tokenSymbol: Symbol;
+      constructor(tokenContract?: Name, tokenSymbol?: Symbol);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class CreateCollection implements _chain.Packer {
+      author: Name;
+      collection_name: Name;
+      allow_notify: boolean;
+      authorized_accounts: Name[];
+      notify_accounts: Name[];
+      market_fee: f64;
+      data: AtomicAttribute[];
+      constructor(author?: Name, collection_name?: Name, allow_notify?: boolean, authorized_accounts?: Name[], notify_accounts?: Name[], market_fee?: f64, data?: AtomicAttribute[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class SetCollectionData implements _chain.Packer {
+      collection_name: Name;
+      data: AtomicAttribute[];
+      constructor(collection_name?: Name, data?: AtomicAttribute[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class AddCollectionAuth implements _chain.Packer {
+      collection_name: Name;
+      account_to_add: Name;
+      constructor(collection_name?: Name, account_to_add?: Name);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class RemoveCollectionAuth implements _chain.Packer {
+      collection_name: Name;
+      account_to_remove: Name;
+      constructor(collection_name?: Name, account_to_remove?: Name);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class AddNotifyAccount implements _chain.Packer {
+      collection_name: Name;
+      account_to_add: Name;
+      constructor(collection_name?: Name, account_to_add?: Name);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class RemoveNotifyAccount implements _chain.Packer {
+      collection_name: Name;
+      account_to_remove: Name;
+      constructor(collection_name?: Name, account_to_remove?: Name);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class SetMarketFee implements _chain.Packer {
+      collection_name: Name;
+      market_fee: f64;
+      constructor(collection_name?: Name, market_fee?: f64);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class ForbidNotify implements _chain.Packer {
+      collection_name: Name;
+      constructor(collection_name?: Name);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class CreateSchema implements _chain.Packer {
+      authorized_creator: Name;
+      collection_name: Name;
+      schema_name: Name;
+      schema_format: AtomicFormat[];
+      constructor(authorized_creator?: Name, collection_name?: Name, schema_name?: Name, schema_format?: AtomicFormat[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class ExtendSchema implements _chain.Packer {
+      authorized_editor: Name;
+      collection_name: Name;
+      schema_name: Name;
+      schema_format_extension: AtomicFormat[];
+      constructor(authorized_editor?: Name, collection_name?: Name, schema_name?: Name, schema_format_extension?: AtomicFormat[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class CreateTemplate implements _chain.Packer {
+      authorized_creator: Name;
+      collection_name: Name;
+      schema_name: Name;
+      transferable: boolean;
+      burnable: boolean;
+      max_supply: u32;
+      immutable_data: AtomicAttribute[];
+      constructor(authorized_creator?: Name, collection_name?: Name, schema_name?: Name, transferable?: boolean, burnable?: boolean, max_supply?: u32, immutable_data?: AtomicAttribute[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class LockTemplate implements _chain.Packer {
+      authorized_editor: Name;
+      collection_name: Name;
+      template_id: i32;
+      constructor(authorized_editor?: Name, collection_name?: Name, template_id?: i32);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class MintAsset implements _chain.Packer {
+      authorized_minter: Name;
+      collection_name: Name;
+      schema_name: Name;
+      template_id: i32;
+      newasset_owner: Name;
+      immutable_data: AtomicAttribute[];
+      mutable_data: AtomicAttribute[];
+      tokens_to_back: Asset[];
+      constructor(authorized_minter?: Name, collection_name?: Name, schema_name?: Name, template_id?: i32, newasset_owner?: Name, immutable_data?: AtomicAttribute[], mutable_data?: AtomicAttribute[], tokens_to_back?: Asset[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class SetAssetData implements _chain.Packer {
+      authorized_editor: Name;
+      asset_owner: Name;
+      asset_id: u64;
+      new_mutable_data: AtomicAttribute[];
+      constructor(authorized_editor?: Name, asset_owner?: Name, asset_id?: u64, new_mutable_data?: AtomicAttribute[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class Withdraw implements _chain.Packer {
+      owner: Name;
+      token_to_withdraw: Asset;
+      constructor(owner?: Name, token_to_withdraw?: Asset);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class BackAsset implements _chain.Packer {
+      payer: Name;
+      asset_owner: Name;
+      asset_id: u64;
+      token_to_back: Asset;
+      constructor(payer?: Name, asset_owner?: Name, asset_id?: u64, token_to_back?: Asset);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class BurnAsset implements _chain.Packer {
+      asset_owner: Name;
+      asset_id: u64;
+      constructor(asset_owner?: Name, asset_id?: u64);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class CreateOffer implements _chain.Packer {
+      sender: Name;
+      recipient: Name;
+      sender_asset_ids: u64[];
+      recipient_asset_ids: u64[];
+      memo: string;
+      constructor(sender?: Name, recipient?: Name, sender_asset_ids?: u64[], recipient_asset_ids?: u64[], memo?: string);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class CancelOffer implements _chain.Packer {
+      offer_id: u64;
+      constructor(offer_id?: u64);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class AcceptOffer implements _chain.Packer {
+      offer_id: u64;
+      constructor(offer_id?: u64);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class DeclineOffer implements _chain.Packer {
+      offer_id: u64;
+      constructor(offer_id?: u64);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class PayOfferRam implements _chain.Packer {
+      payer: Name;
+      offer_id: u64;
+      constructor(payer?: Name, offer_id?: u64);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  /**
+   * Send a transfer action to the contract with the given parameters
+   * @param {Name} from - Name of the account that is sending the NFTs
+   * @param {Name} to - Name of the account to transfer the NFTs to.
+   * @param {u64[]} nfts - An array of u64s representing the NFTs to transfer.
+   * @param {string} memo - A string that will be stored in the blockchain as the memo for this transfer.
+   */
+  export function sendTransferNfts(from: Name, to: Name, asset_ids: u64[], memo: string): void;
+  export function sendAdminCollectionEdit(contract: Name, collectionFormatExtension: AtomicFormat[]): void;
+  export function sendSetVersion(contract: Name, newVersion: string): void;
+  export function sendAddConfigToken(contract: Name, tokenContract: Name, tokenSymbol: Symbol): void;
+  export function sendCreateColllection(contract: Name, author: Name, collection_name: Name, allow_notify: boolean, authorized_accounts: Name[], notify_accounts: Name[], market_fee: f64, data: AtomicAttribute[]): void;
+  export function sendSetCollectionData(contract: Name, collection_name: Name, data: AtomicAttribute[]): void;
+  export function sendAddCollectionAuth(contract: Name, collection_name: Name, account_to_add: Name): void;
+  export function sendRemoveCollectionAuth(contract: Name, collection_name: Name, account_to_remove: Name): void;
+  export function sendAddNotifyAccount(contract: Name, collection_name: Name, account_to_add: Name): void;
+  export function sendRemoveNotifyAccount(contract: Name, collection_name: Name, account_to_remove: Name): void;
+  export function sendSetMarketFee(contract: Name, collection_name: Name, market_fee: f64): void;
+  export function sendForbidNotify(contract: Name, collection_name: Name): void;
+  export function sendCreateSchema(contract: Name, authorized_creator: Name, collection_name: Name, schema_name: Name, schema_format: AtomicFormat[]): void;
+  export function sendExtendSchema(contract: Name, authorized_editor: Name, collection_name: Name, schema_name: Name, schema_format_extension: AtomicFormat[]): void;
+  export function sendCreateTemplate(contract: Name, authorized_creator: Name, collection_name: Name, schema_name: Name, transferable: boolean, burnable: boolean, max_supply: u32, immutable_data: AtomicAttribute[]): void;
+  export function sendLockTemplate(contract: Name, authorized_editor: Name, collection_name: Name, template_id: i32): void;
+  export function sendMintAsset(contract: Name, authorized_minter: Name, collection_name: Name, schema_name: Name, template_id: i32, newasset_owner: Name, immutable_data: AtomicAttribute[], mutable_data: AtomicAttribute[], tokens_to_back: Asset[]): void;
+  export function sendSetAssetData(contract: Name, authorized_editor: Name, asset_owner: Name, asset_id: u64, new_mutable_data: AtomicAttribute[]): void;
+  export function sendWithdraw(contract: Name, owner: Name, token_to_withdraw: Asset): void;
+  export function sendBackAsset(contract: Name, payer: Name, asset_owner: Name, asset_id: u64, token_to_back: Asset): void;
+  export function sendBurnAsset(contract: Name, asset_owner: Name, asset_id: u64): void;
+  export function sendCreateOffer(contract: Name, sender: Name, recipient: Name, sender_asset_ids: u64[], recipient_asset_ids: u64[], memo: string): void;
+  export function sendCancelOffer(contract: Name, offer_id: u64): void;
+  export function sendAcceptOffer(contract: Name, offer_id: u64): void;
+  export function sendDeclineOffer(contract: Name, offer_id: u64): void;
+  export function sendPayOfferRam(contract: Name, payer: Name, offer_id: u64): void;
+
+}
+declare module 'proton-tsc/atomicassets/target/pixel/target/atomicassets.tables' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { Name, ExtendedSymbol, Asset } from "proton-tsc/atomicassets/target/pixel";
+  import { AtomicFormat } from "proton-tsc/atomicassets/target/pixel/target/atomicdata";
+  export class CollectionsDB extends _chain.MultiIndex<Collections> {
+  }
+  export class Collections implements _chain.MultiIndexValue {
+      collection_name: Name;
+      author: Name;
+      allow_notify: boolean;
+      authorized_accounts: Name[];
+      notify_accounts: Name[];
+      market_fee: f64;
+      serialized_data: u8[];
+      constructor(collection_name?: Name, author?: Name, allow_notify?: boolean, authorized_accounts?: Name[], notify_accounts?: Name[], market_fee?: f64, serialized_data?: u8[]);
+      get primary(): u64;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): CollectionsDB;
+  }
+  export class SchemasDB extends _chain.MultiIndex<Schemas> {
+  }
+  export class Schemas implements _chain.MultiIndexValue {
+      schema_name: Name;
+      format: AtomicFormat[];
+      constructor(schema_name?: Name, format?: AtomicFormat[]);
+      get primary(): u64;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): SchemasDB;
+  }
+  export class TemplatesDB extends _chain.MultiIndex<Templates> {
+  }
+  export class Templates implements _chain.MultiIndexValue {
+      template_id: i32;
+      schema_name: Name;
+      transferable: boolean;
+      burnable: boolean;
+      max_supply: u32;
+      issued_supply: u32;
+      immutable_serialized_data: u8[];
+      constructor(template_id?: i32, schema_name?: Name, transferable?: boolean, burnable?: boolean, max_supply?: u32, issued_supply?: u32, immutable_serialized_data?: u8[]);
+      get primary(): u64;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): TemplatesDB;
+  }
+  export class AssetsDB extends _chain.MultiIndex<Assets> {
+  }
+  export class Assets implements _chain.MultiIndexValue {
+      asset_id: u64;
+      collection_name: Name;
+      schema_name: Name;
+      template_id: i32;
+      ram_payer: Name;
+      backed_tokens: Asset[];
+      immutable_serialized_data: u8[];
+      mutable_serialized_data: u8[];
+      constructor(asset_id?: u64, collection_name?: Name, schema_name?: Name, template_id?: i32, ram_payer?: Name, backed_tokens?: Asset[], immutable_serialized_data?: u8[], mutable_serialized_data?: u8[]);
+      get primary(): u64;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): AssetsDB;
+  }
+  export class OffersDB extends _chain.MultiIndex<Offers> {
+      get by_senderDB(): _chain.IDX64;
+      get by_recipientDB(): _chain.IDX64;
+      updateBy_sender(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): void;
+      updateBy_recipient(idxIt: _chain.SecondaryIterator, value: u64, payer: Name): void;
+  }
+  export class Offers implements _chain.MultiIndexValue {
+      offer_id: u64;
+      sender: Name;
+      recipient: Name;
+      sender_asset_ids: u64[];
+      recipient_asset_ids: u64[];
+      memo: string;
+      ram_payer: Name;
+      constructor(offer_id?: u64, sender?: Name, recipient?: Name, sender_asset_ids?: u64[], recipient_asset_ids?: u64[], memo?: string, ram_payer?: Name);
+      get primary(): u64;
+      get by_sender(): u64;
+      set by_sender(value: u64);
+      get by_recipient(): u64;
+      set by_recipient(value: u64);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): OffersDB;
+  }
+  export class ConfigDB extends _chain.MultiIndex<Config> {
+  }
+  export class Config implements _chain.MultiIndexValue {
+      asset_counter: u64;
+      template_counter: u32;
+      offer_counter: u64;
+      collection_format: AtomicFormat[];
+      supported_tokens: ExtendedSymbol[];
+      constructor(asset_counter?: u64, template_counter?: u32, offer_counter?: u64, collection_format?: AtomicFormat[], supported_tokens?: ExtendedSymbol[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<Config>;
+  }
+
+}
+declare module 'proton-tsc/atomicassets/target/pixel/target/atomicdata' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  export class AtomicFormat implements _chain.Packer {
+      name: string;
+      type: string;
+      constructor(name?: string, type?: string);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class AtomicAttribute implements _chain.Packer {
+      key: string;
+      value: AtomicValue;
+      constructor(key?: string, value?: AtomicValue);
+      static eq(a: AtomicAttribute, b: AtomicAttribute): bool;
+      static neq(a: AtomicAttribute, b: AtomicAttribute): bool;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class AtomicValue implements _chain.Packer {
+      _index: u8;
+      value: usize;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static new<T>(value: T): AtomicValue;
+      isi8(): bool;
+      geti8(): i8;
+      isi16(): bool;
+      geti16(): i16;
+      isi32(): bool;
+      geti32(): i32;
+      isi64(): bool;
+      geti64(): i64;
+      isu8(): bool;
+      getu8(): u8;
+      isu16(): bool;
+      getu16(): u16;
+      isu32(): bool;
+      getu32(): u32;
+      isu64(): bool;
+      getu64(): u64;
+      isfloat(): bool;
+      getfloat(): f32;
+      isdouble(): bool;
+      getdouble(): f64;
+      isstring(): bool;
+      getstring(): string;
+      isINT8_VEC(): bool;
+      getINT8_VEC(): i8[];
+      isINT16_VEC(): bool;
+      getINT16_VEC(): i16[];
+      isINT32_VEC(): bool;
+      getINT32_VEC(): i32[];
+      isINT64_VEC(): bool;
+      getINT64_VEC(): i64[];
+      isUINT8_VEC(): bool;
+      getUINT8_VEC(): u8[];
+      isUINT16_VEC(): bool;
+      getUINT16_VEC(): u16[];
+      isUINT32_VEC(): bool;
+      getUINT32_VEC(): u32[];
+      isUINT64_VEC(): bool;
+      getUINT64_VEC(): u64[];
+      isFLOAT_VEC(): bool;
+      getFLOAT_VEC(): f32[];
+      isDOUBLE_VEC(): bool;
+      getDOUBLE_VEC(): f64[];
+      isSTRING_VEC(): bool;
+      getSTRING_VEC(): string[];
+      get<T>(): T;
+      is<T>(): bool;
+  }
+  export function unsignedFromVarintBytes(itr: u8[]): u64;
+  export function toIntBytes(number: u64, byte_amount: u64): u8[];
+  export function unsignedFromIntBytes(itr: u8[], original_bytes?: u64): u64;
+  export function zigzagEncode(value: i64): u64;
+  export function zigzagDecode(value: u64): i64;
+  export function eraseAttribute(attributes: AtomicAttribute[], toErase: AtomicAttribute): void;
+  export function toVarintBytes(number: u64, original_bytes?: u64): u8[];
+  export function findIndexOfAttribute(attributes: AtomicAttribute[], key: string): i32;
+  export function floatToBytes(float: f32): u8[];
+  export function doubleToBytes(float: f64): u8[];
+  export function stringToBytes(string: string): u8[];
+  export function serialize_attribute(type: string, attr: AtomicValue): u8[];
+  export function deserialize_attribute(type: string, itr: u8[]): AtomicValue;
+  export function serialize(attr_map: AtomicAttribute[], format_lines: AtomicFormat[]): u8[];
+  export function deserialize(data: u8[], format_lines: AtomicFormat[]): AtomicAttribute[];
+
+}
+declare module 'proton-tsc/atomicassets/target/pixel/target/balance.tables' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { ExtendedAsset, Name } from "proton-tsc/atomicassets/target/pixel";
+  export class BalanceDB extends _chain.MultiIndex<Balance> {
+  }
+  export class Balance implements _chain.MultiIndexValue {
+      account: Name;
+      tokens: ExtendedAsset[];
+      nfts: u64[];
+      constructor(account?: Name, tokens?: ExtendedAsset[], nfts?: u64[]);
+      get primary(): u64;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): BalanceDB;
+  }
+
+}
+declare module 'proton-tsc/atomicassets/target/pixel/target/base58' {
+  /// <reference types="assembly" />
+  /**
+  * Encode Uint8Array as a base58 string.
+  * @param bytes Byte array of type Uint8Array.
+  */
+  export function encode(source: Uint8Array): string;
+  export function decodeUnsafe(source: string): u8[] | null;
+  export function decode(source: string): u8[];
+
+}
+declare module 'proton-tsc/atomicassets/target/pixel/target' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { PermissionLevel, PublicKey, Name } from "proton-tsc/atomicassets/target";
+  export class KeyWeight implements _chain.Packer {
+      key: PublicKey;
+      weight: u16;
+      constructor(key?: PublicKey, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class PermissionLevelWeight implements _chain.Packer {
+      permission: PermissionLevel;
+      weight: u16;
+      constructor(permission?: PermissionLevel, weight?: u16);
+      static from(actor: Name, permission: string, weight: u16): PermissionLevelWeight;
+      toAuthority(): Authority;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class WaitWeight implements _chain.Packer {
+      waitSec: u16;
+      weight: u16;
+      constructor(waitSec?: u16, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class Authority implements _chain.Packer {
+      threshold: u32;
+      keys: KeyWeight[];
+      accounts: PermissionLevelWeight[];
+      waits: WaitWeight[];
+      constructor(threshold?: u32, keys?: KeyWeight[], accounts?: PermissionLevelWeight[], waits?: WaitWeight[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+
+}
+declare module 'proton-tsc/atomicassets/target/pixel/target/inline' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { Name, Asset, Authority } from "proton-tsc/atomicassets/target/pixel";
+  export class NewAccount implements _chain.Packer {
+      creator: Name;
+      name: Name;
+      owner: Authority;
+      active: Authority;
+      constructor(creator?: Name, name?: Name, owner?: Authority, active?: Authority);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class BuyRamBytes implements _chain.Packer {
+      payer: Name;
+      receiver: Name;
+      bytes: u32;
+      constructor(payer?: Name, receiver?: Name, bytes?: u32);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class BuyRam implements _chain.Packer {
+      payer: Name;
+      receiver: Name;
+      quantity: Asset;
+      constructor(payer?: Name, receiver?: Name, quantity?: Asset);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class SellRam implements _chain.Packer {
+      account: Name;
+      bytes: i64;
+      constructor(account?: Name, bytes?: i64);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export function sendNewAccount(contract: Name, creator: Name, name: Name, owner: Authority, active: Authority): void;
+  export function sendBuyRamBytes(contract: Name, payer: Name, receiver: Name, bytes: u32): void;
+  export function sendBuyRam(contract: Name, payer: Name, receiver: Name, quantity: Asset): void;
+  export function sendSellRam(contract: Name, owner: Name, bytes: i64): void;
+  export function sendVoteProducer(contract: Name, voter: Name, proxy: Name, producers: Name[]): void;
+  export function sendUpdateAuth(contract: Name, account: Name, permission: string, parent: string, auth: Authority): void;
+  export function sendDeleteAuth(contract: Name, account: Name, permission: string): void;
+  export function sendLinkAuth(contract: Name, account: Name, code: Name, type: Name, requirement: Name): void;
+  export function sendUnlinkAuth(contract: Name, account: Name, code: Name, type: Name): void;
+  export function createNewAccount(contract: Name, creator: Name, name: Name, owner: Authority, active: Authority, ramBytes: u32): void;
+
+}
+declare module 'proton-tsc/atomicassets/target/pixel/target/pixel.contract' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { Name, TableStore } from 'proton-tsc/atomicassets/target/pixel';
+  import { BalanceContract } from 'proton-tsc/atomicassets/target/pixel/balance';
+  export class PixelsDB extends _chain.MultiIndex<Pixels> {
+  }
+  export class Pixels implements _chain.MultiIndexValue {
+      id: u64;
+      owner: Name;
+      price: u64;
+      color: u8[];
+      constructor(id?: u64, owner?: Name, price?: u64, color?: u8[]);
+      get primary(): u64;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): PixelsDB;
+  }
+  export class PixelContract extends BalanceContract {
+      pixelsTable: TableStore<Pixels>;
+      buypixel(newOwner: Name, pixelId: u64, pixelColor: string): void;
+  }
+  export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
+
+}
+declare module 'proton-tsc/atomicassets/target/pixel/target/ram' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { Name, Asset } from "proton-tsc/atomicassets/target";
+  export class BuyRamBytes implements _chain.Packer {
+      payer: Name;
+      receiver: Name;
+      bytes: u32;
+      constructor(payer?: Name, receiver?: Name, bytes?: u32);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class BuyRam implements _chain.Packer {
+      payer: Name;
+      receiver: Name;
+      quantity: Asset;
+      constructor(payer?: Name, receiver?: Name, quantity?: Asset);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class SellRam implements _chain.Packer {
+      account: Name;
+      bytes: i64;
+      constructor(account?: Name, bytes?: i64);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class GlobalRamDB extends _chain.MultiIndex<GlobalRam> {
+  }
+  export class GlobalRam implements _chain.MultiIndexValue {
+      ram_price_per_byte: Asset;
+      max_per_user_bytes: u64;
+      ram_fee_percent: u16;
+      total_ram: u64;
+      total_xpr: u64;
+      constructor(ram_price_per_byte?: Asset, max_per_user_bytes?: u64, ram_fee_percent?: u16, total_ram?: u64, total_xpr?: u64);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): _chain.Singleton<GlobalRam>;
+  }
+  export function estimateBuyRamCost(bytes: u64): Asset;
+  export function estimateBuyRamBytes(amount: u64): u64;
+  export function sendBuyRamBytes(contract: Name, payer: Name, receiver: Name, bytes: u32): void;
+  export function sendBuyRam(contract: Name, payer: Name, receiver: Name, quantity: Asset): void;
+  export function sendSellRam(contract: Name, owner: Name, bytes: i64): void;
+
+}
+declare module 'proton-tsc/atomicassets/target/pixel/target/token.inline' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { Name, ExtendedAsset, Asset, Symbol } from "proton-tsc/atomicassets/target/pixel";
+  /**
+   * Tables
+   */
+  export class AccountDB extends _chain.MultiIndex<Account> {
+  }
+  export class Account implements _chain.MultiIndexValue {
+      balance: Asset;
+      constructor(balance?: Asset);
+      get primary(): u64;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): AccountDB;
+  }
+  export class StatDB extends _chain.MultiIndex<Stat> {
+  }
+  export class Stat implements _chain.MultiIndexValue {
+      supply: Asset;
+      max_supply: Asset;
+      issuer: Name;
+      constructor(supply?: Asset, max_supply?: Asset, issuer?: Name);
+      get primary(): u64;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): StatDB;
+  }
+  /**
+   * Helpers
+   */
+  export function getSupply(tokenContractAccount: Name, sym: Symbol): Asset;
+  export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
+  export class Transfer implements _chain.Packer {
+      from: Name;
+      to: Name;
+      quantity: Asset;
+      memo: string;
+      constructor(from?: Name, to?: Name, quantity?: Asset, memo?: string);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class Issue implements _chain.Packer {
+      to: Name;
+      quantity: Asset;
+      memo: string;
+      constructor(to?: Name, quantity?: Asset, memo?: string);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class Retire implements _chain.Packer {
+      quantity: Asset;
+      memo: string;
+      constructor(quantity?: Asset, memo?: string);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  /**
+   * Issue token
+   * @param {Name} to - The name of the account to transfer the tokens to.
+   * @param {ExtendedAsset} quantity - Quantity
+   * @param {string} memo - A string that is included in the transaction. This is optional.
+   */
+  export function sendIssue(tokenContract: Name, issuer: Name, to: Name, quantity: Asset, memo: string): void;
+  /**
+   * Retire token
+   * @param {ExtendedAsset} quantity - Quantity
+   * @param {string} memo - A string that is included in the transaction. This is optional.
+   */
+  export function sendRetire(tokenContract: Name, retiree: Name, quantity: Asset, memo: string): void;
+  /**
+   * Send token from one account to another
+   * @param {Name} from - Name of the account to transfer tokens from.
+   * @param {Name} to - The name of the account to transfer the tokens to.
+   * @param {ExtendedAsset} quantity - Quantity
+   * @param {string} memo - A string that is included in the transaction. This is optional.
+   */
+  export function sendTransferToken(tokenContract: Name, from: Name, to: Name, quantity: Asset, memo: string): void;
+  /**
+   * Send tokens from one account to another
+   * @param {Name} from - Name of the account to transfer tokens from.
+   * @param {Name} to - The name of the account to transfer the tokens to.
+   * @param {ExtendedAsset[]} tokens - An array of ExtendedAsset objects.
+   * @param {string} memo - A string that is included in the transaction. This is optional.
+   */
+  export function sendTransferTokens(from: Name, to: Name, tokens: ExtendedAsset[], memo: string): void;
 
 }
 declare module 'proton-tsc/atomicassets/target/rng.inline' {
@@ -2363,7 +3297,53 @@ declare module 'proton-tsc/balance/target/rng.inline' {
 declare module 'proton-tsc/balance/target/token.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, ExtendedAsset, Asset } from "proton-tsc/balance";
+  import { Name, ExtendedAsset, Asset, Symbol } from "proton-tsc/balance";
+  /**
+   * Tables
+   */
+  export class AccountDB extends _chain.MultiIndex<Account> {
+  }
+  export class Account implements _chain.MultiIndexValue {
+      balance: Asset;
+      constructor(balance?: Asset);
+      get primary(): u64;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): AccountDB;
+  }
+  export class StatDB extends _chain.MultiIndex<Stat> {
+  }
+  export class Stat implements _chain.MultiIndexValue {
+      supply: Asset;
+      max_supply: Asset;
+      issuer: Name;
+      constructor(supply?: Asset, max_supply?: Asset, issuer?: Name);
+      get primary(): u64;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): StatDB;
+  }
+  /**
+   * Helpers
+   */
+  export function getSupply(tokenContractAccount: Name, sym: Symbol): Asset;
+  export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
   export class Transfer implements _chain.Packer {
       from: Name;
       to: Name;
@@ -3607,7 +4587,53 @@ declare module 'proton-tsc/escrow/target/rng.inline' {
 declare module 'proton-tsc/escrow/target/token.inline' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Name, ExtendedAsset, Asset } from "proton-tsc/escrow";
+  import { Name, ExtendedAsset, Asset, Symbol } from "proton-tsc/escrow";
+  /**
+   * Tables
+   */
+  export class AccountDB extends _chain.MultiIndex<Account> {
+  }
+  export class Account implements _chain.MultiIndexValue {
+      balance: Asset;
+      constructor(balance?: Asset);
+      get primary(): u64;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): AccountDB;
+  }
+  export class StatDB extends _chain.MultiIndex<Stat> {
+  }
+  export class Stat implements _chain.MultiIndexValue {
+      supply: Asset;
+      max_supply: Asset;
+      issuer: Name;
+      constructor(supply?: Asset, max_supply?: Asset, issuer?: Name);
+      get primary(): u64;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+      static get tableName(): _chain.Name;
+      static tableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getTableName(): _chain.Name;
+      getTableIndexes(code: _chain.Name, scope: _chain.Name): _chain.IDXDB[];
+      getPrimaryValue(): u64;
+      getSecondaryValue(i: i32): _chain.SecondaryValue;
+      setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
+      static new(code: _chain.Name, scope: _chain.Name): StatDB;
+  }
+  /**
+   * Helpers
+   */
+  export function getSupply(tokenContractAccount: Name, sym: Symbol): Asset;
+  export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
   export class Transfer implements _chain.Packer {
       from: Name;
       to: Name;
@@ -4178,15 +5204,33 @@ declare module 'proton-tsc/rsa/target/safemath.test' {
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
 
 }
-declare module 'proton-tsc/system' {
-  export * from 'proton-tsc/system/system.inline';
-
-}
-declare module 'proton-tsc/system/system.inline' {
+declare module 'proton-tsc/system/constants' {
   /// <reference types="assembly" />
-  import { ActionData, Name, Asset, Authority } from "proton-tsc";
+  import { Name, Symbol } from "proton-tsc";
   export const SYSTEM_CONTRACT: Name;
   export const PROTON_USER_CONTRACT: Name;
+  export const RAM_FEE_PRECISION: i64;
+  export const XPR_CONTRACT: Name;
+  export const XPR_SYMBOL: Symbol;
+
+}
+declare module 'proton-tsc/system' {
+  export * from 'proton-tsc/system/modules';
+  export * from 'proton-tsc/system/tables';
+  export * from 'proton-tsc/system/constants';
+
+}
+declare module 'proton-tsc/system/modules' {
+  export * from 'proton-tsc/system/modules/newaccount';
+  export * from 'proton-tsc/system/modules/permissions';
+  export * from 'proton-tsc/system/modules/ram';
+  export * from 'proton-tsc/system/modules/resources';
+  export * from 'proton-tsc/system/modules/voting';
+
+}
+declare module 'proton-tsc/system/modules/newaccount' {
+  /// <reference types="assembly" />
+  import { ActionData, Name, Authority } from "proton-tsc";
   export class NewAccount extends ActionData {
       creator: Name;
       name: Name;
@@ -4194,6 +5238,21 @@ declare module 'proton-tsc/system/system.inline' {
       active: Authority;
       constructor(creator?: Name, name?: Name, owner?: Authority, active?: Authority);
   }
+  export function sendNewAccount(contract: Name, creator: Name, name: Name, owner: Authority, active: Authority): void;
+  export function createNewAccount(contract: Name, creator: Name, name: Name, owner: Authority, active: Authority, ramBytes: u32): void;
+
+}
+declare module 'proton-tsc/system/modules/permissions' {
+  import { Name, Authority } from "proton-tsc";
+  export function sendUpdateAuth(contract: Name, account: Name, permission: string, parent: string, auth: Authority): void;
+  export function sendDeleteAuth(contract: Name, account: Name, permission: string): void;
+  export function sendLinkAuth(contract: Name, account: Name, code: Name, type: Name, requirement: Name): void;
+  export function sendUnlinkAuth(contract: Name, account: Name, code: Name, type: Name): void;
+
+}
+declare module 'proton-tsc/system/modules/ram' {
+  /// <reference types="assembly" />
+  import { Name, ActionData, Asset, Table } from "proton-tsc";
   export class BuyRamBytes extends ActionData {
       payer: Name;
       receiver: Name;
@@ -4211,16 +5270,218 @@ declare module 'proton-tsc/system/system.inline' {
       bytes: i64;
       constructor(account?: Name, bytes?: i64);
   }
-  export function sendNewAccount(contract: Name, creator: Name, name: Name, owner: Authority, active: Authority): void;
+  export class GlobalRam extends Table {
+      ram_price_per_byte: Asset;
+      max_per_user_bytes: u64;
+      ram_fee_percent: u16;
+      total_ram: u64;
+      total_xpr: u64;
+      constructor(ram_price_per_byte?: Asset, max_per_user_bytes?: u64, ram_fee_percent?: u16, total_ram?: u64, total_xpr?: u64);
+  }
   export function sendBuyRamBytes(contract: Name, payer: Name, receiver: Name, bytes: u32): void;
   export function sendBuyRam(contract: Name, payer: Name, receiver: Name, quantity: Asset): void;
   export function sendSellRam(contract: Name, owner: Name, bytes: i64): void;
+  export function estimateBuyRamCost(bytes: u64): Asset;
+  export function estimateBuyRamBytes(amount: u64): u64;
+
+}
+declare module 'proton-tsc/system/modules/resources' {
+  import { Name } from "proton-tsc";
+  export function sendNewAccRes(contract: Name, account: Name): void;
+
+}
+declare module 'proton-tsc/system/modules/voting' {
+  import { Name } from "proton-tsc";
   export function sendVoteProducer(contract: Name, voter: Name, proxy: Name, producers: Name[]): void;
-  export function sendUpdateAuth(contract: Name, account: Name, permission: string, parent: string, auth: Authority): void;
-  export function sendDeleteAuth(contract: Name, account: Name, permission: string): void;
-  export function sendLinkAuth(contract: Name, account: Name, code: Name, type: Name, requirement: Name): void;
-  export function sendUnlinkAuth(contract: Name, account: Name, code: Name, type: Name): void;
-  export function createNewAccount(contract: Name, creator: Name, name: Name, owner: Authority, active: Authority, ramBytes: u32): void;
+
+}
+declare module 'proton-tsc/system/tables' {
+  /// <reference types="assembly" />
+  import { Table, BlockTimestamp, TimePoint, ActionData, Variant, Name, PublicKey, BinaryExtension, Asset, TimePointSec, OptionalNumber, KeyWeight } from "proton-tsc";
+  export class BlockchainParameters extends Table {
+      max_block_net_usage: u64;
+      target_block_net_usage_pct: u32;
+      max_transaction_net_usage: u32;
+      base_per_transaction_net_usage: u32;
+      net_usage_leeway: u32;
+      context_free_discount_net_usage_num: u32;
+      context_free_discount_net_usage_den: u32;
+      max_block_cpu_usage: u32;
+      target_block_cpu_usage_pct: u32;
+      max_transaction_cpu_usage: u32;
+      min_transaction_cpu_usage: u32;
+      max_transaction_lifetime: u32;
+      deferred_trx_expiration_window: u32;
+      max_transaction_delay: u32;
+      max_inline_action_size: u32;
+      max_inline_action_depth: u32;
+      max_authority_depth: u16;
+      constructor(max_block_net_usage?: u64, target_block_net_usage_pct?: u32, max_transaction_net_usage?: u32, base_per_transaction_net_usage?: u32, net_usage_leeway?: u32, context_free_discount_net_usage_num?: u32, context_free_discount_net_usage_den?: u32, max_block_cpu_usage?: u32, target_block_cpu_usage_pct?: u32, max_transaction_cpu_usage?: u32, min_transaction_cpu_usage?: u32, max_transaction_lifetime?: u32, deferred_trx_expiration_window?: u32, max_transaction_delay?: u32, max_inline_action_size?: u32, max_inline_action_depth?: u32, max_authority_depth?: u16);
+  }
+  export class Global extends BlockchainParameters {
+      max_ram_size: u64;
+      total_ram_bytes_reserved: u64;
+      total_ram_stake: i64;
+      last_producer_schedule_update: BlockTimestamp;
+      last_pervote_bucket_fill: TimePoint;
+      pervote_bucket: i64;
+      perblock_bucket: i64;
+      total_unpaid_blocks: u32;
+      total_activated_stake: i64;
+      thresh_activated_stake_time: TimePoint;
+      last_producer_schedule_size: u16;
+      total_producer_vote_weight: f64;
+      last_name_close: BlockTimestamp;
+      constructor(max_ram_size?: u64, total_ram_bytes_reserved?: u64, total_ram_stake?: i64, last_producer_schedule_update?: BlockTimestamp, last_pervote_bucket_fill?: TimePoint, pervote_bucket?: i64, perblock_bucket?: i64, total_unpaid_blocks?: u32, total_activated_stake?: i64, thresh_activated_stake_time?: TimePoint, last_producer_schedule_size?: u16, total_producer_vote_weight?: f64, last_name_close?: BlockTimestamp);
+      get free_ram(): u64;
+  }
+  export class Global2 extends Table {
+      new_ram_per_block: u16;
+      last_ram_increase: BlockTimestamp;
+      last_block_num: BlockTimestamp;
+      total_producer_votepay_share: f64;
+      revision: u8;
+      constructor(new_ram_per_block?: u16, last_ram_increase?: BlockTimestamp, last_block_num?: BlockTimestamp, total_producer_votepay_share?: f64, revision?: u8);
+  }
+  export class Global3 extends Table {
+      last_vpay_state_update: TimePoint;
+      total_vpay_share_change_rate: f64;
+      constructor(last_vpay_state_update?: TimePoint, total_vpay_share_change_rate?: f64);
+  }
+  export class Global4 extends Table {
+      continuous_rate: f64;
+      inflation_pay_factor: i64;
+      votepay_factor: i64;
+      constructor(continuous_rate?: f64, inflation_pay_factor?: i64, votepay_factor?: i64);
+  }
+  class BlockSigningAuthorityV0 extends ActionData {
+      threshold: u32;
+      keys: KeyWeight[];
+      constructor(threshold?: u32, keys?: KeyWeight[]);
+  }
+  export class BlockSigningAuthority extends Variant {
+      v0: BlockSigningAuthorityV0;
+      static new<T>(value: T): BlockSigningAuthority;
+  }
+  export class ProducerInfo extends Table {
+      owner: Name;
+      total_votes: f64;
+      producer_key: PublicKey;
+      is_active: boolean;
+      url: string;
+      unpaid_blocks: u32;
+      last_claim_time: TimePoint;
+      location: u32;
+      producer_authority: BinaryExtension<BlockSigningAuthority>;
+      constructor(owner?: Name, total_votes?: f64, producer_key?: PublicKey, is_active?: boolean, url?: string, unpaid_blocks?: u32, last_claim_time?: TimePoint, location?: u32, producer_authority?: BinaryExtension<BlockSigningAuthority>);
+      get primary(): u64;
+      get by_votes(): f64;
+      set by_votes(value: f64);
+      get active(): bool;
+      deactivate(): void;
+  }
+  export class ProducerInfo2 extends Table {
+      owner: Name;
+      total_votes: f64;
+      producer_key: PublicKey;
+      is_active: boolean;
+      url: string;
+      unpaid_blocks: u32;
+      last_claim_time: TimePoint;
+      location: u32;
+      producer_authority: BinaryExtension<BlockSigningAuthority>;
+      constructor(owner?: Name, total_votes?: f64, producer_key?: PublicKey, is_active?: boolean, url?: string, unpaid_blocks?: u32, last_claim_time?: TimePoint, location?: u32, producer_authority?: BinaryExtension<BlockSigningAuthority>);
+      get primary(): u64;
+  }
+  export class VoterInfo extends Table {
+      owner: Name;
+      proxy: Name;
+      producers: Name[];
+      staked: i64;
+      last_vote_weight: f64;
+      proxied_vote_weight: f64;
+      is_proxy: boolean;
+      flags1: u32;
+      reserved2: u32;
+      reserved3: u32;
+      constructor(owner?: Name, proxy?: Name, producers?: Name[], staked?: i64, last_vote_weight?: f64, proxied_vote_weight?: f64, is_proxy?: boolean, flags1?: u32, reserved2?: u32, reserved3?: u32);
+      get primary(): u64;
+  }
+  export class UserResources extends Table {
+      owner: Name;
+      net_weight: Asset;
+      cpu_weight: Asset;
+      ram_bytes: i64;
+      constructor(owner?: Name, net_weight?: Asset, cpu_weight?: Asset, ram_bytes?: i64);
+      get primary(): u64;
+      get is_empty(): bool;
+  }
+  export class DelegatedBandwidth extends Table {
+      from: Name;
+      to: Name;
+      net_weight: Asset;
+      cpu_weight: Asset;
+      constructor(from?: Name, to?: Name, net_weight?: Asset, cpu_weight?: Asset);
+      get primary(): u64;
+      get is_empty(): bool;
+  }
+  export class Refunds extends Table {
+      owner: Name;
+      request_time: TimePointSec;
+      net_amount: Asset;
+      cpu_amount: Asset;
+      constructor(owner?: Name, request_time?: TimePointSec, net_amount?: Asset, cpu_amount?: Asset);
+      get primary(): u64;
+      get is_empty(): bool;
+  }
+  export class DelegatedXpr extends Table {
+      from: Name;
+      to: Name;
+      quantity: Asset;
+      constructor(from?: Name, to?: Name, quantity?: Asset);
+      get primary(): u64;
+      get is_empty(): bool;
+  }
+  export class VotersXpr extends Table {
+      owner: Name;
+      staked: u64;
+      isqualified: boolean;
+      claimamount: u64;
+      lastclaim: u64;
+      startstake: OptionalNumber<u64>;
+      startqualif: OptionalNumber<boolean>;
+      constructor(owner?: Name, staked?: u64, isqualified?: boolean, claimamount?: u64, lastclaim?: u64, startstake?: OptionalNumber<u64>, startqualif?: OptionalNumber<boolean>);
+      get primary(): u64;
+      get is_empty(): bool;
+  }
+  export class XprRefundRequest extends Table {
+      owner: Name;
+      request_time: TimePointSec;
+      quantity: Asset;
+      constructor(owner?: Name, request_time?: TimePointSec, quantity?: Asset);
+      get primary(): u64;
+      get is_empty(): bool;
+  }
+  export class GlobalsXpr extends Table {
+      max_bp_per_vote: u64;
+      min_bp_reward: u64;
+      unstake_period: u64;
+      process_by: u64;
+      process_interval: u64;
+      voters_claim_interval: u64;
+      spare1: u64;
+      spare2: u64;
+      constructor(max_bp_per_vote?: u64, min_bp_reward?: u64, unstake_period?: u64, process_by?: u64, process_interval?: u64, voters_claim_interval?: u64, spare1?: u64, spare2?: u64);
+  }
+  export class UsersRam extends Table {
+      account: Name;
+      ram: u64;
+      quantity: Asset;
+      ramlimit: u64;
+      constructor(account?: Name, ram?: u64, quantity?: Asset, ramlimit?: u64);
+      get primary(): u64;
+  }
+  export {};
 
 }
 declare module 'proton-tsc/token' {
@@ -4349,7 +5610,7 @@ declare module 'proton-tsc/token/target/token.contract' {
 declare module 'proton-tsc/token/target/token.tables' {
   /// <reference types="assembly" />
   import * as _chain from "as-chain";
-  import { Asset, Name, Symbol } from "proton-tsc/token";
+  import { Asset, Name } from "proton-tsc/token";
   /**
    * Tables
    */
@@ -4391,11 +5652,6 @@ declare module 'proton-tsc/token/target/token.tables' {
       setSecondaryValue(i: i32, value: _chain.SecondaryValue): void;
       static new(code: _chain.Name, scope: _chain.Name): StatDB;
   }
-  /**
-   * Helpers
-   */
-  export function getSupply(tokenContractAccount: Name, sym: Symbol): Asset;
-  export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
 
 }
 declare module 'proton-tsc/token/token.contract' {

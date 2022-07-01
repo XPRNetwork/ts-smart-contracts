@@ -5,7 +5,6 @@
     "build:kv": "npx proton-asc ./kv/kv.contract.ts",
     "build:rng": "npx proton-asc ./rng/rng.contract.ts",
     "build:txid": "npx proton-asc ./txid/txid.contract.ts",
-    "build:pixel": "npx proton-asc ./pixel/pixel.contract.ts",
     "build:oracles": "npx proton-asc ./oracles/oracles.contract.ts",
     "build": "run-p build:*",
     "test:kv": "mocha -s 250 ./kv/*.spec.ts -r ts-node/register",
@@ -17,7 +16,7 @@
     "test": "run-p test:*"
   },
   "dependencies": {
-    "proton-tsc": "^0.3.15"
+    "proton-tsc": "^0.3.16"
   },
   "devDependencies": {
     "@proton/vert": "^0.3.2",

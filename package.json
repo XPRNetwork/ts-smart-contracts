@@ -1,6 +1,6 @@
 {
   "name": "proton-tsc",
-  "version": "0.3.17",
+  "version": "0.3.19",
   "license": "MIT",
   "types": "./index.d.ts",
   "main": "./assembly/index.ts",
@@ -12,6 +12,7 @@
     "build:atomicassets": "npx proton-asc ./assembly/atomicassets/atomicassets.contract.ts --debug --sourceMap --target release",
     "build:store": "npx proton-asc ./assembly/modules/store/store.test.ts",
     "build:safemath": "npx proton-asc ./assembly/modules/safemath/safemath.test.ts",
+    "build:pixel": "npx proton-asc ./assembly/pixel/pixel.contract.ts",
     "build": "run-p build:*",
     "test:token": "mocha -s 250 ./assembly/token/*.spec.ts -r ts-node/register",
     "test:balance": "mocha -s 250 ./assembly/balance/*.spec.ts -r ts-node/register",
