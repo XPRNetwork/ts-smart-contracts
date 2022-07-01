@@ -38,8 +38,8 @@ export class PixelContract extends BalanceContract {
                 return
             }
 
-            const [pixelId, pixelColor] = t.memo.split(',')
-            this.buyPixel(t.from, U32.parseInt(pixelId), pixelColor)
+            const memoArr = t.memo.split(',') // [pixelId, pixelColor]
+            this.buyPixel(t.from, U32.parseInt(memoArr[0]), memoArr[1])
         }
     }
 
