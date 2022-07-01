@@ -54,7 +54,7 @@ export class PixelContract extends BalanceContract {
         if (pixel) {
             this.addBalance(pixel.owner, [newPriceQuantity], [], this.contract)
         } else {
-            sendBuyRamBytes(this.contract, this.contract, this.contract, 136)
+            sendBuyRamBytes(this.contract, this.contract, this.contract, PIXEL_ROW_BYTES)
         }
         
         // Save pixel
