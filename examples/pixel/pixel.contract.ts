@@ -9,7 +9,7 @@ const PIXEL_ROW_BYTES: u8 = 136
 @table("pixels")
 export class Pixels extends Table {
     constructor (
-        public id: u64 = 0,
+        public id: u32 = 0,
         public owner: Name = new Name(),
         public price: u64 = 0,
         public color: u8[] = []
@@ -19,7 +19,7 @@ export class Pixels extends Table {
 
     @primary
     get primary(): u64 {
-        return this.id;
+        return <u64>(this.id);
     }
 }
 
@@ -30,7 +30,7 @@ export class PixelContract extends BalanceContract {
     @action("buypixel")
     buypixel(
         newOwner: Name,
-        pixelId: u64,
+        pixelId: u32,
         pixelColor: string
     ): void {
         // Authorization
