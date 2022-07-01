@@ -4,7 +4,7 @@ import { estimateBuyRamCost, sendBuyRamBytes } from 'proton-tsc/system/modules/r
 import { XPR_SYMBOL, XPR_CONTRACT } from 'proton-tsc/system/constants';
 
 const MULTIPLIER: f64 = 1.5
-const ROW_RAM_COST: u8 = 136
+const PIXEL_ROW_BYTES: u8 = 136
 
 @table("pixels")
 export class Pixels extends Table {
@@ -46,7 +46,7 @@ export class PixelContract extends BalanceContract {
         // Determine price
         const newPriceAmount = pixel
             ? <u64>(Math.ceil(<f64>pixel.price * MULTIPLIER))
-            : estimateBuyRamCost(ROW_RAM_COST).amount
+            : estimateBuyRamCost(PIXEL_ROW_BYTES).amount
         const newPriceQuantity = new ExtendedAsset(new Asset(newPriceAmount, XPR_SYMBOL), XPR_CONTRACT)
 
         // Charge amount
