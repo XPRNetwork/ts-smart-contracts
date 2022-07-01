@@ -12,7 +12,7 @@ const [researcher, malicious] = blockchain.createAccounts('researcher', 'malicio
 const getAllowGlobals = () => allowedContract.tables.allowglobals().getTableRows()
 const getAllowedActors = () => allowedContract.tables.allowedactor().getTableRows()
 const getAllowedTokens = () => allowedContract.tables.allowedtoken().getTableRows()
-const makeGlobals = (isPaused: boolean, isActorStrict: boolean, isTokenStrict: boolean, isTokensEnabled: boolean, isNftsEnabled: boolean) => ({ isPaused, isActorStrict, isTokenStrict, isTokensEnabled, isNftsEnabled })
+const makeGlobals = (isPaused: boolean, isActorStrict: boolean, isTokenStrict: boolean, isTokensEnabled: boolean, isNftsEnabled: boolean, isContractsEnabled: boolean) => ({ isPaused, isActorStrict, isTokenStrict, isTokensEnabled, isNftsEnabled, isContractsEnabled })
 
 /* Runs before each test */
 beforeEach(async () => {
@@ -28,22 +28,24 @@ describe('Allowed', () => {
       expect(getAllowGlobals()).to.be.deep.eq([])
 
       // Set isPaused to true
-      await allowedContract.actions.setglobals(makeGlobals(true, false, false, true, true)).send('allowed@active')
+      await allowedContract.actions.setglobals(makeGlobals(true, false, false, true, true, true)).send('allowed@active')
       expect(getAllowGlobals()).to.be.deep.eq([{
         isActorStrict: false,
         isTokenStrict: false,
         isNftsEnabled: true,
         isTokensEnabled: true,
+        isContractsEnabled: true,
         isPaused: true,
       }])
 
       // Set isPaused to false
-      await allowedContract.actions.setglobals(makeGlobals(false, false, false, true, true)).send('allowed@active')
+      await allowedContract.actions.setglobals(makeGlobals(false, false, false, true, true, true)).send('allowed@active')
       expect(getAllowGlobals()).to.be.deep.eq([{
         isActorStrict: false,
         isTokenStrict: false,
         isNftsEnabled: true,
         isTokensEnabled: true,
+        isContractsEnabled: true,
         isPaused: false,
       }])
     });
@@ -53,12 +55,12 @@ describe('Allowed', () => {
       expect(getAllowGlobals()).to.be.deep.eq([])
 
       // Set isActorStrict to true
-      const glob1 = makeGlobals(false, true, false, true, true)
+      const glob1 = makeGlobals(false, true, false, true, true, true)
       await allowedContract.actions.setglobals(glob1).send('allowed@active')
       expect(getAllowGlobals()).to.be.deep.eq([glob1])
 
       // Set isActorStrict to false
-      const glob2 = makeGlobals(false, false, false, true, true)
+      const glob2 = makeGlobals(false, false, false, true, true, true)
       await allowedContract.actions.setglobals(glob2).send('allowed@active')
       expect(getAllowGlobals()).to.be.deep.eq([glob2])
     });
@@ -68,33 +70,35 @@ describe('Allowed', () => {
       expect(getAllowGlobals()).to.be.deep.eq([])
 
       // Set isTokenStrict to true
-      await allowedContract.actions.setglobals(makeGlobals(false, false, true, true, true)).send('allowed@active')
+      await allowedContract.actions.setglobals(makeGlobals(false, false, true, true, true, true)).send('allowed@active')
       expect(getAllowGlobals()).to.be.deep.eq([{
         isActorStrict: false,
         isTokenStrict: true,
         isPaused: false,
         isNftsEnabled: true,
         isTokensEnabled: true,
+        isContractsEnabled: true,
       }])
 
       // Set isTokenStrict to false
-      await allowedContract.actions.setglobals(makeGlobals(false, false, false, true, true)).send('allowed@active')
+      await allowedContract.actions.setglobals(makeGlobals(false, false, false, true, true, true)).send('allowed@active')
       expect(getAllowGlobals()).to.be.deep.eq([{
         isActorStrict: false,
         isTokenStrict: false,
         isPaused: false,
         isNftsEnabled: true,
         isTokensEnabled: true,
+        isContractsEnabled: true,
       }])
     });
 
     it('Authentication is required', async () => {
-      await allowedContract.actions.setglobals(makeGlobals(true, false, false, true, true)).send('allowed@active')
-      await allowedContract.actions.setglobals(makeGlobals(false, false, false, true, true)).send();
+      await allowedContract.actions.setglobals(makeGlobals(true, false, false, true, true, true)).send('allowed@active')
+      await allowedContract.actions.setglobals(makeGlobals(false, false, false, true, true, true)).send();
 
       await expectToThrow(
         allowedContract.actions.setglobals(
-          makeGlobals(true, false, false, true, true)
+          makeGlobals(true, false, false, true, true, true)
         ).send('malicious@active'),
         'missing required authority allowed'
       )
@@ -268,7 +272,7 @@ describe('Allowed', () => {
     it('Paused contract should fail', async () => {
       await allowedContract.actions.testpaused().send('allowed@active');
 
-      await allowedContract.actions.setglobals(makeGlobals(true, false, false, true, true)).send('allowed@active')
+      await allowedContract.actions.setglobals(makeGlobals(true, false, false, true, true, true)).send('allowed@active')
       await expectToThrow(
         allowedContract.actions.testpaused().send('allowed@active'),
         protonAssert("Contract allowed is paused")
@@ -278,7 +282,7 @@ describe('Allowed', () => {
     describe('Actor check', () => {
 
       it('Not allowed actor should fail in strict contract', async () => {
-        await allowedContract.actions.setglobals(makeGlobals(false, true, false, true, true)).send('allowed@active')
+        await allowedContract.actions.setglobals(makeGlobals(false, true, false, true, true, true)).send('allowed@active')
 
         await allowedContract.actions.setactor([researcher.name, true, false]).send()
         await allowedContract.actions.testactor([researcher.name, '']).send()
@@ -292,19 +296,19 @@ describe('Allowed', () => {
 
 
       it('Not allowed actor should not fail in non-strict contract', async () => {
-        await allowedContract.actions.setglobals(makeGlobals(false, false, false, true, true)).send('allowed@active')
+        await allowedContract.actions.setglobals(makeGlobals(false, false, false, true, true, true)).send('allowed@active')
         await allowedContract.actions.testactor([researcher.name, '']).send();
       });
 
       it('Blocked actor should fail in any contract', async () => {
-        await allowedContract.actions.setglobals(makeGlobals(false, false, false, true, true)).send('allowed@active')
+        await allowedContract.actions.setglobals(makeGlobals(false, false, false, true, true, true)).send('allowed@active')
         await allowedContract.actions.setactor([researcher.name, false, true]).send();
         await expectToThrow(
           allowedContract.actions.testactor([researcher.name, '']).send(),
           protonAssert("Actor 'researcher' is not allowed to use contract 'allowed'")
         );
 
-        await allowedContract.actions.setglobals(makeGlobals(false, true, false, true, true)).send('allowed@active')
+        await allowedContract.actions.setglobals(makeGlobals(false, true, false, true, true, true)).send('allowed@active')
         await allowedContract.actions.setactor([researcher.name, false, true]).send();
         await expectToThrow(
           allowedContract.actions.testactor([researcher.name, '']).send(),
@@ -313,7 +317,7 @@ describe('Allowed', () => {
       });
 
       it('Custom message for actor check should be displayed', async () => {
-        await allowedContract.actions.setglobals(makeGlobals(false, true, false, true, true)).send('allowed@active')
+        await allowedContract.actions.setglobals(makeGlobals(false, true, false, true, true, true)).send('allowed@active')
 
         await expectToThrow(
           allowedContract.actions.testactor([researcher.name, 'hola']).send(),
@@ -324,7 +328,7 @@ describe('Allowed', () => {
 
     describe('Token check', () => {
       it('Not allowed token should fail in strict contract', async () => {
-        await allowedContract.actions.setglobals(makeGlobals(false, false, true, true, true)).send('allowed@active')
+        await allowedContract.actions.setglobals(makeGlobals(false, false, true, true, true, true)).send('allowed@active')
 
         await allowedContract.actions.settoken([{
           contract: 'xtokens',
@@ -351,7 +355,7 @@ describe('Allowed', () => {
       });
 
       it('Not allowed token should not fail in non-strict contract', async () => {
-        await allowedContract.actions.setglobals(makeGlobals(false, false, false, true, true)).send('allowed@active')
+        await allowedContract.actions.setglobals(makeGlobals(false, false, false, true, true, true)).send('allowed@active')
         await allowedContract.actions.testtoken([{
           contract: 'xtokens',
           sym: '6,XUSDC'
@@ -359,7 +363,7 @@ describe('Allowed', () => {
       });
 
       it('Blocked token should fail in any contract', async () => {
-        await allowedContract.actions.setglobals(makeGlobals(false, false, false, true, true)).send('allowed@active')
+        await allowedContract.actions.setglobals(makeGlobals(false, false, false, true, true, true)).send('allowed@active')
         await allowedContract.actions.settoken([{
           contract: 'xtokens',
           sym: '6,XUSDC'
@@ -372,7 +376,7 @@ describe('Allowed', () => {
           protonAssert("Token '6,XUSDC@xtokens' is not allowed to use contract 'allowed'")
         );
 
-        await allowedContract.actions.setglobals(makeGlobals(false, false, true, true, true)).send('allowed@active')
+        await allowedContract.actions.setglobals(makeGlobals(false, false, true, true, true, true)).send('allowed@active')
         await allowedContract.actions.settoken([{
           contract: 'xtokens',
           sym: '6,XUSDC'
@@ -387,7 +391,7 @@ describe('Allowed', () => {
       });
 
       it('Custom message for token check should be displayed', async () => {
-        await allowedContract.actions.setglobals(makeGlobals(false, false, true, true, true)).send('allowed@active')
+        await allowedContract.actions.setglobals(makeGlobals(false, false, true, true, true, true)).send('allowed@active')
 
         await expectToThrow(
           allowedContract.actions.testtoken([{

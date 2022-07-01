@@ -24,12 +24,13 @@ export class AllowContract extends Contract {
         isTokenStrict: boolean,
         isTokensEnabled: boolean,
         isNftsEnabled: boolean,
+        isContractsEnabled: boolean
     ): void {
         // Authorization
         requireAuth(this.contract)
 
         // Save
-        const globals = new AllowGlobals(isPaused, isActorStrict, isTokenStrict, isTokensEnabled, isNftsEnabled)
+        const globals = new AllowGlobals(isPaused, isActorStrict, isTokenStrict, isTokensEnabled, isNftsEnabled, isContractsEnabled)
         this.allowGlobalsSingleton.set(globals, this.contract);
     }
 
@@ -100,6 +101,7 @@ export class AllowContract extends Contract {
         if (!message) {
             message = `Actor '${actor}' is not allowed to use contract '${this.contract}'`;
         }
+        // TODO use isContractsEnabled and future get code hash
         check(this.isActorAllowed(actor), message);
     }
 
@@ -167,6 +169,10 @@ export class AllowContract extends Contract {
 
     protected isNftsEnabled(): boolean {
         return this.allowGlobalsSingleton.get().isNftsEnabled
+    }
+
+    protected isContractsEnabled(): boolean {
+        return this.allowGlobalsSingleton.get().isContractsEnabled
     }
 
     protected isContractPaused(): boolean {

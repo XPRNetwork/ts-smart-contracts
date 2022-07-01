@@ -10,6 +10,7 @@ export class AllowGlobals extends Table {
         public isTokenStrict: boolean = false,
         public isTokensEnabled: boolean = true,
         public isNftsEnabled: boolean = true,
+        public isContractsEnabled: boolean = true,
     ) {
         super();
     }

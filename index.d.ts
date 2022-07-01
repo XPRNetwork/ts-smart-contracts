@@ -13,7 +13,7 @@ declare module 'proton-tsc/allow/allow.contract' {
        * @param {boolean} isActorStrict - If true, then actors must be registered with the system.
        * @param {boolean} isTokenStrict - boolean
        */
-      setglobals(isPaused: boolean, isActorStrict: boolean, isTokenStrict: boolean, isTokensEnabled: boolean, isNftsEnabled: boolean): void;
+      setglobals(isPaused: boolean, isActorStrict: boolean, isTokenStrict: boolean, isTokensEnabled: boolean, isNftsEnabled: boolean, isContractsEnabled: boolean): void;
       /**
        * It updates the isAllowed field of the token.
        * @param {ExtendedSymbol} token - The token to be updated.
@@ -39,6 +39,7 @@ declare module 'proton-tsc/allow/allow.contract' {
       protected isActorAllowed(actor: Name): boolean;
       protected isTokensEnabled(): boolean;
       protected isNftsEnabled(): boolean;
+      protected isContractsEnabled(): boolean;
       protected isContractPaused(): boolean;
   }
 
@@ -56,7 +57,8 @@ declare module 'proton-tsc/allow/allow.tables' {
       isTokenStrict: boolean;
       isTokensEnabled: boolean;
       isNftsEnabled: boolean;
-      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean, isTokensEnabled?: boolean, isNftsEnabled?: boolean);
+      isContractsEnabled: boolean;
+      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean, isTokensEnabled?: boolean, isNftsEnabled?: boolean, isContractsEnabled?: boolean);
   }
   export class AllowedActor extends Table {
       actor: Name;
@@ -127,7 +129,7 @@ declare module 'proton-tsc/allow/target/allow.contract' {
        * @param {boolean} isActorStrict - If true, then actors must be registered with the system.
        * @param {boolean} isTokenStrict - boolean
        */
-      setglobals(isPaused: boolean, isActorStrict: boolean, isTokenStrict: boolean, isTokensEnabled: boolean, isNftsEnabled: boolean): void;
+      setglobals(isPaused: boolean, isActorStrict: boolean, isTokenStrict: boolean, isTokensEnabled: boolean, isNftsEnabled: boolean, isContractsEnabled: boolean): void;
       /**
        * It updates the isAllowed field of the token.
        * @param {ExtendedSymbol} token - The token to be updated.
@@ -153,6 +155,7 @@ declare module 'proton-tsc/allow/target/allow.contract' {
       protected isActorAllowed(actor: Name): boolean;
       protected isTokensEnabled(): boolean;
       protected isNftsEnabled(): boolean;
+      protected isContractsEnabled(): boolean;
       protected isContractPaused(): boolean;
   }
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
@@ -170,7 +173,8 @@ declare module 'proton-tsc/allow/target/allow.tables' {
       isTokenStrict: boolean;
       isTokensEnabled: boolean;
       isNftsEnabled: boolean;
-      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean, isTokensEnabled?: boolean, isNftsEnabled?: boolean);
+      isContractsEnabled: boolean;
+      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean, isTokensEnabled?: boolean, isNftsEnabled?: boolean, isContractsEnabled?: boolean);
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -2465,7 +2469,6 @@ declare module 'proton-tsc/balance/balance.contract' {
   import { Balance } from 'proton-tsc/balance/balance.tables';
   export class BalanceContract extends AllowContract {
       balancesTable: TableStore<Balance>;
-      skipDepositFrom(from: Name): boolean;
       /**
        * Incoming notification of "transfer" action from any contract
        * - If the contract is the atomicassets contract, then the action data is an NFT transfer.
@@ -2528,7 +2531,7 @@ declare module 'proton-tsc/balance/balance.tables' {
 }
 declare module 'proton-tsc/balance/balance.utils' {
   /// <reference types="assembly" />
-  import { ExtendedAsset } from "proton-tsc";
+  import { ExtendedAsset, Name } from "proton-tsc";
   import { Balance } from "proton-tsc/balance/balance.tables";
   /**
    * Find the index of an extended asset in an array of extended assets
@@ -2574,6 +2577,7 @@ declare module 'proton-tsc/balance/balance.utils' {
    * @param {ExtendedAsset[]} tokensToAdd - An array of ExtendedAsset objects.
    */
   export function addTokens(balance: Balance, tokensToAdd: ExtendedAsset[]): void;
+  export function skipDepositFrom(from: Name, currentContract: Name): boolean;
 
 }
 declare module 'proton-tsc/balance' {
@@ -2594,7 +2598,8 @@ declare module 'proton-tsc/balance/target/allow.tables' {
       isTokenStrict: boolean;
       isTokensEnabled: boolean;
       isNftsEnabled: boolean;
-      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean, isTokensEnabled?: boolean, isNftsEnabled?: boolean);
+      isContractsEnabled: boolean;
+      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean, isTokensEnabled?: boolean, isNftsEnabled?: boolean, isContractsEnabled?: boolean);
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;
@@ -3177,7 +3182,6 @@ declare module 'proton-tsc/balance/target/balance.contract' {
   import { Balance } from 'proton-tsc/balance/target/balance.tables';
   export class BalanceContract extends AllowContract {
       balancesTable: TableStore<Balance>;
-      skipDepositFrom(from: Name): boolean;
       /**
        * Incoming notification of "transfer" action from any contract
        * - If the contract is the atomicassets contract, then the action data is an NFT transfer.
@@ -3850,7 +3854,8 @@ declare module 'proton-tsc/escrow/target/allow.tables' {
       isTokenStrict: boolean;
       isTokensEnabled: boolean;
       isNftsEnabled: boolean;
-      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean, isTokensEnabled?: boolean, isNftsEnabled?: boolean);
+      isContractsEnabled: boolean;
+      constructor(isPaused?: boolean, isActorStrict?: boolean, isTokenStrict?: boolean, isTokensEnabled?: boolean, isNftsEnabled?: boolean, isContractsEnabled?: boolean);
       pack(): u8[];
       unpack(data: u8[]): usize;
       getSize(): usize;

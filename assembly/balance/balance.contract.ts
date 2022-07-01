@@ -3,28 +3,11 @@ import { Transfer, sendTransferTokens } from '../token/token.inline';
 import { AllowContract } from '../allow';
 import { ATOMICASSETS_CONTRACT, sendTransferNfts, TransferNfts } from '../atomicassets'
 import { Balance } from './balance.tables';
-import { addNfts, addTokens, substractNfts, substractTokens } from './balance.utils';
+import { addNfts, addTokens, skipDepositFrom, substractNfts, substractTokens } from './balance.utils';
 
 @contract
 export class BalanceContract extends AllowContract {
     balancesTable: TableStore<Balance> = new TableStore<Balance>(this.receiver)
-
-    skipDepositFrom(from: Name): boolean {
-        if (from == this.contract) {
-            return true
-        }
-
-        // Skip if deposit from system accounts
-        if (
-            from == Name.fromString("eosio.stake") ||
-            from == Name.fromString("eosio.ram") ||
-            from == Name.fromString("eosio")
-        ) {
-            return true
-        }
-
-        return false
-    }
 
     /**
      * Incoming notification of "transfer" action from any contract
@@ -42,7 +25,7 @@ export class BalanceContract extends AllowContract {
             let t = unpackActionData<TransferNfts>()
 
             // Skip
-            if (this.skipDepositFrom(t.from)) {
+            if (skipDepositFrom(t.from, this.contract)) {
                 return;
             }
         
@@ -59,7 +42,7 @@ export class BalanceContract extends AllowContract {
             let t = unpackActionData<Transfer>()
 
             // Skip
-            if (this.skipDepositFrom(t.from)) {
+            if (skipDepositFrom(t.from, this.contract)) {
                 return;
             }
         

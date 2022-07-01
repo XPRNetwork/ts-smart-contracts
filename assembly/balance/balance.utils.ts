@@ -1,4 +1,4 @@
-import { check, ExtendedAsset } from ".."
+import { check, ExtendedAsset, Name } from ".."
 import { Balance } from "./balance.tables";
 
 /**
@@ -109,4 +109,21 @@ export function addTokens(balance: Balance, tokensToAdd: ExtendedAsset[]): void 
     for (let i = 0; i < tokensToAdd.length; i++) {
         addToken(balance.tokens, tokensToAdd[i])
     } 
+}
+
+export function skipDepositFrom(from: Name, currentContract: Name): boolean {
+    if (from == currentContract) {
+        return true
+    }
+
+    // Skip if deposit from system accounts
+    if (
+        from == Name.fromString("eosio.stake") ||
+        from == Name.fromString("eosio.ram") ||
+        from == Name.fromString("eosio")
+    ) {
+        return true
+    }
+
+    return false
 }

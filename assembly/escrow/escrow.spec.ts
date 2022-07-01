@@ -77,7 +77,7 @@ describe('Escrow', () => {
 
         // Invalid
         escrow = await generateSingleEscrowDeposit()
-      await escrowContract.actions.setglobals([true, false, false, true, true]).send()
+      await escrowContract.actions.setglobals([true, false, false, true, true, true]).send()
       await expectToThrow(
         escrowContract.actions.startescrow(escrow).send('collector@active'),
         protonAssert('Contract escrow is paused')
@@ -231,7 +231,7 @@ describe('Escrow', () => {
       const escrow = await generateSingleEscrowDeposit()
       await escrowContract.actions.startescrow(escrow).send('collector@active')
 
-      await escrowContract.actions.setglobals([true, false, false, true, true]).send()
+      await escrowContract.actions.setglobals([true, false, false, true, true, true]).send()
       await expectToThrow(
         escrowContract.actions.fillescrow(['trader', 0]).send('trader@active'),
         protonAssert('Contract escrow is paused')
@@ -331,7 +331,7 @@ describe('Escrow', () => {
       const escrow = await generateSingleEscrowDeposit()
       await escrowContract.actions.startescrow(escrow).send('collector@active')
 
-      await escrowContract.actions.setglobals([true, false, false, true, true]).send()
+      await escrowContract.actions.setglobals([true, false, false, true, true, true]).send()
       await expectToThrow(
         escrowContract.actions.cancelescrow(['trader', 0]).send('trader@active'),
         protonAssert('Contract escrow is paused')
