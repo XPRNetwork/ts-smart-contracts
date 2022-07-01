@@ -82,7 +82,7 @@ export class ConfigSingle extends Table {
     }
 }
 
-@table("feeds")
+@table("feeds", noabigen)
 export class Feed extends Table {
     constructor (
         public index: u64 = 0,
@@ -113,7 +113,7 @@ export class ProviderSingle extends Table {
 }
 
 
-@table("data")
+@table("data", noabigen)
 export class Data extends Table {
     constructor (
         public feed_index: u64 = 0,
@@ -139,7 +139,7 @@ export class VoteSingle extends Table {
     }
 }
 
-@table("msigs")
+@table("msigs", noabigen)
 export class Msig extends Table {
     constructor (
         public index: u64 = 0,

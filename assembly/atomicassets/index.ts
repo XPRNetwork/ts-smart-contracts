@@ -1,4 +1,3 @@
-export * from './atomicassets.contract'
 export * from './atomicassets.constants'
 export * from './atomicassets.inline'
 export * from './atomicassets.tables'

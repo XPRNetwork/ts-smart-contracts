@@ -1,5 +1,5 @@
 import { ExtendedAsset, unpackActionData, Name, check, requireAuth, SAME_PAYER, TableStore } from '..'
-import { Transfer, sendTransferTokens } from '../token';
+import { Transfer, sendTransferTokens } from '../token/token.inline';
 import { AllowContract } from '../allow';
 import { ATOMICASSETS_CONTRACT, sendTransferNfts, TransferNfts } from '../atomicassets'
 import { Balance } from './balance.tables';

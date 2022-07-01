@@ -111,11 +111,11 @@ export class AllowContract extends Contract {
         check(this.isTokenAllowed(token), message);
     }
 
-    private findAllowedToken(token: ExtendedSymbol): AllowedToken | null {
+    protected findAllowedToken(token: ExtendedSymbol): AllowedToken | null {
         return this.allowedTokenTable.getBySecondaryU128(extendedSymbolToU128(token), 0)
     }
 
-    private isTokenAllowed(token: ExtendedSymbol): boolean {
+    protected isTokenAllowed(token: ExtendedSymbol): boolean {
         // Check stricst
         const isTokenStrict = this.allowGlobalsSingleton.get().isTokenStrict
 
@@ -131,7 +131,7 @@ export class AllowContract extends Contract {
         return allowedToken.isAllowed || (!isTokenStrict && !allowedToken.isBlocked)
     }
 
-    private isActorAllowed(actor: Name): boolean {
+    protected isActorAllowed(actor: Name): boolean {
         // Check stricst
         const isActorStrict = this.allowGlobalsSingleton.get().isActorStrict
 
@@ -147,7 +147,7 @@ export class AllowContract extends Contract {
         return allowedActor.isAllowed || (!isActorStrict && !allowedActor.isBlocked)
     }
 
-    private isContractPaused(): boolean {
+    protected isContractPaused(): boolean {
         return this.allowGlobalsSingleton.get().isPaused
     }
 }

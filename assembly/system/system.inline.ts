@@ -1,30 +1,14 @@
-import { InlineAction, Name, PermissionLevel, ActionWrapper, Asset, Authority } from "..";
+import { InlineAction, ActionData, Name, PermissionLevel, Asset, Authority } from "..";
 
 //------------------- Constants ------------------------------//
 export const SYSTEM_CONTRACT = Name.fromString("eosio")
 export const PROTON_USER_CONTRACT = Name.fromString("eosio.proton")
 
-//------------------- Action Names ------------------------------//
-
-// system
-const NEWACCOUNT_ACTION = new ActionWrapper(Name.fromString("newaccount"))
-const BUYRAMBYTES_ACTION = new ActionWrapper(Name.fromString("buyrambytes"))
-const BUYRAM_ACTION = new ActionWrapper(Name.fromString("buyram"))
-const SELLRAM_ACTION = new ActionWrapper(Name.fromString("sellram"))
-const VOTEPRODUCER_ACTION = new ActionWrapper(Name.fromString("voteproducer"))
-const UPDATEAUTH_ACTION = new ActionWrapper(Name.fromString("updateauth"))
-const DELETEAUTH_ACTION = new ActionWrapper(Name.fromString("deleteauth"))
-const LINKAUTH_ACTION = new ActionWrapper(Name.fromString("linkauth"))
-const UNLINKAUTH_ACTION = new ActionWrapper(Name.fromString("unlinkauth"))
-
-// user
-const NEWACCRES_ACTION = new ActionWrapper(Name.fromString("newaccres"))
-
 //------------------- Action Packers ------------------------------//
 
 // system
 @packer
-export class NewAccount extends InlineAction {
+export class NewAccount extends ActionData {
     constructor (
         public creator: Name = new Name(),
         public name: Name = new Name(),
@@ -36,7 +20,7 @@ export class NewAccount extends InlineAction {
 }
 
 @packer
-export class BuyRamBytes extends InlineAction {
+export class BuyRamBytes extends ActionData {
     constructor (
         public payer: Name = new Name(),
         public receiver: Name = new Name(),
@@ -47,7 +31,7 @@ export class BuyRamBytes extends InlineAction {
 }
 
 @packer
-export class BuyRam extends InlineAction {
+export class BuyRam extends ActionData {
     constructor (
         public payer: Name = new Name(),
         public receiver: Name = new Name(),
@@ -58,7 +42,7 @@ export class BuyRam extends InlineAction {
 }
 
 @packer
-export class SellRam extends InlineAction {
+export class SellRam extends ActionData {
     constructor (
         public account: Name = new Name(),
         public bytes: i64 = 0,
@@ -68,7 +52,7 @@ export class SellRam extends InlineAction {
 }
 
 @packer
-class VoteProducer extends InlineAction {
+class VoteProducer extends ActionData {
     constructor (
         public voter: Name = new Name(),
         public proxy: Name = new Name(),
@@ -79,7 +63,7 @@ class VoteProducer extends InlineAction {
 }
 
 @packer
-class UpdateAuth extends InlineAction {
+class UpdateAuth extends ActionData {
     constructor (
         public account: Name = new Name(),
         public permision: Name = new Name(),
@@ -91,7 +75,7 @@ class UpdateAuth extends InlineAction {
 }
 
 @packer
-class DeleteAuth extends InlineAction {
+class DeleteAuth extends ActionData {
     constructor (
         public account: Name = new Name(),
         public permision: Name = new Name(),
@@ -101,7 +85,7 @@ class DeleteAuth extends InlineAction {
 }
 
 @packer
-class LinkAuth extends InlineAction {
+class LinkAuth extends ActionData {
     constructor (
         public account: Name = new Name(),
         public code: Name = new Name(),
@@ -114,7 +98,7 @@ class LinkAuth extends InlineAction {
 
 
 @packer
-class UnlinkAuth extends InlineAction {
+class UnlinkAuth extends ActionData {
     constructor (
         public account: Name = new Name(),
         public code: Name = new Name(),
@@ -126,13 +110,29 @@ class UnlinkAuth extends InlineAction {
 
 // user
 @packer
-class NewAccountResources extends InlineAction {
+class NewAccountResources extends ActionData {
     constructor (
         public account: Name = new Name(),
     ) {
         super();
     }
 }
+
+//------------------- Action Names ------------------------------//
+
+// system
+const NEWACCOUNT_ACTION = new InlineAction<NewAccount>("newaccount")
+const BUYRAMBYTES_ACTION = new InlineAction<BuyRamBytes>("buyrambytes")
+const BUYRAM_ACTION = new InlineAction<BuyRam>("buyram")
+const SELLRAM_ACTION = new InlineAction<SellRam>("sellram")
+const VOTEPRODUCER_ACTION = new InlineAction<VoteProducer>("voteproducer")
+const UPDATEAUTH_ACTION = new InlineAction<UpdateAuth>("updateauth")
+const DELETEAUTH_ACTION = new InlineAction<DeleteAuth>("deleteauth")
+const LINKAUTH_ACTION = new InlineAction<LinkAuth>("linkauth")
+const UNLINKAUTH_ACTION = new InlineAction<UnlinkAuth>("unlinkauth")
+
+// user
+const NEWACCRES_ACTION = new InlineAction<NewAccountResources>("newaccres")
 
 //------------------- Inline Actions ------------------------------//
 

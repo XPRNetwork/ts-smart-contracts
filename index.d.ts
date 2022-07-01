@@ -32,10 +32,10 @@ declare module 'proton-tsc/allow/allow.contract' {
       protected checkContractIsNotPaused(): void;
       protected checkActorIsAllowed(actor: Name, message: string): void;
       protected checkTokenIsAllowed(token: ExtendedSymbol, message: string): void;
-      private findAllowedToken;
-      private isTokenAllowed;
-      private isActorAllowed;
-      private isContractPaused;
+      protected findAllowedToken(token: ExtendedSymbol): AllowedToken | null;
+      protected isTokenAllowed(token: ExtendedSymbol): boolean;
+      protected isActorAllowed(actor: Name): boolean;
+      protected isContractPaused(): boolean;
   }
 
 }
@@ -641,7 +641,6 @@ declare module 'proton-tsc/atomicassets/checkformat' {
 
 }
 declare module 'proton-tsc/atomicassets' {
-  export * from 'proton-tsc/atomicassets/atomicassets.contract';
   export * from 'proton-tsc/atomicassets/atomicassets.constants';
   export * from 'proton-tsc/atomicassets/atomicassets.inline';
   export * from 'proton-tsc/atomicassets/atomicassets.tables';
@@ -4185,29 +4184,29 @@ declare module 'proton-tsc/system' {
 }
 declare module 'proton-tsc/system/system.inline' {
   /// <reference types="assembly" />
-  import { InlineAction, Name, Asset, Authority } from "proton-tsc";
+  import { ActionData, Name, Asset, Authority } from "proton-tsc";
   export const SYSTEM_CONTRACT: Name;
   export const PROTON_USER_CONTRACT: Name;
-  export class NewAccount extends InlineAction {
+  export class NewAccount extends ActionData {
       creator: Name;
       name: Name;
       owner: Authority;
       active: Authority;
       constructor(creator?: Name, name?: Name, owner?: Authority, active?: Authority);
   }
-  export class BuyRamBytes extends InlineAction {
+  export class BuyRamBytes extends ActionData {
       payer: Name;
       receiver: Name;
       bytes: u32;
       constructor(payer?: Name, receiver?: Name, bytes?: u32);
   }
-  export class BuyRam extends InlineAction {
+  export class BuyRam extends ActionData {
       payer: Name;
       receiver: Name;
       quantity: Asset;
       constructor(payer?: Name, receiver?: Name, quantity?: Asset);
   }
-  export class SellRam extends InlineAction {
+  export class SellRam extends ActionData {
       account: Name;
       bytes: i64;
       constructor(account?: Name, bytes?: i64);
@@ -4225,8 +4224,6 @@ declare module 'proton-tsc/system/system.inline' {
 
 }
 declare module 'proton-tsc/token' {
-  export * from 'proton-tsc/token/token.contract';
-  export * from 'proton-tsc/token/token.tables';
   export * from 'proton-tsc/token/token.inline';
 
 }
@@ -4469,7 +4466,28 @@ declare module 'proton-tsc/token/token.contract' {
 
 }
 declare module 'proton-tsc/token/token.inline' {
-  import { Name, ExtendedAsset, Asset, ActionData } from "proton-tsc";
+  /// <reference types="assembly" />
+  import { Name, Table, ExtendedAsset, Asset, Symbol, ActionData } from "proton-tsc";
+  /**
+   * Tables
+   */
+  export class Account extends Table {
+      balance: Asset;
+      constructor(balance?: Asset);
+      get primary(): u64;
+  }
+  export class Stat extends Table {
+      supply: Asset;
+      max_supply: Asset;
+      issuer: Name;
+      constructor(supply?: Asset, max_supply?: Asset, issuer?: Name);
+      get primary(): u64;
+  }
+  /**
+   * Helpers
+   */
+  export function getSupply(tokenContractAccount: Name, sym: Symbol): Asset;
+  export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
   export class Transfer extends ActionData {
       from: Name;
       to: Name;
@@ -4525,7 +4543,7 @@ declare module 'proton-tsc/token/token.spec' {
 }
 declare module 'proton-tsc/token/token.tables' {
   /// <reference types="assembly" />
-  import { Asset, Name, Table, Symbol } from "proton-tsc";
+  import { Asset, Name, Table } from "proton-tsc";
   /**
    * Tables
    */
@@ -4541,11 +4559,6 @@ declare module 'proton-tsc/token/token.tables' {
       constructor(supply?: Asset, max_supply?: Asset, issuer?: Name);
       get primary(): u64;
   }
-  /**
-   * Helpers
-   */
-  export function getSupply(tokenContractAccount: Name, sym: Symbol): Asset;
-  export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol): Asset;
 
 }
 declare module 'proton-tsc/replace.config' {
