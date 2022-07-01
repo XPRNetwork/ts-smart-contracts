@@ -1,7 +1,8 @@
-import { Name, Table, check, requireAuth, TableStore, ExtendedAsset, Utils, Asset } from 'proton-tsc'
+import { Name, Table, check, requireAuth, TableStore, ExtendedAsset, Utils, Asset, unpackActionData } from 'proton-tsc'
 import { BalanceContract } from 'proton-tsc/balance';
 import { estimateBuyRamCost, sendBuyRamBytes } from 'proton-tsc/system/modules/ram';
 import { XPR_SYMBOL, XPR_CONTRACT } from 'proton-tsc/system/constants';
+import { Transfer } from 'proton-tsc/token';
 
 const MULTIPLIER: f64 = 1.5
 const PIXEL_ROW_BYTES: u8 = 136
@@ -27,8 +28,22 @@ export class Pixels extends Table {
 export class PixelContract extends BalanceContract {
     pixelsTable: TableStore<Pixels> = new TableStore<Pixels>(this.receiver)
 
-    @action("buypixel")
-    buypixel(
+    // Runs as final action after every action
+    finalize(): void {
+        if (this.receiver != this.firstReceiver) {
+            let t = unpackActionData<Transfer>()
+
+            // Skip
+            if (this.skipDepositFrom(t.from)) {
+                return
+            }
+
+            const [pixelId, pixelColor] = t.memo.split(',')
+            this.buyPixel(t.from, U32.parseInt(pixelId), pixelColor)
+        }
+    }
+
+    buyPixel(
         newOwner: Name,
         pixelId: u32,
         pixelColor: string

@@ -2465,6 +2465,7 @@ declare module 'proton-tsc/balance/balance.contract' {
   import { Balance } from 'proton-tsc/balance/balance.tables';
   export class BalanceContract extends AllowContract {
       balancesTable: TableStore<Balance>;
+      skipDepositFrom(from: Name): boolean;
       /**
        * Incoming notification of "transfer" action from any contract
        * - If the contract is the atomicassets contract, then the action data is an NFT transfer.
@@ -3176,6 +3177,7 @@ declare module 'proton-tsc/balance/target/balance.contract' {
   import { Balance } from 'proton-tsc/balance/target/balance.tables';
   export class BalanceContract extends AllowContract {
       balancesTable: TableStore<Balance>;
+      skipDepositFrom(from: Name): boolean;
       /**
        * Incoming notification of "transfer" action from any contract
        * - If the contract is the atomicassets contract, then the action data is an NFT transfer.

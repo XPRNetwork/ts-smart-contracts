@@ -9,6 +9,23 @@ import { addNfts, addTokens, substractNfts, substractTokens } from './balance.ut
 export class BalanceContract extends AllowContract {
     balancesTable: TableStore<Balance> = new TableStore<Balance>(this.receiver)
 
+    skipDepositFrom(from: Name): boolean {
+        if (from == this.contract) {
+            return true
+        }
+
+        // Skip if deposit from system accounts
+        if (
+            from == Name.fromString("eosio.stake") ||
+            from == Name.fromString("eosio.ram") ||
+            from == Name.fromString("eosio")
+        ) {
+            return true
+        }
+
+        return false
+    }
+
     /**
      * Incoming notification of "transfer" action from any contract
      * - If the contract is the atomicassets contract, then the action data is an NFT transfer.
@@ -24,8 +41,8 @@ export class BalanceContract extends AllowContract {
             // Unpack nft transfer
             let t = unpackActionData<TransferNfts>()
 
-            // Skip if outgoing
-            if (t.from == this.contract) {
+            // Skip
+            if (this.skipDepositFrom(t.from)) {
                 return;
             }
         
@@ -41,18 +58,9 @@ export class BalanceContract extends AllowContract {
             // Unpack token transfer
             let t = unpackActionData<Transfer>()
 
-            // Skip if outgoing
-            if (t.from == this.contract) {
+            // Skip
+            if (this.skipDepositFrom(t.from)) {
                 return;
-            }
-  
-            // Skip if deposit from system accounts
-            if (
-                t.from == Name.fromString("eosio.stake") ||
-                t.from == Name.fromString("eosio.ram") ||
-                t.from == Name.fromString("eosio")
-            ) {
-                return
             }
         
             // Validate transfer
