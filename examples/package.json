@@ -20,7 +20,7 @@
     "proton-tsc": "^0.3.23"
   },
   "devDependencies": {
-    "@proton/vert": "^0.3.2",
+    "@proton/vert": "^0.3.7",
     "@types/node": "^18.0.0",
     "chai": "^4.3.6",
     "mocha": "^9.2.2",

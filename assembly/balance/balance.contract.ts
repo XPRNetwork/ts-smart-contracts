@@ -86,8 +86,7 @@ export class BalanceContract extends AllowContract {
         this.substractBalance(actor, tokens, nfts)
 
         // Inline transfer Tokens and NFTs from contract to actor
-        sendTransferTokens(this.contract, actor, tokens, "withdraw")
-        sendTransferNfts(this.contract, actor, nfts, "withdraw")
+        this.withdrawAdmin(actor, tokens, nfts, "withdraw")
     }
 
     /**
