@@ -1,4 +1,4 @@
-# Proton Typescript Smart assembly
+# Proton Typescript Smart Contracts
 
 <a href="https://gitpod.io/#https://github.com/ProtonProtocol/proton-ts-assembly">
     <img align="left" width="150" height="45" src="https://gitpod.io/button/open-in-gitpod.svg"></img>
@@ -11,6 +11,9 @@
 <br/>
 <!-- [![Open in Proton IDE](https://gitpod.io/button/open-in-gitpod.svg)](https://protonide.com) -->
 
+
+## Documentation
+[Documentation](https://docs.proton.org)
 
 ## Local Install
 **Must use Node 16**
