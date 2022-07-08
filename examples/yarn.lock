@@ -1106,10 +1106,10 @@
     "ts-node" "^10.8.1"
     "yargs" "^17.4.1"
 
-"proton-tsc@^0.3.25":
-  "integrity" "sha512-deg4ribUTYeMabdhNL7XkkdYpK8gjaW13KoqX27ULtPSLR7jLizXw7YsaJpmBzRGmH64TV38SikEQPVXQkYbEw=="
-  "resolved" "https://registry.npmjs.org/proton-tsc/-/proton-tsc-0.3.25.tgz"
-  "version" "0.3.25"
+"proton-tsc@^0.3.26":
+  "integrity" "sha512-HtBBvQyAd7nxPTGzr3RyyEhA2o25bdirrEVBZLi4KLpAfBbLdJqogVwZM+e8B5mG7StgWdQfYix5ewPXdjTbRw=="
+  "resolved" "https://registry.npmjs.org/proton-tsc/-/proton-tsc-0.3.26.tgz"
+  "version" "0.3.26"
   dependencies:
     "proton-asc" "^0.2.107"
 
