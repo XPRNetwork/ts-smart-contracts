@@ -1094,10 +1094,10 @@
   "resolved" "https://registry.npmjs.org/pify/-/pify-3.0.0.tgz"
   "version" "3.0.0"
 
-"proton-asc@^0.2.104":
-  "integrity" "sha512-mX52TFnrJwYTQC7Rv1TKDwvjO5fageejFMKYs0HAguKmDrkKSjsC0vBeWltdaM5qUKAyhCX7e/+pRjvM0u5GXw=="
-  "resolved" "https://registry.npmjs.org/proton-asc/-/proton-asc-0.2.104.tgz"
-  "version" "0.2.104"
+"proton-asc@^0.2.106":
+  "integrity" "sha512-GdqkjcVP4tt7mDyRVsfRgatG9dusxRGlpSyrXFE/3Gok/MekGs6qD2ARV66LVKr5orPLZ/4gXI4vx6fVqTwoVA=="
+  "resolved" "https://registry.npmjs.org/proton-asc/-/proton-asc-0.2.106.tgz"
+  "version" "0.2.106"
   dependencies:
     "as-chain" "0.0.53"
     "assemblyscript" "0.18"
@@ -1106,12 +1106,12 @@
     "ts-node" "^10.8.1"
     "yargs" "^17.4.1"
 
-"proton-tsc@^0.3.23":
-  "integrity" "sha512-s7zWQb49OUf14BeQg/wXVFu/yV7sUhEhql083wsHD3gcEXPkbw6xcPjS+qtsLf/qO7N+v9DPdq1kUKMJKXIjUQ=="
-  "resolved" "https://registry.npmjs.org/proton-tsc/-/proton-tsc-0.3.23.tgz"
-  "version" "0.3.23"
+"proton-tsc@^0.3.24":
+  "integrity" "sha512-64jqoDwNk8nBe2ogwwY41DH0D21oI8RODmL9ymzYgFoxlebH9zZpZfyrqlHVk3m97jADSxfCvHbriWmo4m2uAQ=="
+  "resolved" "https://registry.npmjs.org/proton-tsc/-/proton-tsc-0.3.24.tgz"
+  "version" "0.3.24"
   dependencies:
-    "proton-asc" "^0.2.104"
+    "proton-asc" "^0.2.106"
 
 "randombytes@^2.1.0":
   "integrity" "sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ=="
@@ -1369,9 +1369,9 @@
   "version" "4.7.3"
 
 "uglify-js@^3.1.4":
-  "integrity" "sha512-X5BGTIDH8U6IQ1TIRP62YC36k+ULAa1d59BxlWvPUJ1NkW5L3FwcGfEzuVvGmhJFBu0YJ5Ge25tmRISqCmLiRQ=="
-  "resolved" "https://registry.npmjs.org/uglify-js/-/uglify-js-3.16.1.tgz"
-  "version" "3.16.1"
+  "integrity" "sha512-AaQNokTNgExWrkEYA24BTNMSjyqEXPSfhqoS0AxmHkCJ4U+Dyy5AvbGV/sqxuxficEfGGoX3zWw9R7QpLFfEsg=="
+  "resolved" "https://registry.npmjs.org/uglify-js/-/uglify-js-3.16.2.tgz"
+  "version" "3.16.2"
 
 "unbox-primitive@^1.0.2":
   "integrity" "sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw=="
