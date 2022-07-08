@@ -1,4 +1,4 @@
-import { ExtendedAsset, Name, Table, Singleton, TableStore } from "../index";
+import { ExtendedAsset, Name, Table, EMPTY_NAME } from "../index";
 
 @table("escrowglobal", singleton)
 export class EscrowGlobal extends Table {
@@ -13,8 +13,8 @@ export class EscrowGlobal extends Table {
 export class Escrow extends Table {
     constructor (
        public id: u64 = 0,
-       public from: Name = new Name(),
-       public to: Name = new Name(),
+       public from: Name = EMPTY_NAME,
+       public to: Name = EMPTY_NAME,
        public fromTokens: ExtendedAsset[] = [],
        public fromNfts: u64[] = [],
        public toTokens: ExtendedAsset[] = [],

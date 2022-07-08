@@ -1,4 +1,4 @@
-import { Asset, Name, Table, TableStore, Symbol } from "..";
+import { Asset, Name, Table, EMPTY_NAME } from "..";
 
 /**
  * Tables
@@ -22,7 +22,7 @@ export class Stat extends Table {
     constructor (
        public supply: Asset = new Asset(),
        public max_supply: Asset =  new Asset(),
-       public issuer: Name = new Name(),
+       public issuer: Name = EMPTY_NAME,
     ) {
         super();
     }

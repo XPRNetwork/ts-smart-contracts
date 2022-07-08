@@ -1,4 +1,4 @@
-import { InlineAction, ActionData, Name, PermissionLevel, Authority } from "../..";
+import { InlineAction, ActionData, Name, PermissionLevel, Authority, EMPTY_NAME } from "../..";
 import { SYSTEM_CONTRACT } from "../constants";
 
 //------------------- Action Names ------------------------------//
@@ -11,9 +11,9 @@ const UNLINKAUTH_ACTION = new InlineAction<UnlinkAuth>("unlinkauth")
 @packer
 class UpdateAuth extends ActionData {
     constructor (
-        public account: Name = new Name(),
-        public permision: Name = new Name(),
-        public parent: Name = new Name(),
+        public account: Name = EMPTY_NAME,
+        public permision: Name = EMPTY_NAME,
+        public parent: Name = EMPTY_NAME,
         public auth: Authority = new Authority(),
     ) {
         super();
@@ -23,8 +23,8 @@ class UpdateAuth extends ActionData {
 @packer
 class DeleteAuth extends ActionData {
     constructor (
-        public account: Name = new Name(),
-        public permision: Name = new Name(),
+        public account: Name = EMPTY_NAME,
+        public permision: Name = EMPTY_NAME,
     ) {
         super();
     }
@@ -33,10 +33,10 @@ class DeleteAuth extends ActionData {
 @packer
 class LinkAuth extends ActionData {
     constructor (
-        public account: Name = new Name(),
-        public code: Name = new Name(),
-        public type: Name = new Name(),
-        public requirement: Name = new Name(),
+        public account: Name = EMPTY_NAME,
+        public code: Name = EMPTY_NAME,
+        public type: Name = EMPTY_NAME,
+        public requirement: Name = EMPTY_NAME,
     ) {
         super();
     }
@@ -46,9 +46,9 @@ class LinkAuth extends ActionData {
 @packer
 class UnlinkAuth extends ActionData {
     constructor (
-        public account: Name = new Name(),
-        public code: Name = new Name(),
-        public type: Name = new Name(),
+        public account: Name = EMPTY_NAME,
+        public code: Name = EMPTY_NAME,
+        public type: Name = EMPTY_NAME,
     ) {
         super();
     }

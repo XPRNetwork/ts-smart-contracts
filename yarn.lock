@@ -220,10 +220,10 @@
     "leven" "2.1.0"
     "mri" "1.1.4"
 
-"as-chain@0.0.53":
-  "integrity" "sha512-gL5Qpduc6UiDAcUQhsvY4lMAA2lQW1i5PMjrem4SWYmbItromtztBswBrKIOHKj6dgOxKF6/ctSdZp1uwEz35g=="
-  "resolved" "https://registry.npmjs.org/as-chain/-/as-chain-0.0.53.tgz"
-  "version" "0.0.53"
+"as-chain@^0.0.54":
+  "integrity" "sha512-BSp4Mxs44dsJUH+1//uG/T7kSkr/m4vBMkZRavWNozbnBsxTWcAUJOlSq7VtNbaxAcBqMFYS17vXrYnDWUex0g=="
+  "resolved" "https://registry.npmjs.org/as-chain/-/as-chain-0.0.54.tgz"
+  "version" "0.0.54"
   dependencies:
     "@assemblyscript/loader" "^0.19.22"
 
@@ -1428,12 +1428,12 @@
   "resolved" "https://registry.npmjs.org/protochain/-/protochain-1.0.5.tgz"
   "version" "1.0.5"
 
-"proton-asc@^0.2.106":
-  "integrity" "sha512-GdqkjcVP4tt7mDyRVsfRgatG9dusxRGlpSyrXFE/3Gok/MekGs6qD2ARV66LVKr5orPLZ/4gXI4vx6fVqTwoVA=="
-  "resolved" "https://registry.npmjs.org/proton-asc/-/proton-asc-0.2.106.tgz"
-  "version" "0.2.106"
+"proton-asc@^0.2.107":
+  "integrity" "sha512-HEDPwJppdFCVfihcVJuN9GwjbTyrL13pFSsVyNiBgVMWkHXyCJZgdp8OW8JJpmlOZs0Ili08qGg5np1PBLqy0A=="
+  "resolved" "https://registry.npmjs.org/proton-asc/-/proton-asc-0.2.107.tgz"
+  "version" "0.2.107"
   dependencies:
-    "as-chain" "0.0.53"
+    "as-chain" "^0.0.54"
     "assemblyscript" "0.18"
     "handlebars" "4.7.7"
     "ts-dedent" "^2.2.0"

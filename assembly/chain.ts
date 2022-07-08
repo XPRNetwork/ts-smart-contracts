@@ -77,7 +77,7 @@ export {
     currentReceiver
 } from "as-chain";
 
-export { Name } from "as-chain";
+export { Name, EMPTY_NAME } from "as-chain";
 export { Action, PermissionLevel } from "as-chain";
 export { Asset, ExtendedAsset, Symbol, ExtendedSymbol, isValid } from "as-chain";
 

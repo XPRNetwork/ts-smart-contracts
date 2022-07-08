@@ -1,4 +1,4 @@
-import { Name, Table, check, requireAuth, TableStore, ExtendedAsset, Utils, Asset } from 'proton-tsc'
+import { Name, Table, check, requireAuth, TableStore, ExtendedAsset, Utils, Asset, EMPTY_NAME } from 'proton-tsc'
 import { BalanceContract } from 'proton-tsc/balance';
 import { estimateBuyRamCost, sendBuyRamBytes } from 'proton-tsc/system/modules/ram';
 import { XPR_SYMBOL, XPR_CONTRACT } from 'proton-tsc/system/constants';
@@ -10,7 +10,7 @@ const PIXEL_ROW_BYTES: u8 = 136
 export class Pixels extends Table {
     constructor (
         public id: u32 = 0,
-        public owner: Name = new Name(),
+        public owner: Name = EMPTY_NAME,
         public price: u64 = 0,
         public color: u8[] = []
     ) {

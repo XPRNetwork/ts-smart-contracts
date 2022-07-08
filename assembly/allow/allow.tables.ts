@@ -1,4 +1,4 @@
-import { Name, Table, U128, ExtendedSymbol } from "..";
+import { Name, Table, U128, ExtendedSymbol, EMPTY_NAME } from "..";
 import { extendedSymbolToU128, U128ToExtSym } from "./allow.utils";
 
 // scope: contract
@@ -20,7 +20,7 @@ export class AllowGlobals extends Table {
 @table("allowedactor")
 export class AllowedActor extends Table {
     constructor (
-        public actor: Name = new Name(),
+        public actor: Name = EMPTY_NAME,
         public isAllowed: boolean = false,
         public isBlocked: boolean = false,
     ) {

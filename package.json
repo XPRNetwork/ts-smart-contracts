@@ -1,6 +1,6 @@
 {
   "name": "proton-tsc",
-  "version": "0.3.25",
+  "version": "0.3.26",
   "license": "MIT",
   "types": "./index.d.ts",
   "main": "./assembly/index.ts",

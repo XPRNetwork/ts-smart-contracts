@@ -1,4 +1,4 @@
-import { Name, Table, ExtendedAsset, PermissionLevel, Asset, Symbol, InlineAction, ActionData, TableStore } from ".."
+import { Name, Table, ExtendedAsset, PermissionLevel, Asset, Symbol, InlineAction, ActionData, TableStore, EMPTY_NAME } from ".."
 
 /**
  * Tables
@@ -22,7 +22,7 @@ export class Stat extends Table {
     constructor (
        public supply: Asset = new Asset(),
        public max_supply: Asset =  new Asset(),
-       public issuer: Name = new Name(),
+       public issuer: Name = EMPTY_NAME,
     ) {
         super();
     }
@@ -52,8 +52,8 @@ export function getBalance(tokenContractAccount: Name, owner: Name, sym: Symbol)
 @packer
 export class Transfer extends ActionData {
     constructor (
-        public from: Name = new Name(),
-        public to: Name = new Name(),
+        public from: Name = EMPTY_NAME,
+        public to: Name = EMPTY_NAME,
         public quantity: Asset = new Asset(),
         public memo: string = "",
     ) {
@@ -64,7 +64,7 @@ export class Transfer extends ActionData {
 @packer
 export class Issue extends ActionData {
     constructor (
-        public to: Name = new Name(),
+        public to: Name = EMPTY_NAME,
         public quantity: Asset = new Asset(),
         public memo: string = "",
     ) {

@@ -1,4 +1,4 @@
-import { Name, Symbol, Asset, InlineAction, ActionData, PermissionLevel } from "..";
+import { Name, Symbol, Asset, InlineAction, ActionData, PermissionLevel, EMPTY_NAME } from "..";
 import { AtomicAttribute, AtomicFormat } from "./atomicdata";
 import { ATOMICASSETS_CONTRACT } from "./atomicassets.constants";
 
@@ -6,8 +6,8 @@ import { ATOMICASSETS_CONTRACT } from "./atomicassets.constants";
 @packer
 export class TransferNfts extends ActionData {
     constructor (
-        public from: Name = new Name(),
-        public to: Name = new Name(),
+        public from: Name = EMPTY_NAME,
+        public to: Name = EMPTY_NAME,
         public asset_ids: u64[] = [],
         public memo: string = ""
     ) {
@@ -32,7 +32,7 @@ export class SetVersion extends ActionData {
 @packer
 export class AddConfigToken extends ActionData {
     constructor (
-        public tokenContract: Name = new Name(),
+        public tokenContract: Name = EMPTY_NAME,
         public tokenSymbol: Symbol = new Symbol(),
     ) {
         super();
@@ -42,8 +42,8 @@ export class AddConfigToken extends ActionData {
 @packer
 export class CreateCollection extends ActionData {
     constructor (
-        public author: Name = new Name(),
-        public collection_name: Name = new Name(),
+        public author: Name = EMPTY_NAME,
+        public collection_name: Name = EMPTY_NAME,
         public allow_notify: boolean = false,
         public authorized_accounts: Name[] = [],
         public notify_accounts: Name[] = [],
@@ -57,7 +57,7 @@ export class CreateCollection extends ActionData {
 @packer
 export class SetCollectionData extends ActionData {
     constructor (
-        public collection_name: Name = new Name(),
+        public collection_name: Name = EMPTY_NAME,
         public data: AtomicAttribute[] = []
     ) {
         super();
@@ -67,8 +67,8 @@ export class SetCollectionData extends ActionData {
 @packer
 export class AddCollectionAuth extends ActionData {
     constructor (
-        public collection_name: Name = new Name(),
-        public account_to_add: Name = new Name(),
+        public collection_name: Name = EMPTY_NAME,
+        public account_to_add: Name = EMPTY_NAME,
     ) {
         super();
     }
@@ -77,8 +77,8 @@ export class AddCollectionAuth extends ActionData {
 @packer
 export class RemoveCollectionAuth extends ActionData {
     constructor (
-        public collection_name: Name = new Name(),
-        public account_to_remove: Name = new Name(),
+        public collection_name: Name = EMPTY_NAME,
+        public account_to_remove: Name = EMPTY_NAME,
     ) {
         super();
     }
@@ -87,8 +87,8 @@ export class RemoveCollectionAuth extends ActionData {
 @packer
 export class AddNotifyAccount extends ActionData {
     constructor (
-        public collection_name: Name = new Name(),
-        public account_to_add: Name = new Name(),
+        public collection_name: Name = EMPTY_NAME,
+        public account_to_add: Name = EMPTY_NAME,
     ) {
         super();
     }
@@ -97,8 +97,8 @@ export class AddNotifyAccount extends ActionData {
 @packer
 export class RemoveNotifyAccount extends ActionData {
     constructor (
-        public collection_name: Name = new Name(),
-        public account_to_remove: Name = new Name(),
+        public collection_name: Name = EMPTY_NAME,
+        public account_to_remove: Name = EMPTY_NAME,
     ) {
         super();
     }
@@ -107,7 +107,7 @@ export class RemoveNotifyAccount extends ActionData {
 @packer
 export class SetMarketFee extends ActionData {
     constructor (
-        public collection_name: Name = new Name(),
+        public collection_name: Name = EMPTY_NAME,
         public market_fee: f64 = 0,
     ) {
         super();
@@ -117,7 +117,7 @@ export class SetMarketFee extends ActionData {
 @packer
 export class ForbidNotify extends ActionData {
     constructor (
-        public collection_name: Name = new Name(),
+        public collection_name: Name = EMPTY_NAME,
     ) {
         super();
     }
@@ -127,9 +127,9 @@ export class ForbidNotify extends ActionData {
 @packer
 export class CreateSchema extends ActionData {
     constructor (
-        public authorized_creator: Name = new Name(),
-        public collection_name: Name = new Name(),
-        public schema_name: Name = new Name(),
+        public authorized_creator: Name = EMPTY_NAME,
+        public collection_name: Name = EMPTY_NAME,
+        public schema_name: Name = EMPTY_NAME,
         public schema_format: AtomicFormat[] = [],
     ) {
         super();
@@ -139,9 +139,9 @@ export class CreateSchema extends ActionData {
 @packer
 export class ExtendSchema extends ActionData {
     constructor (
-        public authorized_editor: Name = new Name(),
-        public collection_name: Name = new Name(),
-        public schema_name: Name = new Name(),
+        public authorized_editor: Name = EMPTY_NAME,
+        public collection_name: Name = EMPTY_NAME,
+        public schema_name: Name = EMPTY_NAME,
         public schema_format_extension: AtomicFormat[] = [],
     ) {
         super();
@@ -151,9 +151,9 @@ export class ExtendSchema extends ActionData {
 @packer
 export class CreateTemplate extends ActionData {
     constructor (
-        public authorized_creator: Name = new Name(),
-        public collection_name: Name = new Name(),
-        public schema_name: Name = new Name(),
+        public authorized_creator: Name = EMPTY_NAME,
+        public collection_name: Name = EMPTY_NAME,
+        public schema_name: Name = EMPTY_NAME,
         public transferable: boolean = true,
         public burnable: boolean = true,
         public max_supply: u32 = 0,
@@ -166,8 +166,8 @@ export class CreateTemplate extends ActionData {
 @packer
 export class LockTemplate extends ActionData {
     constructor (
-        public authorized_editor: Name = new Name(),
-        public collection_name: Name = new Name(),
+        public authorized_editor: Name = EMPTY_NAME,
+        public collection_name: Name = EMPTY_NAME,
         public template_id: i32 = 0,
     ) {
         super();
@@ -177,11 +177,11 @@ export class LockTemplate extends ActionData {
 @packer
 export class MintAsset extends ActionData {
     constructor (
-        public authorized_minter: Name = new Name(),
-        public collection_name: Name = new Name(),
-        public schema_name: Name = new Name(),
+        public authorized_minter: Name = EMPTY_NAME,
+        public collection_name: Name = EMPTY_NAME,
+        public schema_name: Name = EMPTY_NAME,
         public template_id: i32 = 0,
-        public newasset_owner: Name = new Name(),
+        public newasset_owner: Name = EMPTY_NAME,
         public immutable_data: AtomicAttribute[] = [],
         public mutable_data: AtomicAttribute[] = [],
         public tokens_to_back: Asset[] = []
@@ -193,8 +193,8 @@ export class MintAsset extends ActionData {
 @packer
 export class SetAssetData extends ActionData {
     constructor (
-        public authorized_editor: Name = new Name(),
-        public asset_owner: Name = new Name(),
+        public authorized_editor: Name = EMPTY_NAME,
+        public asset_owner: Name = EMPTY_NAME,
         public asset_id: u64 = 0,
         public new_mutable_data: AtomicAttribute[] = [],
     ) {
@@ -205,7 +205,7 @@ export class SetAssetData extends ActionData {
 @packer
 export class Withdraw extends ActionData {
     constructor (
-        public owner: Name = new Name(),
+        public owner: Name = EMPTY_NAME,
         public token_to_withdraw: Asset = new Asset(),
     ) {
         super();
@@ -215,8 +215,8 @@ export class Withdraw extends ActionData {
 @packer
 export class BackAsset extends ActionData {
     constructor (
-        public payer: Name = new Name(),
-        public asset_owner: Name = new Name(),
+        public payer: Name = EMPTY_NAME,
+        public asset_owner: Name = EMPTY_NAME,
         public asset_id: u64 = 0,
         public token_to_back: Asset = new Asset(),
     ) {
@@ -227,7 +227,7 @@ export class BackAsset extends ActionData {
 @packer
 export class BurnAsset extends ActionData {
     constructor (
-        public asset_owner: Name = new Name(),
+        public asset_owner: Name = EMPTY_NAME,
         public asset_id: u64 = 0,
     ) {
         super();
@@ -237,8 +237,8 @@ export class BurnAsset extends ActionData {
 @packer
 export class CreateOffer extends ActionData {
     constructor (
-        public sender: Name = new Name(),
-        public recipient: Name = new Name(),
+        public sender: Name = EMPTY_NAME,
+        public recipient: Name = EMPTY_NAME,
         public sender_asset_ids: u64[] = [],
         public recipient_asset_ids: u64[] = [],
         public memo: string = "",
@@ -277,7 +277,7 @@ export class DeclineOffer extends ActionData {
 @packer
 export class PayOfferRam extends ActionData {
     constructor (
-        public payer: Name = new Name(),
+        public payer: Name = EMPTY_NAME,
         public offer_id: u64 = 0,
     ) {
         super();

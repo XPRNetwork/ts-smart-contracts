@@ -1,4 +1,4 @@
-import { ActionData, InlineAction, Name, Authority, PermissionLevel } from "../..";
+import { ActionData, InlineAction, Name, Authority, PermissionLevel, EMPTY_NAME } from "../..";
 import { SYSTEM_CONTRACT } from "../constants";
 import { sendBuyRamBytes } from "./ram";
 import { sendNewAccRes } from "./resources";
@@ -8,8 +8,8 @@ const NEWACCOUNT_ACTION = new InlineAction<NewAccount>("newaccount")
 @packer
 export class NewAccount extends ActionData {
     constructor (
-        public creator: Name = new Name(),
-        public name: Name = new Name(),
+        public creator: Name = EMPTY_NAME,
+        public name: Name = EMPTY_NAME,
         public owner: Authority = new Authority(),
         public active: Authority = new Authority(),
     ) {

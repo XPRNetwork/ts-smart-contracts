@@ -1,4 +1,4 @@
-import { Name, PermissionLevel , InlineAction, ActionData } from "../..";
+import { Name, PermissionLevel , InlineAction, ActionData, EMPTY_NAME } from "../..";
 import { SYSTEM_CONTRACT } from "../constants";
 
 const VOTEPRODUCER_ACTION = new InlineAction<VoteProducer>("voteproducer")
@@ -6,8 +6,8 @@ const VOTEPRODUCER_ACTION = new InlineAction<VoteProducer>("voteproducer")
 @packer
 class VoteProducer extends ActionData {
     constructor (
-        public voter: Name = new Name(),
-        public proxy: Name = new Name(),
+        public voter: Name = EMPTY_NAME,
+        public proxy: Name = EMPTY_NAME,
         public producers: Name[] = [],
     ) {
         super();

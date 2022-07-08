@@ -1,4 +1,4 @@
-import { Name, Table, OptionalNumber, OptionalString, check, TimePoint } from "..";
+import { Name, Table, OptionalNumber, OptionalString, check, TimePoint, EMPTY_NAME } from "..";
 
 @packer
 export class DataVariant extends Table {
@@ -64,7 +64,7 @@ export class DataVariant extends Table {
 @packer
 export class ProviderPoint extends Table {
     constructor (
-        public provider: Name = new Name(),
+        public provider: Name = EMPTY_NAME,
         public time: TimePoint = new TimePoint(),
         public data: DataVariant = new DataVariant(),
     ) {
@@ -105,7 +105,7 @@ export class Feed extends Table {
 @packer
 export class ProviderSingle extends Table {
     constructor (
-        public key: Name = new Name(),
+        public key: Name = EMPTY_NAME,
         public value: TimePoint = new TimePoint()
     ) {
         super();
@@ -132,7 +132,7 @@ export class Data extends Table {
 @packer
 export class VoteSingle extends Table {
     constructor (
-        public key: Name = new Name(),
+        public key: Name = EMPTY_NAME,
         public value: boolean = false
     ) {
         super();
@@ -143,7 +143,7 @@ export class VoteSingle extends Table {
 export class Msig extends Table {
     constructor (
         public index: u64 = 0,
-        public proposer: Name = new Name(),
+        public proposer: Name = EMPTY_NAME,
         public new_feed: Feed = new Feed(),
         public votes: VoteSingle[] = [],
     ) {

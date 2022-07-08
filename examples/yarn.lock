@@ -150,10 +150,10 @@
   "resolved" "https://registry.npmjs.org/argparse/-/argparse-2.0.1.tgz"
   "version" "2.0.1"
 
-"as-chain@0.0.53":
-  "integrity" "sha512-gL5Qpduc6UiDAcUQhsvY4lMAA2lQW1i5PMjrem4SWYmbItromtztBswBrKIOHKj6dgOxKF6/ctSdZp1uwEz35g=="
-  "resolved" "https://registry.npmjs.org/as-chain/-/as-chain-0.0.53.tgz"
-  "version" "0.0.53"
+"as-chain@^0.0.54":
+  "integrity" "sha512-BSp4Mxs44dsJUH+1//uG/T7kSkr/m4vBMkZRavWNozbnBsxTWcAUJOlSq7VtNbaxAcBqMFYS17vXrYnDWUex0g=="
+  "resolved" "https://registry.npmjs.org/as-chain/-/as-chain-0.0.54.tgz"
+  "version" "0.0.54"
   dependencies:
     "@assemblyscript/loader" "^0.19.22"
 
@@ -1094,24 +1094,24 @@
   "resolved" "https://registry.npmjs.org/pify/-/pify-3.0.0.tgz"
   "version" "3.0.0"
 
-"proton-asc@^0.2.106":
-  "integrity" "sha512-GdqkjcVP4tt7mDyRVsfRgatG9dusxRGlpSyrXFE/3Gok/MekGs6qD2ARV66LVKr5orPLZ/4gXI4vx6fVqTwoVA=="
-  "resolved" "https://registry.npmjs.org/proton-asc/-/proton-asc-0.2.106.tgz"
-  "version" "0.2.106"
+"proton-asc@^0.2.107":
+  "integrity" "sha512-HEDPwJppdFCVfihcVJuN9GwjbTyrL13pFSsVyNiBgVMWkHXyCJZgdp8OW8JJpmlOZs0Ili08qGg5np1PBLqy0A=="
+  "resolved" "https://registry.npmjs.org/proton-asc/-/proton-asc-0.2.107.tgz"
+  "version" "0.2.107"
   dependencies:
-    "as-chain" "0.0.53"
+    "as-chain" "^0.0.54"
     "assemblyscript" "0.18"
     "handlebars" "4.7.7"
     "ts-dedent" "^2.2.0"
     "ts-node" "^10.8.1"
     "yargs" "^17.4.1"
 
-"proton-tsc@^0.3.24":
-  "integrity" "sha512-64jqoDwNk8nBe2ogwwY41DH0D21oI8RODmL9ymzYgFoxlebH9zZpZfyrqlHVk3m97jADSxfCvHbriWmo4m2uAQ=="
-  "resolved" "https://registry.npmjs.org/proton-tsc/-/proton-tsc-0.3.24.tgz"
-  "version" "0.3.24"
+"proton-tsc@^0.3.25":
+  "integrity" "sha512-deg4ribUTYeMabdhNL7XkkdYpK8gjaW13KoqX27ULtPSLR7jLizXw7YsaJpmBzRGmH64TV38SikEQPVXQkYbEw=="
+  "resolved" "https://registry.npmjs.org/proton-tsc/-/proton-tsc-0.3.25.tgz"
+  "version" "0.3.25"
   dependencies:
-    "proton-asc" "^0.2.106"
+    "proton-asc" "^0.2.107"
 
 "randombytes@^2.1.0":
   "integrity" "sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ=="

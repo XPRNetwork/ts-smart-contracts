@@ -1,4 +1,4 @@
-import { currentTimePoint, ExtendedAsset, Name, check, requireAuth, isAccount, TableStore, Singleton } from ".."
+import { currentTimePoint, ExtendedAsset, Name, check, requireAuth, isAccount, TableStore, Singleton, EMPTY_NAME } from ".."
 import { BalanceContract } from '../balance';
 import { ESCROW_STATUS, sendLogEscrow } from './escrow.inline';
 import { EscrowGlobal, Escrow } from './escrow.tables';
@@ -35,7 +35,7 @@ class EscrowContract extends BalanceContract {
         this.checkContractIsNotPaused()
 
         // Validation
-        check(to == new Name() || isAccount(to), "to must be empty or a valid account");
+        check(to == EMPTY_NAME || isAccount(to), "to must be empty or a valid account");
         check(expiry > currentTimePoint().secSinceEpoch(), "expiry must be in future");
         check(fromTokens.length || fromNfts.length || toTokens.length || toNfts.length, "must escrow atleast one token or NFT on a side");
 
@@ -86,7 +86,7 @@ class EscrowContract extends BalanceContract {
         const escrow = this.escrowsTable.requireGet(id, `no escrow with ID ${id} found.`);
     
         // If empty, set to as actor
-        if (escrow.to == new Name()) {
+        if (escrow.to == EMPTY_NAME) {
             escrow.to = actor;
         }
 

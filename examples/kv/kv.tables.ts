@@ -1,4 +1,4 @@
-import { Name, Table, TableStore } from "proton-tsc";
+import { Name, Table, EMPTY_NAME } from "proton-tsc";
 
 @packer
 export class KV {
@@ -11,7 +11,7 @@ export class KV {
 @table("kvs")
 export class AccountKV extends Table {
     constructor (
-        public account: Name = new Name(),
+        public account: Name = EMPTY_NAME,
         public values: KV[] = [],
     ) {
         super();

@@ -1,4 +1,4 @@
-import { Name, PermissionLevel, ActionData, InlineAction, Asset, Table, Singleton } from "../..";
+import { Name, PermissionLevel, ActionData, InlineAction, Asset, Table, Singleton, EMPTY_NAME } from "../..";
 import { RAM_FEE_PRECISION, SYSTEM_CONTRACT, XPR_SYMBOL } from "../constants";
 
 const BUYRAMBYTES_ACTION = new InlineAction<BuyRamBytes>("buyrambytes")
@@ -8,8 +8,8 @@ const SELLRAM_ACTION = new InlineAction<SellRam>("sellram")
 @packer
 export class BuyRamBytes extends ActionData {
     constructor (
-        public payer: Name = new Name(),
-        public receiver: Name = new Name(),
+        public payer: Name = EMPTY_NAME,
+        public receiver: Name = EMPTY_NAME,
         public bytes: u32 = 0,
     ) {
         super();
@@ -19,8 +19,8 @@ export class BuyRamBytes extends ActionData {
 @packer
 export class BuyRam extends ActionData {
     constructor (
-        public payer: Name = new Name(),
-        public receiver: Name = new Name(),
+        public payer: Name = EMPTY_NAME,
+        public receiver: Name = EMPTY_NAME,
         public quantity: Asset = new Asset(),
     ) {
         super();
@@ -30,7 +30,7 @@ export class BuyRam extends ActionData {
 @packer
 export class SellRam extends ActionData {
     constructor (
-        public account: Name = new Name(),
+        public account: Name = EMPTY_NAME,
         public bytes: i64 = 0,
     ) {
         super();

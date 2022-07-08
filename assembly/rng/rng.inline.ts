@@ -1,4 +1,4 @@
-import { Name, PermissionLevel, InlineAction, ActionData } from "..";
+import { Name, PermissionLevel, InlineAction, ActionData, EMPTY_NAME } from "..";
 
 export const RNG_CONTRACT = Name.fromString("rng")
 
@@ -7,7 +7,7 @@ class RequestRandom extends ActionData {
     constructor (
         public customerId: u64 = 0,
         public signingValue: u64 = 0,
-        public contract: Name = new Name(),
+        public contract: Name = EMPTY_NAME,
     ) {
         super();
     }

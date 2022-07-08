@@ -1,10 +1,10 @@
-import { Name, getTransactionId, requireAuth, Contract, transactionSize, print, getAction, ActionData, TableStore } from 'proton-tsc'
+import { Name, getTransactionId, requireAuth, Contract, transactionSize, print, getAction, ActionData, TableStore, EMPTY_NAME } from 'proton-tsc'
 import { AccountKV, KV } from '../kv/kv.tables';
 
 @packer
 class GetSizeAndId extends ActionData {
     constructor (
-        public actor: Name = new Name(),
+        public actor: Name = EMPTY_NAME,
     ) {
         super()
     }

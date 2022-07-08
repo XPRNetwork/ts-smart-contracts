@@ -2276,7 +2276,7 @@ declare module 'proton-tsc/chain' {
   export { MultiIndex, MultiIndexValue, SAME_PAYER } from "as-chain";
   export { Contract, Table, InlineAction, ActionData, Variant } from "as-chain";
   export { getSender, readActionData, unpackActionData, actionDataSize, requireRecipient, requireAuth, hasAuth, requireAuth2, isAccount, publicationTime, currentReceiver } from "as-chain";
-  export { Name } from "as-chain";
+  export { Name, EMPTY_NAME } from "as-chain";
   export { Action, PermissionLevel } from "as-chain";
   export { Asset, ExtendedAsset, Symbol, ExtendedSymbol, isValid } from "as-chain";
   export { sendDeferred, cancelDeferred, readTransaction, transactionSize, taposBlockNum, taposBlockPrefix, transactionExpiration, getAction, getContextFreeData, TransactionExtension, Transaction, } from "as-chain";

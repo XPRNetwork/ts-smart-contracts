@@ -1,4 +1,4 @@
-import { ActionData, InlineAction, Name, PermissionLevel } from "../..";
+import { ActionData, InlineAction, Name, PermissionLevel, EMPTY_NAME } from "../..";
 import { PROTON_USER_CONTRACT } from "../constants";
 
 const NEWACCRES_ACTION = new InlineAction<NewAccountResources>("newaccres")
@@ -6,7 +6,7 @@ const NEWACCRES_ACTION = new InlineAction<NewAccountResources>("newaccres")
 @packer
 class NewAccountResources extends ActionData {
     constructor (
-        public account: Name = new Name(),
+        public account: Name = EMPTY_NAME,
     ) {
         super();
     }

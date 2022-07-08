@@ -1,5 +1,5 @@
 
-import { Table, BlockTimestamp, TimePoint, ActionData, Variant, Name, PublicKey, BinaryExtension, Asset, TimePointSec, OptionalNumber, KeyWeight } from "..";
+import { Table, BlockTimestamp, TimePoint, ActionData, Variant, Name, PublicKey, BinaryExtension, Asset, TimePointSec, OptionalNumber, KeyWeight, EMPTY_NAME } from "..";
 
 @packer
 export class BlockchainParameters extends Table {
@@ -108,7 +108,7 @@ export class BlockSigningAuthority extends Variant {
 @table("producers", noabigen)
 export class ProducerInfo extends Table {
     constructor (  
-        public owner: Name = new Name(),
+        public owner: Name = EMPTY_NAME,
         public total_votes: f64 = 0,
         public producer_key: PublicKey = new PublicKey(),
         public is_active: boolean = true,
@@ -149,7 +149,7 @@ export class ProducerInfo extends Table {
 @table("producers2", noabigen)
 export class ProducerInfo2 extends Table {
     constructor (  
-        public owner: Name = new Name(),
+        public owner: Name = EMPTY_NAME,
         public total_votes: f64 = 0,
         public producer_key: PublicKey = new PublicKey(),
         public is_active: boolean = true,
@@ -172,8 +172,8 @@ export class ProducerInfo2 extends Table {
 @table("voters", noabigen)
 export class VoterInfo extends Table {
     constructor (  
-        public owner: Name = new Name(),
-        public proxy: Name = new Name(),
+        public owner: Name = EMPTY_NAME,
+        public proxy: Name = EMPTY_NAME,
         public producers: Name[] = [],
         public staked: i64 = 0,
         public last_vote_weight: f64 = 0,
@@ -195,7 +195,7 @@ export class VoterInfo extends Table {
 @table("userres", noabigen)
 export class UserResources extends Table {
     constructor (  
-        public owner: Name = new Name(),
+        public owner: Name = EMPTY_NAME,
         public net_weight: Asset = new Asset(),
         public cpu_weight: Asset = new Asset(),
         public ram_bytes: i64 = 0,
@@ -216,8 +216,8 @@ export class UserResources extends Table {
 @table("delband", noabigen)
 export class DelegatedBandwidth extends Table {
     constructor (  
-        public from: Name = new Name(),
-        public to: Name = new Name(),
+        public from: Name = EMPTY_NAME,
+        public to: Name = EMPTY_NAME,
         public net_weight: Asset = new Asset(),
         public cpu_weight: Asset = new Asset(),
     ) {
@@ -237,7 +237,7 @@ export class DelegatedBandwidth extends Table {
 @table("refunds", noabigen)
 export class Refunds extends Table {
     constructor (  
-        public owner: Name = new Name(),
+        public owner: Name = EMPTY_NAME,
         public request_time: TimePointSec = new TimePointSec(),
         public net_amount: Asset = new Asset(),
         public cpu_amount: Asset = new Asset(),
@@ -258,8 +258,8 @@ export class Refunds extends Table {
 @table("delxpr", noabigen)
 export class DelegatedXpr extends Table {
     constructor (  
-        public from: Name = new Name(),
-        public to: Name = new Name(),
+        public from: Name = EMPTY_NAME,
+        public to: Name = EMPTY_NAME,
         public quantity: Asset = new Asset(),
     ) {
         super();
@@ -279,7 +279,7 @@ export class DelegatedXpr extends Table {
 @table("votersxpr", noabigen)
 export class VotersXpr extends Table {
     constructor (  
-        public owner: Name = new Name(),
+        public owner: Name = EMPTY_NAME,
         public staked: u64 = 0,
         public isqualified: boolean = false,
         public claimamount: u64 = 0,
@@ -304,7 +304,7 @@ export class VotersXpr extends Table {
 @table("refundsxpr", noabigen)
 export class XprRefundRequest extends Table {
     constructor (  
-        public owner: Name = new Name(),
+        public owner: Name = EMPTY_NAME,
         public request_time: TimePointSec = new TimePointSec(),
         public quantity: Asset = new Asset,
     ) {
@@ -340,7 +340,7 @@ export class GlobalsXpr extends Table {
 @table("usersram", noabigen)
 export class UsersRam extends Table {
     constructor (  
-        public account: Name = new Name(),
+        public account: Name = EMPTY_NAME,
         public ram: u64 = 0,
         public quantity: Asset = new Asset(),
         public ramlimit: u64 = 0,

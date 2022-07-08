@@ -1,10 +1,10 @@
-import { Name, Table } from "proton-tsc";
+import { Name, Table, EMPTY_NAME } from "proton-tsc";
 
 @table("results")
 export class Results extends Table {
     constructor (
         public customerId: u64 = 0,
-        public account: Name = new Name(),
+        public account: Name = EMPTY_NAME,
         public randomValue: u64 = 0,
     ) {
         super();

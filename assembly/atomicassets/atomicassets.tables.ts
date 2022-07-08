@@ -1,12 +1,12 @@
-import { Name, Table, Singleton, ExtendedSymbol, Asset, TableStore } from "..";
+import { Name, Table, ExtendedSymbol, Asset, EMPTY_NAME } from "..";
 import { AtomicFormat } from "./atomicdata";
 
 // Scope: N/A
 @table("collections", noabigen)
 export class Collections extends Table {
     constructor (
-        public collection_name: Name = new Name(),
-        public author: Name = new Name(),
+        public collection_name: Name = EMPTY_NAME,
+        public author: Name = EMPTY_NAME,
         public allow_notify: boolean = false,
         public authorized_accounts: Name[] = [],
         public notify_accounts: Name[] = [],
@@ -26,7 +26,7 @@ export class Collections extends Table {
 @table("schemas", noabigen)
 export class Schemas extends Table {
     constructor (
-        public schema_name: Name = new Name(),
+        public schema_name: Name = EMPTY_NAME,
         public format: AtomicFormat[] = [],
     ) {
         super();
@@ -43,7 +43,7 @@ export class Schemas extends Table {
 export class Templates extends Table {
     constructor (
         public template_id: i32 = 0,
-        public schema_name: Name = new Name(),
+        public schema_name: Name = EMPTY_NAME,
         public transferable: boolean = true,
         public burnable: boolean = true,
         public max_supply: u32 = 0,
@@ -64,10 +64,10 @@ export class Templates extends Table {
 export class Assets extends Table {
     constructor (
         public asset_id: u64 = 0,
-        public collection_name: Name = new Name(),
-        public schema_name: Name = new Name(),
+        public collection_name: Name = EMPTY_NAME,
+        public schema_name: Name = EMPTY_NAME,
         public template_id: i32 = 0,
-        public ram_payer: Name = new Name(),
+        public ram_payer: Name = EMPTY_NAME,
         public backed_tokens: Asset[] = [],
         public immutable_serialized_data: u8[] = [],
         public mutable_serialized_data: u8[] = [],
@@ -86,12 +86,12 @@ export class Assets extends Table {
 export class Offers extends Table {
     constructor (
         public offer_id: u64 = 0,
-        public sender: Name = new Name(),
-        public recipient: Name = new Name(),
+        public sender: Name = EMPTY_NAME,
+        public recipient: Name = EMPTY_NAME,
         public sender_asset_ids: u64[] = [],
         public recipient_asset_ids: u64[] = [],
         public memo: string = "",
-        public ram_payer: Name = new Name(),
+        public ram_payer: Name = EMPTY_NAME,
     ) {
         super();
     }
