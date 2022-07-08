@@ -25,7 +25,7 @@
     "testexamples": "npm run --prefix examples test",
     "core:escrow": "cat ./assembly/escrow/target/escrow.contract.abi | abi2core > ./assembly/escrow/target/escrow.client-types.ts",
     "run:playground": "cross-env LOG_LEVEL=debug ts-node ./playground.ts",
-    "prepublish": "npm run build && npm run test && npx npm-dts generate --entry ./assembly/index.ts --force && npx replace-in-file --configFile=./replace.config.js"
+    "prepublishOnly": "npm run build && npm run test && npx npm-dts generate --entry ./assembly/index.ts --force && npx replace-in-file --configFile=./replace.config.js"
   },
   "dependencies": {
     "proton-asc": "^0.2.106"
