@@ -107,4 +107,9 @@ describe('TX ID', () => {
       }
     ])
   });
+
+  it('protocol feature', async () => { 
+    await txidContract.actions.protofeature([]).send()
+  })
+
 });

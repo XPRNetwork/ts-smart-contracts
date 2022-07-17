@@ -1,4 +1,4 @@
-import { Name, getTransactionId, requireAuth, Contract, transactionSize, print, getAction, ActionData, TableStore, EMPTY_NAME } from 'proton-tsc'
+import { Name, getTransactionId, requireAuth, Contract, transactionSize, print, getAction, ActionData, TableStore, EMPTY_NAME, Checksum256, Utils, isFeatureActivated, check } from 'proton-tsc'
 import { AccountKV, KV } from '../kv/kv.tables';
 
 @packer
@@ -40,5 +40,14 @@ export class TxIdContract extends Contract {
         accountKv.values.push(new KV("action_size", `${action.getSize()}`))
 
         this.kvsTable.update(accountKv, getSizeAndId.actor)
+    }
+
+    @action("protofeature")
+    protofeature(): void {
+        const cs1 = new Checksum256(Utils.hexToBytes("69b064c5178e2738e144ed6caa9349a3995370d78db29e494b3126ebd9111966"))
+        check(isFeatureActivated(cs1) == true, "protocol feature not activated")
+
+        const cs2 = new Checksum256(Utils.hexToBytes("69b364c5178e2738e144ed6caa9349a3995370d78db29e494b3126ebd9111966"))
+        check(isFeatureActivated(cs2) == false, "protocol feature activated")
     }
 }

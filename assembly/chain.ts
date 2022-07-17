@@ -16,10 +16,12 @@ export { BinaryExtension } from "as-chain";
 export {
     assert,
     check,
+    currentBlockNum,
     currentTimePoint,
     currentTime,
     currentTimeMs,
     currentTimeSec,
+    isFeatureActivated,
 } from "as-chain";
 
 export {
@@ -74,12 +76,14 @@ export {
     requireAuth2,
     isAccount,
     publicationTime,
-    currentReceiver
+    currentReceiver,
+    getCodeHash,
+    GetCodeHashResult,
 } from "as-chain";
 
 export { Name, EMPTY_NAME } from "as-chain";
 export { Action, PermissionLevel } from "as-chain";
-export { Asset, ExtendedAsset, Symbol, ExtendedSymbol, isValid } from "as-chain";
+export { Asset, ExtendedAsset, Symbol, SymbolCode, ExtendedSymbol, isValid } from "as-chain";
 
 export {
     sendDeferred,
