@@ -19,10 +19,10 @@
     "test": "run-p test:*"
   },
   "dependencies": {
-    "proton-tsc": "^0.3.33"
+    "proton-tsc": "^0.3.39"
   },
   "devDependencies": {
-    "@proton/vert": "^0.3.11",
+    "@proton/vert": "^0.3.13",
     "@types/node": "^18.0.0",
     "chai": "^4.3.6",
     "mocha": "^9.2.2",

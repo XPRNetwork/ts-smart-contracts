@@ -124,7 +124,15 @@ export {
     assertSha256,
     assertSha512,
     assertSha3,
-    assertKeccak
+    assertKeccak,
+
+    AltBn128G1,
+    AltBn128G2,
+    AltBn128Pair,
+    bn128Add,
+    bn128Mul,
+    bn128Pair,
+    modExp
 } from "as-chain";
 
 export {

@@ -33,6 +33,14 @@
     "enabled" "2.0.x"
     "kuler" "^2.0.0"
 
+"@ethereumjs/util@^8.0.0-beta.1":
+  "integrity" "sha512-yUg3TdJm25HiamAXbNuOagXQPmgdSrV3oEH0h+Adsxt6D7qHw8HyHLA8C+tNrLP2YwcjF1dGJ+F7WtOibzEp9g=="
+  "resolved" "https://registry.npmjs.org/@ethereumjs/util/-/util-8.0.0-beta.1.tgz"
+  "version" "8.0.0-beta.1"
+  dependencies:
+    "ethereum-cryptography" "^1.0.3"
+    "rlp" "4.0.0-beta.1"
+
 "@greymass/abi2core@^1.1.0":
   "integrity" "sha512-sz9R8tO0tGSRgaAw+Fk/1Fb9UroSII4nSHghXBtVSvXKAABf2D9paajT3Na0OJA2lGUJIpRsIFpuXZZaFo5I5w=="
   "resolved" "https://registry.npmjs.org/@greymass/abi2core/-/abi2core-1.1.0.tgz"
@@ -71,6 +79,16 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@noble/hashes@~1.1.1", "@noble/hashes@1.1.2":
+  "integrity" "sha512-KYRCASVTv6aeUi1tsF8/vpyR7zpfs3FUzy2Jqm+MU+LmUKhQ0y2FpfwqkCcxSg2ua4GALJd8k2R76WxwZGbQpA=="
+  "resolved" "https://registry.npmjs.org/@noble/hashes/-/hashes-1.1.2.tgz"
+  "version" "1.1.2"
+
+"@noble/secp256k1@~1.6.0", "@noble/secp256k1@1.6.3":
+  "integrity" "sha512-T04e4iTurVy7I8Sw4+c5OSN9/RkPlo1uKxAomtxQNLq8j1uPAqnsqG1bqvY3Jv7c13gyr6dui0zmh/I3+f/JaQ=="
+  "resolved" "https://registry.npmjs.org/@noble/secp256k1/-/secp256k1-1.6.3.tgz"
+  "version" "1.6.3"
+
 "@proton/js@^26.1.2":
   "integrity" "sha512-iK55nozaRgGzmPZECn0QUQmrmVH4qbD23Rm98JhVIiDnUJoJq8q9ChZ2mVZhNKeEw4FiAIPCxSs7/Up1/TXTQA=="
   "resolved" "https://registry.npmjs.org/@proton/js/-/js-26.1.15.tgz"
@@ -86,11 +104,12 @@
     "pako" "2.0.3"
     "ripemd-ts" "0.0.2"
 
-"@proton/vert@^0.3.11":
-  "integrity" "sha512-Mz+R1QhoBCZtHhKt3JPevdAOmEgGI2PVA3oKzQRZ6EM99sTOYVs4LH/CMopab6Q02p6CK5XmSo3GRoqUJmI/jw=="
-  "resolved" "https://registry.npmjs.org/@proton/vert/-/vert-0.3.11.tgz"
-  "version" "0.3.11"
+"@proton/vert@^0.3.13":
+  "integrity" "sha512-esxgbS1dJqNa8hSPotSmm0tDgErhv6xZXucwL4ngDSkbh26p4Gw7ncCQX0d3SUMP5tC0q9grQj7IWkw6P4SPjw=="
+  "resolved" "https://registry.npmjs.org/@proton/vert/-/vert-0.3.13.tgz"
+  "version" "0.3.13"
   dependencies:
+    "@ethereumjs/util" "^8.0.0-beta.1"
     "@greymass/eosio" "^0.5.5"
     "bn.js" "^5.2.0"
     "brorand" "^1.1.0"
@@ -106,7 +125,30 @@
     "lodash.set" "^4.3.2"
     "loglevel" "^1.8.0"
     "loglevel-plugin-prefix" "^0.8.4"
+    "rustbn.js" "^0.2.0"
     "sorted-btree" "^1.6.0"
+
+"@scure/base@~1.1.0":
+  "integrity" "sha512-ZxOhsSyxYwLJj3pLZCefNitxsj093tb2vq90mp2txoYeBqbcjDjqFhyM8eUjq/uFm6zJ+mUuqxlS2FkuSY1MTA=="
+  "resolved" "https://registry.npmjs.org/@scure/base/-/base-1.1.1.tgz"
+  "version" "1.1.1"
+
+"@scure/bip32@1.1.0":
+  "integrity" "sha512-ftTW3kKX54YXLCxH6BB7oEEoJfoE2pIgw7MINKAs5PsS6nqKPuKk1haTF/EuHmYqG330t5GSrdmtRuHaY1a62Q=="
+  "resolved" "https://registry.npmjs.org/@scure/bip32/-/bip32-1.1.0.tgz"
+  "version" "1.1.0"
+  dependencies:
+    "@noble/hashes" "~1.1.1"
+    "@noble/secp256k1" "~1.6.0"
+    "@scure/base" "~1.1.0"
+
+"@scure/bip39@1.1.0":
+  "integrity" "sha512-pwrPOS16VeTKg98dYXQyIjJEcWfz7/1YJIwxUEPFfQPtc86Ym/1sVgQ2RLoD43AazMk2l/unK4ITySSpW2+82w=="
+  "resolved" "https://registry.npmjs.org/@scure/bip39/-/bip39-1.1.0.tgz"
+  "version" "1.1.0"
+  dependencies:
+    "@noble/hashes" "~1.1.1"
+    "@scure/base" "~1.1.0"
 
 "@tsconfig/node10@^1.0.7":
   "integrity" "sha512-6XFfSQmMgq0CFLY1MslA/CPUfhIL919M1rMsa5lP2P097N2Wd1sSX0tx1u4olM16fLNhtHZpRhedZJphNJqmZg=="
@@ -224,10 +266,10 @@
     "leven" "2.1.0"
     "mri" "1.1.4"
 
-"as-chain@^0.0.63":
-  "integrity" "sha512-z3Y1rS/4C6Y+CT5FbjdColagjL/OFVNsaw+rAXxp13k3u9LJgDnimIi0tvtdJ0gxAUxtrsm5tpEfuaZ7NWqWYw=="
-  "resolved" "https://registry.npmjs.org/as-chain/-/as-chain-0.0.63.tgz"
-  "version" "0.0.63"
+"as-chain@^0.0.71":
+  "integrity" "sha512-VwH4N4Rr1J3D3ZFvWK01sQ/gx8EiPZEVt3D2+WSLsIF49KpEpD2dODruls5KBWB5NDRR+3veDJTgOPhG43KP4A=="
+  "resolved" "https://registry.npmjs.org/as-chain/-/as-chain-0.0.71.tgz"
+  "version" "0.0.71"
   dependencies:
     "@assemblyscript/loader" "^0.19.22"
 
@@ -690,6 +732,16 @@
   "integrity" "sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA=="
   "resolved" "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz"
   "version" "4.0.0"
+
+"ethereum-cryptography@^1.0.3":
+  "integrity" "sha512-XDSJlg4BD+hq9N2FjvotwUET9Tfxpxc3kWGE2AqUG5vcbeunnbImVk3cj6e/xT3phdW21mE8R5IugU4fspQDcQ=="
+  "resolved" "https://registry.npmjs.org/ethereum-cryptography/-/ethereum-cryptography-1.1.2.tgz"
+  "version" "1.1.2"
+  dependencies:
+    "@noble/hashes" "1.1.2"
+    "@noble/secp256k1" "1.6.3"
+    "@scure/bip32" "1.1.0"
+    "@scure/bip39" "1.1.0"
 
 "event-emitter@^0.3.5":
   "integrity" "sha512-D9rRn9y7kLPnJ+hMq7S/nhvoKwwvVJahBi2BPmx3bvbsEdK3W9ii8cBSGjP+72/LnM4n6fo3+dkCX5FeTQruXA=="
@@ -1576,12 +1628,12 @@
   "resolved" "https://registry.npmjs.org/protochain/-/protochain-1.0.5.tgz"
   "version" "1.0.5"
 
-"proton-asc@^0.2.115":
-  "integrity" "sha512-STIb7Sv2FthgjFiGlj2Hj4C++AYfR8Sc1x4vOpD+lc/kmxTAg/eXKgvW1eZrdqLeCe6up2ZFj9KffffTC9gvwg=="
-  "resolved" "https://registry.npmjs.org/proton-asc/-/proton-asc-0.2.115.tgz"
-  "version" "0.2.115"
+"proton-asc@^0.2.123":
+  "integrity" "sha512-5TYfE+7yxTip23OGj0wsKKnOxJZLueDxWP2NI8tnS2r41OjQHYlBzNZHA4q+ZqLQOqVF++srdoxmH8LbIQQPow=="
+  "resolved" "https://registry.npmjs.org/proton-asc/-/proton-asc-0.2.123.tgz"
+  "version" "0.2.123"
   dependencies:
-    "as-chain" "^0.0.63"
+    "as-chain" "^0.0.71"
     "assemblyscript" "0.18"
     "handlebars" "4.7.7"
     "ts-dedent" "^2.2.0"
@@ -1662,6 +1714,16 @@
   "integrity" "sha512-2XZ9cVFtjpQ3z6LmN+Kylz518XcPKmKHzxEXUEPJfqi8vZs+0reY65YU9wzhzrPGtqHzH3ARGZNnGNASlPaWfw=="
   "resolved" "https://registry.npmjs.org/ripemd-ts/-/ripemd-ts-0.0.2.tgz"
   "version" "0.0.2"
+
+"rlp@4.0.0-beta.1":
+  "integrity" "sha512-UVIENF7Rw+nX5cpfzw6X3/oXNQKsSZ8HbDJUeU9RoIs1LLyMjcPZR1o26i1vFbpuVN8GRmcdopEYOMjVsLRsQQ=="
+  "resolved" "https://registry.npmjs.org/rlp/-/rlp-4.0.0-beta.1.tgz"
+  "version" "4.0.0-beta.1"
+
+"rustbn.js@^0.2.0":
+  "integrity" "sha512-4VlvkRUuCJvr2J6Y0ImW7NvTCriMi7ErOAqWk1y69vAdoNIzCF3yPmgeNzx+RQTLEDFq5sHfscn1MwHxP9hNfA=="
+  "resolved" "https://registry.npmjs.org/rustbn.js/-/rustbn.js-0.2.0.tgz"
+  "version" "0.2.0"
 
 "safe-buffer@^5.1.0", "safe-buffer@~5.2.0":
   "integrity" "sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ=="

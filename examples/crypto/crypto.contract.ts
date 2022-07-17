@@ -1,6 +1,22 @@
-import { Contract, sha3, Utils, check, keccak, assertSha3, assertKeccak, Checksum256, blake2, Checksum512, print } from "proton-tsc"
+import { Contract, modExp, sha3, Utils, check, keccak, assertSha3, assertKeccak, Checksum256, blake2, Checksum512, AltBn128G1, U256, bn128Add, print, bn128Mul, AltBn128G2, bn128Pair, AltBn128Pair } from "proton-tsc"
 
 const H2B = Utils.hexToBytes
+
+function createG1Point (x: string, y: string): AltBn128G1 {
+    return new AltBn128G1(
+        U256.fromBytes(H2B(x)),
+        U256.fromBytes(H2B(y))
+    )
+}
+
+function createG2Point (x1: string, x2: string, y1: string, y2: string): AltBn128G2 {
+    return new AltBn128G2(
+        U256.fromBytes(H2B(x1)),
+        U256.fromBytes(H2B(x2)),
+        U256.fromBytes(H2B(y1)),
+        U256.fromBytes(H2B(y2))
+    )
+}
 
 @contract
 class CryptoContract extends Contract {
@@ -91,5 +107,148 @@ class CryptoContract extends Contract {
             true,
         )
         check(res4 == exp4, "Invalid blake2 test 4")
+    }
+
+    @action("bnadd1")
+    bnadd1(): void {
+        const point1_1 = createG1Point("222480c9f95409bfa4ac6ae890b9c150bc88542b87b352e92950c340458b0c09", "2976efd698cf23b414ea622b3f720dd9080d679042482ff3668cb2e32cad8ae2")
+        const point2_1 = createG1Point("1bd20beca3d8d28e536d2b5bd3bf36d76af68af5e6c96ca6e5519ba9ff8f5332", "2a53edf6b48bcf5cb1c0b4ad1d36dfce06a79dcd6526f1c386a14d8ce4649844")
+        const exp1 = "16c7c4042e3a725ddbacf197c519c3dcad2bc87dfd9ac7e1e1631154ee0b7d9c19cd640dd28c9811ebaaa095a16b16190d08d6906c4f926fce581985fe35be0e"
+        const res1 = bn128Add(point1_1, point2_1)
+        check(Utils.bytesToHex(res1.pack()) == exp1, "Invalid bnAdd test 1")
+
+        const point1_2 = createG1Point("0000000000000000000000000000000000000000000000000000000000000000", "0000000000000000000000000000000000000000000000000000000000000000")
+        const point2_2 = createG1Point("1bd20beca3d8d28e536d2b5bd3bf36d76af68af5e6c96ca6e5519ba9ff8f5332", "2a53edf6b48bcf5cb1c0b4ad1d36dfce06a79dcd6526f1c386a14d8ce4649844")
+        const exp2 = "1bd20beca3d8d28e536d2b5bd3bf36d76af68af5e6c96ca6e5519ba9ff8f53322a53edf6b48bcf5cb1c0b4ad1d36dfce06a79dcd6526f1c386a14d8ce4649844"
+        bn128Add(point1_2, point2_2);
+        const res2 = bn128Add(point1_2, point2_2)
+        check(Utils.bytesToHex(res2.pack()) == exp2, "Invalid bnAdd test 2")
+    }
+
+    @action("bnadd2")
+    bnadd2(): void {
+        const point1 = createG1Point("222480c9f95409bfa4ac6ae890b9c150bc88542b87b352e92950c340458b0c09", "2976efd698cf23b414ea622b3f720dd9080d679042482ff3668cb2e32cad8ae2")
+        const point2 = createG1Point("2a53edf6b48bcf5cb1c0b4ad1d36dfce06a79dcd6526f1c386a14d8ce4649844", "1bd20beca3d8d28e536d2b5bd3bf36d76af68af5e6c96ca6e5519ba9ff8f5332")
+        bn128Add(point1, point2);
+    }
+
+    @action("bnadd3")
+    bnadd3(): void {
+        const point1 = createG1Point("30644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd47", "2976efd698cf23b414ea622b3f720dd9080d679042482ff3668cb2e32cad8ae2")
+        const point2 = createG1Point("1bd20beca3d8d28e536d2b5bd3bf36d76af68af5e6c96ca6e5519ba9ff8f5332", "2a53edf6b48bcf5cb1c0b4ad1d36dfce06a79dcd6526f1c386a14d8ce4649844")
+        bn128Add(point1, point2);
+    }
+
+    @action("bnmul1")
+    bnmul1(): void {
+        const g1_1 = createG1Point("007c43fcd125b2b13e2521e395a81727710a46b34fe279adbf1b94c72f7f9136", "0db2f980370fb8962751c6ff064f4516a6a93d563388518bb77ab9a6b30755be")
+        const scalar_1 = U256.fromBytes(H2B("0312ed43559cf8ecbab5221256a56e567aac5035308e3f1d54954d8b97cd1c9b"))
+        const exp1 = "2d66cdeca5e1715896a5a924c50a149be87ddd2347b862150fbb0fd7d0b1833c11c76319ebefc5379f7aa6d85d40169a612597637242a4bbb39e5cd3b844becd"
+        const res1 = bn128Mul(g1_1, scalar_1)
+        check(Utils.bytesToHex(res1.pack()) == exp1, "Invalid bnMul test 1 1")
+
+        const g1_2 = createG1Point("0000000000000000000000000000000000000000000000000000000000000000", "0000000000000000000000000000000000000000000000000000000000000000")
+        const scalar_2 = U256.fromBytes(H2B("0312ed43559cf8ecbab5221256a56e567aac5035308e3f1d54954d8b97cd1c9b"))
+        const exp2 = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        const res2 = bn128Mul(g1_2, scalar_2)
+        check(Utils.bytesToHex(res2.pack()) == exp2, "Invalid bnMul test 1 2")
+    }
+
+    @action("bnmul2")
+    bnmul2(): void {
+        const g1_1 = createG1Point("0db2f980370fb8962751c6ff064f4516a6a93d563388518bb77ab9a6b30755be", "007c43fcd125b2b13e2521e395a81727710a46b34fe279adbf1b94c72f7f9136")
+        const scalar_1 = U256.fromBytes(H2B("0312ed43559cf8ecbab5221256a56e567aac5035308e3f1d54954d8b97cd1c9b"))
+        bn128Mul(g1_1, scalar_1)
+    }
+
+    @action("bnmul3")
+    bnmul3(): void {
+        const g1_1 = createG1Point("2976efd698cf23b414ea622b3f720dd9080d679042482ff3668cb2e32cad8ae2", "30644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd47")
+        const scalar_1 = U256.fromBytes(H2B("0100010001000100010001000100010001000100010001000100010001000100"))
+        bn128Mul(g1_1, scalar_1)
+    }
+
+    @action("bnpair1")
+    bnpair1(): void {
+        const g1_1_1 = createG1Point("0f25929bcb43d5a57391564615c9e70a992b10eafa4db109709649cf48c50dd2", "16da2f5cb6be7a0aa72c440c53c9bbdfec6c36c7d515536431b3a865468acbba")
+        const g2_1_1 = createG2Point(
+            "2e89718ad33c8bed92e210e81d1853435399a271913a6520736a4729cf0d51eb", "01a9e2ffa2e92599b68e44de5bcf354fa2642bd4f26b259daa6f7ce3ed57aeb3",
+            "14a9a87b789a58af499b314e13c3d65bede56c07ea2d418d6874857b70763713", "178fb49a2d6cd347dc58973ff49613a20757d0fcc22079f9abd10c3baee24590"
+        )
+        const g1_2_1 = createG1Point("1b9e027bd5cfc2cb5db82d4dc9677ac795ec500ecd47deee3b5da006d6d049b8", "11d7511c78158de484232fc68daf8a45cf217d1c2fae693ff5871e8752d73b21")
+        const g2_2_1 = createG2Point(
+            "198e9393920d483a7260bfb731fb5d25f1aa493335a9e71297e485b7aef312c2", "1800deef121f1e76426a00665e5c4479674322d4f75edadd46debd5cd992f6ed",
+            "090689d0585ff075ec9e99ad690c3395bc4b313370b38ef355acdadcd122975b", "12c85ea5db8c6deb4aab71808dcb408fe3d1e7690c43d37b4ce6cc0166fa7daa"
+        )
+        const pair1_1 = new AltBn128Pair(g1_1_1, g2_1_1)
+        const pair2_1 = new AltBn128Pair(g1_2_1, g2_2_1)
+        const res1 = bn128Pair([pair1_1, pair2_1])
+        check(res1 == true, "Invalid bnPair test 1 1")
+
+
+        const g1_1_2 = createG1Point("0000000000000000000000000000000000000000000000000000000000000001", "0000000000000000000000000000000000000000000000000000000000000002")
+        const g2_1_2 = createG2Point(
+            "198e9393920d483a7260bfb731fb5d25f1aa493335a9e71297e485b7aef312c2", "1800deef121f1e76426a00665e5c4479674322d4f75edadd46debd5cd992f6ed",
+            "090689d0585ff075ec9e99ad690c3395bc4b313370b38ef355acdadcd122975b", "12c85ea5db8c6deb4aab71808dcb408fe3d1e7690c43d37b4ce6cc0166fa7daa"
+        )
+        const pair1_2 = new AltBn128Pair(g1_1_2, g2_1_2)
+        const res2 = bn128Pair([pair1_2])
+        check(res2 == false, "Invalid bnPair test 1 2")
+    }
+
+    @action("bnpair2")
+    bnpair2(): void {
+        const g1_1_1 = createG1Point("0000000000000000000000000000000000000000000000000000000000000000", "0000000000000000000000000000000100000000000000000000000000000000")
+        const g2_1_1 = createG2Point(
+            "198e9393920d483a7260bfb731fb5d25f1aa493335a9e71297e485b7aef312c2", "1800deef121f1e76426a00665e5c4479674322d4f75edadd46debd5cd992f6ed",
+            "090689d0585ff075ec9e99ad690c3395bc4b313370b38ef355acdadcd122975b", "12c85ea5db8c6deb4aab71808dcb408fe3d1e7690c43d37b4ce6cc0166fa7daa"
+        )
+        const pair1_1 = new AltBn128Pair(g1_1_1, g2_1_1)
+        bn128Pair([pair1_1])
+    }
+
+    @action("bnpair3")
+    bnpair3(): void {
+        const g1_1_1 = createG1Point("30644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd47", "0000000000000000000000000000000100000000000000000000000000000000")
+        const g2_1_1 = createG2Point(
+            "198e9393920d483a7260bfb731fb5d25f1aa493335a9e71297e485b7aef312c2", "1800deef121f1e76426a00665e5c4479674322d4f75edadd46debd5cd992f6ed",
+            "090689d0585ff075ec9e99ad690c3395bc4b313370b38ef355acdadcd122975b", "12c85ea5db8c6deb4aab71808dcb408fe3d1e7690c43d37b4ce6cc0166fa7daa"
+        )
+        const pair1_1 = new AltBn128Pair(g1_1_1, g2_1_1)
+        bn128Pair([pair1_1])
+    }
+
+    @action("modexp1")
+    modexp1(): void {
+        const res1 = modExp(
+            U256.fromU64(3),
+            U256.fromBytesBE(H2B("fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2e")),
+            U256.fromBytesBE(H2B("fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f")),
+        )
+        check(res1 == U256.fromU64(1), "Invalid modexp test 1 1")
+
+        const res2 = modExp(
+            U256.fromU64(0),
+            U256.fromBytesBE(H2B("fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2e")),
+            U256.fromBytesBE(H2B("fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f")),
+        )
+        check(res2 == U256.fromU64(0), "Invalid modexp test 1 2")
+
+        const res3 = modExp(
+            U256.fromU64(2),
+            U256.fromU64(90),
+            U256.fromU64(13)
+        )
+        print(res3.toString())
+        check(res3 == U256.fromU64(12), "Invalid modexp test 1 3")
+    }
+
+    @action("modexp2")
+    modexp2(): void {
+        const res1 = modExp(
+            U256.fromU64(1),
+            U256.fromBytes(H2B("fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2e")),
+            U256.fromU64(0)
+        )
     }
 }

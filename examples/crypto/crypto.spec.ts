@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Blockchain } from "@proton/vert"
+import { Blockchain, expectToThrow, protonAssert } from "@proton/vert"
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
@@ -24,5 +24,56 @@ describe('Tests Crypto', () => {
 
   it('blake2', async () => { 
     await cryptoContract.actions.blake2([]).send()
+  });
+
+  it('bnadd', async () => { 
+    await cryptoContract.actions.bnadd1([]).send()
+
+    await expectToThrow(
+      cryptoContract.actions.bnadd2([]).send(),
+      protonAssert("bn128Add error")
+    )
+
+    await expectToThrow(
+      cryptoContract.actions.bnadd3([]).send(),
+      protonAssert("bn128Add error")
+    )
+  });
+
+  it('bnmul', async () => { 
+    await cryptoContract.actions.bnmul1([]).send()
+
+    await expectToThrow(
+      cryptoContract.actions.bnmul2([]).send(),
+      protonAssert("bn128Mul error")
+    )
+
+    await expectToThrow(
+      cryptoContract.actions.bnmul3([]).send(),
+      protonAssert("bn128Mul error")
+    )
+  });
+
+  it('bnpair', async () => { 
+    await cryptoContract.actions.bnpair1([]).send()
+
+    await expectToThrow(
+      cryptoContract.actions.bnpair2([]).send(),
+      protonAssert("bn128Pair error")
+    )
+
+    await expectToThrow(
+      cryptoContract.actions.bnpair3([]).send(),
+      protonAssert("bn128Pair error")
+    )
+  });
+
+  it('modexp', async () => { 
+    await cryptoContract.actions.modexp1([]).send()
+
+    await expectToThrow(
+      cryptoContract.actions.modexp2([]).send(),
+      protonAssert("modExp error")
+    )
   });
 });
