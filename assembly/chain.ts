@@ -96,22 +96,35 @@ export {
 } from "as-chain";
 
 export {
-    PublicKey,
-    Signature,
     Checksum160,
     Checksum256,
     Checksum512,
+
+    ECCPublicKey,
+    UserPresence,
+    WebAuthNPublicKey,
+    PublicKeyType,
+    PublicKey,
+    Signature,
+
     recoverKey,
     assertRecoverKey,
+    k1Recover,
 
-    assertSha256,
-    assertSha1,
-    assertSha512,
-    assertRipemd160,
-    sha256,
-    sha1,
-    sha512,
     ripemd160,
+    sha1,
+    sha256,
+    sha512,
+    sha3,
+    keccak,
+    blake2,
+
+    assertRipemd160,
+    assertSha1,
+    assertSha256,
+    assertSha512,
+    assertSha3,
+    assertKeccak
 } from "as-chain";
 
 export {

@@ -7,6 +7,7 @@
     "build:txid": "npx proton-asc ./txid/txid.contract.ts",
     "build:oracles": "npx proton-asc ./oracles/oracles.contract.ts",
     "build:pixel": "npx proton-asc ./pixel/pixel.contract.ts",
+    "build:crypto": "npx proton-asc ./crypto/crypto.contract.ts",
     "build": "run-p build:*",
     "test:kv": "mocha -s 250 ./kv/*.spec.ts -r ts-node/register",
     "test:rng": "mocha -s 250 ./rng/*.spec.ts -r ts-node/register",
@@ -14,13 +15,14 @@
     "test:hello": "mocha -s 250 ./hello/*.spec.ts -r ts-node/register",
     "test:createnft": "mocha -s 250 ./createnft/*.spec.ts -r ts-node/register",
     "test:oracles": "mocha -s 250 ./oracles/*.spec.ts -r ts-node/register",
+    "test:crypto": "mocha -s 250 ./crypto/*.spec.ts -r ts-node/register",
     "test": "run-p test:*"
   },
   "dependencies": {
-    "proton-tsc": "^0.3.26"
+    "proton-tsc": "^0.3.33"
   },
   "devDependencies": {
-    "@proton/vert": "^0.3.7",
+    "@proton/vert": "^0.3.11",
     "@types/node": "^18.0.0",
     "chai": "^4.3.6",
     "mocha": "^9.2.2",
