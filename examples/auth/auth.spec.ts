@@ -21,6 +21,6 @@ describe('Auth', () => {
 
   it('codehash', async () => { 
     await authContract.actions.codehash([]).send()
-    expect(blockchain.console).to.eq("5b5211dfbcb378555bf06d551c3af0570a483c79268c59175f99711fe2833cee")
+    expect(blockchain.console).to.eq("347480c91d4a55ab0c02efeae92232e06db4020f6ab945843c1fbc1fa52b936f")
   });
 });

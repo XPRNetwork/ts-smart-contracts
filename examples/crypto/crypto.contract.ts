@@ -1,4 +1,4 @@
-import { Contract, modExp, sha3, Utils, check, keccak, assertSha3, assertKeccak, Checksum256, blake2, Checksum512, AltBn128G1, U256, bn128Add, print, bn128Mul, AltBn128G2, bn128Pair, AltBn128Pair } from "proton-tsc"
+import { Contract, modExp, sha3, Utils, check, keccak, assertSha3, assertKeccak, Checksum256, blake2, Checksum512, AltBn128G1, U256, bn128Add, print, bn128Mul, AltBn128G2, bn128Pair, AltBn128Pair, k1Recover, Signature, ECCUncompressedPublicKey } from "proton-tsc"
 
 const H2B = Utils.hexToBytes
 
@@ -20,6 +20,40 @@ function createG2Point (x1: string, x2: string, y1: string, y2: string): AltBn12
 
 @contract
 class CryptoContract extends Contract {
+    @action("k1recover1")
+    k1recover1(): void {
+        const sig = new Signature()
+        sig.unpack(H2B("001b323dd47a1dd5592c296ee2ee12e0af38974087a475e99098a440284f19c1f7642fa0baa10a8a3ab800dfdbe987dee68a09b6fa3db45a5cc4f3a5835a1671d4dd"))
+        const dig = new Checksum256(H2B("92390316873c5a9d520b28aba61e7a8f00025ac069acd9c4d2a71d775a55fa5f"))
+        const res = k1Recover(sig, dig)
+        check(res == new ECCUncompressedPublicKey(H2B("044424982f5c4044aaf27444965d15b53f219c8ad332bf98a98a902ebfb05d46cb86ea6fe663aa83fd4ce0a383855dfae9bf7a07b779d34c84c347fec79d04c51e")), "Invalid k1Recover1")
+    }
+
+    @action("k1recover2")
+    k1recover2(): void {
+        const sig = new Signature()
+        sig.unpack(H2B("0001174de755b55bd29026d626f7313a5560353dc5175f29c78d79d961b81a0c04360d833ca789bc16d4ee714a6d1a19461d890966e0ec5c074f67be67e631d33aa7"))
+        const dig = new Checksum256(H2B("45fd65f6dd062fe7020f11d19fe5c35dc4d425e1479c0968c8e932c208f25399"))
+        const res = k1Recover(sig, dig)
+        check(!res, "Invalid k1Recover2")
+    }
+
+    @action("k1recover3")
+    k1recover3(): void {
+        const sig = new Signature()
+        sig.unpack(H2B("00174de755b55bd29026d626f7313a5560353dc5175f29c78d79d961b81a0c04360d833ca789bc16d4ee714a6d1a19461d890966e0ec5c074f67be67e631d33aa7"))
+        const dig = new Checksum256(H2B("45fd65f6dd062fe7020f11d19fe5c35dc4d425e1479c0968c8e932c208f25399"))
+        k1Recover(sig, dig)
+    }
+
+    @action("k1recover4")
+    k1recover4(): void {
+        const sig = new Signature()
+        sig.unpack(H2B("0000174de755b55bd29026d626f7313a5560353dc5175f29c78d79d961b81a0c04360d833ca789bc16d4ee714a6d1a19461d890966e0ec5c074f67be67e631d33aa7"))
+        const dig = new Checksum256(H2B("fd65f6dd062fe7020f11d19fe5c35dc4d425e1479c0968c8e932c208f25399"))
+        k1Recover(sig, dig)
+    }
+
     @action("sha3")
     sha3(): void {
         const str1 = Utils.stringToU8Array("")

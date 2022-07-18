@@ -14,6 +14,19 @@ beforeEach(async () => {
 
 /* Tests */
 describe('Tests Crypto', () => {
+  it('k1recover', async () => { 
+    await cryptoContract.actions.k1recover1([]).send()
+    await cryptoContract.actions.k1recover2([]).send()
+    await expectToThrow(
+      cryptoContract.actions.k1recover3([]).send(),
+      protonAssert("bad signature")
+    )
+    await expectToThrow(
+      cryptoContract.actions.k1recover4([]).send(),
+      protonAssert("bad assign length")
+    )
+  });
+
   it('sha3', async () => { 
     await cryptoContract.actions.sha3([]).send()
   });

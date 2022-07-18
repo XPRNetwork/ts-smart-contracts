@@ -2280,7 +2280,7 @@ declare module 'proton-tsc/chain' {
   export { Action, PermissionLevel } from "as-chain";
   export { Asset, ExtendedAsset, Symbol, SymbolCode, ExtendedSymbol, isValid } from "as-chain";
   export { sendDeferred, cancelDeferred, readTransaction, transactionSize, taposBlockNum, taposBlockPrefix, transactionExpiration, getAction, getContextFreeData, TransactionExtension, Transaction, } from "as-chain";
-  export { Checksum160, Checksum256, Checksum512, ECCPublicKey, UserPresence, WebAuthNPublicKey, PublicKeyType, PublicKey, Signature, recoverKey, assertRecoverKey, k1Recover, ripemd160, sha1, sha256, sha512, sha3, keccak, blake2, assertRipemd160, assertSha1, assertSha256, assertSha512, assertSha3, assertKeccak, AltBn128G1, AltBn128G2, AltBn128Pair, bn128Add, bn128Mul, bn128Pair, modExp } from "as-chain";
+  export { Checksum160, Checksum256, Checksum512, ECCPublicKey, ECCUncompressedPublicKey, UserPresence, WebAuthNPublicKey, PublicKeyType, PublicKey, Signature, recoverKey, assertRecoverKey, k1Recover, ripemd160, sha1, sha256, sha512, sha3, keccak, blake2, assertRipemd160, assertSha1, assertSha256, assertSha512, assertSha3, assertKeccak, AltBn128G1, AltBn128G2, AltBn128Pair, bn128Add, bn128Mul, bn128Pair, modExp } from "as-chain";
   export { Packer, Encoder, Decoder, } from "as-chain";
   export { Utils } from "as-chain";
 

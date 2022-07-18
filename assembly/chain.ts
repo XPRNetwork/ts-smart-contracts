@@ -105,6 +105,7 @@ export {
     Checksum512,
 
     ECCPublicKey,
+    ECCUncompressedPublicKey,
     UserPresence,
     WebAuthNPublicKey,
     PublicKeyType,
