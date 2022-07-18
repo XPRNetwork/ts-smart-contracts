@@ -1,6 +1,6 @@
 {
   "name": "proton-tsc",
-  "version": "0.3.43",
+  "version": "0.3.45",
   "license": "MIT",
   "types": "./index.d.ts",
   "main": "./assembly/index.ts",
@@ -28,7 +28,7 @@
     "prepublishOnly": "npm run build && npm run test && npm run buildexamples && npm run testexamples && npx npm-dts generate --entry ./assembly/index.ts --force && npx replace-in-file --configFile=./replace.config.js"
   },
   "dependencies": {
-    "proton-asc": "^0.2.127"
+    "proton-asc": "^0.2.129"
   },
   "engines": {
     "npm": ">=7.0.0",
