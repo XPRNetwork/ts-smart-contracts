@@ -1,6 +1,6 @@
 {
   "name": "proton-tsc",
-  "version": "0.3.47",
+  "version": "0.3.48",
   "license": "MIT",
   "types": "./index.d.ts",
   "main": "./assembly/index.ts",
@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "as-bignum": "^0.2.21",
-    "proton-asc": "^0.2.133"
+    "proton-asc": "^0.2.134"
   },
   "engines": {
     "npm": ">=7.0.0",
