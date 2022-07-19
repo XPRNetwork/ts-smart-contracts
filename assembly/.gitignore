@@ -2,3 +2,7 @@ rsa/*
 rsa
 vault
 vault/*
+bls
+bls/*
+test
+test/*

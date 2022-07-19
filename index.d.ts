@@ -2257,6 +2257,78 @@ declare module 'proton-tsc/balance/target/utils' {
   export function sendPayOfferRam(contract: Name, payer: Name, offer_id: u64): void;
 
 }
+declare module 'proton-tsc/bls/bls.contract' {
+  export {};
+
+}
+declare module 'proton-tsc/bls/bls.spec' {
+  export {};
+
+}
+declare module 'proton-tsc/bls/g1' {
+  import "elliptic-curve-solidity/contracts/EllipticCurve.sol";
+
+}
+declare module 'proton-tsc/bls/lib' {
+
+}
+declare module 'proton-tsc/bls/math' {
+  /// <reference types="assembly" />
+  import { U256 } from "proton-tsc/chain";
+  export function __umulq128(xl: u64, xh: u64, yl: u64, yh: u64): U256;
+  export function __mulmod256(xl1: u64, xl2: u64, xh1: u64, xh2: u64, yl1: u64, yl2: u64, yh1: u64, yh2: u64, ml1: u64, ml2: u64, mh1: u64, mh2: u64): U256;
+  export function mulmod(x: U256, y: U256, m: U256): U256;
+  export function __mod256(r1: u64, r2: u64, r3: u64, r4: u64, r5: u64, r6: u64, r7: u64, r8: u64, ml1: u64, ml2: u64, mh1: u64, mh2: u64): U256;
+  export function mod(x: U256, m: U256): U256;
+
+}
+declare module 'proton-tsc/bls/target/bls.contract' {
+  /// <reference types="assembly" />
+  export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
+
+}
+declare module 'proton-tsc/bls/target' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { PermissionLevel, PublicKey, Name } from "proton-tsc";
+  export class KeyWeight implements _chain.Packer {
+      key: PublicKey;
+      weight: u16;
+      constructor(key?: PublicKey, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class PermissionLevelWeight implements _chain.Packer {
+      permission: PermissionLevel;
+      weight: u16;
+      constructor(permission?: PermissionLevel, weight?: u16);
+      static from(actor: Name, permission: string, weight: u16): PermissionLevelWeight;
+      toAuthority(): Authority;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class WaitWeight implements _chain.Packer {
+      waitSec: u16;
+      weight: u16;
+      constructor(waitSec?: u16, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class Authority implements _chain.Packer {
+      threshold: u32;
+      keys: KeyWeight[];
+      accounts: PermissionLevelWeight[];
+      waits: WaitWeight[];
+      constructor(threshold?: u32, keys?: KeyWeight[], accounts?: PermissionLevelWeight[], waits?: WaitWeight[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+
+}
 declare module 'proton-tsc/chain' {
   export { U128, U256, I128 } from "as-chain";
   export { VarInt32, VarUint32, calcPackedVarUint32Length } from "as-chain";
@@ -4009,6 +4081,69 @@ declare module 'proton-tsc/system/tables' {
       constructor(account?: Name, ram?: u64, quantity?: Asset, ramlimit?: u64);
       get primary(): u64;
   }
+  export {};
+
+}
+declare module 'proton-tsc/test/target' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { PermissionLevel, PublicKey, Name } from "proton-tsc";
+  export class KeyWeight implements _chain.Packer {
+      key: PublicKey;
+      weight: u16;
+      constructor(key?: PublicKey, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class PermissionLevelWeight implements _chain.Packer {
+      permission: PermissionLevel;
+      weight: u16;
+      constructor(permission?: PermissionLevel, weight?: u16);
+      static from(actor: Name, permission: string, weight: u16): PermissionLevelWeight;
+      toAuthority(): Authority;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class WaitWeight implements _chain.Packer {
+      waitSec: u16;
+      weight: u16;
+      constructor(waitSec?: u16, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class Authority implements _chain.Packer {
+      threshold: u32;
+      keys: KeyWeight[];
+      accounts: PermissionLevelWeight[];
+      waits: WaitWeight[];
+      constructor(threshold?: u32, keys?: KeyWeight[], accounts?: PermissionLevelWeight[], waits?: WaitWeight[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+
+}
+declare module 'proton-tsc/test/target/test.contract' {
+  /// <reference types="assembly" />
+  import { Contract } from "proton-tsc/test";
+  export class ReturnValueContract extends Contract {
+      test(): u64;
+  }
+  export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
+
+}
+declare module 'proton-tsc/test/test.contract' {
+  /// <reference types="assembly" />
+  import { Contract } from "proton-tsc";
+  export class ReturnValueContract extends Contract {
+      test(): u64;
+  }
+
+}
+declare module 'proton-tsc/test/test.spec' {
   export {};
 
 }

@@ -104,10 +104,10 @@
     "pako" "2.0.3"
     "ripemd-ts" "0.0.2"
 
-"@proton/vert@^0.3.16":
-  "integrity" "sha512-TzqCQ0gMnq6/ebRP4Njtttgmnwxcvi1bgxWE1SnEsJxvREIgmJ0hnPjHmqNiNcYYF/NOwX/UhEOLuH/a1yUY/w=="
-  "resolved" "https://registry.npmjs.org/@proton/vert/-/vert-0.3.16.tgz"
-  "version" "0.3.16"
+"@proton/vert@^0.3.18":
+  "integrity" "sha512-bsKqfpGpxAfTTgG3QtCtd83nEA+Q9YbhDRmr5ihVnrQ/Pp1uITScU97ufO46APSpJPmxWt5upEP8OSZPidWazg=="
+  "resolved" "https://registry.npmjs.org/@proton/vert/-/vert-0.3.18.tgz"
+  "version" "0.3.18"
   dependencies:
     "@ethereumjs/util" "^8.0.0-beta.1"
     "@greymass/eosio" "^0.5.5"
@@ -266,10 +266,15 @@
     "leven" "2.1.0"
     "mri" "1.1.4"
 
-"as-chain@^0.0.78":
-  "integrity" "sha512-OXexrF/7Xy5882h0Ea5gUQpMFeQbGdu3XXgD3kcvD+bryl+sr0+D6geGkwbQuM8aNbJHW+d/yNzX5RZ2LgQhhw=="
-  "resolved" "https://registry.npmjs.org/as-chain/-/as-chain-0.0.78.tgz"
-  "version" "0.0.78"
+"as-bignum@^0.2.21":
+  "integrity" "sha512-VvjDsGYjLnmBnumBdgiIZ+bck48AzkvXPkbsFZdcSaBKNyMjHqrRlCwNZGf1Fj9WUd2QdmVOBURiEYnE7Ee/8w=="
+  "resolved" "https://registry.npmjs.org/as-bignum/-/as-bignum-0.2.21.tgz"
+  "version" "0.2.21"
+
+"as-chain@^0.0.85":
+  "integrity" "sha512-n/sODNPXHaSlv0qbdtolq59UbnSNRM7Qw2jGQGQQdzczYIUQfQmoua+Th88/Wxki1GwEbqWcH77c45kNEzAy9Q=="
+  "resolved" "https://registry.npmjs.org/as-chain/-/as-chain-0.0.85.tgz"
+  "version" "0.0.85"
   dependencies:
     "@assemblyscript/loader" "^0.19.22"
 
@@ -1628,12 +1633,12 @@
   "resolved" "https://registry.npmjs.org/protochain/-/protochain-1.0.5.tgz"
   "version" "1.0.5"
 
-"proton-asc@^0.2.130":
-  "integrity" "sha512-ZoSt/Wj81QgVvNhdXnSgrNG9rEac8ZZccUX+1zLw8bKVijRGMoMmauQt1xsUE83aJOBt7eFWr6d+/tNmK0+xnA=="
-  "resolved" "https://registry.npmjs.org/proton-asc/-/proton-asc-0.2.130.tgz"
-  "version" "0.2.130"
+"proton-asc@^0.2.137":
+  "integrity" "sha512-AR53UANSuZzVFyfs9z0dCkEDWH8VDXLDxKRVhmcyekFZddB+Ewdd82rHhU6ZFi2gI38O5HsrEq3kTz1d/05tIA=="
+  "resolved" "https://registry.npmjs.org/proton-asc/-/proton-asc-0.2.137.tgz"
+  "version" "0.2.137"
   dependencies:
-    "as-chain" "^0.0.78"
+    "as-chain" "^0.0.85"
     "assemblyscript" "0.18"
     "handlebars" "4.7.7"
     "ts-dedent" "^2.2.0"

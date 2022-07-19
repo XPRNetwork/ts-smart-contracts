@@ -10,6 +10,7 @@
     "build:crypto": "npx proton-asc ./crypto/crypto.contract.ts",
     "build:auth": "npx proton-asc ./auth/auth.contract.ts",
     "build:time": "npx proton-asc ./time/time.contract.ts",
+    "build:returnvalue": "npx proton-asc ./returnvalue/returnvalue.contract.ts",
     "build": "run-p build:*",
     "test:kv": "mocha -s 250 ./kv/*.spec.ts -r ts-node/register",
     "test:rng": "mocha -s 250 ./rng/*.spec.ts -r ts-node/register",
@@ -20,13 +21,14 @@
     "test:crypto": "mocha -s 250 ./crypto/*.spec.ts -r ts-node/register",
     "test:auth": "mocha -s 250 ./auth/*.spec.ts -r ts-node/register",
     "test:time": "mocha -s 250 ./time/*.spec.ts -r ts-node/register",
+    "test:returnvalue": "mocha -s 250 ./returnvalue/*.spec.ts -r ts-node/register",
     "test": "run-p test:*"
   },
   "dependencies": {
-    "proton-tsc": "^0.3.46"
+    "proton-tsc": "^0.3.49"
   },
   "devDependencies": {
-    "@proton/vert": "^0.3.16",
+    "@proton/vert": "^0.3.18",
     "@types/node": "^18.0.0",
     "chai": "^4.3.6",
     "mocha": "^9.2.2",
