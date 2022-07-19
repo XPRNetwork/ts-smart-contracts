@@ -1,6 +1,6 @@
 {
   "name": "proton-tsc",
-  "version": "0.3.48",
+  "version": "0.3.49",
   "license": "MIT",
   "types": "./index.d.ts",
   "main": "./assembly/index.ts",
@@ -13,6 +13,7 @@
     "build:store": "npx proton-asc ./assembly/modules/store/store.test.ts",
     "build:safemath": "npx proton-asc ./assembly/modules/safemath/safemath.test.ts",
     "buil:bls": "npx proton-asc ./assembly/bls/bls.contract.ts",
+    "buil:test": "npx proton-asc ./assembly/test/test.contract.ts",
     "build": "run-p build:*",
     "test:token": "mocha -s 250 ./assembly/token/*.spec.ts -r ts-node/register",
     "test:balance": "mocha -s 250 ./assembly/balance/*.spec.ts -r ts-node/register",
@@ -22,6 +23,7 @@
     "test:store": "mocha -s 250 ./assembly/modules/store/store.spec.ts -r ts-node/register",
     "test:safemath": "mocha -s 250 ./assembly/modules/safemath/safemath.spec.ts -r ts-node/register",
     "tes:bls": "mocha -s 250 ./assembly/bls/bls.spec.ts -r ts-node/register",
+    "tes:test": "mocha -s 250 ./assembly/test/test.spec.ts -r ts-node/register",
     "test": "run-p test:* --max-parallel 3",
     "buildexamples": "npm run --prefix examples build",
     "testexamples": "npm run --prefix examples test",
@@ -31,7 +33,7 @@
   },
   "dependencies": {
     "as-bignum": "^0.2.21",
-    "proton-asc": "^0.2.134"
+    "proton-asc": "^0.2.137"
   },
   "engines": {
     "npm": ">=7.0.0",
@@ -43,7 +45,7 @@
     "@greymass/abi2core": "^1.1.0",
     "@greymass/eosio": "^0.5.5",
     "@proton/js": "^26.1.2",
-    "@proton/vert": "^0.3.16",
+    "@proton/vert": "^0.3.18",
     "@types/chai": "^4.3.0",
     "@types/mocha": "^9.1.0",
     "@types/node": "^17.0.22",
