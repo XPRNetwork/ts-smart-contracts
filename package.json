@@ -1,6 +1,6 @@
 {
   "name": "proton-tsc",
-  "version": "0.3.46",
+  "version": "0.3.47",
   "license": "MIT",
   "types": "./index.d.ts",
   "main": "./assembly/index.ts",
@@ -12,6 +12,7 @@
     "build:atomicassets": "npx proton-asc ./assembly/atomicassets/atomicassets.contract.ts --debug --sourceMap --target release",
     "build:store": "npx proton-asc ./assembly/modules/store/store.test.ts",
     "build:safemath": "npx proton-asc ./assembly/modules/safemath/safemath.test.ts",
+    "buil:bls": "npx proton-asc ./assembly/bls/bls.contract.ts",
     "build": "run-p build:*",
     "test:token": "mocha -s 250 ./assembly/token/*.spec.ts -r ts-node/register",
     "test:balance": "mocha -s 250 ./assembly/balance/*.spec.ts -r ts-node/register",
@@ -20,6 +21,7 @@
     "test:atomicassets": "mocha -s 250 ./assembly/atomicassets/*.spec.ts -r ts-node/register",
     "test:store": "mocha -s 250 ./assembly/modules/store/store.spec.ts -r ts-node/register",
     "test:safemath": "mocha -s 250 ./assembly/modules/safemath/safemath.spec.ts -r ts-node/register",
+    "tes:bls": "mocha -s 250 ./assembly/bls/bls.spec.ts -r ts-node/register",
     "test": "run-p test:* --max-parallel 3",
     "buildexamples": "npm run --prefix examples build",
     "testexamples": "npm run --prefix examples test",
@@ -28,7 +30,8 @@
     "prepublishOnly": "npm run build && npm run test && npm run buildexamples && npm run testexamples && npx npm-dts generate --entry ./assembly/index.ts --force && npx replace-in-file --configFile=./replace.config.js"
   },
   "dependencies": {
-    "proton-asc": "^0.2.130"
+    "as-bignum": "^0.2.21",
+    "proton-asc": "^0.2.133"
   },
   "engines": {
     "npm": ">=7.0.0",
