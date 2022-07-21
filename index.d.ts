@@ -4128,8 +4128,9 @@ declare module 'proton-tsc/test/target' {
 }
 declare module 'proton-tsc/test/target/test.contract' {
   /// <reference types="assembly" />
-  import { Contract } from "proton-tsc/test";
+  import { Action, Contract } from "proton-tsc/test";
   export class ReturnValueContract extends Contract {
+      auth(actions: Action[]): void;
       test(): u64;
   }
   export function apply(receiver: u64, firstReceiver: u64, action: u64): void;
@@ -4137,8 +4138,9 @@ declare module 'proton-tsc/test/target/test.contract' {
 }
 declare module 'proton-tsc/test/test.contract' {
   /// <reference types="assembly" />
-  import { Contract } from "proton-tsc";
+  import { Action, Contract } from "proton-tsc";
   export class ReturnValueContract extends Contract {
+      auth(actions: Action[]): void;
       test(): u64;
   }
 
@@ -4477,6 +4479,48 @@ declare module 'proton-tsc/token/token.tables' {
       issuer: Name;
       constructor(supply?: Asset, max_supply?: Asset, issuer?: Name);
       get primary(): u64;
+  }
+
+}
+declare module 'proton-tsc/assembly' {
+  /// <reference types="assembly" />
+  import * as _chain from "as-chain";
+  import { PermissionLevel, PublicKey, Name } from "..";
+  export class KeyWeight implements _chain.Packer {
+      key: PublicKey;
+      weight: u16;
+      constructor(key?: PublicKey, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class PermissionLevelWeight implements _chain.Packer {
+      permission: PermissionLevel;
+      weight: u16;
+      constructor(permission?: PermissionLevel, weight?: u16);
+      static from(actor: Name, permission: string, weight: u16): PermissionLevelWeight;
+      toAuthority(): Authority;
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class WaitWeight implements _chain.Packer {
+      waitSec: u16;
+      weight: u16;
+      constructor(waitSec?: u16, weight?: u16);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
+  }
+  export class Authority implements _chain.Packer {
+      threshold: u32;
+      keys: KeyWeight[];
+      accounts: PermissionLevelWeight[];
+      waits: WaitWeight[];
+      constructor(threshold?: u32, keys?: KeyWeight[], accounts?: PermissionLevelWeight[], waits?: WaitWeight[]);
+      pack(): u8[];
+      unpack(data: u8[]): usize;
+      getSize(): usize;
   }
 
 }

@@ -1,6 +1,6 @@
 {
   "name": "proton-tsc",
-  "version": "0.3.50",
+  "version": "0.3.51",
   "license": "MIT",
   "types": "./index.d.ts",
   "main": "./assembly/index.ts",
@@ -13,7 +13,7 @@
     "build:store": "npx proton-asc ./assembly/modules/store/store.test.ts",
     "build:safemath": "npx proton-asc ./assembly/modules/safemath/safemath.test.ts",
     "buil:bls": "npx proton-asc ./assembly/bls/bls.contract.ts",
-    "buil:test": "npx proton-asc ./assembly/test/test.contract.ts",
+    "buil:test": "npx proton-asc ./assembly/test/test.contract.ts --debug --sourceMap",
     "build": "run-p build:*",
     "test:token": "mocha -s 250 ./assembly/token/*.spec.ts -r ts-node/register",
     "test:balance": "mocha -s 250 ./assembly/balance/*.spec.ts -r ts-node/register",
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "as-bignum": "^0.2.21",
-    "proton-asc": "^0.2.140"
+    "proton-asc": "0.2.142"
   },
   "engines": {
     "npm": ">=7.0.0",
