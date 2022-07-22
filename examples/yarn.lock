@@ -201,10 +201,10 @@
   "resolved" "https://registry.npmjs.org/as-bignum/-/as-bignum-0.2.21.tgz"
   "version" "0.2.21"
 
-"as-chain@^0.0.88":
-  "integrity" "sha512-0s7iqT+IatjegGzsmynZkqKHznt33J2quLQuoBpV37xMId0QkoZV21Vs64eAz165Th0nViCX1pc3jRp1rqvnkg=="
-  "resolved" "https://registry.npmjs.org/as-chain/-/as-chain-0.0.88.tgz"
-  "version" "0.0.88"
+"as-chain@^0.0.90":
+  "integrity" "sha512-QPuQR3yosHZCJXFyTaBVhlVqnzqrMe6jYLGjbOnJzAWXaNLAFEKqsFjd0XlPrOYoOq7YclZ+qMcLGqsVefD+xw=="
+  "resolved" "https://registry.npmjs.org/as-chain/-/as-chain-0.0.90.tgz"
+  "version" "0.0.90"
   dependencies:
     "@assemblyscript/loader" "^0.19.22"
 
@@ -1299,25 +1299,25 @@
   "resolved" "https://registry.npmjs.org/pify/-/pify-3.0.0.tgz"
   "version" "3.0.0"
 
-"proton-asc@^0.2.140":
-  "integrity" "sha512-Vtam3Cf471xF8NzFrGZR7Pa22UVI/rbksX9x/fcbi8Rs7VtV4jiz/5y3WBCe80dV6Z+I1LGL3BkN/IObrYPcdA=="
-  "resolved" "https://registry.npmjs.org/proton-asc/-/proton-asc-0.2.140.tgz"
-  "version" "0.2.140"
+"proton-asc@0.2.142":
+  "integrity" "sha512-Ud9Ap0efYKM/Y6kgm2gFfdq4XBavRQ4aVOJpxLUoNU0M3yIYrnSeezMTwq14KDaw8JditSIFg8WeVhdMICuxYw=="
+  "resolved" "https://registry.npmjs.org/proton-asc/-/proton-asc-0.2.142.tgz"
+  "version" "0.2.142"
   dependencies:
-    "as-chain" "^0.0.88"
+    "as-chain" "^0.0.90"
     "assemblyscript" "0.18"
     "handlebars" "4.7.7"
     "ts-dedent" "^2.2.0"
     "ts-node" "^10.8.1"
     "yargs" "^17.4.1"
 
-"proton-tsc@^0.3.50":
-  "integrity" "sha512-sPi9SPS1QOjGZc9Rwmu5x56D2DYhUkypCWn3JHZnnbWZhSYx6w/v0PFoaTj8oZklRE/JAmn1GM1UQJI25LY71w=="
-  "resolved" "https://registry.npmjs.org/proton-tsc/-/proton-tsc-0.3.50.tgz"
-  "version" "0.3.50"
+"proton-tsc@^0.3.51":
+  "integrity" "sha512-saBHaWmgbm2dQ7fZGEPkahwWKj+0wH21UWhnI/Bur7DC3yi+T3fJ6C2Y4jn1ly4M/wQqI0QdpG/L4x3Nc5zQqQ=="
+  "resolved" "https://registry.npmjs.org/proton-tsc/-/proton-tsc-0.3.51.tgz"
+  "version" "0.3.51"
   dependencies:
     "as-bignum" "^0.2.21"
-    "proton-asc" "^0.2.140"
+    "proton-asc" "0.2.142"
 
 "randombytes@^2.1.0":
   "integrity" "sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ=="

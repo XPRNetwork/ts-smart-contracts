@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import { Blockchain, expectToThrow, protonAssert } from "@proton/vert"
+import { PrivateKey, UInt32, Bytes, Action, Name, PermissionLevel, Serializer } from "@greymass/eosio";
 
 /* Create Blockchain */
 const blockchain = new Blockchain()
@@ -14,6 +15,56 @@ beforeEach(async () => {
 
 /* Tests */
 describe('Tests Crypto', () => {
+  it('recoverKey', async () => {
+    const privKey = PrivateKey.fromString("PVT_K1_abKogC9A8KvgfrWYPJVQT3NSFyHbZ4cVZw2LUtMk1gFP87AQ1")
+    const pubKey = privKey.toPublic()
+  
+    const abi = {
+      structs: [
+        {name: 'noop', base: '', fields: []},
+        {
+          name: "Action",
+          base: "",
+          fields: [
+            { "name": "account", "type": "name" },
+            { "name": "name", "type": "name" },
+            { "name": "authorization", "type": "PermissionLevel[]" },
+            { "name": "data", "type": "bytes" }
+          ]
+        },
+        {
+          name: "PermissionLevel",
+          base: "",
+          fields: [
+            { "name": "actor", "type": "name" },
+            { "name": "permission", "type": "name" }
+          ]
+        },
+      ],
+      actions: [
+        { name: 'noop', type: 'noop', ricardian_contract: '' },
+      ],
+    }
+
+    const action = Action.from({
+      account: Name.from("test"),
+      authorization: [PermissionLevel.from("test@active")],
+      name: "noop",
+      data: {}
+    }, abi)
+
+    const actions = [action]
+
+    const message = Serializer.encode({
+      abi: abi,
+      type: "Action[]",
+      object: actions,
+    }).array;
+
+    const sig = privKey.signMessage(message)
+
+    await cryptoContract.actions.recoverkey([actions, sig]).send()
+  })
   it('k1recover', async () => { 
     await cryptoContract.actions.k1recover1([]).send()
     await cryptoContract.actions.k1recover2([]).send()

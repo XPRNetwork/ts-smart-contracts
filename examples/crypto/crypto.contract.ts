@@ -1,3 +1,11 @@
+import { recoverKey } from "proton-tsc"
+import { PublicKey } from "proton-tsc"
+import { Encoder } from "proton-tsc"
+import { assertRecoverKey } from "proton-tsc"
+import { calcPackedVarUint32Length } from "proton-tsc"
+import { PublicKeyType } from "proton-tsc"
+import { sha256 } from "proton-tsc"
+import { Action } from "proton-tsc"
 import { Contract, modExp, sha3, Utils, check, keccak, assertSha3, assertKeccak, Checksum256, blake2, Checksum512, AltBn128G1, U256, bn128Add, print, bn128Mul, AltBn128G2, bn128Pair, AltBn128Pair, k1Recover, Signature, ECCUncompressedPublicKey } from "proton-tsc"
 
 const H2B = Utils.hexToBytes
@@ -20,6 +28,22 @@ function createG2Point (x1: string, x2: string, y1: string, y2: string): AltBn12
 
 @contract
 class CryptoContract extends Contract {
+
+    @action("recoverkey")
+    recoverkey(actions: Action[], signature: Signature): void {
+        const size = calcPackedVarUint32Length(actions.length) + 
+                     actions.reduce<usize>((acc: usize, action: Action) => acc + action.getSize(), 0)
+        const encoder = new Encoder(size)
+        encoder.packObjectArray(actions)
+        
+        const digest = sha256(encoder.getBytes())
+        const pubKey = recoverKey(digest, signature)
+        const matchPubKey = new PublicKey(PublicKeyType.K1, Utils.hexToBytes("02e1cfe15202406d707f8f39c5e8577a05145448a1d1f37311673b173779d540a3"))
+
+        check(pubKey == matchPubKey, "recoverkey - Invalid key match")
+        assertRecoverKey(digest, signature, matchPubKey)
+    }
+
     @action("k1recover1")
     k1recover1(): void {
         const sig = new Signature()
