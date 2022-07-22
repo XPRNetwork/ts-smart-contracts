@@ -17,7 +17,6 @@ beforeEach(async () => {
 describe('Tests Crypto', () => {
   it('recoverKey', async () => {
     const privKey = PrivateKey.fromString("PVT_K1_abKogC9A8KvgfrWYPJVQT3NSFyHbZ4cVZw2LUtMk1gFP87AQ1")
-    const pubKey = privKey.toPublic()
   
     const abi = {
       structs: [

@@ -4482,48 +4482,6 @@ declare module 'proton-tsc/token/token.tables' {
   }
 
 }
-declare module 'proton-tsc/assembly' {
-  /// <reference types="assembly" />
-  import * as _chain from "as-chain";
-  import { PermissionLevel, PublicKey, Name } from "..";
-  export class KeyWeight implements _chain.Packer {
-      key: PublicKey;
-      weight: u16;
-      constructor(key?: PublicKey, weight?: u16);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class PermissionLevelWeight implements _chain.Packer {
-      permission: PermissionLevel;
-      weight: u16;
-      constructor(permission?: PermissionLevel, weight?: u16);
-      static from(actor: Name, permission: string, weight: u16): PermissionLevelWeight;
-      toAuthority(): Authority;
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class WaitWeight implements _chain.Packer {
-      waitSec: u16;
-      weight: u16;
-      constructor(waitSec?: u16, weight?: u16);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-  export class Authority implements _chain.Packer {
-      threshold: u32;
-      keys: KeyWeight[];
-      accounts: PermissionLevelWeight[];
-      waits: WaitWeight[];
-      constructor(threshold?: u32, keys?: KeyWeight[], accounts?: PermissionLevelWeight[], waits?: WaitWeight[]);
-      pack(): u8[];
-      unpack(data: u8[]): usize;
-      getSize(): usize;
-  }
-
-}
 declare module 'proton-tsc/replace.config' {
   export const files: string;
   export const from: RegExp[];

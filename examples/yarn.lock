@@ -1299,10 +1299,10 @@
   "resolved" "https://registry.npmjs.org/pify/-/pify-3.0.0.tgz"
   "version" "3.0.0"
 
-"proton-asc@0.2.142":
-  "integrity" "sha512-Ud9Ap0efYKM/Y6kgm2gFfdq4XBavRQ4aVOJpxLUoNU0M3yIYrnSeezMTwq14KDaw8JditSIFg8WeVhdMICuxYw=="
-  "resolved" "https://registry.npmjs.org/proton-asc/-/proton-asc-0.2.142.tgz"
-  "version" "0.2.142"
+"proton-asc@^0.2.144":
+  "integrity" "sha512-LIXbZTogdzy6YGp3XwbpVdasQdtGobVMlJi4ym8tTRRc2tA0JK0MaGYyAMzC4EYFcQRwfWB3+aeNH2P3AhHNfQ=="
+  "resolved" "https://registry.npmjs.org/proton-asc/-/proton-asc-0.2.144.tgz"
+  "version" "0.2.144"
   dependencies:
     "as-chain" "^0.0.90"
     "assemblyscript" "0.18"
@@ -1311,13 +1311,13 @@
     "ts-node" "^10.8.1"
     "yargs" "^17.4.1"
 
-"proton-tsc@^0.3.51":
-  "integrity" "sha512-saBHaWmgbm2dQ7fZGEPkahwWKj+0wH21UWhnI/Bur7DC3yi+T3fJ6C2Y4jn1ly4M/wQqI0QdpG/L4x3Nc5zQqQ=="
-  "resolved" "https://registry.npmjs.org/proton-tsc/-/proton-tsc-0.3.51.tgz"
-  "version" "0.3.51"
+"proton-tsc@^0.3.52":
+  "integrity" "sha512-2sTDRjSUbQDaNfH50UutB3w/HHcnhvUvgAvtXVBYuF5SqBNz5d9kv1TAqKCiNASj1ZQnbY14+T3d/OkSJHRjFg=="
+  "resolved" "https://registry.npmjs.org/proton-tsc/-/proton-tsc-0.3.52.tgz"
+  "version" "0.3.52"
   dependencies:
     "as-bignum" "^0.2.21"
-    "proton-asc" "0.2.142"
+    "proton-asc" "^0.2.144"
 
 "randombytes@^2.1.0":
   "integrity" "sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ=="
