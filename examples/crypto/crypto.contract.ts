@@ -12,17 +12,17 @@ const H2B = Utils.hexToBytes
 
 function createG1Point (x: string, y: string): AltBn128G1 {
     return new AltBn128G1(
-        U256.fromBytes(H2B(x)),
-        U256.fromBytes(H2B(y))
+        U256.fromBytesBE(H2B(x)),
+        U256.fromBytesBE(H2B(y))
     )
 }
 
 function createG2Point (x1: string, x2: string, y1: string, y2: string): AltBn128G2 {
     return new AltBn128G2(
-        U256.fromBytes(H2B(x1)),
-        U256.fromBytes(H2B(x2)),
-        U256.fromBytes(H2B(y1)),
-        U256.fromBytes(H2B(y2))
+        U256.fromBytesBE(H2B(x1)),
+        U256.fromBytesBE(H2B(x2)),
+        U256.fromBytesBE(H2B(y1)),
+        U256.fromBytesBE(H2B(y2))
     )
 }
 
@@ -200,13 +200,14 @@ class CryptoContract extends Contract {
     @action("bnmul1")
     bnmul1(): void {
         const g1_1 = createG1Point("007c43fcd125b2b13e2521e395a81727710a46b34fe279adbf1b94c72f7f9136", "0db2f980370fb8962751c6ff064f4516a6a93d563388518bb77ab9a6b30755be")
-        const scalar_1 = U256.fromBytes(H2B("0312ed43559cf8ecbab5221256a56e567aac5035308e3f1d54954d8b97cd1c9b"))
+        const scalar_1 = U256.fromBytesBE(H2B("0312ed43559cf8ecbab5221256a56e567aac5035308e3f1d54954d8b97cd1c9b"))
         const exp1 = "2d66cdeca5e1715896a5a924c50a149be87ddd2347b862150fbb0fd7d0b1833c11c76319ebefc5379f7aa6d85d40169a612597637242a4bbb39e5cd3b844becd"
         const res1 = bn128Mul(g1_1, scalar_1)
+        print(Utils.bytesToHex(res1.pack()))
         check(Utils.bytesToHex(res1.pack()) == exp1, "Invalid bnMul test 1 1")
 
         const g1_2 = createG1Point("0000000000000000000000000000000000000000000000000000000000000000", "0000000000000000000000000000000000000000000000000000000000000000")
-        const scalar_2 = U256.fromBytes(H2B("0312ed43559cf8ecbab5221256a56e567aac5035308e3f1d54954d8b97cd1c9b"))
+        const scalar_2 = U256.fromBytesBE(H2B("0312ed43559cf8ecbab5221256a56e567aac5035308e3f1d54954d8b97cd1c9b"))
         const exp2 = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
         const res2 = bn128Mul(g1_2, scalar_2)
         check(Utils.bytesToHex(res2.pack()) == exp2, "Invalid bnMul test 1 2")
@@ -215,14 +216,14 @@ class CryptoContract extends Contract {
     @action("bnmul2")
     bnmul2(): void {
         const g1_1 = createG1Point("0db2f980370fb8962751c6ff064f4516a6a93d563388518bb77ab9a6b30755be", "007c43fcd125b2b13e2521e395a81727710a46b34fe279adbf1b94c72f7f9136")
-        const scalar_1 = U256.fromBytes(H2B("0312ed43559cf8ecbab5221256a56e567aac5035308e3f1d54954d8b97cd1c9b"))
+        const scalar_1 = U256.fromBytesBE(H2B("0312ed43559cf8ecbab5221256a56e567aac5035308e3f1d54954d8b97cd1c9b"))
         bn128Mul(g1_1, scalar_1)
     }
 
     @action("bnmul3")
     bnmul3(): void {
         const g1_1 = createG1Point("2976efd698cf23b414ea622b3f720dd9080d679042482ff3668cb2e32cad8ae2", "30644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd47")
-        const scalar_1 = U256.fromBytes(H2B("0100010001000100010001000100010001000100010001000100010001000100"))
+        const scalar_1 = U256.fromBytesBE(H2B("0100010001000100010001000100010001000100010001000100010001000100"))
         bn128Mul(g1_1, scalar_1)
     }
 

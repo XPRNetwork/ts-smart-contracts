@@ -201,10 +201,10 @@
   "resolved" "https://registry.npmjs.org/as-bignum/-/as-bignum-0.2.21.tgz"
   "version" "0.2.21"
 
-"as-chain@^0.0.90":
-  "integrity" "sha512-QPuQR3yosHZCJXFyTaBVhlVqnzqrMe6jYLGjbOnJzAWXaNLAFEKqsFjd0XlPrOYoOq7YclZ+qMcLGqsVefD+xw=="
-  "resolved" "https://registry.npmjs.org/as-chain/-/as-chain-0.0.90.tgz"
-  "version" "0.0.90"
+"as-chain@^0.0.96":
+  "integrity" "sha512-XOVVwoqzu2/VnrmiBZOG3KpOGUu6YdlFfhfbTH8w4tgbj3viTcheJKQOyZc7FGPscn9C0ETiQGo1FR/YQzmaPQ=="
+  "resolved" "https://registry.npmjs.org/as-chain/-/as-chain-0.0.96.tgz"
+  "version" "0.0.96"
   dependencies:
     "@assemblyscript/loader" "^0.19.22"
 
@@ -1299,25 +1299,25 @@
   "resolved" "https://registry.npmjs.org/pify/-/pify-3.0.0.tgz"
   "version" "3.0.0"
 
-"proton-asc@^0.2.144":
-  "integrity" "sha512-LIXbZTogdzy6YGp3XwbpVdasQdtGobVMlJi4ym8tTRRc2tA0JK0MaGYyAMzC4EYFcQRwfWB3+aeNH2P3AhHNfQ=="
-  "resolved" "https://registry.npmjs.org/proton-asc/-/proton-asc-0.2.144.tgz"
-  "version" "0.2.144"
+"proton-asc@^0.2.149":
+  "integrity" "sha512-xnP4wT6mFkOi73M5X2Qo0xXP3+zA0ffp7oGVz31yXiU6k6vx35F3HvOdckoc9zA8942ZPBUaCOlnkCbLLVZspQ=="
+  "resolved" "https://registry.npmjs.org/proton-asc/-/proton-asc-0.2.149.tgz"
+  "version" "0.2.149"
   dependencies:
-    "as-chain" "^0.0.90"
+    "as-chain" "^0.0.96"
     "assemblyscript" "0.18"
     "handlebars" "4.7.7"
     "ts-dedent" "^2.2.0"
     "ts-node" "^10.8.1"
     "yargs" "^17.4.1"
 
-"proton-tsc@^0.3.52":
-  "integrity" "sha512-2sTDRjSUbQDaNfH50UutB3w/HHcnhvUvgAvtXVBYuF5SqBNz5d9kv1TAqKCiNASj1ZQnbY14+T3d/OkSJHRjFg=="
-  "resolved" "https://registry.npmjs.org/proton-tsc/-/proton-tsc-0.3.52.tgz"
-  "version" "0.3.52"
+"proton-tsc@^0.3.56":
+  "integrity" "sha512-6lQ77VbJfJURjdE9wAVGU1agCmeQxGxpIdp2S1CWK2m48bKsnnyA4AQ4aCU1qoPZ0u+IJ3m0URoLe+85vLj32w=="
+  "resolved" "https://registry.npmjs.org/proton-tsc/-/proton-tsc-0.3.56.tgz"
+  "version" "0.3.56"
   dependencies:
     "as-bignum" "^0.2.21"
-    "proton-asc" "^0.2.144"
+    "proton-asc" "^0.2.149"
 
 "randombytes@^2.1.0":
   "integrity" "sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ=="
@@ -1603,9 +1603,9 @@
   "version" "4.7.3"
 
 "uglify-js@^3.1.4":
-  "integrity" "sha512-AaQNokTNgExWrkEYA24BTNMSjyqEXPSfhqoS0AxmHkCJ4U+Dyy5AvbGV/sqxuxficEfGGoX3zWw9R7QpLFfEsg=="
-  "resolved" "https://registry.npmjs.org/uglify-js/-/uglify-js-3.16.2.tgz"
-  "version" "3.16.2"
+  "integrity" "sha512-uVbFqx9vvLhQg0iBaau9Z75AxWJ8tqM9AV890dIZCLApF4rTcyHwmAvLeEdYRs+BzYWu8Iw81F79ah0EfTXbaw=="
+  "resolved" "https://registry.npmjs.org/uglify-js/-/uglify-js-3.16.3.tgz"
+  "version" "3.16.3"
 
 "unbox-primitive@^1.0.2":
   "integrity" "sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw=="

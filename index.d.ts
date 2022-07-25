@@ -2266,10 +2266,208 @@ declare module 'proton-tsc/bls/bls.spec' {
 
 }
 declare module 'proton-tsc/bls/g1' {
-  import "elliptic-curve-solidity/contracts/EllipticCurve.sol";
+  /// <reference types="assembly" />
+  import { U256 } from "proton-tsc/chain";
+  /**
+   * @title BN256G1 Curve Library
+   * @dev Library providing arithmetic operations over G1 in bn256.
+   * Provides additional methods like pairing and pairing_batch
+   * Heavily influenced by https://github.com/PhilippSchindler/ethdkg
+   * Calls to assembly are public and not external because assembly cannot be applied on calldata
+   * @author Witnet Foundation
+   */
+  export class BN256G1 {
+      GX: U256;
+      GY: U256;
+      AA: U256;
+      BB: U256;
+      PP: U256;
+      NN: U256;
+      LAST_MULTIPLE_OF_PP_LOWER_THAN_2_256: U256;
+      isOnCurve(x: U256, y: U256): boolean;
+      fromCompressed(_point: u8[]): U256[];
+      hashToTryAndIncrement(_message: u8[]): U256[];
+      deriveY(_yByte: u8, _x: U256): U256;
+  }
+
+}
+declare module 'proton-tsc/bls/g2' {
+  import { U256 } from "proton-tsc/chain";
+  /**
+   * @title Elliptic curve operations on twist points on bn256 (G2)
+   * @dev Adaptation of https://github.com/musalbas/solidity-BN256G2 to 0.6.0
+   */
+  export class BN256G2 {
+      /**
+      * @notice Add two twist points
+      * @param pt1xx Coefficient 1 of x on point 1
+      * @param pt1xy Coefficient 2 of x on point 1
+      * @param pt1yx Coefficient 1 of y on point 1
+      * @param pt1yy Coefficient 2 of y on point 1
+      * @param pt2xx Coefficient 1 of x on point 2
+      * @param pt2xy Coefficient 2 of x on point 2
+      * @param pt2yx Coefficient 1 of y on point 2
+      * @param pt2yy Coefficient 2 of y on point 2
+      * @return (pt3xx, pt3xy, pt3yx, pt3yy)
+      */
+      fecTwistAdd(pt1xx: U256, pt1xy: U256, pt1yx: U256, pt1yy: U256, pt2xx: U256, pt2xy: U256, pt2yx: U256, pt2yy: U256): U256[];
+      /**
+      * @notice Multiply a twist point by a scalar
+      * @param s     Scalar to multiply by
+      * @param pt1xx Coefficient 1 of x
+      * @param pt1xy Coefficient 2 of x
+      * @param pt1yx Coefficient 1 of y
+      * @param pt1yy Coefficient 2 of y
+      * @return (pt2xx, pt2xy, pt2yx, pt2yy)
+      */
+      ecTwistMul(s: U256, pt1xx: U256, pt1xy: U256, pt1yx: U256, pt1yy: U256): U256[];
+      /**
+      * @notice Get the field modulus
+      * @return The field modulus
+      */
+      getFieldModulus(): U256;
+      /**
+      * @notice FQ2*FQ2 multiplication operation
+      * @param xx First FQ2 operands first coordinate
+      * @param xy First FQ2 operands second coordinate
+      * @param yx Second FQ2 operands first coordinate
+      * @param yy Second FQ2 operands second coordinate
+      * @return [xx*yx-xy*yy, xx*yy+xy*yx]
+      */
+      _fq2mul(xx: U256, xy: U256, yx: U256, yy: U256): U256[];
+      /**
+      * @notice Fq2*k multiplication operation
+      * @param xx FQ2 operands first coordinate
+      * @param xy FQ2 operands second coordinate
+      * @param k scalar to multiply with
+      * @return [xx*k, xy*k]
+      */
+      _fq2muc(xx: U256, xy: U256, k: U256): U256[];
+      /**
+      * @notice FQ2+FQ2 addition operation
+      * @param xx First FQ2 operands first coordinate
+      * @param xy First FQ2 operands second coordinate
+      * @param yx Second FQ2 operands first coordinate
+      * @param yy Second FQ2 operands second coordinate
+      * @return [xx+yx, xy+yy]f
+      */
+      _fq2add(xx: U256, xy: U256, yx: U256, yy: U256): U256[];
+      /**
+      * @notice FQ2-FQ2 substraction operation
+      * @param xx First FQ2 operands first coordinate
+      * @param xy First FQ2 operands second coordinate
+      * @param yx Second FQ2 operands first coordinate
+      * @param yy Second FQ2 operands second coordinate
+      * @return [xx-yx, xy-yy]
+      */
+      _fq2sub(xx: U256, xy: U256, yx: U256, yy: U256): U256[];
+      /**
+      * @notice FQ2/FQ2 division operation
+      * @param xx First FQ2 operands first coordinate
+      * @param xy First FQ2 operands second coordinate
+      * @param yx Second FQ2 operands first coordinate
+      * @param yy Second FQ2 operands second coordinate
+      * @return [xx, xy] * Inv([yx, yy])
+      */
+      _fq2div(xx: U256, xy: U256, yx: U256, yy: U256): U256[];
+      /**
+      * @notice 1/FQ2 inverse operation
+      * @param x FQ2 operands first coordinate
+      * @param y FQ2 operands second coordinate
+      * @return Inv([xx, xy])
+      */
+      _fq2inv(x: U256, y: U256): U256[];
+      /**
+      * @notice Checks if FQ2 is on G2
+      * @param xx First FQ2 operands first coordinate
+      * @param xy First FQ2 operands second coordinate
+      * @param yx Second FQ2 operands first coordinate
+      * @param yy Second FQ2 operands second coordinate
+      * @return True if the FQ2 is on G2
+      */
+      _isOnCurve(xx: U256, xy: U256, yx: U256, yy: U256): boolean;
+      /**
+      * @notice Calculates the modular inverse of a over n
+      * @param a The operand to calcualte the inverse of
+      * @param n The modulus
+      * @return result Inv(a)modn
+      **/
+      _modInv(a: U256, n: U256): U256;
+      /**
+      * @notice Converts a point from jacobian to affine
+      * @param pt1xx First point x real coordinate
+      * @param pt1xy First point x imaginary coordinate
+      * @param pt1yx First point y real coordinate
+      * @param pt1yy First point y imaginary coordinate
+      * @param pt1zx First point z real coordinate
+      * @param pt1zy First point z imaginary coordinate
+      * @return pt2xx (x real affine coordinate)
+                pt2xy (x imaginary affine coordinate)
+                pt2yx (y real affine coordinate)
+                pt1zy (y imaginary affine coordinate)
+      **/
+      _fromJacobian(pt1xx: U256, pt1xy: U256, pt1yx: U256, pt1yy: U256, pt1zx: U256, pt1zy: U256): U256[];
+      /**
+      * @notice Adds two points in jacobian coordinates
+      * @param pt1xx First point x real coordinate
+      * @param pt1xy First point x imaginary coordinate
+      * @param pt1yx First point y real coordinate
+      * @param pt1yy First point y imaginary coordinate
+      * @param pt1zx First point z real coordinate
+      * @param pt1zy First point z imaginary coordinate
+      * @param pt2xx Second point x real coordinate
+      * @param pt2xy Second point x imaginary coordinate
+      * @param pt2yx Second point y real coordinate
+      * @param pt2yy Second point y imaginary coordinate
+      * @param pt2zx Second point z real coordinate
+      * @param pt2zy Second point z imaginary coordinate
+      * @return pt3 = pt1+pt2 in jacobian
+      **/
+      ecTwistAddJacobian(pt1xx: U256, pt1xy: U256, pt1yx: U256, pt1yy: U256, pt1zx: U256, pt1zy: U256, pt2xx: U256, pt2xy: U256, pt2yx: U256, pt2yy: U256, pt2zx: U256, pt2zy: U256): U256[];
+      /**
+      * @notice Doubls a point in jacobian coordinates
+      * @param pt1xx Point x real coordinate
+      * @param pt1xy Point x imaginary coordinate
+      * @param pt1yx Point y real coordinate
+      * @param pt1yy Point y imaginary coordinate
+      * @param pt1zx Point z real coordinate
+      * @param pt1zy Point z imaginary coordinate
+      * @return pt2xx, pt2xy, pt2yx, pt2yy, pt2zx, pt2zy the coordinates of pt2 = 2*pt1
+      **/
+      _ecTwistDoubleJacobian(pt1xx: U256, pt1xy: U256, pt1yx: U256, pt1yy: U256, pt1zx: U256, pt1zy: U256): U256[];
+      /**
+      * @notice Doubls a point in jacobian coordinates
+      * @param d scalar to multiply the point with
+      * @param pt1xx Point x real coordinate
+      * @param pt1xy Point x imaginary coordinate
+      * @param pt1yx Point y real coordinate
+      * @param pt1yy Point y imaginary coordinate
+      * @param pt1zx Point z real coordinate
+      * @param pt1zy Point z imaginary coordinate
+      * @return a point representing pt2 = d*pt1 in jacobian coordinates
+      **/
+      _ecTwistMulJacobian(d: U256, pt1xx: U256, pt1xy: U256, pt1yx: U256, pt1yy: U256, pt1zx: U256, pt1zy: U256): U256[];
+  }
 
 }
 declare module 'proton-tsc/bls/lib' {
+  /// <reference types="assembly" />
+  import { U256 } from "proton-tsc/chain";
+  export class EllipticCurve {
+      U255_MAX_PLUS_1: U256;
+      invMod(_x: U256, _pp: U256): U256;
+      expMod(_base: U256, _exp: U256, _pp: U256): U256;
+      toAffine(_x: U256, _y: U256, _z: U256, _pp: U256): U256[];
+      deriveY(_prefix: u8, _x: U256, _aa: U256, _bb: U256, _pp: U256): U256;
+      isOnCurve(_x: U256, _y: U256, _aa: U256, _bb: U256, _pp: U256): boolean;
+      ecInv(_x: U256, _y: U256, _pp: U256): U256[];
+      ecAdd(_x1: U256, _y1: U256, _x2: U256, _y2: U256, _aa: U256, _pp: U256): U256[];
+      ecSub(_x1: U256, _y1: U256, _x2: U256, _y2: U256, _aa: U256, _pp: U256): U256[];
+      ecMul(_k: U256, _x: U256, _y: U256, _aa: U256, _pp: U256): U256[];
+      jacAdd(_x1: U256, _y1: U256, _z1: U256, _x2: U256, _y2: U256, _z2: U256, _pp: U256): U256[];
+      jacDouble(_x: U256, _y: U256, _z: U256, _aa: U256, _pp: U256): U256[];
+      jacMul(_d: U256, _x: U256, _y: U256, _z: U256, _aa: U256, _pp: U256): U256[];
+  }
 
 }
 declare module 'proton-tsc/bls/math' {
@@ -2277,9 +2475,20 @@ declare module 'proton-tsc/bls/math' {
   import { U256 } from "proton-tsc/chain";
   export function __umulq128(xl: u64, xh: u64, yl: u64, yh: u64): U256;
   export function __mulmod256(xl1: u64, xl2: u64, xh1: u64, xh2: u64, yl1: u64, yl2: u64, yh1: u64, yh2: u64, ml1: u64, ml2: u64, mh1: u64, mh2: u64): U256;
-  export function mulmod(x: U256, y: U256, m: U256): U256;
   export function __mod256(r1: u64, r2: u64, r3: u64, r4: u64, r5: u64, r6: u64, r7: u64, r8: u64, ml1: u64, ml2: u64, mh1: u64, mh2: u64): U256;
+  export function __divs256(xl1: u64, xl2: u64, xh1: u64, xh2: u64, yl1: u64, yl2: u64, yh1: u64, yh2: u64): U256;
+  export function __umuls256(xl1: u64, xl2: u64, xh1: u64, xh2: u64, yl1: u64, yl2: u64, yh1: u64, yh2: u64): U256;
+  export function multiply(a: U256, b: U256): U256;
+  export function divide(a: U256, b: U256): U256;
   export function mod(x: U256, m: U256): U256;
+  export function mulmod(x: U256, y: U256, m: U256): U256;
+  export function addmod(x: U256, y: U256, m: U256): U256;
+  export function submod(a: U256, b: U256, n: U256): U256;
+  export function basicExp(x: U256, y: boolean): U256;
+
+}
+declare module 'proton-tsc/bls/plonk' {
+  export {};
 
 }
 declare module 'proton-tsc/bls/target/bls.contract' {
