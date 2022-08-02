@@ -19,12 +19,12 @@ export class AtomicAttribute {
 
     @inline @operator('==')
     static eq(a: AtomicAttribute, b: AtomicAttribute): bool {
-        return a.key == b.key;
+        return a.key == b.key && Utils.bytesCmp(a.value.pack(), b.value.pack()) == 0;
     }
 
     @inline @operator('!=')
     static neq(a: AtomicAttribute, b: AtomicAttribute): bool {
-        return a.key != b.key;
+        return a.key != b.key || Utils.bytesCmp(a.value.pack(), b.value.pack()) != 0;
     }
 }
 
