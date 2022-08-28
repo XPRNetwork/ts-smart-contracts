@@ -61,10 +61,10 @@
   "resolved" "https://registry.npmjs.org/@noble/secp256k1/-/secp256k1-1.6.3.tgz"
   "version" "1.6.3"
 
-"@proton/vert@^0.3.18":
-  "integrity" "sha512-bsKqfpGpxAfTTgG3QtCtd83nEA+Q9YbhDRmr5ihVnrQ/Pp1uITScU97ufO46APSpJPmxWt5upEP8OSZPidWazg=="
-  "resolved" "https://registry.npmjs.org/@proton/vert/-/vert-0.3.18.tgz"
-  "version" "0.3.18"
+"@proton/vert@^0.3.20":
+  "integrity" "sha512-57Gha8o7AWMxEaKMak0xHP4l9KIVgWlwt/gb/DCNSuKmOcuPVYIfujWd/aAw0ET+S7oOWklJ1fTnTveDEYOFkw=="
+  "resolved" "https://registry.npmjs.org/@proton/vert/-/vert-0.3.20.tgz"
+  "version" "0.3.20"
   dependencies:
     "@ethereumjs/util" "^8.0.0-beta.1"
     "@greymass/eosio" "^0.5.5"
