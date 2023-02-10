@@ -15,7 +15,7 @@
 ## Documentation
 [Documentation](https://docs.proton.org)
 
-## Local Install
+## Local Install.
 **Must use Node 16**
 
 ```
