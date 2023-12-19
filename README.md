@@ -1,4 +1,4 @@
-# Proton Typescript Smart Contracts
+# XPR Network Typescript Smart Contracts
 
 <a href="https://gitpod.io/#https://github.com/ProtonProtocol/proton-ts-assembly">
     <img align="left" width="150" height="45" src="https://gitpod.io/button/open-in-gitpod.svg"></img>
@@ -13,7 +13,7 @@
 
 
 ## Documentation
-[Documentation](https://docs.proton.org)
+[Documentation](https://docs.xprnetwork.org)
 
 ## Local Install.
 **Must use Node 16**
